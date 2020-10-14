@@ -1,0 +1,3 @@
+#start	id_scene	path
+[SETTINGS]
+start	1	world1_1.txt
