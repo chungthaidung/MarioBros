@@ -315,76 +315,76 @@ CGame* CGame::GetInstance()
 #define MAX_GAME_LINE 1024
 
 
-//#define GAME_FILE_SECTION_UNKNOWN -1
-//#define GAME_FILE_SECTION_SETTINGS 1
-//#define GAME_FILE_SECTION_SCENES 2
+#define GAME_FILE_SECTION_UNKNOWN -1
+#define GAME_FILE_SECTION_SETTINGS 1
+#define GAME_FILE_SECTION_SCENES 2
 
-//void CGame::_ParseSection_SETTINGS(string line)
-//{
-//	vector<string> tokens = split(line);
-//
-//	if (tokens.size() < 2) return;
-//	if (tokens[0] == "start")
-//	{
-//		current_scene = atoi(tokens[1].c_str());
-//		LPCWSTR path = ToLPCWSTR(tokens[2]);
-//		//scene = new CPlayScene(current_scene, path);
-//	}
-//	else
-//		DebugOut(L"[error] unknown game setting %s\n", ToWSTR(tokens[0]).c_str());
-//}
-//
-//void CGame::_ParseSection_SCENES(string line)
-//{
-//	vector<string> tokens = split(line);
-//
-//	if (tokens.size() < 2) return;
-//	int id = atoi(tokens[0].c_str());
-//	LPCWSTR path = ToLPCWSTR(tokens[1]);
-//
-//	LPSCENE scene = new CPlayScene(id, path);
-//	scenes[id] = scene;
-//}
+void CGame::_ParseSection_SETTINGS(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 2) return;
+	if (tokens[0] == "start")
+	{
+		current_scene = atoi(tokens[1].c_str());
+	}
+	else
+		DebugOut(L"[error] unknown game setting %s\n", ToWSTR(tokens[0]).c_str());
+}
+
+void CGame::_ParseSection_SCENES(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 3) return;
+	int id = atoi(tokens[0].c_str());
+	string mapPath = tokens[1];
+	LPCWSTR path = ToLPCWSTR(tokens[2]);
+
+	LPSCENE scene = new CPlayScene(id, mapPath, path);
+	scenes[id] = scene;
+}
 
 /*
 	Load game campaign file and load/initiate first scene
 */
 void CGame::Load(LPCWSTR gameFile)
 {
-	//DebugOut(L"[INFO] Start loading game file : %s\n", gameFile);
+	DebugOut(L"[INFO] Start loading game file : %s\n", gameFile);
 
-	//ifstream f;
-	//f.open(gameFile);
-	//char str[MAX_GAME_LINE];
+	ifstream f;
+	f.open(gameFile);
+	char str[MAX_GAME_LINE];
 
-	//// current resource section flag
-	//int section = GAME_FILE_SECTION_UNKNOWN;
+	// current resource section flag
+	int section = GAME_FILE_SECTION_UNKNOWN;
 
-	//while (f.getline(str, MAX_GAME_LINE))
-	//{
-	//	string line(str);
+	while (f.getline(str, MAX_GAME_LINE))
+	{
+		string line(str);
 
-	//	if (line[0] == '#') continue;	// skip comment lines	
+		if (line[0] == '#') continue;	// skip comment lines	
 
-	//	if (line == "[SETTINGS]") { section = GAME_FILE_SECTION_SETTINGS; continue; }
-	////	if (line == "[SCENES]") { section = GAME_FILE_SECTION_SCENES; continue; }
+		if (line == "[SETTINGS]") { section = GAME_FILE_SECTION_SETTINGS; continue; }
+		if (line == "[SCENES]") { section = GAME_FILE_SECTION_SCENES; continue; }
 
-	//	//
-	//	// data section
-	//	//
-	//	switch (section)
-	//	{
-	//	case GAME_FILE_SECTION_SETTINGS: _ParseSection_SETTINGS(line); break;
-	////	case GAME_FILE_SECTION_SCENES: _ParseSection_SCENES(line); break;
-	//	}
-	//}
-	//f.close();
+		//
+		// data section
+		//
+		switch (section)
+		{
+		case GAME_FILE_SECTION_SETTINGS: _ParseSection_SETTINGS(line); break;
+		case GAME_FILE_SECTION_SCENES: _ParseSection_SCENES(line); break;
+		}
+	}
+	f.close();
 
-	//DebugOut(L"[INFO] Loading game file : %s has been loaded successfully\n", gameFile);
-	scene = new CPlayScene();
-	CGame::GetInstance()->SetKeyHandler(scene->GetKeyEventHandler());
-
-	scene->Load();
+	DebugOut(L"[INFO] Loading game file : %s has been loaded successfully\n", gameFile);
+	DebugOut(L"[INFO] Current scene : %d \n", current_scene);
+	
+	LPSCENE s = scenes[current_scene];
+	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
+	s->Load();
 	//SwitchScene(current_scene);
 }
 
@@ -392,15 +392,14 @@ void CGame::SwitchScene(int scene_id)
 {
 	DebugOut(L"[INFO] Switching to scene %d\n", scene_id);
 
-	//scene->Unload();;
+	scenes[current_scene]->Unload();
 
 	//CTextures::GetInstance()->Clear();
 	//CSprites::GetInstance()->Clear();
 	//CAnimations::GetInstance()->Clear();
 
-	//current_scene = scene_id;
-	LPSCENE s = scene;
+	/*current_scene = scene_id;
+	LPSCENE s = scenes[scene_id];
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
-
-	s->Load();
+	s->Load();*/
 }

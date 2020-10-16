@@ -2,18 +2,22 @@
 #include "CKeyEventHandler.h"
 #include <d3dx9.h>
 #include <d3d9.h>
+#include <string>
 
 
 class CScene
 {
 protected:
 	CKeyEventHandler* key_handler;
-	//int id;
-	//LPCWSTR sceneFilePath;
-	D3DCOLOR mBackColor = 0x4866ff;
+	int id;
+
+	std::string sceneMapPath;
+
+	LPCWSTR sceneFilePath;
+	
 
 public:
-	CScene();
+	CScene(int id, std::string mapPath, LPCWSTR filePath);
 
 	CKeyEventHandler* GetKeyEventHandler() { return key_handler; }
 	virtual void Load() = 0;

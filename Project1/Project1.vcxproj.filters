@@ -28,9 +28,6 @@
     <Filter Include="Game\Scene">
       <UniqueIdentifier>{2fad9804-2110-4cbd-8c76-80afcdfafab5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\KeyHandler">
-      <UniqueIdentifier>{e498627c-fd05-4657-a965-aaa9443ddf89}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Animation_Textures">
       <UniqueIdentifier>{fac46209-4486-457f-a2ea-3aa16e3c343e}</UniqueIdentifier>
     </Filter>
@@ -54,6 +51,12 @@
     </Filter>
     <Filter Include="MapReader">
       <UniqueIdentifier>{5ae78e2d-ef61-4fb4-a315-34b29f3ef3a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\Camera">
+      <UniqueIdentifier>{50ff799d-622a-4ce8-9db4-6d10976e3f4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\KeyHandler">
+      <UniqueIdentifier>{e498627c-fd05-4657-a965-aaa9443ddf89}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -91,16 +94,16 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CKeyEventHandler.cpp">
-      <Filter>Game\KeyHandler</Filter>
+      <Filter>Game\Scene\KeyHandler</Filter>
     </ClCompile>
     <ClCompile Include="CScenceKeyHandler.cpp">
-      <Filter>Game\KeyHandler</Filter>
+      <Filter>Game\Scene\KeyHandler</Filter>
     </ClCompile>
     <ClCompile Include="CPlayScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="CPlaySceneKeyHandler.cpp">
-      <Filter>Game\KeyHandler</Filter>
+      <Filter>Game\Scene\KeyHandler</Filter>
     </ClCompile>
     <ClCompile Include="CAnimationSets.cpp">
       <Filter>Game\Animation_Textures\AnimationSets</Filter>
@@ -186,6 +189,9 @@
     <ClCompile Include="MapReader\TmxUtil.cpp">
       <Filter>MapReader</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Game\Scene\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -225,19 +231,19 @@
       <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="CKeyEventHandler.h">
-      <Filter>Game\KeyHandler</Filter>
+      <Filter>Game\Scene\KeyHandler</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CScenceKeyHandler.h">
-      <Filter>Game\KeyHandler</Filter>
+      <Filter>Game\Scene\KeyHandler</Filter>
     </ClInclude>
     <ClInclude Include="CPlayScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="CPlaySceneKeyHandler.h">
-      <Filter>Game\KeyHandler</Filter>
+      <Filter>Game\Scene\KeyHandler</Filter>
     </ClInclude>
     <ClInclude Include="CAnimationSets.h">
       <Filter>Game\Animation_Textures\AnimationSets</Filter>
@@ -331,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="MapReader\zlib128-dll\include\zlib.h">
       <Filter>MapReader</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Game\Scene\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

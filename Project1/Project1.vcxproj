@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CAnimationFrame.cpp" />
     <ClCompile Include="CAnimations.cpp" />
@@ -189,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CAnimationFrame.h" />
     <ClInclude Include="CAnimations.h" />
