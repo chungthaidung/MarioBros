@@ -8,13 +8,15 @@
 #include "Goomba.h"
 #include "Koopas.h"
 #include "CGameMap.h"
-
+//#include "Camera.h"
 class CPlayScene : public CScene
 {
 protected:
-	//CMario* player;		// A play scene has to have player, right? 
+	CMario* player;		// A play scene has to have player, right? 
 	
 	CGameMap* mMap;
+
+	D3DCOLOR mBackColor = 0x4866ff;
 
 	vector<LPGAMEOBJECT> objects;
 
@@ -26,14 +28,15 @@ protected:
 
 
 public:
-	CPlayScene();
+	CPlayScene(int id, std::string mapPath, LPCWSTR filePath);
 
 	virtual void Load();
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
 
-	//CMario* GetPlayer() { return player; }
+	string GetMapPath() { return sceneMapPath; }
+	CMario* GetPlayer() { return player; }
 
 	//friend class CPlayScenceKeyHandler;
 };

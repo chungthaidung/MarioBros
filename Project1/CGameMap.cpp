@@ -28,7 +28,6 @@ void CGameMap::LoadMap(string filePath)
 
         CTextures::GetInstance()->Add(WORLD_MAP_1_1, ToLPCWSTR(toImage), D3DCOLOR_XRGB(255, 128, 192));
         LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(WORLD_MAP_1_1);
-        // LPSPRITE sprite = new CSprite(WORLD_MAP_1_1, RECT(), tex);
 
         ListTileset.insert(pair<int, LPDIRECT3DTEXTURE9>(i, tex));
     }
@@ -107,8 +106,8 @@ void CGameMap::Draw()
                     //tru tilewidth/2 va tileheight/2 vi Sprite ve o vi tri giua hinh anh cho nen doi hinh de cho
                     //dung toa do (0,0) cua the gioi thuc la (0,0) neu khong thi se la (-tilewidth/2, -tileheigth/2);
                  //   D3DXVECTOR3 position(n * tileWidth + tileWidth / 2, m * tileHeight + tileHeight / 2, 0);
-                    int position_x = n * tileWidth + tileWidth / 2;
-                    int position_y = m * tileHeight + tileHeight / 2;
+                    int position_x = n * tileWidth ;
+                    int position_y = m * tileHeight ;
                     sprite->Draw(position_x, position_y);
 
                 }

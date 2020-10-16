@@ -38,11 +38,11 @@ class CGame
 	int screen_width;
 	int screen_height;
 
-	//unordered_map<int, LPSCENE> scenes;
+	unordered_map<int, LPSCENE> scenes;
 	int current_scene;
-	LPSCENE scene; //only 1 scene
-	//void _ParseSection_SETTINGS(string line);
-	//void _ParseSection_SCENES(string line);
+	
+	void _ParseSection_SETTINGS(string line);
+	void _ParseSection_SCENES(string line);
 
 public:
 	void InitKeyboard();
@@ -54,7 +54,7 @@ public:
 	void ProcessKeyboard();
 
 	void Load(LPCWSTR gameFile);
-	LPSCENE GetCurrentScene() { return scene; }
+	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void SwitchScene(int scene_id);
 
 	int GetScreenWidth() { return screen_width; }

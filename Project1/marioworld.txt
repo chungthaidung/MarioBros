@@ -1,3 +1,7 @@
-#start	id_scene	path
+#start	id_scene	
 [SETTINGS]
-start	1	world1_1.txt
+start	1		
+#scene list
+#id_scene	pathMap		pathObj
+[SCENES]
+1	Resources/map/world-1-1-map.tmx	world1_1.txt
