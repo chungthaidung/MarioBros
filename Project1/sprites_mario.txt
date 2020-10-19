@@ -1,9 +1,3 @@
-# id	file_path	transparent_color_r	g	b
-[TEXTURES]
-0	textures\mario16.png	255	255	255
-20	textures\misc.png	176	224	248
-10	textures\enemies.png	3	26	110
-
 # id	left	top	width	height	texture_id
 [SPRITES]
 # SMALL MARIO
@@ -346,49 +340,3 @@
 10220	442	390	21	20	0
 10221	466	387	20	23	0
 10222	489	389	20	21	0
-
-						
-# ani_id	sprite1_id	time1	sprite2_id	time2	...
-[ANIMATIONS]
-
-# ==== MARIO =========
-#idle front SMALL
-101	10001	100
-#idle SMALL
-102	10002	100
-#walk SMALL
-103	10003	100	10004	100
-#skid SMALL
-105	10005	100
-#run SMALL
-106	10006	100	10007	100
-#jump SMALL
-108	10008	100
-#high jump SMALL 
-109	10009	100
-#slide SMALL
-111	10011	100
-#idle front BIG
-121	10021	100
-#idle BIG 
-122	10022	100
-#walk BIG
-123	10023	100	10024	100	10025	100
-
-
-#die
-999	10010	100
-
-#
-# id	ani1	ani2	ani3
-#
-[ANIMATION_SETS]
-# MARIO
-1	101	102	103	105	106	108	111	121	122	123
-
-
-[OBJECTS]
-# type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba
-# MARIO
-0	20.0	237.0	1

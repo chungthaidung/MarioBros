@@ -46,12 +46,6 @@
     <Filter Include="Game\Animation_Textures\AnimationSets\Animations\Animation\Sprites">
       <UniqueIdentifier>{12197e5f-1fa9-44f9-8b0f-74ab7f1b22b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Scene\Map">
-      <UniqueIdentifier>{cb234f8f-b476-4b80-af63-daf1bd4f7bb1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MapReader">
-      <UniqueIdentifier>{5ae78e2d-ef61-4fb4-a315-34b29f3ef3a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Scene\Camera">
       <UniqueIdentifier>{50ff799d-622a-4ce8-9db4-6d10976e3f4f}</UniqueIdentifier>
     </Filter>
@@ -70,9 +64,6 @@
       <Filter>Game\Game Object\CGameObject</Filter>
     </ClCompile>
     <ClCompile Include="Brick.cpp">
-      <Filter>Game\Game Object\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Goomba.cpp">
       <Filter>Game\Game Object\Object</Filter>
     </ClCompile>
     <ClCompile Include="Mario.cpp">
@@ -108,20 +99,11 @@
     <ClCompile Include="CAnimationSets.cpp">
       <Filter>Game\Animation_Textures\AnimationSets</Filter>
     </ClCompile>
-    <ClCompile Include="Portal.cpp">
-      <Filter>Game\Game Object\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Koopas.cpp">
-      <Filter>Game\Game Object\Object</Filter>
-    </ClCompile>
     <ClCompile Include="CAnimation.cpp">
       <Filter>Game\Animation_Textures\AnimationSets\Animations\Animation</Filter>
     </ClCompile>
     <ClCompile Include="CAnimationFrame.cpp">
       <Filter>Game\Animation_Textures\AnimationSets\Animations\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="CGameMap.cpp">
-      <Filter>Game\Scene\Map</Filter>
     </ClCompile>
     <ClCompile Include="CGame.cpp">
       <Filter>Game</Filter>
@@ -129,68 +111,11 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MapReader\base64.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\miniz.c">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\tinyxml2.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxEllipse.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxImage.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxImageLayer.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxLayer.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxMap.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxObject.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxObjectGroup.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxPolygon.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxPolyline.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxPropertySet.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxTerrain.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxTerrainArray.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxTile.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxTileLayer.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxTileOffset.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxTileset.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
-    <ClCompile Include="MapReader\TmxUtil.cpp">
-      <Filter>MapReader</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Game\Scene\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -207,9 +132,6 @@
       <Filter>Game\Game Object\Object</Filter>
     </ClInclude>
     <ClInclude Include="Brick.h">
-      <Filter>Game\Game Object\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Goomba.h">
       <Filter>Game\Game Object\Object</Filter>
     </ClInclude>
     <ClInclude Include="CAnimations.h">
@@ -248,113 +170,17 @@
     <ClInclude Include="CAnimationSets.h">
       <Filter>Game\Animation_Textures\AnimationSets</Filter>
     </ClInclude>
-    <ClInclude Include="Portal.h">
-      <Filter>Game\Game Object\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Koopas.h">
-      <Filter>Game\Game Object\Object</Filter>
-    </ClInclude>
     <ClInclude Include="CAnimation.h">
       <Filter>Game\Animation_Textures\AnimationSets\Animations\Animation</Filter>
     </ClInclude>
     <ClInclude Include="CAnimationFrame.h">
       <Filter>Game\Animation_Textures\AnimationSets\Animations\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="CGameMap.h">
-      <Filter>Game\Scene\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\base64.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\tinyxml2.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxEllipse.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxImage.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxImageLayer.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxLayer.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxMap.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxMapTile.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxObject.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxObjectGroup.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxPoint.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxPolygon.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxPolyline.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxPropertySet.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxTerrain.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxTerrainArray.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxTile.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxTileLayer.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxTileOffset.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxTileset.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\TmxUtil.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\zconf.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\zlib.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\zlib128-dll\include\zconf.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
-    <ClInclude Include="MapReader\zlib128-dll\include\zlib.h">
-      <Filter>MapReader</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Game\Scene\Camera</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="zlib.lib" />
-    <Library Include="MapReader\zlib128-dll\lib\zlib.lib">
-      <Filter>MapReader</Filter>
-    </Library>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="zlibwapi.dll" />
-    <None Include="MapReader\Tmx.h.in">
-      <Filter>MapReader</Filter>
-    </None>
-    <None Include="MapReader\zlib128-dll\zlib1.dll">
-      <Filter>MapReader</Filter>
-    </None>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

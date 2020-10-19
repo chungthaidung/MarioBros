@@ -9,7 +9,7 @@
 #include "CAnimations.h"
 #include "CKeyEventHandler.h"
 #include "Mario.h"
-#include "Goomba.h"
+
 #include "Brick.h"
 #include "define.h"
 

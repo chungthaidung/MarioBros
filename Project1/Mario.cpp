@@ -4,9 +4,9 @@
 #include "Mario.h"
 #include "CGame.h"
 
-#include "Goomba.h"
+
 #include "CGameObject.h"
-#include "Portal.h"
+
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -26,100 +26,61 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 
 	// Simple fall down
-	vy += MARIO_GRAVITY * dt;
-	x += dx;
+	//vy += MARIO_GRAVITY * dt;
+	//x += dx;
 	//y += dy;
 	
-	//vector<LPCOLLISIONEVENT> coEvents;
-	//vector<LPCOLLISIONEVENT> coEventsResult;
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
 
-	//coEvents.clear();
+	coEvents.clear();
 
-	//// turn off collision when die 
-	//if (state != MARIO_STATE_DIE)
-	//	CalcPotentialCollisions(coObjects, coEvents);
+	// turn off collision when die 
+	if (state != MARIO_STATE_DIE)
+		CalcPotentialCollisions(coObjects, coEvents);
 
-	//// reset untouchable timer if untouchable time has passed
-	//if (GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
-	//{
-	//	untouchable_start = 0;
-	//	untouchable = 0;
-	//}
+	// reset untouchable timer if untouchable time has passed
+	if (GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
+	{
+		untouchable_start = 0;
+		untouchable = 0;
+	}
 
-	//// No collision occured, proceed normally
-	//if (coEvents.size() == 0)
-	//{
-	//	x += dx;
-	//	y += dy;
-	//}
-	//else
-	//{
-	//	float min_tx, min_ty, nx = 0, ny;
-	//	float rdx = 0;
-	//	float rdy = 0;
+	// No collision occured, proceed normally
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
 
-	//	// TODO: This is a very ugly designed function!!!!
-	//	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		// TODO: This is a very ugly designed function!!!!
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
-	//	// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-	//	//if (rdx != 0 && rdx!=dx)
-	//	//	x += nx*abs(rdx); 
+		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
+		//if (rdx != 0 && rdx!=dx)
+		//	x += nx*abs(rdx); 
 
-	//	// block every object first!
-	//	x += min_tx * dx + nx * 0.4f;
-	//	y += min_ty * dy + ny * 0.4f;
+		// block every object first!
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
 
-	//	if (nx != 0) vx = 0;
-	//	if (ny != 0) vy = 0;
+		if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;
 
 
-	//	//
-	//	// Collision logic with other objects
-	//	//
-	//	for (UINT i = 0; i < coEventsResult.size(); i++)
-	//	{
-	//		LPCOLLISIONEVENT e = coEventsResult[i];
+		//
+		// Collision logic with other objects
+		//
+		
+	}
 
-	//		if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
-	//		{
-	//			CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-
-	//			// jump on top >> kill Goomba and deflect a bit 
-	//			if (e->ny < 0)
-	//			{
-	//				if (goomba->GetState() != GOOMBA_STATE_DIE)
-	//				{
-	//					goomba->SetState(GOOMBA_STATE_DIE);
-	//					vy = -MARIO_JUMP_DEFLECT_SPEED;
-	//				}
-	//			}
-	//			else if (e->nx != 0)
-	//			{
-	//				if (untouchable == 0)
-	//				{
-	//					if (goomba->GetState() != GOOMBA_STATE_DIE)
-	//					{
-	//						if (level > MARIO_LEVEL_SMALL)
-	//						{
-	//							level = MARIO_LEVEL_SMALL;
-	//							StartUntouchable();
-	//						}
-	//						else
-	//							SetState(MARIO_STATE_DIE);
-	//					}
-	//				}
-	//			}
-	//		} // if Goomba
-	//		else if (dynamic_cast<CPortal*>(e->obj))
-	//		{
-	//			CPortal* p = dynamic_cast<CPortal*>(e->obj);
-	//			CGame::GetInstance()->SwitchScene(p->GetSceneId());
-	//		}
-	//	}
-	//}
-
-	//// clean up collision events
-	//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CMario::Render()
@@ -155,7 +116,7 @@ void CMario::Render()
 	if (untouchable) alpha = 128;
 
 	animation_set->at(ani)->Render(x, y, alpha);
-	DebugOut(L"[INFO] ANIMATION SET : %d", ani);
+
 	RenderBoundingBox();
 }
 
