@@ -1,6 +1,6 @@
 #include "CSprite.h"
 #include "CGame.h"
-
+#include "debug.h"
 CSprite::CSprite(int id, RECT r, LPDIRECT3DTEXTURE9 tex)
 {
 	this->id = id;
@@ -14,4 +14,5 @@ void CSprite::Draw(float x, float y, int alpha)
 {
 	CGame* game = CGame::GetInstance();
 	game->Draw(x, y, texture, sprite_r, alpha);
+	
 }

@@ -10,14 +10,13 @@
 #include "CAnimations.h"
 #include "CPlaySceneKeyHandler.h"
 #include "CAnimationSets.h"
-#include "CGameMap.h"
-#include "Portal.h"
+
 
 
 using namespace std;
 
-CPlayScene::CPlayScene(int id, std::string mapPath, LPCWSTR filePath) :
-	CScene(id, mapPath, filePath)
+CPlayScene::CPlayScene(int id, LPCWSTR mapPath, LPCWSTR filePath) :
+	CScene(id,mapPath, filePath)
 {
 	key_handler = new CPlayScenceKeyHandler(this);
 }
@@ -32,7 +31,7 @@ void CPlayScene::_ParseSection_TEXTURES(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 5) return; // skip invalid lines
+	if (tokens.size() < 5) return; 
 
 	int texID = atoi(tokens[0].c_str());
 	wstring path = ToWSTR(tokens[1]);
@@ -48,14 +47,14 @@ void CPlayScene::_ParseSection_SPRITES(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 6) return; // skip invalid lines
+	if (tokens.size() < 6) return; 
 
 	int ID = atoi(tokens[0].c_str());
 	RECT r;
 	r.left = atoi(tokens[1].c_str());
 	r.top = atoi(tokens[2].c_str());
-	r.right = atoi(tokens[3].c_str());
-	r.bottom = atoi(tokens[4].c_str());
+	r.right = atoi(tokens[3].c_str())+r.left; //db là width và height
+	r.bottom = atoi(tokens[4].c_str())+r.top;
 	int texID = atoi(tokens[5].c_str());
 
 	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texID);
@@ -75,12 +74,12 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 
 	if (tokens.size() < 3) return; // skip invalid lines - an animation must at least has 1 frame and 1 frame time
 
-	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
+	DebugOut(L"--> %s\n",ToWSTR(line).c_str());
 
 	LPANIMATION ani = new CAnimation();
 
 	int ani_id = atoi(tokens[0].c_str());
-	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
+	for (int i = 1; i < tokens.size(); i += 2)	
 	{
 		int sprite_id = atoi(tokens[i].c_str());
 		int frame_time = atoi(tokens[i + 1].c_str());
@@ -134,7 +133,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
 	CGameObject* obj = NULL;
-
+	
 	switch (object_type)
 	{
 	case OBJECT_TYPE_MARIO:
@@ -148,17 +147,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
-	case OBJECT_TYPE_PORTAL:
-	{
-		float r = atof(tokens[4].c_str());
-		float b = atof(tokens[5].c_str());
-		int scene_id = atoi(tokens[6].c_str());
-		obj = new CPortal(x, y, r, b, scene_id);
-	}
-	break;
+
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -219,10 +209,9 @@ void CPlayScene::Load()
 	}
 
 	f.close();
-
 	mBackColor = 0x54acd2;
-	mMap = new CGameMap(GetMapPath());
-
+	map = new Map(mapFilePath);
+	map->LoadMap();
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
@@ -265,8 +254,9 @@ void CPlayScene::Render()
 {
 	/*for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();*/
-	mMap->Draw();
+
 	player->Render();
+	map->DrawMap();
 }
 
 /*

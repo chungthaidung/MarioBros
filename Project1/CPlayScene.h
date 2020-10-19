@@ -5,17 +5,15 @@
 #include "CGameObject.h"
 #include "Brick.h"
 #include "Mario.h"
-#include "Goomba.h"
-#include "Koopas.h"
-#include "CGameMap.h"
+#include "Map.h"
+
 //#include "Camera.h"
 class CPlayScene : public CScene
 {
 protected:
 	CMario* player;		// A play scene has to have player, right? 
 	
-	CGameMap* mMap;
-
+	Map* map;
 	D3DCOLOR mBackColor = 0x4866ff;
 
 	vector<LPGAMEOBJECT> objects;
@@ -28,14 +26,13 @@ protected:
 
 
 public:
-	CPlayScene(int id, std::string mapPath, LPCWSTR filePath);
+	CPlayScene(int id, LPCWSTR mapPath, LPCWSTR filePath);
 
 	virtual void Load();
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
 
-	string GetMapPath() { return sceneMapPath; }
 	CMario* GetPlayer() { return player; }
 
 	//friend class CPlayScenceKeyHandler;

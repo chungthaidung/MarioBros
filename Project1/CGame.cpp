@@ -336,15 +336,19 @@ void CGame::_ParseSection_SCENES(string line)
 {
 	vector<string> tokens = split(line);
 
-	if (tokens.size() < 3) return;
+	if (tokens.size() < 2) return;
 	int id = atoi(tokens[0].c_str());
-	string mapPath = tokens[1];
+	LPCWSTR mappath = ToLPCWSTR(tokens[1]);
 	LPCWSTR path = ToLPCWSTR(tokens[2]);
-
-	LPSCENE scene = new CPlayScene(id, mapPath, path);
+	LPSCENE scene = new CPlayScene(id,mappath, path);
 	scenes[id] = scene;
 }
 
+
+void CGame::LoadMarioSprites(LPCWSTR marioFile)
+{
+
+}
 /*
 	Load game campaign file and load/initiate first scene
 */
@@ -358,7 +362,7 @@ void CGame::Load(LPCWSTR gameFile)
 
 	// current resource section flag
 	int section = GAME_FILE_SECTION_UNKNOWN;
-
+	LPCWSTR mariofile;
 	while (f.getline(str, MAX_GAME_LINE))
 	{
 		string line(str);
@@ -367,7 +371,6 @@ void CGame::Load(LPCWSTR gameFile)
 
 		if (line == "[SETTINGS]") { section = GAME_FILE_SECTION_SETTINGS; continue; }
 		if (line == "[SCENES]") { section = GAME_FILE_SECTION_SCENES; continue; }
-
 		//
 		// data section
 		//
@@ -375,6 +378,7 @@ void CGame::Load(LPCWSTR gameFile)
 		{
 		case GAME_FILE_SECTION_SETTINGS: _ParseSection_SETTINGS(line); break;
 		case GAME_FILE_SECTION_SCENES: _ParseSection_SCENES(line); break;
+	
 		}
 	}
 	f.close();
@@ -386,6 +390,7 @@ void CGame::Load(LPCWSTR gameFile)
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();
 	//SwitchScene(current_scene);
+	
 }
 
 void CGame::SwitchScene(int scene_id)

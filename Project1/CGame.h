@@ -42,7 +42,9 @@ class CGame
 	int current_scene;
 	
 	void _ParseSection_SETTINGS(string line);
-	void _ParseSection_SCENES(string line);
+	void _ParseSection_SCENES(string line); 
+
+
 
 public:
 	void InitKeyboard();
@@ -54,6 +56,7 @@ public:
 	void ProcessKeyboard();
 
 	void Load(LPCWSTR gameFile);
+	void LoadMarioSprites(LPCWSTR marioFile);
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void SwitchScene(int scene_id);
 
