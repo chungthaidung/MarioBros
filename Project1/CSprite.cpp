@@ -10,9 +10,9 @@ CSprite::CSprite(int id, RECT r, LPDIRECT3DTEXTURE9 tex)
 	this->sprite_r.bottom = r.bottom;
 	this->texture = tex;
 }
-void CSprite::Draw(float x, float y, int alpha)
+void CSprite::Draw(float x, float y, int scale, int flipx, int alpha)
 {
 	CGame* game = CGame::GetInstance();
-	game->Draw(x, y, texture, sprite_r, alpha);
+	game->Draw(x, y, texture, sprite_r,scale,flipx, alpha);
 	
 }

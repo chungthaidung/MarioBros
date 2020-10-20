@@ -1,5 +1,6 @@
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
+
 #include "define.h"
 #include "debug.h"
 #include "CPlayScene.h"
@@ -53,7 +54,7 @@ void CPlayScene::_ParseSection_SPRITES(string line)
 	RECT r;
 	r.left = atoi(tokens[1].c_str());
 	r.top = atoi(tokens[2].c_str());
-	r.right = atoi(tokens[3].c_str())+r.left; //db l� width v� height
+	r.right = atoi(tokens[3].c_str())+r.left; //db là width và height
 	r.bottom = atoi(tokens[4].c_str())+r.top;
 	int texID = atoi(tokens[5].c_str());
 
@@ -65,7 +66,7 @@ void CPlayScene::_ParseSection_SPRITES(string line)
 	}
 
 	CSprites::GetInstance()->Add(ID, r, tex);
-	/*DebugOut(CSprites::GetInstance()->Get(10001) ? L"Have sprite \n" : L"Dont have sprite");*/
+	/*DebugOut(CSprites::GetInstance()->Get(ID) ? L"Have sprite \n" : L"Dont have sprite: %d \n",ID);*/
 }
 
 void CPlayScene::_ParseSection_ANIMATIONS(string line)
@@ -87,6 +88,7 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	}
 
 	CAnimations::GetInstance()->Add(ani_id, ani);
+	//DebugOut(L"--> %s \n", CAnimations::GetInstance()->Get(ani_id));
 }
 
 void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
@@ -209,7 +211,6 @@ void CPlayScene::Load()
 	}
 
 	f.close();
-	mBackColor = 0x54acd2;
 	map = new Map(mapFilePath);
 	map->LoadMap();
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
@@ -245,7 +246,8 @@ void CPlayScene::Update(DWORD dt)
 	CGame* game = CGame::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
-
+	//cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
+	//cam->SetCamPosition(cx, cy); //dùng để set cam nhưng chưa tạo được class cam
 	CGame::GetInstance()->SetCamPos(cx, cy /*cy*/);
 	
 }
@@ -255,8 +257,11 @@ void CPlayScene::Render()
 	/*for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();*/
 
-	player->Render();
+	
 	map->DrawMap();
+	for (int i = 0; i < objects.size(); i++)
+		objects[i]->Render();
+	player->Render();
 }
 
 /*

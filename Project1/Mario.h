@@ -8,7 +8,7 @@ class CMario : public CGameObject
 	int level;
 	int untouchable;
 	DWORD untouchable_start;
-
+	
 	float start_x;			// initial position of Mario at scene
 	float start_y;
 public:
@@ -21,6 +21,5 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 
 	void Reset();
-
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };

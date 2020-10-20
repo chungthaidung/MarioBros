@@ -43,21 +43,21 @@ void Map::LoadMap()
         }
     }
     f.close();
-    CTextures::GetInstance()->Add(WORLD_MAP_1_1, L"Resources\map\Final1(48).png", D3DCOLOR_XRGB(255, 255, 255)); // hardcode không tốt , test
-    AddTiles(WORLD_MAP_1_1, 29, 30, 48, 48);//hardcode
+    CTextures::GetInstance()->Add(WORLD_MAP_1_1, L"Resources/map/Final1(48).png", D3DCOLOR_XRGB(255, 255, 255)); // hardcode không tốt , test
+    AddTiles(WORLD_MAP_1_1, 30, 29, 48, 48);//hardcode
     DebugOut(L"[INFO]Load map successful. \n");
 }
 void Map::DrawMap()
 {
-    for (int i =15;i<map_row;i++)
+    for (int i = 0; i < map_row; i++)
     {
         for (int j = 0; j < map_column; j++)
         {
-            int id = tile_map[i][j] - 1;
-            if (id!=-1)
+            int id = tile_map[i][j]-1;
+            if (id != -1)
             {
-                tiles[id]->Draw(i * 48.0, j * 48.0);//hardcode không tốt , test
-                //DebugOut(L"[INFO] Tiles id: %d \n",id);
+                tiles[id]->Draw(j * 48.0, i * 48.0);//hardcode không tốt , test
+                //DebugOut(L"[INFO] ID: %d |X: %d | Y: %d \n",id, j * 48, i * 48.0);
             }
         }
     }

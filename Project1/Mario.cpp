@@ -114,9 +114,8 @@ void CMario::Render()
 
 	int alpha = 255;
 	if (untouchable) alpha = 128;
-
-	animation_set->at(ani)->Render(x, y, alpha);
-
+	CAnimations::GetInstance()->Get(ani)->Render(x, y, 3, nx, alpha);
+	//animation_set->at(ani)->Render(x, y,3,nx, alpha);
 	RenderBoundingBox();
 }
 
@@ -129,7 +128,6 @@ void CMario::SetState(int state)
 	case MARIO_STATE_WALKING_RIGHT:
 		vx = MARIO_WALKING_SPEED;
 		nx = 1;
-		
 		break;
 	case MARIO_STATE_WALKING_LEFT:
 		vx = -MARIO_WALKING_SPEED;
@@ -156,7 +154,7 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 	if (level == MARIO_LEVEL_BIG)
 	{
-		right = x + MARIO_BIG_BBOX_WIDTH;
+		right = x + MARIO_BIG_BBOX_WIDTH;//hardcode
 		bottom = y + MARIO_BIG_BBOX_HEIGHT;
 	}
 	else
