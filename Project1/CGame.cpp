@@ -1,9 +1,9 @@
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 
 #include "CGame.h"
 #include "Utils.h"
-
+#include "define.h"
 #include "CPlayScene.h"
 #include "debug.h"
 #include "CAnimations.h"
@@ -67,11 +67,21 @@ void CGame::Init(HWND hWnd)
 /*
 	Utility function to wrap LPD3DXSPRITE::Draw
 */
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, int alpha)
+void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, int scale, int flipx, int alpha)
 {
+	
 	D3DXVECTOR3 p(x - cam_x, y - cam_y, 0);
-
+	D3DXMATRIX oldMatrix,newMatrix,mMatrix;
+	spriteHandler->GetTransform(&oldMatrix);
+	float width = r.right - r.left;
+	float height = r.bottom - r.top;
+	//&D3DXVECTOR2(scale*flipx*1.0f,scale*1.0f) scale và flip
+	//&D3DXVECTOR2(x - cam_x + width / 2, y - cam_y + height / 2) tọa độ giữa sprite 
+	D3DXMatrixTransformation2D(&newMatrix, &D3DXVECTOR2(x - cam_x + width / 2, y - cam_y + height / 2), 0, &D3DXVECTOR2(scale * flipx * 1.0f, scale * 1.0f), NULL, NULL, NULL);
+	mMatrix = oldMatrix * newMatrix;
+	spriteHandler->SetTransform(&mMatrix);
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	spriteHandler->SetTransform(&oldMatrix);
 }
 
 int CGame::IsKeyDown(int KeyCode)
@@ -312,12 +322,7 @@ CGame* CGame::GetInstance()
 	return __instance;
 }
 
-#define MAX_GAME_LINE 1024
 
-
-#define GAME_FILE_SECTION_UNKNOWN -1
-#define GAME_FILE_SECTION_SETTINGS 1
-#define GAME_FILE_SECTION_SCENES 2
 
 void CGame::_ParseSection_SETTINGS(string line)
 {
@@ -399,9 +404,9 @@ void CGame::SwitchScene(int scene_id)
 
 	scenes[current_scene]->Unload();
 
-	//CTextures::GetInstance()->Clear();
-	//CSprites::GetInstance()->Clear();
-	//CAnimations::GetInstance()->Clear();
+	/*CTextures::GetInstance()->Clear();
+	CSprites::GetInstance()->Clear();
+	CAnimations::GetInstance()->Clear();*/
 
 	/*current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];

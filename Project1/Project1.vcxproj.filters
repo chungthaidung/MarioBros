@@ -52,6 +52,9 @@
     <Filter Include="Game\Scene\KeyHandler">
       <UniqueIdentifier>{e498627c-fd05-4657-a965-aaa9443ddf89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Scene\Map">
+      <UniqueIdentifier>{3160069b-4dad-4c10-b794-18a19240a487}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">
@@ -115,7 +118,7 @@
       <Filter>Game\Scene\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game\Scene\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -180,7 +183,7 @@
       <Filter>Game\Scene\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game\Scene\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
