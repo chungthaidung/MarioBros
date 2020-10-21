@@ -5,4 +5,4 @@
 - 16-10: Load mario lẹn map, camera dựa trên code của thầy.
 - 19-10: Load map bằng txt.
 - 20-10: Sửa hàm draw để flip và scale
-- 21-10: Tách hàm draw và draw scale, texture x3 để không phải scale trong code
+- 21-10: Tách hàm draw và draw scale, texture x3 để không phải scale trong code, lót gạch mặt đất.
