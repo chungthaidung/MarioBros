@@ -5,8 +5,4 @@
 - 16-10: Load mario lẹn map, camera dựa trên code của thầy.
 - 19-10: Load map bằng txt.
 - 20-10: Sửa hàm draw để flip và scale
-```bash
-Vấn đề:
-- Set bbox của block 48x48 nhưng draw sprite thì scale x3.
-=> Khi draw thì sprite và bbox bị lệch
-```
+- 21-10: Tách hàm draw và draw scale, texture x3 để không phải scale trong code
