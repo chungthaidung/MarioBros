@@ -7,20 +7,28 @@ Camera::Camera(int width, int height)
 	c_width = width;
 	c_height = height;
 }
-void Camera::SetCamPosition(float x, float y) {
-	p_x = x;
-	p_y = y;
-}
-int Camera::GetWidth()
+void Camera::SetTarget(CMario* player)
 {
-	return c_width;
+	if (player != NULL)
+		target = player;
 }
-int Camera::GetHeight()
+void Camera::Update()
 {
-	return c_height;
+	if (target != NULL)
+	{
+		float cx, cy;
+		target->GetPosition(cx, cy);
+		p_x -= c_width;
+		p_y -= c_height;
+	}
 }
-void Camera::GetCamPos(float &x,float &y)
+void Camera::GetCamPosition(float& x, float& y)
 {
-	x =p_x;
+	x = p_x;
 	y = p_y;
+}
+void Camera::InWorld()
+{
+	if (p_x < 0)
+		p_x = 0;
 }

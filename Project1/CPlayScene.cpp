@@ -11,7 +11,9 @@
 #include "CAnimations.h"
 #include "CPlaySceneKeyHandler.h"
 #include "CAnimationSets.h"
-
+#include "Pipe.h"
+#include "GhostObject.h"
+#include "Cloud.h"
 
 
 using namespace std;
@@ -94,7 +96,7 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 {
 	vector<string> tokens = split(line);
-
+	
 	if (tokens.size() < 2) return; // skip invalid lines - an animation set must at least id and one animation id
 
 	int ani_set_id = atoi(tokens[0].c_str());
@@ -150,7 +152,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-
+	case OBJECT_TYPE_PIPE: obj = new Pipe(); break;
+	case OBJECT_TYPE_GHOST: obj = new GhostObject(); break;
+	case OBJECT_TYPE_CLOUD: obj = new Cloud(); break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -213,6 +217,9 @@ void CPlayScene::Load()
 	f.close();
 	map = new Map(mapFilePath);
 	map->LoadMap();
+	CGame* game = CGame::GetInstance();
+	cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
+	cam->SetTarget(player);
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
@@ -239,13 +246,14 @@ void CPlayScene::Update(DWORD dt)
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
-	//// Update camera to follow mario
+	// Update camera to follow mario
+	//cam->Update();
 	float cx, cy;
+	//cam->GetCamPosition(cx, cy);
 	player->GetPosition(cx, cy);
-	
 	CGame* game = CGame::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
-	cy -= game->GetScreenHeight() / 2;
+	cy -= game->GetScreenHeight() *2 / 3;
 	//cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
 	//cam->SetCamPosition(cx, cy); //dùng để set cam nhưng chưa tạo được class cam
 	CGame::GetInstance()->SetCamPos(cx, cy /*cy*/);
@@ -254,13 +262,9 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	/*for (int i = 0; i < objects.size(); i++)
-		objects[i]->Render();*/
-	map->DrawMap();
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
-	
-	
+	map->DrawMap();
 	player->Render();
 }
 

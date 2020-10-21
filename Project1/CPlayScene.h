@@ -7,13 +7,13 @@
 #include "Mario.h"
 #include "Map.h"
 #include "Camera.h"
-//#include "Camera.h"
+
 class CPlayScene : public CScene
 {
 protected:
 	CMario* player;		// A play scene has to have player, right? 
 	
-	//Camera* cam;
+	Camera* cam;
 	Map* map;
 	D3DCOLOR mBackColor = 0x54acd2;;
 
@@ -35,6 +35,6 @@ public:
 	virtual void Unload();
 	
 	CMario* GetPlayer() { return player; }
-	//Camera* GetCamera() { return cam; }
+	Camera* GetCamera() { return cam; }
 	//friend class CPlayScenceKeyHandler;
 };
