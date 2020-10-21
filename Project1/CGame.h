@@ -50,8 +50,8 @@ public:
 	void InitKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);
+	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, int alpha = 255);
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, int scale, int flipx, int alpha = 255);
-
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
 

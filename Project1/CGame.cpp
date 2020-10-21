@@ -77,11 +77,25 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, int scale
 	float height = r.bottom - r.top;
 	//&D3DXVECTOR2(scale*flipx*1.0f,scale*1.0f) scale và flip
 	//&D3DXVECTOR2(x - cam_x + width / 2, y - cam_y + height / 2) tọa độ giữa sprite 
-	D3DXMatrixTransformation2D(&newMatrix, &D3DXVECTOR2(x - cam_x + width / 2, y - cam_y + height / 2), 0, &D3DXVECTOR2(scale * flipx * 1.0f, scale * 1.0f), NULL, NULL, NULL);
+	//DebugOut(L"Size(%f, %f)\n", width, height);
+	D3DXMatrixTransformation2D(&newMatrix, 
+		&D3DXVECTOR2(x - cam_x +width/2 , y - cam_y+height/2), 0, &D3DXVECTOR2(scale * flipx, scale), //tan scale | goc xoay (rad) | ti le scale
+		NULL, NULL,//tam rotate | goc xoay (rad)
+		NULL); //tam translation | trans
 	mMatrix = oldMatrix * newMatrix;
 	spriteHandler->SetTransform(&mMatrix);
+	
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	
 	spriteHandler->SetTransform(&oldMatrix);
+}
+void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, int alpha)
+{
+	
+	D3DXVECTOR3 p(x - cam_x, y - cam_y, 0);
+	
+	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	
 }
 
 int CGame::IsKeyDown(int KeyCode)

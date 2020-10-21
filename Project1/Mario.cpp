@@ -26,7 +26,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 
 	// Simple fall down
-	//vy += MARIO_GRAVITY * dt;
+	vy += MARIO_GRAVITY * dt;
 	//x += dx;
 	//y += dy;
 	
@@ -114,7 +114,7 @@ void CMario::Render()
 
 	int alpha = 255;
 	if (untouchable) alpha = 128;
-	CAnimations::GetInstance()->Get(ani)->Render(x, y, 3, nx, alpha);
+	CAnimations::GetInstance()->Get(ani)->Render(x, y,1,nx, alpha);
 	//animation_set->at(ani)->Render(x, y,3,nx, alpha);
 	RenderBoundingBox();
 }

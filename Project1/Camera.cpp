@@ -8,8 +8,8 @@ Camera::Camera(int width, int height)
 	c_height = height;
 }
 void Camera::SetCamPosition(float x, float y) {
-	c_x = x;
-	c_y = y;
+	p_x = x;
+	p_y = y;
 }
 int Camera::GetWidth()
 {
@@ -21,6 +21,6 @@ int Camera::GetHeight()
 }
 void Camera::GetCamPos(float &x,float &y)
 {
-	x = c_x;
-	y = c_y;
+	x =p_x;
+	y = p_y;
 }
