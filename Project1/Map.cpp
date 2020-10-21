@@ -22,7 +22,6 @@ void Map::AddTiles(int texID, int row, int column, int tile_width, int tile_heig
             r.bottom = i * tile_height + tile_height;
             LPSPRITE tile = new CSprite(id, r, tex);
             tiles.push_back(tile);
-            
             id++;
             
         }

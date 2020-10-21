@@ -1,9 +1,10 @@
-#pragma once
-class Camera
-{
+﻿#pragma once
+class Camera 
+{//Camera tự update theo object => bỏ *obj zo cam
 protected:
 	int c_width, c_height;
-	float c_x = 0.0f, c_y = 0.0f;
+	float p_x = 0.0f, p_y = 0.0f;
+	
 public:
 	Camera(int width, int height);
 	void SetCamPosition(float x, float y);

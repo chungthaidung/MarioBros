@@ -2,7 +2,7 @@
 
 void CBrick::Render()
 {
-	animation_set->at(0)->Render(x, y,3);
+	animation_set->at(0)->Render(x, y);
 	RenderBoundingBox();
 }
 

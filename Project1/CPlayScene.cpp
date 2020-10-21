@@ -52,10 +52,10 @@ void CPlayScene::_ParseSection_SPRITES(string line)
 
 	int ID = atoi(tokens[0].c_str());
 	RECT r;
-	r.left = atoi(tokens[1].c_str());
-	r.top = atoi(tokens[2].c_str());
-	r.right = atoi(tokens[3].c_str())+r.left; //db là width và height
-	r.bottom = atoi(tokens[4].c_str())+r.top;
+	r.left = atoi(tokens[1].c_str())*3;
+	r.top = atoi(tokens[2].c_str())*3;
+	r.right = atoi(tokens[3].c_str())*3+r.left; //db là width và height
+	r.bottom = atoi(tokens[4].c_str())*3+r.top;
 	int texID = atoi(tokens[5].c_str());
 
 	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texID);
@@ -256,11 +256,11 @@ void CPlayScene::Render()
 {
 	/*for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();*/
-
-	
 	map->DrawMap();
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+	
+	
 	player->Render();
 }
 
