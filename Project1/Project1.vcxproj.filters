@@ -120,6 +120,15 @@
     <ClCompile Include="Map.cpp">
       <Filter>Game\Scene\Map</Filter>
     </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <Filter>Game\Game Object\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GhostObject.cpp">
+      <Filter>Game\Game Object\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Cloud.cpp">
+      <Filter>Game\Game Object\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -184,6 +193,15 @@
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Game\Scene\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <Filter>Game\Game Object\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GhostObject.h">
+      <Filter>Game\Game Object\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Cloud.h">
+      <Filter>Game\Game Object\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -152,6 +152,7 @@
     <ClCompile Include="CGame.cpp" />
     <ClCompile Include="CGameObject.cpp" />
     <ClCompile Include="CKeyEventHandler.cpp" />
+    <ClCompile Include="Cloud.cpp" />
     <ClCompile Include="CPlayScene.cpp" />
     <ClCompile Include="CPlaySceneKeyHandler.cpp" />
     <ClCompile Include="CScenceKeyHandler.cpp" />
@@ -159,10 +160,12 @@
     <ClCompile Include="CSprites.cpp" />
     <ClCompile Include="CTextures.cpp" />
     <ClCompile Include="debug.cpp" />
+    <ClCompile Include="GhostObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="CScene.cpp" />
+    <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +178,7 @@
     <ClInclude Include="CGame.h" />
     <ClInclude Include="CGameObject.h" />
     <ClInclude Include="CKeyEventHandler.h" />
+    <ClInclude Include="Cloud.h" />
     <ClInclude Include="CPlayScene.h" />
     <ClInclude Include="CPlaySceneKeyHandler.h" />
     <ClInclude Include="CScenceKeyHandler.h" />
@@ -183,9 +187,11 @@
     <ClInclude Include="CTextures.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="define.h" />
+    <ClInclude Include="GhostObject.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="CScene.h" />
+    <ClInclude Include="Pipe.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
