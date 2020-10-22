@@ -9,10 +9,9 @@ Camera::Camera(int width, int height)
 }
 void Camera::SetTarget(CMario* player)
 {
-	if (player != NULL)
 		target = player;
 }
-void Camera::Update()
+void Camera::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (target != NULL)
 	{
@@ -20,7 +19,9 @@ void Camera::Update()
 		target->GetPosition(cx, cy);
 		p_x -= c_width;
 		p_y -= c_height;
+		target->Update(dt,coObjects);
 	}
+	
 }
 void Camera::GetCamPosition(float& x, float& y)
 {

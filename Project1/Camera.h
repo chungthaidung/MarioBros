@@ -13,7 +13,7 @@ public:
 	Camera(int width, int height);
 	void InWorld();
 	void SetTarget(CMario* player);
-	void Update();
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetCamPosition(float &x,float &y);
 	
 

@@ -55,6 +55,9 @@
     <Filter Include="Game\Scene\Map">
       <UniqueIdentifier>{3160069b-4dad-4c10-b794-18a19240a487}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Game Object\STATE">
+      <UniqueIdentifier>{829580f9-aed7-44d3-b021-e1cb344cd909}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">

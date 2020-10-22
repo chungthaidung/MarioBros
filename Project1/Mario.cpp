@@ -81,6 +81,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+	//Khong cho mario ra khoi map
+	if (x< 0) x = 0;
 }
 
 void CMario::Render()
