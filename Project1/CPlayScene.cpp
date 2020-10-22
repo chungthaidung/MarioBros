@@ -218,8 +218,8 @@ void CPlayScene::Load()
 	map = new Map(mapFilePath);
 	map->LoadMap();
 	CGame* game = CGame::GetInstance();
-	cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
-	cam->SetTarget(player);
+//	cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
+//	cam->SetTarget(player);
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
@@ -247,15 +247,17 @@ void CPlayScene::Update(DWORD dt)
 	if (player == NULL) return;
 
 	// Update camera to follow mario
-	//cam->Update();
+	//CAMERA
 	float cx, cy;
-	//cam->GetCamPosition(cx, cy);
+//	cam->GetCamPosition(cx, cy);
 	player->GetPosition(cx, cy);
 	CGame* game = CGame::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() *2 / 3;
 	//cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
 	//cam->SetCamPosition(cx, cy); //dùng để set cam nhưng chưa tạo được class cam
+	if (cx < 0) cx = 0;
+	if (cx + game->GetScreenWidth() > map->GetColumn() * 48) cx = map->GetColumn() * 48 - game->GetScreenWidth(); //hardcode
 	CGame::GetInstance()->SetCamPos(cx, cy /*cy*/);
 	
 }
