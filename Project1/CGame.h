@@ -56,7 +56,6 @@ public:
 	void ProcessKeyboard();
 
 	void Load(LPCWSTR gameFile);
-	void LoadMarioSprites(LPCWSTR marioFile);
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void SwitchScene(int scene_id);
 
@@ -83,7 +82,7 @@ public:
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
-
+	void GetCamPos(float& x, float& y) { x = cam_x; y = cam_y; }
 	static CGame* GetInstance();
 
 	~CGame();

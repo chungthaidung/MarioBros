@@ -13,7 +13,6 @@
 #include "CAnimationSets.h"
 #include "Pipe.h"
 #include "GhostObject.h"
-#include "Cloud.h"
 
 
 using namespace std;
@@ -133,7 +132,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float y = atof(tokens[2].c_str());
 
 	int ani_set_id = atoi(tokens[3].c_str());
-
+	int w = atoi(tokens[4].c_str());
+	int h = atoi(tokens[5].c_str());
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
 	CGameObject* obj = NULL;
@@ -154,7 +154,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_PIPE: obj = new Pipe(); break;
 	case OBJECT_TYPE_GHOST: obj = new GhostObject(); break;
-	case OBJECT_TYPE_CLOUD: obj = new Cloud(); break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -162,7 +161,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	// General object setup
 	obj->SetPosition(x, y);
-
+	obj->SetWidthHeight(w, h);
 	LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 	obj->SetAnimationSet(ani_set);
@@ -257,16 +256,18 @@ void CPlayScene::Update(DWORD dt)
 	//cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
 	//cam->SetCamPosition(cx, cy); //dùng để set cam nhưng chưa tạo được class cam
 	if (cx < 0) cx = 0;
-	if (cx + game->GetScreenWidth() > map->GetColumn() * 48) cx = map->GetColumn() * 48 - game->GetScreenWidth(); //hardcode
-	CGame::GetInstance()->SetCamPos(cx, cy /*cy*/);
+	//if (cx + game->GetScreenWidth() > map->GetColumn() * 48) cx = map->GetColumn() * 48 - game->GetScreenWidth(); //hardcode
+	CGame::GetInstance()->SetCamPos(cx, CAMERA_Y_POSITION*2/3/*cy*/);//
 	
 }
 
 void CPlayScene::Render()
 {
+	float x, y;
+	CGame::GetInstance()->GetCamPos(x,y );
+	map->DrawMap(x,y);
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
-	map->DrawMap();
 	player->Render();
 }
 

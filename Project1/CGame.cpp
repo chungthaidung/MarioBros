@@ -367,10 +367,7 @@ void CGame::_ParseSection_SCENES(string line)
 }
 
 
-void CGame::LoadMarioSprites(LPCWSTR marioFile)
-{
 
-}
 /*
 	Load game campaign file and load/initiate first scene
 */
@@ -411,6 +408,8 @@ void CGame::Load(LPCWSTR gameFile)
 	LPSCENE s = scenes[current_scene];
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();
+
+
 	//SwitchScene(current_scene);
 	
 }
