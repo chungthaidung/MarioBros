@@ -55,7 +55,7 @@
     <Filter Include="Game\Scene\Map">
       <UniqueIdentifier>{3160069b-4dad-4c10-b794-18a19240a487}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Game Object\STATE">
+    <Filter Include="Game\Game Object\Player Level">
       <UniqueIdentifier>{829580f9-aed7-44d3-b021-e1cb344cd909}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -99,9 +99,6 @@
     <ClCompile Include="CPlayScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="CPlaySceneKeyHandler.cpp">
-      <Filter>Game\Scene\KeyHandler</Filter>
-    </ClCompile>
     <ClCompile Include="CAnimationSets.cpp">
       <Filter>Game\Animation_Textures\AnimationSets</Filter>
     </ClCompile>
@@ -129,8 +126,23 @@
     <ClCompile Include="GhostObject.cpp">
       <Filter>Game\Game Object\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Cloud.cpp">
-      <Filter>Game\Game Object\Object</Filter>
+    <ClCompile Include="PlayerLevel.cpp">
+      <Filter>Game\Game Object\Player Level</Filter>
+    </ClCompile>
+    <ClCompile Include="SmallMario.cpp">
+      <Filter>Game\Game Object\Player Level</Filter>
+    </ClCompile>
+    <ClCompile Include="BigMario.cpp">
+      <Filter>Game\Game Object\Player Level</Filter>
+    </ClCompile>
+    <ClCompile Include="RacoonMario.cpp">
+      <Filter>Game\Game Object\Player Level</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlaySceneKeyHandler.cpp">
+      <Filter>Game\Scene\KeyHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="FireMario.cpp">
+      <Filter>Game\Game Object\Player Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -203,8 +215,20 @@
     <ClInclude Include="GhostObject.h">
       <Filter>Game\Game Object\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Cloud.h">
-      <Filter>Game\Game Object\Object</Filter>
+    <ClInclude Include="PlayerLevel.h">
+      <Filter>Game\Game Object\Player Level</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallMario.h">
+      <Filter>Game\Game Object\Player Level</Filter>
+    </ClInclude>
+    <ClInclude Include="BigMario.h">
+      <Filter>Game\Game Object\Player Level</Filter>
+    </ClInclude>
+    <ClInclude Include="RacoonMario.h">
+      <Filter>Game\Game Object\Player Level</Filter>
+    </ClInclude>
+    <ClInclude Include="FireMario.h">
+      <Filter>Game\Game Object\Player Level</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

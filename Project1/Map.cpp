@@ -31,9 +31,11 @@ void Map::AddTiles(int texID, int row, int column, int tile_width, int tile_heig
 void Map::LoadMap()
 {
     ifstream f;
-    int height;
+    LPCWSTR path;
     f.open(mapfilePath);
-    f >> map_row >> map_column >> height;
+    int tile_row, tile_column;
+    f >> tile_row>>tile_column;
+    f >> map_row >> map_column;
     for (int i = 0; i < map_row; i++)
     {
         for (int j = 0; j < map_column; j++)
@@ -42,20 +44,28 @@ void Map::LoadMap()
         }
     }
     f.close();
-    CTextures::GetInstance()->Add(WORLD_MAP_1_1, L"Resources/map/Final1(48).png", D3DCOLOR_XRGB(255, 255, 255)); // hardcode không tốt , test
-    AddTiles(WORLD_MAP_1_1, 30, 29, 48, 48);//hardcode
+    AddTiles(WORLD_MAP_1_1, tile_row, tile_column, TILE_WIDTH, TILE_HEIGHT);
     DebugOut(L"[INFO]Load map successful. \n");
 }
-void Map::DrawMap()
+void Map::DrawMap(float c_x,float c_y)
 {
-    for (int i = 0; i < map_row; i++)
+    int begin_row = c_y / TILE_HEIGHT;
+    int end_row = (c_y + SCREEN_HEIGHT) / TILE_HEIGHT + 1;
+    int begin_column = c_x / TILE_WIDTH;
+    int end_column = (c_x + SCREEN_WIDTH) / TILE_WIDTH + 1;
+
+    /*DebugOut(L"b row %d\n", begin_row);
+    DebugOut(L"e row %d\n", end_row);
+    DebugOut(L"b c %d\n", begin_column);
+    DebugOut(L"e c %d\n", end_column);*/
+    for (int i = begin_row; i < end_row; i++)
     {
-        for (int j = 0; j < map_column; j++)
+        for (int j = begin_column; j < end_column; j++)
         {
             int id = tile_map[i][j]-1;
             if (id != -1)
             {
-                tiles[id]->Draw(j * 48.0, i * 48.0);//hardcode không tốt , test
+                tiles[id]->Draw(j * TILE_WIDTH, i * TILE_HEIGHT);//hardcode không tốt , test
                 //DebugOut(L"[INFO] ID: %d |X: %d | Y: %d \n",id, j * 48, i * 48.0);
             }
         }

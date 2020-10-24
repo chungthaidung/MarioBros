@@ -1,8 +1,7 @@
 #pragma once
 #include "CGameObject.h"
 
-#define GHOSTOBJ_BBOX_WIDTH 48
-#define GHOSTOBJ_BBOX_HEIGHT 48
+
 class GhostObject:public CGameObject
 {
 public:

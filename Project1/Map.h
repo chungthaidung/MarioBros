@@ -7,6 +7,9 @@
 #include "CSprite.h"
 #include "define.h"
 #include "Utils.h"
+
+#define TILE_WIDTH  48
+#define TILE_HEIGHT 48
 class Map
 {
 private:
@@ -21,7 +24,7 @@ public:
     void LoadMap();
     int GetColumn() { return map_column;}
     int GetRow() { return map_row; }
-    void DrawMap();
+    void DrawMap(float c_x,float c_y);
 
     ~Map();
 

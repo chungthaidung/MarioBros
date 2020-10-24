@@ -52,6 +52,9 @@ public:
 	float dx;	// dx = vx*dt
 	float dy;	// dy = vy*dt
 
+	float width;
+	float height;
+
 	float vx;
 	float vy;
 
@@ -68,7 +71,7 @@ public:
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
-
+	void SetWidthHeight(int w, int h) { width = w; height = h; }
 	int GetState() { return this->state; }
 
 	void RenderBoundingBox();
