@@ -7,3 +7,4 @@
 - 20-10: Sửa hàm draw để flip và scale
 - 21-10: Tách hàm draw và draw scale, texture x3, update object position.
 - 22-10: Giới hạn 2 biên cho camera trong playscene.
+- 24-10: Thêm level cho mario.
