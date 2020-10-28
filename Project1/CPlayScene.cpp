@@ -28,94 +28,6 @@ CPlayScene::CPlayScene(int id, LPCWSTR mapPath, LPCWSTR filePath) :
 	See scene1.txt, scene2.txt for detail format specification
 */
 
-
-void CPlayScene::_ParseSection_TEXTURES(string line)
-{
-	vector<string> tokens = split(line);
-
-	if (tokens.size() < 5) return; 
-
-	int texID = atoi(tokens[0].c_str());
-	wstring path = ToWSTR(tokens[1]);
-	int R = atoi(tokens[2].c_str());
-	int G = atoi(tokens[3].c_str());
-	int B = atoi(tokens[4].c_str());
-
-	CTextures::GetInstance()->Add(texID, path.c_str(), D3DCOLOR_XRGB(R, G, B));
-	/*DebugOut(CTextures::GetInstance()->Get(0) ? L"Have textures \n" : L"Dont have texture" );*/
-}
-
-void CPlayScene::_ParseSection_SPRITES(string line)
-{
-	vector<string> tokens = split(line);
-
-	if (tokens.size() < 6) return; 
-
-	int ID = atoi(tokens[0].c_str());
-	RECT r;
-	r.left = atoi(tokens[1].c_str())*3;
-	r.top = atoi(tokens[2].c_str())*3;
-	r.right = atoi(tokens[3].c_str())*3+r.left; //db là width và height
-	r.bottom = atoi(tokens[4].c_str())*3+r.top;
-	int texID = atoi(tokens[5].c_str());
-
-	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texID);
-	if (tex == NULL)
-	{
-		DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
-		return;
-	}
-
-	CSprites::GetInstance()->Add(ID, r, tex);
-	/*DebugOut(CSprites::GetInstance()->Get(ID) ? L"Have sprite \n" : L"Dont have sprite: %d \n",ID);*/
-}
-
-void CPlayScene::_ParseSection_ANIMATIONS(string line)
-{
-	vector<string> tokens = split(line);
-
-	if (tokens.size() < 3) return; // skip invalid lines - an animation must at least has 1 frame and 1 frame time
-
-	DebugOut(L"--> %s\n",ToWSTR(line).c_str());
-
-	LPANIMATION ani = new CAnimation();
-
-	int ani_id = atoi(tokens[0].c_str());
-	for (int i = 1; i < tokens.size(); i += 2)	
-	{
-		int sprite_id = atoi(tokens[i].c_str());
-		int frame_time = atoi(tokens[i + 1].c_str());
-		ani->Add(sprite_id, frame_time);
-	}
-
-	CAnimations::GetInstance()->Add(ani_id, ani);
-	//DebugOut(L"--> %s \n", CAnimations::GetInstance()->Get(ani_id));
-}
-
-void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
-{
-	vector<string> tokens = split(line);
-	
-	if (tokens.size() < 2) return; // skip invalid lines - an animation set must at least id and one animation id
-
-	int ani_set_id = atoi(tokens[0].c_str());
-
-	LPANIMATION_SET s = new CAnimationSet();
-
-	CAnimations* animations = CAnimations::GetInstance();
-
-	for (int i = 1; i < tokens.size(); i++)
-	{
-		int ani_id = atoi(tokens[i].c_str());
-		DebugOut(ToLPCWSTR("[INFO] Ani ID: " + std::to_string(ani_id) + "\n"));
-
-		LPANIMATION ani = animations->Get(ani_id);
-		s->push_back(ani);
-	}
-
-	CAnimationSets::GetInstance()->Add(ani_set_id, s);
-}
-
 /*
 	Parse a line in section [OBJECTS]
 */
@@ -184,17 +96,6 @@ void CPlayScene::Load()
 		string line(str);
 
 		if (line[0] == '#') continue;	// skip comment lines	
-
-		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
-		if (line == "[SPRITES]") {
-			section = SCENE_SECTION_SPRITES; continue;
-		}
-		if (line == "[ANIMATIONS]") {
-			section = SCENE_SECTION_ANIMATIONS; continue;
-		}
-		if (line == "[ANIMATION_SETS]") {
-			section = SCENE_SECTION_ANIMATION_SETS; continue;
-		}
 		if (line == "[OBJECTS]") {
 			section = SCENE_SECTION_OBJECTS; continue;
 		}
@@ -205,10 +106,6 @@ void CPlayScene::Load()
 		//
 		switch (section)
 		{
-		case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
-		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
-		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
-		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		}
 	}
@@ -219,8 +116,6 @@ void CPlayScene::Load()
 	CGame* game = CGame::GetInstance();
 //	cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
 //	cam->SetTarget(player);
-	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 	
 	

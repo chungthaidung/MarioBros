@@ -5,9 +5,8 @@ start	1
 #id_scene	mappath	filepath
 [SCENES]
 1	Resources/map/world-1-1.txt	world1_1.txt
-#mario sprites and texture
 #sprites_path
-[MARIO]
-sprites_mario.txt
+[SPRITES]
+sprites_world.txt
 
 

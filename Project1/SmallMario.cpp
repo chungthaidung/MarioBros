@@ -11,17 +11,42 @@ void SmallMario::GetBoundingBox(float& left, float& top, float& right, float& bo
 }
 void SmallMario::Render()
 {
-	int ani = -1;
-	if (mario->vx == 0)
+	int ani = MARIO_ANI_SMALL_IDLE;
+	if (mario->JumpState != MARIO_STATE_JUMP_IDLE)
 	{
-		if (mario->nx > 0) ani = MARIO_ANI_SMALL_IDLE_RIGHT;
-		else ani = MARIO_ANI_SMALL_IDLE_LEFT;
+		switch (mario->JumpState)
+		{
+		case MARIO_STATE_JUMP:
+		case MARIO_STATE_HIGH_JUMP:
+			ani = MARIO_ANI_SMALL_JUMP;
+			break;
+		case MARIO_STATE_FALL:
+			ani = MARIO_ANI_SMALL_FALL;
+			break;
+		}
 	}
-	else if (mario->vx > 0)
-		ani = MARIO_ANI_SMALL_WALKING_RIGHT;
-	else ani = MARIO_ANI_SMALL_WALKING_LEFT;
+	else {
+		switch (mario->GetState())
+		{
+		case MARIO_STATE_IDLE:
+			ani = MARIO_ANI_SMALL_IDLE;
+			break;
+		case MARIO_STATE_WALKING:
+			ani = MARIO_ANI_SMALL_WALKING;
+			break;
+		case MARIO_STATE_RUNNING:
+			ani = MARIO_ANI_SMALL_RUNNING;
+			break;
+		//case MARIO_STATE_JUMP:
+		//	ani = MARIO_ANI_SMALL_JUMP;
+		//	break;
+		case MARIO_STATE_SKID:
+			ani = MARIO_ANI_SMALL_SKID;
+			break;
+		}
+	}
+
 	int alpha = 255;
-	//if (mario->untouchable) alpha = 128;
 	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);
 	mario->RenderBoundingBox();
 }

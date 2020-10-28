@@ -12,17 +12,27 @@ void BigMario::GetBoundingBox(float& left, float& top, float& right, float& bott
 }
 void BigMario::Render()
 {
-	int ani = -1;
-	if (mario->vx == 0)
+	int ani = MARIO_ANI_BIG_IDLE;
+
+	switch (mario->GetState())
 	{
-		//if (mario->nx > 0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
-		 ani = MARIO_ANI_BIG_IDLE_LEFT;
+	case MARIO_STATE_IDLE:
+		ani = MARIO_ANI_BIG_IDLE;
+		break;
+	case MARIO_STATE_WALKING:
+		ani = MARIO_ANI_BIG_WALKING;
+		break;
+	case MARIO_STATE_RUNNING:
+		ani = MARIO_ANI_BIG_RUNNING;
+		break;
+	case MARIO_STATE_JUMP:
+		ani = MARIO_ANI_BIG_JUMP;
+		break;
+	case MARIO_STATE_SKID:
+		ani = MARIO_ANI_BIG_SKID;
+		break;
 	}
-	else //if (mario->vx > 0)
-		ani = MARIO_ANI_BIG_WALKING_RIGHT;
-	//else ani = MARIO_ANI_BIG_WALKING_LEFT;
 	int alpha = 255;
-	//if (mario->untouchable) alpha = 128;
 	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);
 	mario->RenderBoundingBox();
 }
