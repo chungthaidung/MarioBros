@@ -366,6 +366,92 @@ void CGame::_ParseSection_SCENES(string line)
 	scenes[id] = scene;
 }
 
+void CGame::_ParseSection_TEXTURES(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 5) return;
+
+	int texID = atoi(tokens[0].c_str());
+	wstring path = ToWSTR(tokens[1]);
+	int R = atoi(tokens[2].c_str());
+	int G = atoi(tokens[3].c_str());
+	int B = atoi(tokens[4].c_str());
+
+	CTextures::GetInstance()->Add(texID, path.c_str(), D3DCOLOR_XRGB(R, G, B));
+	/*DebugOut(CTextures::GetInstance()->Get(0) ? L"Have textures \n" : L"Dont have texture" );*/
+}
+
+void CGame::_ParseSection_SPRITES(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 6) return;
+
+	int ID = atoi(tokens[0].c_str());
+	RECT r;
+	r.left = atoi(tokens[1].c_str()) * 3;
+	r.top = atoi(tokens[2].c_str()) * 3;
+	r.right = atoi(tokens[3].c_str()) * 3 + r.left; //db là width và height
+	r.bottom = atoi(tokens[4].c_str()) * 3 + r.top;
+	int texID = atoi(tokens[5].c_str());
+
+	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texID);
+	if (tex == NULL)
+	{
+		DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
+		return;
+	}
+
+	CSprites::GetInstance()->Add(ID, r, tex);
+	/*DebugOut(CSprites::GetInstance()->Get(ID) ? L"Have sprite \n" : L"Dont have sprite: %d \n",ID);*/
+}
+
+void CGame::_ParseSection_ANIMATIONS(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 3) return; // skip invalid lines - an animation must at least has 1 frame and 1 frame time
+
+	DebugOut(L"--> %s\n", ToWSTR(line).c_str());
+
+	LPANIMATION ani = new CAnimation();
+
+	int ani_id = atoi(tokens[0].c_str());
+	for (int i = 1; i < tokens.size(); i += 2)
+	{
+		int sprite_id = atoi(tokens[i].c_str());
+		int frame_time = atoi(tokens[i + 1].c_str());
+		ani->Add(sprite_id, frame_time);
+	}
+
+	CAnimations::GetInstance()->Add(ani_id, ani);
+	//DebugOut(L"--> %s \n", CAnimations::GetInstance()->Get(ani_id));
+}
+
+void CGame::_ParseSection_ANIMATION_SETS(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 2) return; // skip invalid lines - an animation set must at least id and one animation id
+
+	int ani_set_id = atoi(tokens[0].c_str());
+
+	LPANIMATION_SET s = new CAnimationSet();
+
+	CAnimations* animations = CAnimations::GetInstance();
+
+	for (int i = 1; i < tokens.size(); i++)
+	{
+		int ani_id = atoi(tokens[i].c_str());
+		DebugOut(ToLPCWSTR("[INFO] Ani ID: " + std::to_string(ani_id) + "\n"));
+
+		LPANIMATION ani = animations->Get(ani_id);
+		s->push_back(ani);
+	}
+
+	CAnimationSets::GetInstance()->Add(ani_set_id, s);
+}
 
 
 /*
@@ -378,7 +464,7 @@ void CGame::Load(LPCWSTR gameFile)
 	ifstream f;
 	f.open(gameFile);
 	char str[MAX_GAME_LINE];
-
+	//LPCWSTR spritePath;
 	// current resource section flag
 	int section = GAME_FILE_SECTION_UNKNOWN;
 	LPCWSTR mariofile;
@@ -390,6 +476,7 @@ void CGame::Load(LPCWSTR gameFile)
 
 		if (line == "[SETTINGS]") { section = GAME_FILE_SECTION_SETTINGS; continue; }
 		if (line == "[SCENES]") { section = GAME_FILE_SECTION_SCENES; continue; }
+		if (line == "[SPRITES]") { section = GAME_FILE_SECTION_SPRITES; continue; }
 		//
 		// data section
 		//
@@ -397,11 +484,14 @@ void CGame::Load(LPCWSTR gameFile)
 		{
 		case GAME_FILE_SECTION_SETTINGS: _ParseSection_SETTINGS(line); break;
 		case GAME_FILE_SECTION_SCENES: _ParseSection_SCENES(line); break;
-	
+		case GAME_FILE_SECTION_SPRITES: 
+			vector<string> tokens = split(line);
+			LoadSprite(ToLPCWSTR(tokens[0]));
+			break;
 		}
 	}
 	f.close();
-
+	
 	DebugOut(L"[INFO] Loading game file : %s has been loaded successfully\n", gameFile);
 	DebugOut(L"[INFO] Current scene : %d \n", current_scene);
 	
@@ -412,6 +502,50 @@ void CGame::Load(LPCWSTR gameFile)
 
 	//SwitchScene(current_scene);
 	
+}
+void CGame::LoadSprite(LPCWSTR gameFile)
+{
+	DebugOut(L"[INFO] Start loading sprites from : %s \n",gameFile);
+
+	ifstream f;
+	f.open(gameFile);
+
+	// current resource section flag
+	int section = SCENE_SECTION_UNKNOWN;
+
+	char str[MAX_SCENE_LINE];
+	while (f.getline(str, MAX_SCENE_LINE))
+	{
+		string line(str);
+
+		if (line[0] == '#') continue;	// skip comment lines	
+
+		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
+		if (line == "[SPRITES]") {
+			section = SCENE_SECTION_SPRITES; continue;
+		}
+		if (line == "[ANIMATIONS]") {
+			section = SCENE_SECTION_ANIMATIONS; continue;
+		}
+		if (line == "[ANIMATION_SETS]") {
+			section = SCENE_SECTION_ANIMATION_SETS; continue;
+		}
+		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
+
+		//
+		// data section
+		//
+		switch (section)
+		{
+		case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
+		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
+		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
+		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
+		}
+	}
+	f.close();
+	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+	DebugOut(L"[INFO] Done loading sprites resources %s\n", gameFile);
 }
 
 void CGame::SwitchScene(int scene_id)

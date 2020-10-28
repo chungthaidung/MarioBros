@@ -31,7 +31,7 @@ class CGame
 	DIDEVICEOBJECTDATA keyEvents[KEYBOARD_BUFFER_SIZE];		// Buffered keyboard data
 
 	LPKEYEVENTHANDLER keyHandler;
-
+	
 	float cam_x = 0.0f;
 	float cam_y = 0.0f;
 
@@ -43,7 +43,10 @@ class CGame
 	
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line); 
-
+	void _ParseSection_TEXTURES(string line);
+	void _ParseSection_SPRITES(string line);
+	void _ParseSection_ANIMATIONS(string line);
+	void _ParseSection_ANIMATION_SETS(string line);
 
 
 public:
@@ -56,6 +59,7 @@ public:
 	void ProcessKeyboard();
 
 	void Load(LPCWSTR gameFile);
+	void LoadSprite(LPCWSTR gameFile);
 	LPSCENE GetCurrentScene() { return scenes[current_scene]; }
 	void SwitchScene(int scene_id);
 

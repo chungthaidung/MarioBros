@@ -2,18 +2,13 @@
 #include "CGameObject.h"
 #include "GhostObject.h"
 #include "debug.h"
+#include "CGame.h"
 PlayerLevel::PlayerLevel(CMario* mario)
 {
 	this->mario = mario;
 }
-void PlayerLevel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void PlayerLevel::Collision(vector<LPGAMEOBJECT>* coObjects)
 {
-	// Calculate dx, dy 
-	mario->CGameObject::Update(dt);
-
-	// Simple fall down
-	mario->vy += MARIO_GRAVITY * dt;
-
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -21,7 +16,7 @@ void PlayerLevel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	// turn off collision when die 
 	if (mario->state != MARIO_STATE_DIE)
-		mario -> CalcPotentialCollisions(coObjects, coEvents);
+		mario->CalcPotentialCollisions(coObjects, coEvents);
 
 	// reset untouchable timer if untouchable time has passed
 	/*if (GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
@@ -35,6 +30,8 @@ void PlayerLevel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		mario->x += mario->dx;
 		mario->y += mario->dy;
+		mario->onGround = false;
+		//DebugOut(L"Mario dang khong va cham\n");
 	}
 	else
 	{
@@ -50,80 +47,179 @@ void PlayerLevel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//	x += nx*abs(rdx); 
 
 		// block every object first!
-		mario->x += min_tx * mario->dx + nx * 0.4f;
-		mario->y += min_ty * mario->dy + ny * 0.4f;
+		mario->x += min_tx * mario->dx + nx * 0.2f;
+		mario->y += min_ty * mario->dy + ny * 0.2f;
 
 		if (nx != 0) mario->vx = 0;
-		if (ny != 0)
-		{
+		if (ny != 0) {
 			mario->vy = 0;
-			if (ny < 0)
-				mario->onGround = true;		
-		} 
-
-		//
-		// Collision logic with other objects
-		//
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-
-			if (dynamic_cast<GhostObject*>(e->obj)) 
-			{
-
-				if (e->nx != 0) {
-					mario->x += mario->dx;
-				}
-				if (e->ny > 0) {
-					mario->y += mario->dy;
-				}
-				else {
-					mario->vy = 0;
-				}
+			if (ny < 0) {
+				mario->onGround = true;
+				//DebugOut(L"Mario dang dung\n");
 			}
-			else
+		}
+	}
+
+
+	//
+	// Collision logic with other objects
+	//
+	for (UINT i = 0; i < coEventsResult.size(); i++)
+	{
+		LPCOLLISIONEVENT e = coEventsResult[i];
+
+		if (dynamic_cast<GhostObject*>(e->obj))
+		{
+
+			if (e->nx != 0) {
+				mario->x += mario->dx;
+			}
+			if (e->ny > 0) {
+				mario->y += mario->dy;
+			}
+			else {
+				mario->vy = 0;
+			}
+		}
+		else
+		{
+			if (e->nx != 0) {
+				mario->vx = 0;
+			}
+			if (e->ny != 0)
 			{
-				if (e->nx != 0) {
-					mario->vx = 0;
-				}
-				if (e->ny != 0)
-				{
-					mario->vy = 0;
-				}
+				mario->vy = 0;
 			}
 		}
 
-		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
-
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
+void PlayerLevel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	MovingState(dt);
+	// Calculate dx, dy 
+	JumpingState(dt);
+	mario->CGameObject::Update(dt);
+	// Simple fall down
+	mario->vy += MARIO_GRAVITY * dt;
+	Collision(coObjects);
+	//DebugOut(L"MARIO VY: %f  \n", mario->vy);
+	
+}
+void PlayerLevel::MovingState(DWORD dt)
+{	
+	CGame* keyboard = CGame::GetInstance();
+	if (keyboard->IsKeyDown(DIK_RIGHT) || keyboard->IsKeyDown(DIK_LEFT))
+	{
+		if (keyboard->IsKeyDown(DIK_RIGHT))
+			mario->nx = 1;
+		else
+			mario->nx = -1;
+		if (mario->vx * mario->nx < 0) mario->isSkid = true;
+		mario->SetState(MARIO_STATE_WALKING);
+		mario->SetAcceleration(MARIO_WALKING_ACCELERATION * mario->nx);
+		mario->SetDrag(MARIO_WALK_DRAG_FORCE);
+		float maxspeed = MARIO_WALKING_SPEED;
+		
 
+		if (keyboard->IsKeyDown(DIK_A))
+		{
+			if (abs(mario->vx) == MARIO_RUNNING_SPEED)
+				mario->SetState(MARIO_STATE_RUNNING);
+			
+			else mario->SetAcceleration(MARIO_RUNNING_ACCELERATION * mario->nx);
+			mario->SetDrag(MARIO_RUN_DRAG_FORCE);
+			maxspeed = MARIO_RUNNING_SPEED;
+		}
+
+		if (mario->isSkid == 1)
+		{
+			mario->SetAcceleration(MARIO_SKID_ACCELERATION * mario->nx);
+			mario->SetState(MARIO_STATE_SKID);
+		}
+
+		mario->vx += mario->GetAcceleration() * mario->dt;
+		if (abs(mario->vx) > maxspeed)
+		{
+			mario->vx = maxspeed * mario->nx;
+		}
+		if (mario->vx * mario->nx >= 0) mario->isSkid = false;
+	}
+	else //khong nhan gi 
+	{
+		if (abs(mario->vx) > mario->GetDrag()*dt)
+		{
+			mario->vx -= mario->GetDrag() * dt * mario->nx;
+		}
+		else
+		{
+			mario->SetState(MARIO_STATE_IDLE);
+			mario->vx = 0;
+		}
+		mario->isSkid = false;
+	}
+}
+void PlayerLevel::JumpingState(DWORD dt)
+{
+	CGame* keyboard = CGame::GetInstance();
+	float jumpForce = MARIO_JUMP_FORCE;
+	mario->SetyPush(MARIO_PUSH_FORCE);
+	switch (mario->JumpState)
+	{
+	case MARIO_STATE_JUMP:
+		if (keyboard->IsKeyDown(DIK_S)&&mario->canJumpHigh)
+		{
+			jumpForce = MARIO_HIGH_JUMP_FORCE;
+		}
+		if (mario->vy > - jumpForce &&mario->canJumpHigh) 
+		{ 
+			mario->vy -= mario->GetyPush() *dt;
+		}
+		else
+		{
+			mario->vy = -jumpForce;
+			mario->JumpState = MARIO_STATE_HIGH_JUMP;
+		}
+		break;
+	case MARIO_STATE_HIGH_JUMP:
+		if (mario->vy > 0) { 
+			mario->JumpState = MARIO_STATE_FALL; 
+			mario->canJumpHigh = false;
+		}
+		break;
+	case MARIO_STATE_FALL:
+		if (mario->onGround == true)
+		{	
+			mario->canJumpHigh = true;
+			mario->JumpState = MARIO_STATE_JUMP_IDLE;
+		}
+		break;
+	}
+	//DebugOut(L"MARIO JUMP FORCE: %f \n", jumpForce);
+}
 void PlayerLevel::SetState(int state)
 {
+	
 	switch (state)
 	{
-	case MARIO_STATE_WALKING_RIGHT:
-		mario->vx = MARIO_WALKING_SPEED;
-		mario->nx = 1;
-		break;
-	case MARIO_STATE_WALKING_LEFT:
-		mario->vx = -MARIO_WALKING_SPEED;
-		mario->nx = -1;
-		break;
-	case MARIO_STATE_JUMP:
-		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
-			mario->vy = -MARIO_JUMP_SPEED_Y;
-		break;
-	case MARIO_STATE_IDLE:
-		mario->vx = 0;
-		break;
-	case MARIO_STATE_DIE:
-		mario->vy = -MARIO_DIE_DEFLECT_SPEED;
-		break;
-	case MARIO_STATE_RUNNING_RIGHT:
-		mario->vx = MARIO_WALKING_SPEED * 2;
-		mario->nx = 1;
-		break;
-	
+	//case MARIO_STATE_WALKING:
+	//	mario->vx = MARIO_WALKING_SPEED * mario->nx;
+	//	mario->ax = 0;
+	//	break;
+	//case MARIO_STATE_IDLE:
+	//	mario->vx = 0;
+	//	mario->ax = 0;
+	//	break;
+	//case MARIO_STATE_JUMP:
+	//	// TODO: need to check if Mario is *current* on a platform before allowing to jump again
+	//	mario->vy = -MARIO_JUMP_SPEED_Y;
+	//	break;
+	//case MARIO_STATE_DIE:
+	//	mario->vy = -MARIO_DIE_DEFLECT_SPEED;
+	//	break;
+	//case MARIO_STATE_RUNNING:
+	//	mario->ax=0.05*mario->nx;
+	//	break;
 	}
 }

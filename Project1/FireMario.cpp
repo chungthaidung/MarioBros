@@ -12,13 +12,26 @@ void FireMario::GetBoundingBox(float& left, float& top, float& right, float& bot
 }
 void FireMario::Render()
 {
-	int ani = -1;
-	if (mario->vx == 0)
+	int ani = MARIO_ANI_FIRE_IDLE;
+
+	switch (mario->GetState())
 	{
+	case MARIO_STATE_IDLE:
 		ani = MARIO_ANI_FIRE_IDLE;
-	}
-	else 
+		break;
+	case MARIO_STATE_WALKING:
 		ani = MARIO_ANI_FIRE_WALKING;
+		break;
+	case MARIO_STATE_RUNNING:
+		ani = MARIO_ANI_FIRE_RUNNING;
+		break;
+	case MARIO_STATE_JUMP:
+		ani = MARIO_ANI_FIRE_JUMP;
+		break;
+	case MARIO_STATE_SKID:
+		ani = MARIO_ANI_FIRE_SKID;
+		break;
+	}
 	int alpha = 255;
 	//if (mario->untouchable) alpha = 128;
 	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);

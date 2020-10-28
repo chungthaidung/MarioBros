@@ -66,7 +66,6 @@ void Render()
 	d3ddv->Present(NULL, NULL, NULL, NULL);
 }
 
-// Lỗi ở hàm này
 HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight)
 {
 	WNDCLASSEX wc;
@@ -112,8 +111,7 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 	UpdateWindow(hWnd);
 
 	return hWnd;
-	// tạm thời
-	//return NULL;
+
 }
 
 

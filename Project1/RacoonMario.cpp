@@ -13,14 +13,26 @@ void RacoonMario::GetBoundingBox(float& left, float& top, float& right, float& b
 }
 void RacoonMario::Render()
 {
-	int ani = -1;
-	if (mario->vx == 0)
+	int ani = MARIO_ANI_RACOON_IDLE;
+
+	switch (mario->GetState())
 	{
-		//if (mario->nx > 0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
+	case MARIO_STATE_IDLE:
 		ani = MARIO_ANI_RACOON_IDLE;
-	}
-	else
+		break;
+	case MARIO_STATE_WALKING:
 		ani = MARIO_ANI_RACOON_WALKING;
+		break;
+	case MARIO_STATE_RUNNING:
+		ani = MARIO_ANI_RACOON_RUNNING;
+		break;
+	case MARIO_STATE_JUMP:
+		ani = MARIO_ANI_RACOON_JUMP;
+		break;
+	case MARIO_STATE_SKID:
+		ani = MARIO_ANI_RACOON_SKID;
+		break;
+	}
 
 		
 	int alpha = 255;
