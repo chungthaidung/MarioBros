@@ -78,8 +78,19 @@ void CMario::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_S:
-		if (onGround)
+		if (onGround && powerM >= MARIO_POWER_METER_MAX)
+		{
+			canJumpSuper = true;
+			JumpState = MARIO_STATE_SUPER_JUMP;
+		}
+		else if (onGround)
+		{
+			canJumpHigh = true;
 			JumpState = MARIO_STATE_JUMP;
+		}
+		break;
+	case DIK_Z:
+		AttackState = MARIO_STATE_ATTACK_START;//hardcode
 		break;
 	case DIK_R:
 		Reset();

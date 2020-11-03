@@ -2,12 +2,15 @@
 
 SmallMario::SmallMario(CMario* mario):PlayerLevel(mario)
 {
+	collisionbox.x = MARIO_SMALL_BBOX_WIDTH;
+	collisionbox.y = MARIO_SMALL_BBOX_HEIGHT;
+
 }
 void SmallMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	mario->GetPosition(left,top);
-	right = left + MARIO_SMALL_BBOX_WIDTH;
-	bottom = top + MARIO_SMALL_BBOX_HEIGHT;
+	right = left + collisionbox.x;
+	bottom = top + collisionbox.y;
 }
 void SmallMario::Render()
 {
@@ -19,6 +22,10 @@ void SmallMario::Render()
 		case MARIO_STATE_JUMP:
 		case MARIO_STATE_HIGH_JUMP:
 			ani = MARIO_ANI_SMALL_JUMP;
+			break;
+		case MARIO_STATE_SUPER_JUMP:
+		case MARIO_STATE_SUPER_FALL:
+			ani = MARIO_ANI_SMALL_SUPER_JUMP;
 			break;
 		case MARIO_STATE_FALL:
 			ani = MARIO_ANI_SMALL_FALL;
@@ -37,9 +44,6 @@ void SmallMario::Render()
 		case MARIO_STATE_RUNNING:
 			ani = MARIO_ANI_SMALL_RUNNING;
 			break;
-		//case MARIO_STATE_JUMP:
-		//	ani = MARIO_ANI_SMALL_JUMP;
-		//	break;
 		case MARIO_STATE_SKID:
 			ani = MARIO_ANI_SMALL_SKID;
 			break;

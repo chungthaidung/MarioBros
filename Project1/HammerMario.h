@@ -1,15 +1,13 @@
 #pragma once
 #include "PlayerLevel.h"
-class RacoonMario:public PlayerLevel
+class HammerMario:public PlayerLevel
 {
 public:
-	RacoonMario(CMario* mario);
+	HammerMario(CMario* mario);
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void CrouchState(DWORD dt);
-	virtual void AttackState(DWORD dt);
-	virtual void JumpingState(DWORD dt);
-protected:
-	DWORD attack_time = 250;
+
+
 };
 

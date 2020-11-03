@@ -1,25 +1,23 @@
-#include "BigMario.h"
+#include "HammerMario.h"
 #include "CGame.h"
 
-BigMario::BigMario(CMario* mario) :PlayerLevel(mario)
+HammerMario::HammerMario(CMario* mario) :PlayerLevel(mario)
 {
-	collisionbox.x = MARIO_BIG_BBOX_WIDTH;
-	collisionbox.y = MARIO_BIG_BBOX_HEIGHT;
-
+	collisionbox.x = MARIO_HAMMER_BBOX_WIDTH;
+	collisionbox.y = MARIO_HAMMER_BBOX_HEIGHT;
 }
-void BigMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void HammerMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	mario->GetPosition(left, top);
 	right = left + collisionbox.x;
 	bottom = top + collisionbox.y;
 }
-
-void BigMario::Render()
+void HammerMario::Render()
 {
-	int ani = MARIO_ANI_BIG_IDLE;
+	int ani = MARIO_ANI_HAMMER_IDLE;
 	if (mario->isCrouch == true)
 	{
-		ani = MARIO_ANI_BIG_CROUCH;
+		ani = MARIO_ANI_HAMMER_CROUCH;
 	}
 	else if (mario->JumpState != MARIO_STATE_JUMP_IDLE)
 	{
@@ -27,10 +25,10 @@ void BigMario::Render()
 		{
 		case MARIO_STATE_JUMP:
 		case MARIO_STATE_HIGH_JUMP:
-			ani = MARIO_ANI_BIG_JUMP;
+			ani = MARIO_ANI_HAMMER_JUMP;
 			break;
 		case MARIO_STATE_FALL:
-			ani = MARIO_ANI_BIG_FALL;
+			ani = MARIO_ANI_HAMMER_FALL;
 			break;
 		}
 	}
@@ -38,25 +36,29 @@ void BigMario::Render()
 		switch (mario->GetState())
 		{
 		case MARIO_STATE_IDLE:
-			ani = MARIO_ANI_BIG_IDLE;
+			ani = MARIO_ANI_HAMMER_IDLE;
 			break;
 		case MARIO_STATE_WALKING:
-			ani = MARIO_ANI_BIG_WALKING;
+			ani = MARIO_ANI_HAMMER_WALKING;
 			break;
 		case MARIO_STATE_RUNNING:
-			ani = MARIO_ANI_BIG_RUNNING;
+			ani = MARIO_ANI_HAMMER_RUNNING;
+			break;
+		case MARIO_STATE_JUMP:
+			ani = MARIO_ANI_HAMMER_JUMP;
 			break;
 		case MARIO_STATE_SKID:
-			ani = MARIO_ANI_BIG_SKID;
+			ani = MARIO_ANI_HAMMER_SKID;
 			break;
 		}
 	}
+
 	int alpha = 255;
+	//if (mario->untouchable) alpha = 128;
 	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);
 	mario->RenderBoundingBox();
 }
-
-void BigMario::CrouchState(DWORD dt)
+void HammerMario::CrouchState(DWORD dt)
 {
 	CGame* keyboard = CGame::GetInstance();
 	float x, y;
@@ -70,7 +72,8 @@ void BigMario::CrouchState(DWORD dt)
 	else
 	{
 		mario->isCrouch = false;
-		collisionbox.y = MARIO_BIG_BBOX_HEIGHT;
+		collisionbox.y = MARIO_HAMMER_BBOX_HEIGHT;
 	}
 	mario->SetPosition(x, y - collisionbox.y);
 }
+
