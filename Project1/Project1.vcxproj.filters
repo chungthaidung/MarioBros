@@ -144,6 +144,9 @@
     <ClCompile Include="FireMario.cpp">
       <Filter>Game\Game Object\Player Level</Filter>
     </ClCompile>
+    <ClCompile Include="HammerMario.cpp">
+      <Filter>Game\Game Object\Player Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -228,6 +231,9 @@
       <Filter>Game\Game Object\Player Level</Filter>
     </ClInclude>
     <ClInclude Include="FireMario.h">
+      <Filter>Game\Game Object\Player Level</Filter>
+    </ClInclude>
+    <ClInclude Include="HammerMario.h">
       <Filter>Game\Game Object\Player Level</Filter>
     </ClInclude>
   </ItemGroup>

@@ -31,7 +31,7 @@ void PlayerLevel::Collision(vector<LPGAMEOBJECT>* coObjects)
 		mario->x += mario->dx;
 		mario->y += mario->dy;
 		mario->onGround = false;
-		//DebugOut(L"Mario dang khong va cham\n");
+	//	DebugOut(L"Mario dang khong va cham\n");
 	}
 	else
 	{
@@ -47,15 +47,15 @@ void PlayerLevel::Collision(vector<LPGAMEOBJECT>* coObjects)
 		//	x += nx*abs(rdx); 
 
 		// block every object first!
-		mario->x += min_tx * mario->dx + nx * 0.2f;
-		mario->y += min_ty * mario->dy + ny * 0.2f;
+		mario->x += min_tx * mario->dx + nx * 0.02f;
+		mario->y += min_ty * mario->dy + ny * 0.02f;
 
 		if (nx != 0) mario->vx = 0;
 		if (ny != 0) {
 			mario->vy = 0;
 			if (ny < 0) {
 				mario->onGround = true;
-				//DebugOut(L"Mario dang dung\n");
+	//			DebugOut(L"Mario dang dung\n");
 			}
 		}
 	}
@@ -97,15 +97,18 @@ void PlayerLevel::Collision(vector<LPGAMEOBJECT>* coObjects)
 }
 void PlayerLevel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	PowerMeterUpdate(dt);
 	MovingState(dt);
 	// Calculate dx, dy 
 	JumpingState(dt);
+	CrouchState(dt);
+	AttackState(dt);
 	mario->CGameObject::Update(dt);
 	// Simple fall down
 	mario->vy += MARIO_GRAVITY * dt;
 	Collision(coObjects);
-	//DebugOut(L"MARIO VY: %f  \n", mario->vy);
-	
+	//DebugOut(L"Mario jump state: %d \n", mario->JumpState);
+	//DebugOut(L"Mario power meter: %f \n", mario->GetPowerMeter());
 }
 void PlayerLevel::MovingState(DWORD dt)
 {	
@@ -122,13 +125,11 @@ void PlayerLevel::MovingState(DWORD dt)
 		mario->SetDrag(MARIO_WALK_DRAG_FORCE);
 		float maxspeed = MARIO_WALKING_SPEED;
 		
-
 		if (keyboard->IsKeyDown(DIK_A))
 		{
 			if (abs(mario->vx) == MARIO_RUNNING_SPEED)
 				mario->SetState(MARIO_STATE_RUNNING);
-			
-			else mario->SetAcceleration(MARIO_RUNNING_ACCELERATION * mario->nx);
+			mario->SetAcceleration(MARIO_RUNNING_ACCELERATION * mario->nx);
 			mario->SetDrag(MARIO_RUN_DRAG_FORCE);
 			maxspeed = MARIO_RUNNING_SPEED;
 		}
@@ -168,11 +169,12 @@ void PlayerLevel::JumpingState(DWORD dt)
 	switch (mario->JumpState)
 	{
 	case MARIO_STATE_JUMP:
-		if (keyboard->IsKeyDown(DIK_S)&&mario->canJumpHigh)
+		if (keyboard->IsKeyDown(DIK_S) && mario->canJumpHigh)
 		{
 			jumpForce = MARIO_HIGH_JUMP_FORCE;
 		}
-		if (mario->vy > - jumpForce &&mario->canJumpHigh) 
+		
+		if (mario->vy > - jumpForce && mario->canJumpHigh) 
 		{ 
 			mario->vy -= mario->GetyPush() *dt;
 		}
@@ -188,15 +190,48 @@ void PlayerLevel::JumpingState(DWORD dt)
 			mario->canJumpHigh = false;
 		}
 		break;
+	case MARIO_STATE_SUPER_JUMP:
+		if (keyboard->IsKeyDown(DIK_S) && mario->canJumpSuper)
+		{
+			jumpForce = MARIO_SUPER_JUMP_FORCE;
+		}
+		if (mario->vy > -jumpForce && mario->canJumpSuper)
+		{
+			mario->vy -= mario->GetyPush() * dt;
+		}
+		else
+		{
+			mario->vy = -jumpForce;
+			mario->JumpState = MARIO_STATE_SUPER_FALL;
+		}
+		break;
+	case MARIO_STATE_SUPER_FALL:
 	case MARIO_STATE_FALL:
 		if (mario->onGround == true)
 		{	
-			mario->canJumpHigh = true;
 			mario->JumpState = MARIO_STATE_JUMP_IDLE;
 		}
 		break;
 	}
-	//DebugOut(L"MARIO JUMP FORCE: %f \n", jumpForce);
+}
+void PlayerLevel::PowerMeterUpdate(DWORD dt)
+{
+	CGame* keyboard = CGame::GetInstance();
+	float power = mario->GetPowerMeter();
+	if (abs(mario->vx)>MARIO_WALKING_SPEED && mario->onGround)
+	{
+		if (power < 0) power = 0;
+		power += MARIO_POWER_METER_UP * dt;
+		if (power > MARIO_POWER_METER_MAX + 1)
+			power = MARIO_POWER_METER_MAX;
+	}
+	else if(mario->GetPowerMeter()>0)
+	{
+		power -= MARIO_POWER_METER_DOWN * dt;
+		if (power < 0)
+			power = 0;
+	}
+	mario->SetPowerMeter(power);
 }
 void PlayerLevel::SetState(int state)
 {
