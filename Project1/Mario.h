@@ -36,6 +36,7 @@ public:
 	float GetDrag() { return dragf; }
 	float GetyPush() { return ypush; }
 	float GetPowerMeter() { return powerM; }
+	PlayerLevel* GetLevel() { return level_p; }
 
 	void SetState(int state);
 	void SetLevel(int l);

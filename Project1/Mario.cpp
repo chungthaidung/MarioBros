@@ -51,15 +51,17 @@ void CMario::Reset()
 {
 	SetState(MARIO_STATE_IDLE);
 	SetLevel(MARIO_LEVEL_BIG);
-	SetPosition(start_x, start_y);
+	SetPosition(x, start_y);
 	SetSpeed(0, 0);
 }
 void CMario::SetLevel(int level)
 {
+	y += level_p->GetCollisionBox().y;
 	switch (level)
 	{
 	case MARIO_LEVEL_SMALL:
 		level_p = new SmallMario(this);
+		
 		break;
 	case MARIO_LEVEL_BIG:
 		level_p = new BigMario(this);
@@ -71,10 +73,12 @@ void CMario::SetLevel(int level)
 		level_p = new FireMario(this);
 		break;
 	}
+	y -= level_p->GetCollisionBox().y;
 }
 void CMario::OnKeyDown(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	level_p->OnKeyDown(KeyCode);
 	switch (KeyCode)
 	{
 	case DIK_S:
@@ -88,9 +92,6 @@ void CMario::OnKeyDown(int KeyCode)
 			canJumpHigh = true;
 			JumpState = MARIO_STATE_JUMP;
 		}
-		break;
-	case DIK_Z:
-		AttackState = MARIO_STATE_ATTACK_START;//hardcode
 		break;
 	case DIK_R:
 		Reset();

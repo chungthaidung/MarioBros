@@ -15,7 +15,7 @@ protected:
 	
 	Camera* cam;
 	Map* map;
-	D3DCOLOR mBackColor = 0x54acd2;;
+	D3DCOLOR mBackColor = D3DCOLOR_XRGB(156, 252, 240);
 
 	vector<LPGAMEOBJECT> objects;
 

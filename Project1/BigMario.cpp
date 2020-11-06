@@ -29,6 +29,10 @@ void BigMario::Render()
 		case MARIO_STATE_HIGH_JUMP:
 			ani = MARIO_ANI_BIG_JUMP;
 			break;
+		case MARIO_STATE_SUPER_JUMP:
+		case MARIO_STATE_SUPER_FALL:
+			ani = MARIO_ANI_BIG_SUPER_JUMP;
+			break;
 		case MARIO_STATE_FALL:
 			ani = MARIO_ANI_BIG_FALL;
 			break;

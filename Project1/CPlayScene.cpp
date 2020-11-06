@@ -141,21 +141,24 @@ void CPlayScene::Update(DWORD dt)
 	if (player == NULL) return;
 
 	// Update camera to follow mario
-	//CAMERA
 	float cx, cy;
 //	cam->GetCamPosition(cx, cy);
 	player->GetPosition(cx, cy);
 	CGame* game = CGame::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
-	cy -= game->GetScreenHeight() *2 / 3;
+	//cy = CAMERA_Y_POSITION * 2 / 3;
+	if (cy > game->GetScreenHeight() *5/4)
+		cy = CAMERA_Y_POSITION * 2 / 3;
+	else cy -= game->GetScreenHeight() * 1 / 3;
+	
 	//cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
 	//cam->SetCamPosition(cx, cy); //dùng để set cam nhưng chưa tạo được class cam
 	if (cx < 0) cx = 0;
+	if (cy < 0)cy = 0;
 	//if (cx + game->GetScreenWidth() > map->GetColumn() * 48) cx = map->GetColumn() * 48 - game->GetScreenWidth(); //hardcode
-	CGame::GetInstance()->SetCamPos(cx, CAMERA_Y_POSITION*2/3/*cy*/);//
+	CGame::GetInstance()->SetCamPos(cx, cy/*cy*/);//
 	
 }
-
 void CPlayScene::Render()
 {
 	float x, y;

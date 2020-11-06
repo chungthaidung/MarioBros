@@ -55,9 +55,10 @@ void PlayerLevel::Collision(vector<LPGAMEOBJECT>* coObjects)
 			mario->vy = 0;
 			if (ny < 0) {
 				mario->onGround = true;
-	//			DebugOut(L"Mario dang dung\n");
+				//			DebugOut(L"Mario dang dung\n");
 			}
 		}
+	
 	}
 
 
@@ -70,7 +71,6 @@ void PlayerLevel::Collision(vector<LPGAMEOBJECT>* coObjects)
 
 		if (dynamic_cast<GhostObject*>(e->obj))
 		{
-
 			if (e->nx != 0) {
 				mario->x += mario->dx;
 			}
@@ -97,6 +97,7 @@ void PlayerLevel::Collision(vector<LPGAMEOBJECT>* coObjects)
 }
 void PlayerLevel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	MiniJump(dt);
 	PowerMeterUpdate(dt);
 	MovingState(dt);
 	// Calculate dx, dy 
@@ -108,7 +109,7 @@ void PlayerLevel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	mario->vy += MARIO_GRAVITY * dt;
 	Collision(coObjects);
 	//DebugOut(L"Mario jump state: %d \n", mario->JumpState);
-	//DebugOut(L"Mario power meter: %f \n", mario->GetPowerMeter());
+	DebugOut(L"Mario power meter: %f \n", mario->GetPowerMeter());
 }
 void PlayerLevel::MovingState(DWORD dt)
 {	
@@ -235,26 +236,16 @@ void PlayerLevel::PowerMeterUpdate(DWORD dt)
 }
 void PlayerLevel::SetState(int state)
 {
-	
-	switch (state)
+
+}
+void PlayerLevel::MiniJump(DWORD dt)
+{
+	CGame* keyboard = CGame::GetInstance();
+	if (keyboard->IsKeyDown(DIK_X)&&mario->onGround)
 	{
-	//case MARIO_STATE_WALKING:
-	//	mario->vx = MARIO_WALKING_SPEED * mario->nx;
-	//	mario->ax = 0;
-	//	break;
-	//case MARIO_STATE_IDLE:
-	//	mario->vx = 0;
-	//	mario->ax = 0;
-	//	break;
-	//case MARIO_STATE_JUMP:
-	//	// TODO: need to check if Mario is *current* on a platform before allowing to jump again
-	//	mario->vy = -MARIO_JUMP_SPEED_Y;
-	//	break;
-	//case MARIO_STATE_DIE:
-	//	mario->vy = -MARIO_DIE_DEFLECT_SPEED;
-	//	break;
-	//case MARIO_STATE_RUNNING:
-	//	mario->ax=0.05*mario->nx;
-	//	break;
+		mario->vy = -MARIO_JUMP_FORCE;
+		mario->canJumpHigh = false;
+		mario->canJumpSuper = false;
+		mario->JumpState = MARIO_STATE_JUMP;
 	}
 }
