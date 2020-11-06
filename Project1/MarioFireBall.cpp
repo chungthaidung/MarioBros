@@ -54,7 +54,6 @@ void MarioFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (ny != 0) vy -= 0.5;
 			
 	}
-	DebugOut(L"COEvents size %d \n", coObjects->size());
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 void MarioFireBall::Reset(float mx,float my)
