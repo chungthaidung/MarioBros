@@ -15,6 +15,7 @@ public:
 	virtual void Render()=0;
 	virtual void SetState(int state);
 
+	virtual void MiniJump(DWORD dt);
 	virtual void Collision(vector<LPGAMEOBJECT>* colliable_objects);
 	virtual void PowerMeterUpdate(DWORD dt);
 	virtual void MovingState(DWORD dt);
@@ -23,6 +24,9 @@ public:
 	virtual void AttackState(DWORD dt) {};
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom)=0;
 	virtual void SetCollisionBox(float x, float y) { collisionbox.x = x; collisionbox.y = y; }
+
+	D3DXVECTOR2 GetCollisionBox() { return collisionbox; }
+	virtual void OnKeyDown(int KeyCode) {};
 	
 };
 

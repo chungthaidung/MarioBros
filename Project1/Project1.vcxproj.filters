@@ -147,6 +147,9 @@
     <ClCompile Include="HammerMario.cpp">
       <Filter>Game\Game Object\Player Level</Filter>
     </ClCompile>
+    <ClCompile Include="MarioFireBall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -178,9 +181,6 @@
     </ClInclude>
     <ClInclude Include="define.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CScene.h">
-      <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="CKeyEventHandler.h">
       <Filter>Game\Scene\KeyHandler</Filter>
@@ -235,6 +235,12 @@
     </ClInclude>
     <ClInclude Include="HammerMario.h">
       <Filter>Game\Game Object\Player Level</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioFireBall.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -544,7 +544,7 @@ void CGame::LoadSprite(LPCWSTR gameFile)
 		}
 	}
 	f.close();
-	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+//	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(237, 28, 36)); //RGB BBOX
 	DebugOut(L"[INFO] Done loading sprites resources %s\n", gameFile);
 }
 

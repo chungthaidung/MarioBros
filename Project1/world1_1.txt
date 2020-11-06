@@ -2,7 +2,7 @@
 # type	x	y	ani_set_id	w	h	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Pipe, 3=GHOST OBJECT
 # MARIO
-0	0	0	1	0	0
+0	0	750	1	0	0
 # BRICK 
 # --- platform (hint: I created the list using Excel!) ----
 #GROUND BRICK 
