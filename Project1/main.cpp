@@ -140,6 +140,8 @@ int Run()
 
 		if (dt >= tickPerFrame)
 		{
+
+			CGame::DeltaTime = dt;
 			frameStart = now;
 
 			game->ProcessKeyboard();

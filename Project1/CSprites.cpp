@@ -13,9 +13,9 @@ CSprites* CSprites::GetInstance()
 
 
 
-void CSprites::Add(int id, RECT r, LPDIRECT3DTEXTURE9 tex)
+void CSprites::Add(int id, RECT r, D3DXVECTOR3 p, LPDIRECT3DTEXTURE9 tex)
 {
-	LPSPRITE s = new CSprite(id, r, tex);
+	LPSPRITE s = new CSprite(id, r,p, tex);
 	sprites[id] = s;
 }
 

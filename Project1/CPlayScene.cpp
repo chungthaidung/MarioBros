@@ -148,7 +148,7 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetScreenWidth() / 2;
 	//cy = CAMERA_Y_POSITION * 2 / 3;
 	if (cy > game->GetScreenHeight() *5/4)
-		cy = CAMERA_Y_POSITION * 2 / 3;
+		cy = CAMERA_Y_POSITION * 1/2;
 	else cy -= game->GetScreenHeight() * 1 / 3;
 	
 	//cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);

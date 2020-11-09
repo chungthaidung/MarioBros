@@ -11,6 +11,7 @@
 #include "CSprites.h"
 
 CGame* CGame::__instance = NULL;
+DWORD CGame::DeltaTime = 0;
 
 /*
 	Initialize DirectX, create a Direct3D device for rendering within the window, initial Sprite library for
@@ -67,10 +68,10 @@ void CGame::Init(HWND hWnd)
 /*
 	Utility function to wrap LPD3DXSPRITE::Draw
 */
-void CGame::DrawEx(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, int scale, int flipx, int alpha)
+void CGame::DrawEx(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVECTOR3 pivot, int scale, int flipx, int alpha)
 {
 	if ((scale == 1) && (flipx == 1))
-		Draw(x, y, texture, r);
+		Draw(x, y, texture, r,pivot);
 	else {
 		D3DXVECTOR3 p(x - cam_x, y - cam_y, 0);
 
@@ -88,16 +89,16 @@ void CGame::DrawEx(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, int sca
 		mMatrix = oldMatrix * newMatrix;
 		spriteHandler->SetTransform(&mMatrix);
 
-		spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+		spriteHandler->Draw(texture, &r, &pivot, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 
 		spriteHandler->SetTransform(&oldMatrix);
 	}
 }
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, int alpha)
+void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVECTOR3 pivot, int alpha)
 {
 	
 	D3DXVECTOR3 p(x - cam_x, y - cam_y, 0);
-	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	spriteHandler->Draw(texture, &r, &pivot, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 	
 }
 
@@ -390,11 +391,17 @@ void CGame::_ParseSection_SPRITES(string line)
 
 	int ID = atoi(tokens[0].c_str());
 	RECT r;
+	D3DXVECTOR3 p(0, 0, 0);
 	r.left = atoi(tokens[1].c_str()) * 3;
 	r.top = atoi(tokens[2].c_str()) * 3;
 	r.right = atoi(tokens[3].c_str()) * 3 + r.left; //db là width và height
 	r.bottom = atoi(tokens[4].c_str()) * 3 + r.top;
 	int texID = atoi(tokens[5].c_str());
+	if (tokens.size() > 6)
+	{
+		p.x = atoi(tokens[6].c_str()) * 3;
+		p.y = atoi(tokens[7].c_str()) * 3;
+	}
 
 	LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texID);
 	if (tex == NULL)
@@ -403,7 +410,7 @@ void CGame::_ParseSection_SPRITES(string line)
 		return;
 	}
 
-	CSprites::GetInstance()->Add(ID, r, tex);
+	CSprites::GetInstance()->Add(ID, r, p,tex);
 	/*DebugOut(CSprites::GetInstance()->Get(ID) ? L"Have sprite \n" : L"Dont have sprite: %d \n",ID);*/
 }
 

@@ -15,6 +15,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	JumpState = MARIO_STATE_JUMP_IDLE;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
+	gravity = MARIO_GRAVITY;
 
 	start_x = x;
 	start_y = y;

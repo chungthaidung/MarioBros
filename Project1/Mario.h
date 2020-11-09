@@ -14,6 +14,7 @@ class CMario : public CGameObject
 	float start_x;			// initial position of Mario at scene
 	float start_y;
 protected:
+	float gravity;
 	float ax;//gia toc
 	float dragf; // luc keo
 	float ypush;
@@ -31,11 +32,13 @@ public:
 	void SetDrag(float d) { dragf = d; }
 	void SetyPush(float p) { ypush = p; }
 	void SetPowerMeter(float a) { powerM = a; }
+	void SetGravity(float g) { gravity = g; }
 
 	float GetAcceleration() { return ax; }
 	float GetDrag() { return dragf; }
 	float GetyPush() { return ypush; }
 	float GetPowerMeter() { return powerM; }
+	float GetGravity() { return gravity; }
 	PlayerLevel* GetLevel() { return level_p; }
 
 	void SetState(int state);
