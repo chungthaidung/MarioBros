@@ -14,6 +14,8 @@ CSprite::CSprite(int id, RECT r, D3DXVECTOR3 p, LPDIRECT3DTEXTURE9 tex)
 void CSprite::Draw(float x, float y, int scale, int flipx, int alpha)
 {
 	CGame* game = CGame::GetInstance();
-	game->DrawEx(x, y, texture, sprite_r,pivot,scale,flipx, alpha);
+	D3DXVECTOR3 p = pivot;
+	if (flipx * pivot.x < 0)p.x = 0;
+	game->DrawEx(x, y, texture, sprite_r,p,scale,flipx, alpha);
 	
 }
