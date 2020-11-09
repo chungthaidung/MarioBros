@@ -100,7 +100,7 @@ void RacoonMario::AttackState(DWORD dt)
 	case MARIO_STATE_ATTACK_START:
 		if(keyboard->IsKeyDown(DIK_Z))
 			mario->AttackState = MARIO_STATE_ATTACK_START;
-		else if (GetTickCount()-attacktime<450)
+		else if (GetTickCount()-attacktime<550)
 		{
 			mario->AttackState = MARIO_STATE_ATTACK_START;	
 		}
@@ -118,6 +118,7 @@ void RacoonMario::JumpingState(DWORD dt)
 	switch (mario->JumpState)
 	{
 	case MARIO_STATE_JUMP:
+		mario->SetGravity(0);
 		if (keyboard->IsKeyDown(DIK_S) && mario->canJumpHigh)
 		{
 			jumpForce = MARIO_HIGH_JUMP_FORCE;
@@ -131,6 +132,7 @@ void RacoonMario::JumpingState(DWORD dt)
 		{
 			mario->vy = -jumpForce;
 			mario->JumpState = MARIO_STATE_HIGH_JUMP;
+			mario->SetGravity(MARIO_GRAVITY);
 		}
 		break;
 	case MARIO_STATE_HIGH_JUMP:
@@ -140,6 +142,7 @@ void RacoonMario::JumpingState(DWORD dt)
 		}
 		break;
 	case MARIO_STATE_SUPER_JUMP:
+		mario->SetGravity(0);
 		if (keyboard->IsKeyDown(DIK_S) && mario->canJumpSuper)
 		{
 			jumpForce = MARIO_SUPER_JUMP_FORCE;
@@ -152,6 +155,7 @@ void RacoonMario::JumpingState(DWORD dt)
 		{
 			mario->vy = -jumpForce;
 			mario->JumpState = MARIO_STATE_SUPER_FALL;
+			mario->SetGravity(MARIO_GRAVITY);
 		}
 		break;
 	case MARIO_STATE_FLOAT:
@@ -169,11 +173,17 @@ void RacoonMario::JumpingState(DWORD dt)
 		if (GetTickCount() - flytime < 4000) {
 			if (keyboard->IsKeyDown(DIK_X) )
 			{
+				mario->SetGravity(0);
 				mario->vy -= (MARIO_FLY_FORCE)*dt;
 			}
+			else mario->SetGravity(MARIO_GRAVITY);
 
-		}else
+		}
+		else
+		{
+			mario->SetGravity(MARIO_GRAVITY);
 			mario->JumpState = MARIO_STATE_FLOAT;
+		}
 		if (mario->onGround == true)
 		{
 			mario->JumpState = MARIO_STATE_JUMP_IDLE;
@@ -238,11 +248,15 @@ void RacoonMario::MiniJump(DWORD dt)
 }
 void RacoonMario::OnKeyDown(int KeyCode)
 {
+	DWORD dt = CGame::DeltaTime;
 	switch (KeyCode)
 	{
 	case DIK_Z:
 		mario->AttackState = MARIO_STATE_ATTACK_START;
 		attacktime = GetTickCount();
+		break;
+	case DIK_S:
+		
 		break;
 	}
 }

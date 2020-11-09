@@ -31,7 +31,7 @@ void PlayerLevel::Collision(vector<LPGAMEOBJECT>* coObjects)
 		mario->x += mario->dx;
 		mario->y += mario->dy;
 		mario->onGround = false;
-	//	DebugOut(L"Mario dang khong va cham\n");
+		
 	}
 	else
 	{
@@ -47,15 +47,14 @@ void PlayerLevel::Collision(vector<LPGAMEOBJECT>* coObjects)
 		//	x += nx*abs(rdx); 
 
 		// block every object first!
-		mario->x += min_tx * mario->dx + nx * 0.02f;
-		mario->y += min_ty * mario->dy + ny * 0.02f;
+		mario->x += min_tx * mario->dx + nx * 0.4f;
+		mario->y += min_ty * mario->dy + ny * 0.4f;
 
 		if (nx != 0) mario->vx = 0;
 		if (ny != 0) {
 			mario->vy = 0;
 			if (ny < 0) {
 				mario->onGround = true;
-				//			DebugOut(L"Mario dang dung\n");
 			}
 		}
 	
@@ -104,12 +103,13 @@ void PlayerLevel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	JumpingState(dt);
 	CrouchState(dt);
 	AttackState(dt);
-	mario->CGameObject::Update(dt);
 	// Simple fall down
-	mario->vy += MARIO_GRAVITY * dt;
+	mario->vy += mario->GetGravity() * dt;
+	mario->CGameObject::Update(dt);
 	Collision(coObjects);
-	//DebugOut(L"Mario jump state: %d \n", mario->JumpState);
-	DebugOut(L"Mario power meter: %f \n", mario->GetPowerMeter());
+	DebugOut(L"Mario jump state: %d \n", mario->JumpState);
+	//DebugOut(L"Mario power meter: %f \n", mario->GetPowerMeter());
+
 }
 void PlayerLevel::MovingState(DWORD dt)
 {	
@@ -170,9 +170,11 @@ void PlayerLevel::JumpingState(DWORD dt)
 	switch (mario->JumpState)
 	{
 	case MARIO_STATE_JUMP:
+		mario->SetGravity(0);
 		if (keyboard->IsKeyDown(DIK_S) && mario->canJumpHigh)
 		{
 			jumpForce = MARIO_HIGH_JUMP_FORCE;
+			
 		}
 		
 		if (mario->vy > - jumpForce && mario->canJumpHigh) 
@@ -181,6 +183,7 @@ void PlayerLevel::JumpingState(DWORD dt)
 		}
 		else
 		{
+			mario->SetGravity(MARIO_GRAVITY);
 			mario->vy = -jumpForce;
 			mario->JumpState = MARIO_STATE_HIGH_JUMP;
 		}
@@ -192,6 +195,7 @@ void PlayerLevel::JumpingState(DWORD dt)
 		}
 		break;
 	case MARIO_STATE_SUPER_JUMP:
+		mario->SetGravity(0);
 		if (keyboard->IsKeyDown(DIK_S) && mario->canJumpSuper)
 		{
 			jumpForce = MARIO_SUPER_JUMP_FORCE;
@@ -204,6 +208,7 @@ void PlayerLevel::JumpingState(DWORD dt)
 		{
 			mario->vy = -jumpForce;
 			mario->JumpState = MARIO_STATE_SUPER_FALL;
+			mario->SetGravity(MARIO_GRAVITY);
 		}
 		break;
 	case MARIO_STATE_SUPER_FALL:

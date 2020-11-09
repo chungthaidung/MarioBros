@@ -10,6 +10,7 @@ Map::Map(LPCWSTR filePath)
 void Map::AddTiles(int texID, int row, int column, int tile_width, int tile_height)
 {
     RECT r;
+    D3DXVECTOR3 p(0, 0, 0);
     int id = 0;
     LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texID);
     for (int i = 0; i < row; i++) //duyệt theo hàng từ trái -> phải từ trên -> dưới
@@ -20,7 +21,7 @@ void Map::AddTiles(int texID, int row, int column, int tile_width, int tile_heig
             r.top = i * tile_height;
             r.right = j * tile_width + tile_width;
             r.bottom = i * tile_height + tile_height;
-            LPSPRITE tile = new CSprite(id, r, tex);
+            LPSPRITE tile = new CSprite(id, r,p, tex);
             tiles.push_back(tile);
             id++;
             
