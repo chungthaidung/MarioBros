@@ -6,3 +6,8 @@
 - 21-10: Tách hàm draw và draw scale, texture x3, update object position.
 - 22-10: Giới hạn 2 biên cho camera trong playscene.
 - 24-10: Thêm level cho mario.
+### Các nút
+- Di chuyển: Up,down,left,right.
+- Nhảy: S, X.
+- Chạy Nhanh: A.
+- Tấn công: Z.
