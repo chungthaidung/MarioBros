@@ -15,12 +15,12 @@ FireMario::FireMario(CMario* mario) :PlayerLevel(mario)
 }
 void FireMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	//if (IsActive() == true)	fireballs.at(ballnumber)->Update(dt, coObjects);
 	for (int i = 0; i < 2; i++)
 	{
 		if (fireballs.at(i)->GetActive() == true)
 		{
 			fireballs.at(i)->Update(dt, coObjects);
+			//DebugOut(L"Mario x,y: (%f,%f) \n", mario->x, mario->y);
 		}
 	}
 	PlayerLevel::Update(dt, coObjects);
@@ -123,18 +123,7 @@ void FireMario::AttackState(DWORD dt)
 		if (now - attacktime < 250)
 		{
 			if (now - attacktime > 100 && !IsActive()) {
-				for (int i = 0; i < 2; i++)
-				{
-					if (fireballs.at(i)->GetActive() == false)
-					{
-						fireballs.at(i)->SetActive(true);
-						fireballs.at(i)->Setnx(mario->nx);
-						if (mario->nx > 0) fireballs.at(i)->Reset(mario->x + collisionbox.x, mario->y);
-						else fireballs.at(i)->Reset(mario->x - MARIO_FIRE_BALL_BBOX_WIDTH, mario->y);
-						mario->AttackState = MARIO_STATE_ATTACK_END;
-						break;
-					}
-				}
+				AttackStart();
 			}
 		}
 		else mario->AttackState = MARIO_STATE_ATTACK_END;
@@ -163,23 +152,23 @@ bool FireMario::IsActive()
 	{
 		if (fireballs.at(i)->GetActive() == false)
 		{
-			ballnumber = i;
 			return false;
 		}
 	}
 	return true;
 }
-void FireMario::AttackStart(DWORD dt)
+void FireMario::AttackStart()
 {
 	for (int i = 0; i < 2; i++)
 	{
-		if (fireballs.at(i)->GetActive())
+		if (fireballs.at(i)->GetActive() == false)
 		{
-			if (mario->nx > 0)
-				fireballs.at(i)->SetPosition(mario->x + collisionbox.x, mario->y);
-			else
-				fireballs.at(i)->SetPosition(mario->x - MARIO_FIRE_BALL_BBOX_WIDTH, mario->y);
+			fireballs.at(i)->SetActive(true);
 			fireballs.at(i)->Setnx(mario->nx);
+			if (mario->nx > 0) fireballs.at(i)->Reset(mario->x + collisionbox.x, mario->y);
+			else fireballs.at(i)->Reset(mario->x - MARIO_FIRE_BALL_BBOX_WIDTH, mario->y);
+			mario->AttackState = MARIO_STATE_ATTACK_END;
+			break;
 		}
 	}
 }

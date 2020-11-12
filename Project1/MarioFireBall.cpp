@@ -9,7 +9,18 @@ MarioFireBall::MarioFireBall(CMario* p)
 }
 void MarioFireBall::Render()
 {
-	CAnimations::GetInstance()->Get(MARIO_ANI_FIRE_BALL)->Render(x, y);
+	int ani = MARIO_ANI_FIRE_BALL;
+	switch (state)
+	{
+	case MARIO_FIRE_BALL_STATE_DAMAGED:
+		ani = MARIO_ANI_FIRE_BALL_DAMAGED;
+		
+		break;
+	case MARIO_FIRE_BALL_STATE:
+		ani = MARIO_ANI_FIRE_BALL;
+		break;
+	}
+	CAnimations::GetInstance()->Get(ani)->Render(x, y);
 	RenderBoundingBox();
 }
 void MarioFireBall::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -21,8 +32,8 @@ void MarioFireBall::GetBoundingBox(float& l, float& t, float& r, float& b)
 }
 void MarioFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	vy += gravity * dt;
 	CGameObject::Update(dt);
-	vy += FIREBALL_GRAVITY * dt;
 	vx = FIREBALL_SPEED*nx;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -45,22 +56,40 @@ void MarioFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float rdy = 0;
 		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		x += min_tx *dx + nx * 0.02f;
-		y += min_ty * dy + ny * 0.02f;
+		x += min_tx *dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
 		if (nx != 0) { 
 			vx = 0; 
-			active = false;
+			vy = 0;
+			gravity = 0;
+			if (state != MARIO_FIRE_BALL_STATE_DAMAGED) {
+				SetState(MARIO_FIRE_BALL_STATE_DAMAGED);
+				damagedtime = GetTickCount();
+			}
 		}
 		if (ny != 0) vy -= 0.5;
 			
 	}
+	State(dt);
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 void MarioFireBall::Reset(float mx,float my)
 {
+	SetState(MARIO_FIRE_BALL_STATE);
+	gravity = FIREBALL_GRAVITY;
 	vx = FIREBALL_SPEED * nx;
 	x = mx;
 	y = my;
-
-
+	vy = 0;
+}
+void MarioFireBall::State(DWORD dt)
+{
+	switch (state)
+	{
+	case MARIO_FIRE_BALL_STATE_DAMAGED:
+		if (GetTickCount() - damagedtime > 130) {
+			active = false;
+		}
+		break;
+	}
 }

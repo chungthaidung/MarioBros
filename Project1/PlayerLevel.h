@@ -26,7 +26,8 @@ public:
 	virtual void SetCollisionBox(float x, float y) { collisionbox.x = x; collisionbox.y = y; }
 
 	D3DXVECTOR2 GetCollisionBox() { return collisionbox; }
-	virtual void OnKeyDown(int KeyCode) {};
+	virtual void OnKeyDown(int KeyCode) ;
+
 	
 };
 
