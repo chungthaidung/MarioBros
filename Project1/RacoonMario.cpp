@@ -5,6 +5,15 @@ RacoonMario::RacoonMario(CMario* mario) :PlayerLevel(mario)
 {
 	collisionbox.x = MARIO_RACOON_BBOX_WIDTH;
 	collisionbox.y = MARIO_RACOON_BBOX_HEIGHT;
+	tail = new MarioTail(mario);
+	tail->SetActive(false);
+}
+void RacoonMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	if (tail->GetActive()) tail->Update(dt,coObjects);
+
+	PlayerLevel::Update(dt, coObjects);
+
 }
 void RacoonMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -71,6 +80,7 @@ void RacoonMario::Render()
 		
 	int alpha = 255;
 	//if (mario->untouchable) alpha = 128;
+	if (tail->GetActive()) tail->Render();
 	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);
 	mario->RenderBoundingBox();
 }
@@ -102,11 +112,16 @@ void RacoonMario::AttackState(DWORD dt)
 			mario->AttackState = MARIO_STATE_ATTACK_START;
 		else if (GetTickCount()-attacktime<550)
 		{
-			mario->AttackState = MARIO_STATE_ATTACK_START;	
+			mario->AttackState = MARIO_STATE_ATTACK_START;
+			tail->SetActive(true);
+			if (mario->nx > 0) tail->Reset(mario->x - MARIO_TAIL_BBOX_WIDTH, mario->y + MARIO_RACOON_BBOX_HEIGHT * 2 / 3);
+			else tail->Reset(mario->x+MARIO_RACOON_BBOX_WIDTH , mario->y + MARIO_RACOON_BBOX_HEIGHT * 2 / 3);
 		}
 		else mario->AttackState = MARIO_STATE_ATTACK_END;
 		break;
-	
+	case MARIO_STATE_ATTACK_END:
+		tail->SetActive(false);
+		break;
 	}
 
 }
@@ -159,11 +174,9 @@ void RacoonMario::JumpingState(DWORD dt)
 		}
 		break;
 	case MARIO_STATE_FLOAT:
-		if (keyboard->IsKeyDown(DIK_X)){
+		if (keyboard->IsKeyDown(DIK_X))
 			mario->vy -= MARIO_FLOAT * dt;
-		}
-		else
-			mario->JumpState = MARIO_STATE_FALL;
+		else mario->JumpState = MARIO_STATE_FALL;
 		if (mario->onGround == true)
 		{
 			mario->JumpState = MARIO_STATE_JUMP_IDLE;
@@ -171,10 +184,11 @@ void RacoonMario::JumpingState(DWORD dt)
 		break;
 	case MARIO_STATE_FLY:
 		if (GetTickCount() - flytime < 4000) {
-			if (keyboard->IsKeyDown(DIK_X) )
+			if (keyboard->IsKeyDown(DIK_X))
 			{
+				if (mario->vy > 0) mario->vy = 0;
 				mario->SetGravity(0);
-				mario->vy -= (MARIO_FLY_FORCE)*dt;
+				mario->vy = -MARIO_FLY_FORCE;
 			}
 			else mario->SetGravity(MARIO_GRAVITY);
 
@@ -191,7 +205,7 @@ void RacoonMario::JumpingState(DWORD dt)
 		break;
 	case MARIO_STATE_SUPER_FALL:
 	case MARIO_STATE_FALL:
-		if (mario->onGround == true)
+		if (mario->onGround)
 		{
 			mario->JumpState = MARIO_STATE_JUMP_IDLE;
 		}
@@ -231,13 +245,13 @@ void RacoonMario::MiniJump(DWORD dt)
 		mario->canJumpSuper = false;
 		mario->JumpState = MARIO_STATE_JUMP;
 	}
-	else if (keyboard->IsKeyDown(DIK_X))
+	else if (keyboard->IsKeyDown(DIK_X) )
 	{
 		if (mario->JumpState == MARIO_STATE_FALL)
 		{
 			mario->JumpState = MARIO_STATE_FLOAT;
 		}
-		else if (mario->JumpState==MARIO_STATE_SUPER_FALL || mario->JumpState == MARIO_STATE_SUPER_JUMP)
+		else if (mario->JumpState == MARIO_STATE_SUPER_FALL || mario->JumpState == MARIO_STATE_SUPER_JUMP)
 		{
 			flytime = GetTickCount();
 			mario->vy = 0;
@@ -251,12 +265,15 @@ void RacoonMario::OnKeyDown(int KeyCode)
 	DWORD dt = CGame::DeltaTime;
 	switch (KeyCode)
 	{
+	case DIK_A:
 	case DIK_Z:
 		mario->AttackState = MARIO_STATE_ATTACK_START;
 		attacktime = GetTickCount();
 		break;
-	case DIK_S:
 		
-		break;
 	}
+}
+void RacoonMario::AttackStart()
+{
+	
 }

@@ -11,11 +11,10 @@ public:
 	virtual void CrouchState(DWORD dt);
 	virtual void AttackState(DWORD dt);
 	virtual void OnKeyDown(int KeyCode);
-	virtual bool IsActive();
-	virtual void AttackStart(DWORD dt);
+	bool IsActive();
+	void AttackStart();
 protected:
 	DWORD attacktime;
 	vector<MarioFireBall*> fireballs;
-	int ballnumber;
 };
 

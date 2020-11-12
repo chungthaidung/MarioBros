@@ -50,17 +50,14 @@ void PlayerLevel::Collision(vector<LPGAMEOBJECT>* coObjects)
 		mario->x += min_tx * mario->dx + nx * 0.4f;
 		mario->y += min_ty * mario->dy + ny * 0.4f;
 
-		if (nx != 0) mario->vx = 0;
-		if (ny != 0) {
+		//if (nx != 0) mario->vx = 0;
+		/*if (ny != 0) {
 			mario->vy = 0;
 			if (ny < 0) {
 				mario->onGround = true;
 			}
-		}
-	
+		}*/
 	}
-
-
 	//
 	// Collision logic with other objects
 	//
@@ -78,6 +75,7 @@ void PlayerLevel::Collision(vector<LPGAMEOBJECT>* coObjects)
 			}
 			else {
 				mario->vy = 0;
+				mario->onGround = true;
 			}
 		}
 		else
@@ -88,6 +86,7 @@ void PlayerLevel::Collision(vector<LPGAMEOBJECT>* coObjects)
 			if (e->ny != 0)
 			{
 				mario->vy = 0;
+				if (e->ny < 0)mario->onGround = true;
 			}
 		}
 
@@ -107,9 +106,9 @@ void PlayerLevel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	mario->vy += mario->GetGravity() * dt;
 	mario->CGameObject::Update(dt);
 	Collision(coObjects);
-	DebugOut(L"Mario jump state: %d \n", mario->JumpState);
+	//DebugOut(L"Mario jump state: %d \n", mario->JumpState);
 	//DebugOut(L"Mario power meter: %f \n", mario->GetPowerMeter());
-
+	//DebugOut(L"Mario vy: %f \n", mario->vy);
 }
 void PlayerLevel::MovingState(DWORD dt)
 {	
@@ -253,4 +252,7 @@ void PlayerLevel::MiniJump(DWORD dt)
 		mario->canJumpSuper = false;
 		mario->JumpState = MARIO_STATE_JUMP;
 	}
+}
+void PlayerLevel::OnKeyDown(int KeyCode)
+{
 }

@@ -55,8 +55,20 @@
     <Filter Include="Game\Scene\Map">
       <UniqueIdentifier>{3160069b-4dad-4c10-b794-18a19240a487}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Game Object\Player Level">
+    <Filter Include="Game\Game Object\Object\Mario">
+      <UniqueIdentifier>{feffa236-23c2-4b0f-a6d8-ea07a0249b26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game Object\Object\Mario\Player Level">
       <UniqueIdentifier>{829580f9-aed7-44d3-b021-e1cb344cd909}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game Object\Object\Mario\Weapon">
+      <UniqueIdentifier>{cd155f85-0bb8-4cd8-9d23-c17710e0ddab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game Object\Object\Misc">
+      <UniqueIdentifier>{8522da5b-238e-4880-be09-c4c240196256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game Object\Object\Enemy">
+      <UniqueIdentifier>{5ee8bd02-7fe5-467f-8209-1cd3788288cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -68,12 +80,6 @@
     </ClCompile>
     <ClCompile Include="CGameObject.cpp">
       <Filter>Game\Game Object\CGameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>Game\Game Object\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Mario.cpp">
-      <Filter>Game\Game Object\Object</Filter>
     </ClCompile>
     <ClCompile Include="CAnimations.cpp">
       <Filter>Game\Animation_Textures\AnimationSets\Animations</Filter>
@@ -120,35 +126,44 @@
     <ClCompile Include="Map.cpp">
       <Filter>Game\Scene\Map</Filter>
     </ClCompile>
-    <ClCompile Include="Pipe.cpp">
-      <Filter>Game\Game Object\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="GhostObject.cpp">
-      <Filter>Game\Game Object\Object</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerLevel.cpp">
-      <Filter>Game\Game Object\Player Level</Filter>
+      <Filter>Game\Game Object\Object\Mario\Player Level</Filter>
     </ClCompile>
     <ClCompile Include="SmallMario.cpp">
-      <Filter>Game\Game Object\Player Level</Filter>
+      <Filter>Game\Game Object\Object\Mario\Player Level</Filter>
     </ClCompile>
     <ClCompile Include="BigMario.cpp">
-      <Filter>Game\Game Object\Player Level</Filter>
+      <Filter>Game\Game Object\Object\Mario\Player Level</Filter>
     </ClCompile>
     <ClCompile Include="RacoonMario.cpp">
-      <Filter>Game\Game Object\Player Level</Filter>
+      <Filter>Game\Game Object\Object\Mario\Player Level</Filter>
     </ClCompile>
     <ClCompile Include="CPlaySceneKeyHandler.cpp">
       <Filter>Game\Scene\KeyHandler</Filter>
     </ClCompile>
     <ClCompile Include="FireMario.cpp">
-      <Filter>Game\Game Object\Player Level</Filter>
+      <Filter>Game\Game Object\Object\Mario\Player Level</Filter>
     </ClCompile>
     <ClCompile Include="HammerMario.cpp">
-      <Filter>Game\Game Object\Player Level</Filter>
+      <Filter>Game\Game Object\Object\Mario\Player Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Mario.cpp">
+      <Filter>Game\Game Object\Object\Mario</Filter>
     </ClCompile>
     <ClCompile Include="MarioFireBall.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game\Game Object\Object\Mario\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="GhostObject.cpp">
+      <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioTail.cpp">
+      <Filter>Game\Game Object\Object\Mario\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,12 +175,6 @@
     </ClInclude>
     <ClInclude Include="CGameObject.h">
       <Filter>Game\Game Object\CGameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Mario.h">
-      <Filter>Game\Game Object\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>Game\Game Object\Object</Filter>
     </ClInclude>
     <ClInclude Include="CAnimations.h">
       <Filter>Game\Animation_Textures\AnimationSets\Animations</Filter>
@@ -212,35 +221,44 @@
     <ClInclude Include="Map.h">
       <Filter>Game\Scene\Map</Filter>
     </ClInclude>
-    <ClInclude Include="Pipe.h">
-      <Filter>Game\Game Object\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="GhostObject.h">
-      <Filter>Game\Game Object\Object</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerLevel.h">
-      <Filter>Game\Game Object\Player Level</Filter>
+      <Filter>Game\Game Object\Object\Mario\Player Level</Filter>
     </ClInclude>
     <ClInclude Include="SmallMario.h">
-      <Filter>Game\Game Object\Player Level</Filter>
+      <Filter>Game\Game Object\Object\Mario\Player Level</Filter>
     </ClInclude>
     <ClInclude Include="BigMario.h">
-      <Filter>Game\Game Object\Player Level</Filter>
+      <Filter>Game\Game Object\Object\Mario\Player Level</Filter>
     </ClInclude>
     <ClInclude Include="RacoonMario.h">
-      <Filter>Game\Game Object\Player Level</Filter>
+      <Filter>Game\Game Object\Object\Mario\Player Level</Filter>
     </ClInclude>
     <ClInclude Include="FireMario.h">
-      <Filter>Game\Game Object\Player Level</Filter>
+      <Filter>Game\Game Object\Object\Mario\Player Level</Filter>
     </ClInclude>
     <ClInclude Include="HammerMario.h">
-      <Filter>Game\Game Object\Player Level</Filter>
+      <Filter>Game\Game Object\Object\Mario\Player Level</Filter>
     </ClInclude>
     <ClInclude Include="CScene.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Mario.h">
+      <Filter>Game\Game Object\Object\Mario</Filter>
+    </ClInclude>
     <ClInclude Include="MarioFireBall.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game\Game Object\Object\Mario\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="GhostObject.h">
+      <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioTail.h">
+      <Filter>Game\Game Object\Object\Mario\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

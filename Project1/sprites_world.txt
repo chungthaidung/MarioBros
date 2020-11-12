@@ -4,6 +4,7 @@
 0	textures\mario1.png	255	255	255
 20	textures\misc_.png	255	255	255
 10	textures\enemies.png	3	26	110
+40	textures\effect_x3.png	255	255	255
 101	Resources\map\Final1(48).png	255	255	255
 
 # id	left	top	width	height	texture_id
@@ -354,6 +355,21 @@
 10301	173	123	8	8	0
 10302	184	124	8	8	0
 10303	195	123	8	8	0
+#EFFECT DAMAGED
+#white-left-enemy
+11000	2	1	16	16	40
+#white-right-enemy
+11001	20	1	16	16	40
+#red-left-enemy
+11002	2	19	16	16	40
+#red-right-enemy
+11003	20	19	16	16	40
+#mario
+11004	38	1	16	16	40
+11005	56	1	16	16	40
+11006	74	1	16	16	40
+11007	92	1	16	16	40
+
 #BRICK
 20001	254	188	16	16	20
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
@@ -605,6 +621,8 @@
 999	10010	100
 #====MARIO FIRE BALL====
 500	10300	100	10301	100	10302	100	10303	100
+#FIRE BALL DAMAGED
+501	11004	30	11005	30	11006	30	11007	30
 #==== MISC =========
 #BRICK
 601	20001	100
@@ -613,7 +631,7 @@
 #
 [ANIMATION_SETS]
 # MARIO
-1	101	102	103	105	106	108	111	121	122	123
+1	101	
 # MISC
 #601 BRICK 
 2	601
