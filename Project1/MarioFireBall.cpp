@@ -15,14 +15,16 @@ void MarioFireBall::Render()
 	{
 	case MARIO_FIRE_BALL_STATE_DAMAGED:
 		ani = MARIO_ANI_FIRE_BALL_DAMAGED;
-		
+		CAnimations::GetInstance()->Get(ani)->Render(x, y,damagedtime,120);
+		RenderBoundingBox();
 		break;
 	case MARIO_FIRE_BALL_STATE:
 		ani = MARIO_ANI_FIRE_BALL;
+		CAnimations::GetInstance()->Get(ani)->Render(x, y);
+		RenderBoundingBox();
 		break;
 	}
-	CAnimations::GetInstance()->Get(ani)->Render(x, y);
-	RenderBoundingBox();
+	
 }
 void MarioFireBall::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
@@ -78,7 +80,8 @@ void MarioFireBall::FinalUpdate(DWORD dt)
 				damagedtime = GetTickCount();
 			}
 		}
-		if (ny != 0) vy -= FIREBALL_JUMP_FORCE;
+		if (ny != 0) { 
+			vy = -FIREBALL_JUMP_FORCE; }
 
 		
 		//if (nx != 0) vx -= 0.5;
