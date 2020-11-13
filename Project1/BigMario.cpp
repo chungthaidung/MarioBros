@@ -16,10 +16,12 @@ void BigMario::GetBoundingBox(float& left, float& top, float& right, float& bott
 
 void BigMario::Render()
 {
+	int alpha = 255;
 	int ani = MARIO_ANI_BIG_IDLE;
 	if (mario->GetState() == MARIO_STATE_CROUCH)
 	{
 		ani = MARIO_ANI_BIG_CROUCH;
+		
 	}
 	else if (mario->JumpState != MARIO_STATE_JUMP_IDLE)
 	{
@@ -53,13 +55,9 @@ void BigMario::Render()
 		case MARIO_STATE_SKID:
 			ani = MARIO_ANI_BIG_SKID;
 			break;
-		case MARIO_STATE_CROUCH:
-			ani = MARIO_ANI_BIG_CROUCH;
-
-			break;
 		}
+	
 	}
-	int alpha = 255;
 	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);
 	mario->RenderBoundingBox();
 }

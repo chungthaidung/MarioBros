@@ -13,21 +13,7 @@ FireMario::FireMario(CMario* mario) :PlayerLevel(mario)
 		fireballs.push_back(ball);
 	}
 }
-void FireMario::Update(DWORD dt)
-{
-	
-	PlayerLevel::Update(dt);
 
-}
-void FireMario::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-{
-	PlayerLevel::CollisionUpdate(dt,coObjects);
-}
-void FireMario::FinalUpdate(DWORD dt)
-{
-	
-	PlayerLevel::FinalUpdate(dt);
-}
 void FireMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	mario->GetPosition(left, top);
@@ -41,10 +27,14 @@ void FireMario::Render()
 	if (mario->GetState() == MARIO_STATE_CROUCH)
 	{
 		ani = MARIO_ANI_FIRE_CROUCH;
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);
+		mario->RenderBoundingBox();
 	}
 	else if (mario->AttackState == MARIO_STATE_ATTACK_START)
 	{
 		ani = MARIO_ANI_FIRE_THROW;
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y,attacktime,250, 1, mario->nx, alpha);
+		mario->RenderBoundingBox();
 
 	}
 	else if (mario->JumpState != MARIO_STATE_JUMP_IDLE)
@@ -63,6 +53,8 @@ void FireMario::Render()
 			ani = MARIO_ANI_FIRE_SUPER_JUMP;
 			break;
 		}
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);
+		mario->RenderBoundingBox();
 	}
 	else {
 		switch (mario->GetState())
@@ -86,18 +78,12 @@ void FireMario::Render()
 			ani = MARIO_ANI_FIRE_CROUCH;
 			break;
 		}
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);
+		mario->RenderBoundingBox();
 	}
 
-	//if (mario->untouchable) alpha = 128;
-	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);
-	mario->RenderBoundingBox();
-	for (int i = 0; i < 2; i++)
-	{
-		if (fireballs.at(i)->GetActive() == true)
-		{
-			fireballs.at(i)->Render();
-		}
-	}
+	
+
 }
 void FireMario::AttackState(DWORD dt)
 {
