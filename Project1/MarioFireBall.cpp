@@ -34,8 +34,9 @@ void MarioFireBall::GetBoundingBox(float& l, float& t, float& r, float& b)
 void MarioFireBall::Update(DWORD dt)
 {
 	vy += gravity * dt;
+	vx = FIREBALL_SPEED * nx;
 	CGameObject::Update(dt);
-	vx = FIREBALL_SPEED*nx;
+
 }
 void MarioFireBall::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -77,7 +78,9 @@ void MarioFireBall::FinalUpdate(DWORD dt)
 				damagedtime = GetTickCount();
 			}
 		}
-		if (ny != 0) vy -= 0.5;
+		if (ny != 0) vy -= FIREBALL_JUMP_FORCE;
+
+		
 		//if (nx != 0) vx -= 0.5;
 
 		//phuc hoi lai cho nay cho de thay
@@ -120,7 +123,7 @@ void MarioFireBall::State(DWORD dt)
 	case MARIO_FIRE_BALL_STATE_DAMAGED:
 		if (GetTickCount() - damagedtime >= 120) {
 			active = false;
-
+			isRemove = true;
 		}
 		break;
 	}

@@ -164,7 +164,6 @@
     <ClCompile Include="FireMario.cpp" />
     <ClCompile Include="GhostObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
-    <ClCompile Include="HammerMario.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Mario.cpp" />
@@ -199,7 +198,6 @@
     <ClInclude Include="FireMario.h" />
     <ClInclude Include="GhostObject.h" />
     <ClInclude Include="Goomba.h" />
-    <ClInclude Include="HammerMario.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="CScene.h" />

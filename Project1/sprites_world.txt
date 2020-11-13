@@ -1,6 +1,6 @@
 # id	file_path	transparent_color_r	g	b
 [TEXTURES]
--100	textures\bbox.png	237	28	36
+-100	textures\bbox.png	237	28	35
 0	textures\mario1.png	255	255	255
 20	textures\misc_.png	255	255	255
 10	textures\enemy_x3.png	3	26	110
@@ -123,7 +123,7 @@
 10071	219	142	16	28	0
 10223	78	107	23	28	0	6	0
 # CROUCH
-10072	522	152	22	18	0	6	3
+10072	522	152	22	18	0	6	0
 # SLIDE
 10073	547	143	16	27	0
 # HOLD

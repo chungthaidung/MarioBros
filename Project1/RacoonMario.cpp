@@ -11,19 +11,19 @@ RacoonMario::RacoonMario(CMario* mario) :PlayerLevel(mario)
 }
 void RacoonMario::Update(DWORD dt)
 {
-	if (tail->GetActive()) tail->Update(dt);
+	//if (tail->GetActive()) tail->Update(dt);
 
 	PlayerLevel::Update(dt);
 
 }
 void RacoonMario::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 {
-	if (tail->GetActive()) tail->CollisionUpdate(dt, colliable_objects);
+	//if (tail->GetActive()) tail->CollisionUpdate(dt, colliable_objects);
 	PlayerLevel::CollisionUpdate(dt,colliable_objects);
 }
 void RacoonMario::FinalUpdate(DWORD dt)
 {
-	if (tail->GetActive()) tail->FinalUpdate(dt);
+	//if (tail->GetActive()) tail->FinalUpdate(dt);
 	PlayerLevel::FinalUpdate(dt);
 }
 int RacoonMario::GetPlayerLevel()
@@ -39,13 +39,13 @@ void RacoonMario::GetBoundingBox(float& left, float& top, float& right, float& b
 void RacoonMario::Render()
 {
 	int ani = MARIO_ANI_RACOON_IDLE;
-	if (mario->AttackState == MARIO_STATE_ATTACK_START)
-	{
-		ani = MARIO_ANI_RACOON_SPIN;
-	}
-	else if (mario->isCrouch == true)
+	if (mario->GetState() == MARIO_STATE_CROUCH)
 	{
 		ani = MARIO_ANI_RACOON_CROUCH;
+	}
+	else if (mario->AttackState == MARIO_STATE_ATTACK_START)
+	{
+		ani = MARIO_ANI_RACOON_SPIN;
 	}
 	else if (mario->JumpState != MARIO_STATE_JUMP_IDLE)
 	{
@@ -90,32 +90,17 @@ void RacoonMario::Render()
 		case MARIO_STATE_SKID:
 			ani = MARIO_ANI_RACOON_SKID;
 			break;
+		case MARIO_STATE_CROUCH:
+			ani = MARIO_ANI_RACOON_CROUCH;
+			break;
 		}
 	}
 		
 	int alpha = 255;
 	//if (mario->untouchable) alpha = 128;
-	if (tail->GetActive()) tail->Render();
+	//if (tail->GetActive()) tail->Render();
 	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);
 	mario->RenderBoundingBox();
-}
-void RacoonMario::CrouchState(DWORD dt)
-{
-	CGame* keyboard = CGame::GetInstance();
-	float x, y;
-	mario->GetPosition(x, y);
-	y += collisionbox.y;
-	if (mario->state == MARIO_STATE_IDLE && keyboard->IsKeyDown(DIK_DOWN))
-	{
-		mario->isCrouch = true;
-		collisionbox.y = MARIO_CROUCH_BBOX_HEIGHT;
-	}
-	else
-	{
-		mario->isCrouch = false;
-		collisionbox.y = MARIO_RACOON_BBOX_HEIGHT;
-	}
-	mario->SetPosition(x, y - collisionbox.y);
 }
 void RacoonMario::AttackState(DWORD dt)
 {

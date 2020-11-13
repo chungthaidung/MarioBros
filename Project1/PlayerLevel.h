@@ -21,7 +21,7 @@ public:
 	virtual void PowerMeterUpdate(DWORD dt);
 	virtual void MovingState(DWORD dt);
 	virtual void JumpingState(DWORD dt);
-	virtual void CrouchState(DWORD dt) {};
+	virtual void CrouchState(DWORD dt);
 	virtual void AttackState(DWORD dt) {};
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom)=0;
 	virtual void SetCollisionBox(float x, float y) { collisionbox.x = x; collisionbox.y = y; }
