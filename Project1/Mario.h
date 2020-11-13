@@ -33,23 +33,26 @@ public:
 	void SetyPush(float p) { ypush = p; }
 	void SetPowerMeter(float a) { powerM = a; }
 	void SetGravity(float g) { gravity = g; }
-
+	void Setnx(float n) { nx = n;}
+	
 	float GetAcceleration() { return ax; }
 	float GetDrag() { return dragf; }
 	float GetyPush() { return ypush; }
 	float GetPowerMeter() { return powerM; }
 	float GetGravity() { return gravity; }
-	PlayerLevel* GetLevel() { return level_p; }
+	float Getnx() { return nx; }
 
 	void SetState(int state);
 	void SetLevel(int l);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 
 	CMario(float x = 0.0f, float y = 0.0f);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
+	virtual void Update(DWORD dt);
+	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
+	virtual void FinalUpdate(DWORD dt);
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-
+	virtual int GetObjectType();
 
 	void Reset();
 

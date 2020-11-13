@@ -78,3 +78,8 @@ void BigMario::CrouchState(DWORD dt)
 	}
 	mario->SetPosition(x, y - collisionbox.y);
 }
+
+int BigMario::GetPlayerLevel()
+{
+	return 2;
+}

@@ -6,12 +6,15 @@ class MarioFireBall :
 {
 public:
 	MarioFireBall(CMario* p);
+	virtual void Update(DWORD dt);
+	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	virtual void FinalUpdate(DWORD dt);
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void Reset(float mx, float my);
+	virtual int GetObjectType();
 	void State(DWORD dt);
-	void Setnx(int a) { nx = a; }
+	
 	void SetActive(bool a) { active = a; }
 	bool GetActive() { return active; }
 protected:

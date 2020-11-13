@@ -7,13 +7,28 @@ RacoonMario::RacoonMario(CMario* mario) :PlayerLevel(mario)
 	collisionbox.y = MARIO_RACOON_BBOX_HEIGHT;
 	tail = new MarioTail(mario);
 	tail->SetActive(false);
+
 }
-void RacoonMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void RacoonMario::Update(DWORD dt)
 {
-	if (tail->GetActive()) tail->Update(dt,coObjects);
+	if (tail->GetActive()) tail->Update(dt);
 
-	PlayerLevel::Update(dt, coObjects);
+	PlayerLevel::Update(dt);
 
+}
+void RacoonMario::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
+{
+	if (tail->GetActive()) tail->CollisionUpdate(dt, colliable_objects);
+	PlayerLevel::CollisionUpdate(dt,colliable_objects);
+}
+void RacoonMario::FinalUpdate(DWORD dt)
+{
+	if (tail->GetActive()) tail->FinalUpdate(dt);
+	PlayerLevel::FinalUpdate(dt);
+}
+int RacoonMario::GetPlayerLevel()
+{
+	return 3;
 }
 void RacoonMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -105,22 +120,25 @@ void RacoonMario::CrouchState(DWORD dt)
 void RacoonMario::AttackState(DWORD dt)
 {
 	CGame* keyboard = CGame::GetInstance();
+	if (keyboard->IsKeyDown(DIK_Z)) {
+		if (mario->AttackState != MARIO_STATE_ATTACK_START) {
+			mario->AttackState = MARIO_STATE_ATTACK_START;
+			attacktime = GetTickCount();
+			tail->SetActive(true);
+			CGame::GetInstance()->GetCurrentScene()->SpawnObject(tail);
+			//DebugOut(L"5555 \n");
+		}
+	}
 	switch (mario->AttackState)
 	{
 	case MARIO_STATE_ATTACK_START:
-		if(keyboard->IsKeyDown(DIK_Z))
-			mario->AttackState = MARIO_STATE_ATTACK_START;
-		else if (GetTickCount()-attacktime<550)
-		{
-			mario->AttackState = MARIO_STATE_ATTACK_START;
-			tail->SetActive(true);
-			if (mario->nx > 0) tail->Reset(mario->x - MARIO_TAIL_BBOX_WIDTH, mario->y + MARIO_RACOON_BBOX_HEIGHT * 2 / 3);
-			else tail->Reset(mario->x+MARIO_RACOON_BBOX_WIDTH , mario->y + MARIO_RACOON_BBOX_HEIGHT * 2 / 3);
+		if (GetTickCount() - attacktime >= 500) {
+			mario->AttackState = MARIO_STATE_ATTACK_END;
 		}
-		else mario->AttackState = MARIO_STATE_ATTACK_END;
 		break;
 	case MARIO_STATE_ATTACK_END:
 		tail->SetActive(false);
+		tail->isRemove = true;
 		break;
 	}
 
@@ -266,14 +284,8 @@ void RacoonMario::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_A:
-	case DIK_Z:
 		mario->AttackState = MARIO_STATE_ATTACK_START;
 		attacktime = GetTickCount();
 		break;
-		
 	}
-}
-void RacoonMario::AttackStart()
-{
-	
 }

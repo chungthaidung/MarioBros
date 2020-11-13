@@ -11,12 +11,13 @@ protected:
 	D3DXVECTOR2 collisionbox;
 public:
 	PlayerLevel(CMario* mario);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects);
+	virtual void Update(DWORD dt);
+	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects);
+	virtual void FinalUpdate(DWORD dt);
 	virtual void Render()=0;
 	virtual void SetState(int state);
 
 	virtual void MiniJump(DWORD dt);
-	virtual void Collision(vector<LPGAMEOBJECT>* colliable_objects);
 	virtual void PowerMeterUpdate(DWORD dt);
 	virtual void MovingState(DWORD dt);
 	virtual void JumpingState(DWORD dt);
@@ -27,7 +28,7 @@ public:
 
 	D3DXVECTOR2 GetCollisionBox() { return collisionbox; }
 	virtual void OnKeyDown(int KeyCode) ;
-
+	virtual int GetPlayerLevel() = 0;
 	
 };
 

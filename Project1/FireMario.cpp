@@ -13,18 +13,42 @@ FireMario::FireMario(CMario* mario) :PlayerLevel(mario)
 		fireballs.push_back(ball);
 	}
 }
-void FireMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void FireMario::Update(DWORD dt)
 {
 	for (int i = 0; i < 2; i++)
 	{
 		if (fireballs.at(i)->GetActive() == true)
 		{
-			fireballs.at(i)->Update(dt, coObjects);
+			fireballs.at(i)->Update(dt);
 			//DebugOut(L"Mario x,y: (%f,%f) \n", mario->x, mario->y);
 		}
 	}
-	PlayerLevel::Update(dt, coObjects);
+	PlayerLevel::Update(dt);
 
+}
+void FireMario::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	for (int i = 0; i < 2; i++)
+	{
+		if (fireballs.at(i)->GetActive() == true)
+		{
+			fireballs.at(i)->CollisionUpdate(dt, coObjects);
+			//DebugOut(L"Mario x,y: (%f,%f) \n", mario->x, mario->y);
+		}
+	}
+	PlayerLevel::CollisionUpdate(dt,coObjects);
+}
+void FireMario::FinalUpdate(DWORD dt)
+{
+	for (int i = 0; i < 2; i++)
+	{
+		if (fireballs.at(i)->GetActive() == true)
+		{
+			fireballs.at(i)->FinalUpdate(dt);
+			//DebugOut(L"Mario x,y: (%f,%f) \n", mario->x, mario->y);
+		}
+	}
+	PlayerLevel::FinalUpdate(dt);
 }
 void FireMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -145,6 +169,10 @@ void FireMario::OnKeyDown(int KeyCode)
 		break;
 	}
 }
+int FireMario::GetPlayerLevel()
+{
+	return 4;
+}
 bool FireMario::IsActive()
 {
 
@@ -164,7 +192,7 @@ void FireMario::AttackStart()
 		if (fireballs.at(i)->GetActive() == false)
 		{
 			fireballs.at(i)->SetActive(true);
-			fireballs.at(i)->Setnx(mario->nx);
+			CGame::GetInstance()->GetCurrentScene()->SpawnObject(fireballs.at(i));
 			if (mario->nx > 0) fireballs.at(i)->Reset(mario->x + collisionbox.x, mario->y);
 			else fireballs.at(i)->Reset(mario->x - MARIO_FIRE_BALL_BBOX_WIDTH, mario->y);
 			mario->AttackState = MARIO_STATE_ATTACK_END;

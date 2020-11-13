@@ -9,38 +9,40 @@
 #include "CKeyEventHandler.h"
 
 #include "CAnimationSets.h"
-using namespace std;
+#include "define.h"
+#include "CCollisionEvent.h"
 
-#define ID_TEX_BBOX -100		// special texture to draw object bounding box
+using namespace std;
+	
+
+
+//struct CCollisionEvent;
+//typedef CCollisionEvent* LPCOLLISIONEVENT;
+//struct CCollisionEvent
+//{
+//	LPGAMEOBJECT obj;
+//	float t, nx, ny;
+//
+//	float dx, dy;		// *RELATIVE* movement distance between this object and obj
+//
+//	CCollisionEvent(float t, float nx, float ny, float dx = 0, float dy = 0, LPGAMEOBJECT obj = NULL)
+//	{
+//		this->t = t;
+//		this->nx = nx;
+//		this->ny = ny;
+//		this->dx = dx;
+//		this->dy = dy;
+//		this->obj = obj;
+//	}
+//
+//	static bool compare(const LPCOLLISIONEVENT& a, LPCOLLISIONEVENT& b)
+//	{
+//		return a->t < b->t;
+//	}
+//};
 
 class CGameObject;
 typedef CGameObject* LPGAMEOBJECT;
-
-struct CCollisionEvent;
-typedef CCollisionEvent* LPCOLLISIONEVENT;
-struct CCollisionEvent
-{
-	LPGAMEOBJECT obj;
-	float t, nx, ny;
-
-	float dx, dy;		// *RELATIVE* movement distance between this object and obj
-
-	CCollisionEvent(float t, float nx, float ny, float dx = 0, float dy = 0, LPGAMEOBJECT obj = NULL)
-	{
-		this->t = t;
-		this->nx = nx;
-		this->ny = ny;
-		this->dx = dx;
-		this->dy = dy;
-		this->obj = obj;
-	}
-
-	static bool compare(const LPCOLLISIONEVENT& a, LPCOLLISIONEVENT& b)
-	{
-		return a->t < b->t;
-	}
-};
-
 
 class CGameObject
 {
@@ -63,10 +65,11 @@ public:
 
 	int state;
 
+	bool isRemove;
 	DWORD dt;
 
 	LPANIMATION_SET animation_set;
-
+	vector<LPCOLLISIONEVENT> coEResult;
 public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
@@ -74,7 +77,7 @@ public:
 	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
 	void SetWidthHeight(int w, int h) { width = w; height = h; }
 	int GetState() { return this->state; }
-
+	
 	void RenderBoundingBox();
 
 	void SetAnimationSet(LPANIMATION_SET ani_set) { animation_set = ani_set; }
@@ -94,10 +97,12 @@ public:
 	CGameObject();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
+	virtual void Update(DWORD dt);
+	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
+	virtual void FinalUpdate(DWORD dt);
 	virtual void Render() = 0;
-	virtual void SetState(int state) { this->state = state; }
-
+	virtual void SetState(int state);
+	virtual int GetObjectType() = 0;
 
 	~CGameObject();
 };

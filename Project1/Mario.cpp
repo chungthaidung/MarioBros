@@ -23,10 +23,20 @@ CMario::CMario(float x, float y) : CGameObject()
 	this->y = y;
 }
 
-void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CMario::Update(DWORD dt)
 {
-	level_p->Update(dt,coObjects);
+	level_p->Update(dt);
 	if (x< 0) x = 0;
+}
+
+void CMario::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
+{
+	level_p->CollisionUpdate(dt, colliable_objects);
+}
+
+void CMario::FinalUpdate(DWORD dt)
+{
+	level_p->FinalUpdate(dt);
 }
 
 void CMario::Render()
@@ -43,6 +53,11 @@ void CMario::SetState(int state)
 void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	level_p->GetBoundingBox(left,top,right,bottom);
+}
+
+int CMario::GetObjectType()
+{
+	return 0;
 }
 
 /*
@@ -62,7 +77,6 @@ void CMario::SetLevel(int level)
 	{
 	case MARIO_LEVEL_SMALL:
 		level_p = new SmallMario(this);
-		
 		break;
 	case MARIO_LEVEL_BIG:
 		level_p = new BigMario(this);

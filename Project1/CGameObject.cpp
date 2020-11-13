@@ -8,18 +8,34 @@
 #include "CAnimation.h"
 #include "CAnimations.h"
 #include "CTextures.h"	
+#include "GhostObject.h"
+#include "CCollisionEvent.h"
 CGameObject::CGameObject()
 {
 	x = y = 0;
 	vx = vy = 0;
 	nx = 1;
+	isRemove = false;
 }
 
-void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CGameObject::Update(DWORD dt)
 {
 	this->dt = dt;
 	dx = vx * dt;
 	dy = vy * dt;
+}
+
+void CGameObject::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+}
+
+void CGameObject::FinalUpdate(DWORD dt)
+{
+}
+
+void CGameObject::SetState(int state)
+{
+	this->state = state;
 }
 
 /*
@@ -99,6 +115,9 @@ void CGameObject::FilterCollision(
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
 		LPCOLLISIONEVENT c = coEvents[i];
+
+		if (dynamic_cast<GhostObject*>(c->obj)&& (c->ny > 0||c->nx!=0)) continue;
+		//c->obj continue
 
 		if (c->t < min_tx && c->nx != 0) {
 			min_tx = c->t; nx = c->nx; min_ix = i; rdx = c->dx;

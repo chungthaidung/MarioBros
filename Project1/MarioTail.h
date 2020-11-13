@@ -6,15 +6,17 @@ class MarioTail :
 {
 public:
 	MarioTail(CMario* p);
+	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
-	virtual void Reset(float mx, float my);
+	virtual void Moving(DWORD dt);
+	virtual int GetObjectType();
 	void Setnx(int a) { nx = a; }
-	void SetActive(bool a) { active = a; }
+	void SetActive(bool a);
 	bool GetActive() { return active; }
 protected:
 	CMario* mario;
-	bool active;
+	DWORD attackStart;
+	bool active = 0;
 };
 

@@ -10,3 +10,8 @@ void GhostObject::GetBoundingBox(float& l, float& t, float& r, float& b)
 	r = x + width;
 	b = y + height;
 }
+
+int GhostObject::GetObjectType()
+{
+	return 3;
+}

@@ -11,9 +11,8 @@
 #include "CAnimations.h"
 #include "CPlaySceneKeyHandler.h"
 #include "CAnimationSets.h"
-#include "Pipe.h"
 #include "GhostObject.h"
-
+#include "Goomba.h"
 
 using namespace std;
 
@@ -64,7 +63,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_PIPE: obj = new Pipe(); break;
+	case OBJECT_TYPE_GOOMBA: obj = new Goomba(); break;
 	case OBJECT_TYPE_GHOST: obj = new GhostObject(); break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -127,16 +126,24 @@ void CPlayScene::Update(DWORD dt)
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
+	for (size_t i = 0; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
 	}
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		objects[i]->Update(dt, &coObjects);
+		objects[i]->Update(dt);
 	}
 
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		objects[i]->CollisionUpdate(dt, &coObjects);
+	}
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		objects[i]->FinalUpdate(dt);
+	}
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
@@ -158,6 +165,7 @@ void CPlayScene::Update(DWORD dt)
 	//if (cx + game->GetScreenWidth() > map->GetColumn() * 48) cx = map->GetColumn() * 48 - game->GetScreenWidth(); //hardcode
 	CGame::GetInstance()->SetCamPos(cx, cy/*cy*/);//
 	
+	RemoveObjects();
 }
 void CPlayScene::Render()
 {
@@ -182,3 +190,5 @@ void CPlayScene::Unload()
 
 	//DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
+
+

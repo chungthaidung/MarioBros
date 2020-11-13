@@ -1,9 +1,9 @@
 # id	file_path	transparent_color_r	g	b
 [TEXTURES]
--100	textures\bbox.png	237	28	35
+-100	textures\bbox.png	237	28	36
 0	textures\mario1.png	255	255	255
 20	textures\misc_.png	255	255	255
-10	textures\enemies.png	3	26	110
+10	textures\enemy_x3.png	3	26	110
 40	textures\effect_x3.png	255	255	255
 101	Resources\map\Final1(48).png	255	255	255
 
@@ -372,6 +372,12 @@
 
 #BRICK
 20001	254	188	16	16	20
+#===ENEMY===
+#GOOMBA WALK
+30001	9	11	16	16	10
+30002	32	11	16	16	10
+#GOOMBA DIE
+30003	54	18	16	9	10
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 
@@ -623,10 +629,13 @@
 500	10300	100	10301	100	10302	100	10303	100
 #FIRE BALL DAMAGED
 501	11004	30	11005	30	11006	30	11007	30
-#==== MISC =========
+#====MISC=========
 #BRICK
 601	20001	100
-
+#====ENEMY=========
+#GOOMBA WALK
+1000	30001	100	30002	100
+1001	30003	100
 # id	ani1	ani2	ani3
 #
 [ANIMATION_SETS]
@@ -635,3 +644,5 @@
 # MISC
 #601 BRICK 
 2	601
+#ENEMY	
+3	1000	1001
