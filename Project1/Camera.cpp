@@ -19,7 +19,7 @@ void Camera::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		target->GetPosition(cx, cy);
 		p_x -= c_width;
 		p_y -= c_height;
-		target->Update(dt,coObjects);
+		target->Update(dt);
 	}
 	
 }

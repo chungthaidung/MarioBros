@@ -150,6 +150,7 @@
     <ClCompile Include="CAnimationFrame.cpp" />
     <ClCompile Include="CAnimations.cpp" />
     <ClCompile Include="CAnimationSets.cpp" />
+    <ClCompile Include="CCollisionEvent.cpp" />
     <ClCompile Include="CGame.cpp" />
     <ClCompile Include="CGameObject.cpp" />
     <ClCompile Include="CKeyEventHandler.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="FireMario.cpp" />
     <ClCompile Include="GhostObject.cpp" />
+    <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="HammerMario.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -169,7 +171,6 @@
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="MarioFireBall.cpp" />
     <ClCompile Include="MarioTail.cpp" />
-    <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="PlayerLevel.cpp" />
     <ClCompile Include="RacoonMario.cpp" />
     <ClCompile Include="SmallMario.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="CAnimationFrame.h" />
     <ClInclude Include="CAnimations.h" />
     <ClInclude Include="CAnimationSets.h" />
+    <ClInclude Include="CCollisionEvent.h" />
     <ClInclude Include="CGame.h" />
     <ClInclude Include="CGameObject.h" />
     <ClInclude Include="CKeyEventHandler.h" />
@@ -196,13 +198,13 @@
     <ClInclude Include="define.h" />
     <ClInclude Include="FireMario.h" />
     <ClInclude Include="GhostObject.h" />
+    <ClInclude Include="Goomba.h" />
     <ClInclude Include="HammerMario.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="MarioFireBall.h" />
     <ClInclude Include="MarioTail.h" />
-    <ClInclude Include="Pipe.h" />
     <ClInclude Include="PlayerLevel.h" />
     <ClInclude Include="RacoonMario.h" />
     <ClInclude Include="SmallMario.h" />

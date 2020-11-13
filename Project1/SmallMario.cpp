@@ -12,6 +12,10 @@ void SmallMario::GetBoundingBox(float& left, float& top, float& right, float& bo
 	right = left + collisionbox.x;
 	bottom = top + collisionbox.y;
 }
+int SmallMario::GetPlayerLevel()
+{
+	return 1;
+}
 void SmallMario::Render()
 {
 	int ani = MARIO_ANI_SMALL_IDLE;

@@ -3,97 +3,12 @@
 #include "GhostObject.h"
 #include "debug.h"
 #include "CGame.h"
+
 PlayerLevel::PlayerLevel(CMario* mario)
 {
 	this->mario = mario;
 }
-void PlayerLevel::Collision(vector<LPGAMEOBJECT>* coObjects)
-{
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	coEvents.clear();
-
-	// turn off collision when die 
-	if (mario->state != MARIO_STATE_DIE)
-		mario->CalcPotentialCollisions(coObjects, coEvents);
-
-	// reset untouchable timer if untouchable time has passed
-	/*if (GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
-	{
-		untouchable_start = 0;
-		untouchable = 0;
-	}*/
-
-	// No collision occured, proceed normally
-	if (coEvents.size() == 0)
-	{
-		mario->x += mario->dx;
-		mario->y += mario->dy;
-		mario->onGround = false;
-		
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
-
-		// TODO: This is a very ugly designed function!!!!
-		mario->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		//if (rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
-
-		// block every object first!
-		mario->x += min_tx * mario->dx + nx * 0.4f;
-		mario->y += min_ty * mario->dy + ny * 0.4f;
-
-		//if (nx != 0) mario->vx = 0;
-		/*if (ny != 0) {
-			mario->vy = 0;
-			if (ny < 0) {
-				mario->onGround = true;
-			}
-		}*/
-	}
-	//
-	// Collision logic with other objects
-	//
-	for (UINT i = 0; i < coEventsResult.size(); i++)
-	{
-		LPCOLLISIONEVENT e = coEventsResult[i];
-
-		if (dynamic_cast<GhostObject*>(e->obj))
-		{
-			if (e->nx != 0) {
-				mario->x += mario->dx;
-			}
-			if (e->ny > 0) {
-				mario->y += mario->dy;
-			}
-			else {
-				mario->vy = 0;
-				mario->onGround = true;
-			}
-		}
-		else
-		{
-			if (e->nx != 0) {
-				mario->vx = 0;
-			}
-			if (e->ny != 0)
-			{
-				mario->vy = 0;
-				if (e->ny < 0)mario->onGround = true;
-			}
-		}
-
-	}
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-}
-void PlayerLevel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void PlayerLevel::Update(DWORD dt)
 {
 	MiniJump(dt);
 	PowerMeterUpdate(dt);
@@ -105,10 +20,54 @@ void PlayerLevel::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Simple fall down
 	mario->vy += mario->GetGravity() * dt;
 	mario->CGameObject::Update(dt);
-	Collision(coObjects);
+//	Collision(coObjects);
 	//DebugOut(L"Mario jump state: %d \n", mario->JumpState);
 	//DebugOut(L"Mario power meter: %f \n", mario->GetPowerMeter());
 	//DebugOut(L"Mario vy: %f \n", mario->vy);
+}
+void PlayerLevel::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
+{
+	mario->coEResult.clear();
+	// turn off collision when die 
+	if (mario->state != MARIO_STATE_DIE)
+		mario->CalcPotentialCollisions(colliable_objects,mario->coEResult);
+}
+void PlayerLevel::FinalUpdate(DWORD dt)
+{
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	if (mario->coEResult.size() == 0)
+	{
+		mario->x += mario->dx;
+		mario->y += mario->dy;
+		mario->onGround = false;
+
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
+
+		// TODO: This is a very ugly designed function!!!!
+		mario->FilterCollision(mario->coEResult, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
+		//if (rdx != 0 && rdx!=dx)
+		//	x += nx*abs(rdx); 
+
+		// block every object first!
+		mario->x += min_tx * mario->dx + nx * 0.4f;
+		mario->y += min_ty * mario->dy + ny * 0.4f;
+
+		if (nx != 0) mario->vx = 0;
+		if (ny != 0) {
+			mario->vy = 0;
+			if (ny < 0) {
+				mario->onGround = true;
+			}
+		}
+	}
+	for (UINT i = 0; i < mario->coEResult.size(); i++) delete  mario->coEResult[i];
 }
 void PlayerLevel::MovingState(DWORD dt)
 {	

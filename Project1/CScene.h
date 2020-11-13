@@ -3,7 +3,7 @@
 #include <d3dx9.h>
 #include <d3d9.h>
 #include <string>
-
+#include "CGameObject.h"
 
 class CScene
 {
@@ -12,7 +12,9 @@ protected:
 	int id;
 	LPCWSTR mapFilePath;
 	LPCWSTR sceneFilePath;
-	
+
+	vector<LPGAMEOBJECT> objects;
+
 
 public:
 	CScene(int id, LPCWSTR mapPath, LPCWSTR filePath);
@@ -22,5 +24,8 @@ public:
 	virtual void Unload() = 0;
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0;
+	virtual void RemoveObjects();
+	virtual void SpawnObject(CGameObject* obj);
+	virtual void DespawnObject(CGameObject* obj);
 };
 typedef CScene* LPSCENE;

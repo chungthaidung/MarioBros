@@ -153,9 +153,6 @@
     <ClCompile Include="MarioFireBall.cpp">
       <Filter>Game\Game Object\Object\Mario\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="Pipe.cpp">
-      <Filter>Game\Game Object\Object\Misc</Filter>
-    </ClCompile>
     <ClCompile Include="GhostObject.cpp">
       <Filter>Game\Game Object\Object\Misc</Filter>
     </ClCompile>
@@ -164,6 +161,12 @@
     </ClCompile>
     <ClCompile Include="MarioTail.cpp">
       <Filter>Game\Game Object\Object\Mario\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Goomba.cpp">
+      <Filter>Game\Game Object\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollisionEvent.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -239,17 +242,11 @@
     <ClInclude Include="HammerMario.h">
       <Filter>Game\Game Object\Object\Mario\Player Level</Filter>
     </ClInclude>
-    <ClInclude Include="CScene.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Mario.h">
       <Filter>Game\Game Object\Object\Mario</Filter>
     </ClInclude>
     <ClInclude Include="MarioFireBall.h">
       <Filter>Game\Game Object\Object\Mario\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="Pipe.h">
-      <Filter>Game\Game Object\Object\Misc</Filter>
     </ClInclude>
     <ClInclude Include="GhostObject.h">
       <Filter>Game\Game Object\Object\Misc</Filter>
@@ -259,6 +256,15 @@
     </ClInclude>
     <ClInclude Include="MarioTail.h">
       <Filter>Game\Game Object\Object\Mario\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene.h">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Goomba.h">
+      <Filter>Game\Game Object\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollisionEvent.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
