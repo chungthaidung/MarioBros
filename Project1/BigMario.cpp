@@ -17,7 +17,7 @@ void BigMario::GetBoundingBox(float& left, float& top, float& right, float& bott
 void BigMario::Render()
 {
 	int ani = MARIO_ANI_BIG_IDLE;
-	if (mario->isCrouch == true)
+	if (mario->GetState() == MARIO_STATE_CROUCH)
 	{
 		ani = MARIO_ANI_BIG_CROUCH;
 	}
@@ -53,6 +53,10 @@ void BigMario::Render()
 		case MARIO_STATE_SKID:
 			ani = MARIO_ANI_BIG_SKID;
 			break;
+		case MARIO_STATE_CROUCH:
+			ani = MARIO_ANI_BIG_CROUCH;
+
+			break;
 		}
 	}
 	int alpha = 255;
@@ -60,24 +64,6 @@ void BigMario::Render()
 	mario->RenderBoundingBox();
 }
 
-void BigMario::CrouchState(DWORD dt)
-{
-	CGame* keyboard = CGame::GetInstance();
-	float x, y;
-	mario->GetPosition(x, y);
-	y += collisionbox.y;
-	if (mario->state == MARIO_STATE_IDLE && keyboard->IsKeyDown(DIK_DOWN))
-	{
-		mario->isCrouch = true;
-		collisionbox.y = MARIO_CROUCH_BBOX_HEIGHT;
-	}
-	else
-	{
-		mario->isCrouch = false;
-		collisionbox.y = MARIO_BIG_BBOX_HEIGHT;
-	}
-	mario->SetPosition(x, y - collisionbox.y);
-}
 
 int BigMario::GetPlayerLevel()
 {

@@ -12,6 +12,9 @@ void SmallMario::GetBoundingBox(float& left, float& top, float& right, float& bo
 	right = left + collisionbox.x;
 	bottom = top + collisionbox.y;
 }
+void SmallMario::CrouchState(DWORD dt)
+{
+}
 int SmallMario::GetPlayerLevel()
 {
 	return 1;

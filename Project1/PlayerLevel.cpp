@@ -21,13 +21,12 @@ void PlayerLevel::Update(DWORD dt)
 	mario->vy += mario->GetGravity() * dt;
 	mario->CGameObject::Update(dt);
 //	Collision(coObjects);
+	//DebugOut(L"Mario vx: %f \n", mario->vx);
 	//DebugOut(L"Mario jump state: %d \n", mario->JumpState);
 	//DebugOut(L"Mario power meter: %f \n", mario->GetPowerMeter());
-	//DebugOut(L"Mario vy: %f \n", mario->vy);
 }
 void PlayerLevel::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 {
-	mario->coEResult.clear();
 	// turn off collision when die 
 	if (mario->state != MARIO_STATE_DIE)
 		mario->CalcPotentialCollisions(colliable_objects,mario->coEResult);
@@ -68,6 +67,7 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 		}
 	}
 	for (UINT i = 0; i < mario->coEResult.size(); i++) delete  mario->coEResult[i];
+	mario->coEResult.clear();
 }
 void PlayerLevel::MovingState(DWORD dt)
 {	
@@ -102,13 +102,20 @@ void PlayerLevel::MovingState(DWORD dt)
 		mario->vx += mario->GetAcceleration() * mario->dt;
 		if (abs(mario->vx) > maxspeed)
 		{
-			mario->vx = maxspeed * mario->nx;
+		
+			if (abs(mario->vx) - maxspeed > MARIO_RUN_DRAG_FORCE * dt)
+			{
+				mario->vx -= MARIO_RUN_DRAG_FORCE * dt * mario->nx;
+			}
+			else
+				mario->vx = maxspeed * mario->nx;
 		}
 		if (mario->vx * mario->nx >= 0) mario->isSkid = false;
+		
 	}
 	else //khong nhan gi 
 	{
-		if (abs(mario->vx) > mario->GetDrag()*dt)
+		if (abs(mario->vx) > mario->GetDrag()*dt&& mario->state!=MARIO_STATE_SKID)
 		{
 			mario->vx -= mario->GetDrag() * dt * mario->nx;
 		}
@@ -119,6 +126,7 @@ void PlayerLevel::MovingState(DWORD dt)
 		}
 		mario->isSkid = false;
 	}
+
 }
 void PlayerLevel::JumpingState(DWORD dt)
 {
@@ -177,6 +185,24 @@ void PlayerLevel::JumpingState(DWORD dt)
 		}
 		break;
 	}
+}
+void PlayerLevel::CrouchState(DWORD dt)
+{
+	CGame* keyboard = CGame::GetInstance();
+	float x, y;
+	mario->GetPosition(x, y);
+	y += collisionbox.y;
+	if (keyboard->IsKeyDown(DIK_DOWN) 
+		&& !keyboard->IsKeyDown(DIK_LEFT) && !keyboard->IsKeyDown(DIK_RIGHT))
+	{
+		mario->SetState(MARIO_STATE_CROUCH);
+		collisionbox.y = MARIO_CROUCH_BBOX_HEIGHT;
+	}
+	else
+	{
+		collisionbox.y = MARIO_BIG_BBOX_HEIGHT;
+	}
+	mario->SetPosition(x, y - collisionbox.y);
 }
 void PlayerLevel::PowerMeterUpdate(DWORD dt)
 {
