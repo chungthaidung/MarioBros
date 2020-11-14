@@ -156,6 +156,7 @@
     <ClCompile Include="CKeyEventHandler.cpp" />
     <ClCompile Include="CPlayScene.cpp" />
     <ClCompile Include="CPlaySceneKeyHandler.cpp" />
+    <ClCompile Include="CrouchKoopa.cpp" />
     <ClCompile Include="CScenceKeyHandler.cpp" />
     <ClCompile Include="CSprite.cpp" />
     <ClCompile Include="CSprites.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="FireMario.cpp" />
     <ClCompile Include="GhostObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Mario.cpp" />
@@ -172,8 +174,10 @@
     <ClCompile Include="MarioTail.cpp" />
     <ClCompile Include="PlayerLevel.cpp" />
     <ClCompile Include="RacoonMario.cpp" />
+    <ClCompile Include="RunningShell.cpp" />
     <ClCompile Include="SmallMario.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="WalkingKoopa.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BigMario.h" />
@@ -189,6 +193,7 @@
     <ClInclude Include="CKeyEventHandler.h" />
     <ClInclude Include="CPlayScene.h" />
     <ClInclude Include="CPlaySceneKeyHandler.h" />
+    <ClInclude Include="CrouchKoopa.h" />
     <ClInclude Include="CScenceKeyHandler.h" />
     <ClInclude Include="CSprite.h" />
     <ClInclude Include="CSprites.h" />
@@ -198,6 +203,7 @@
     <ClInclude Include="FireMario.h" />
     <ClInclude Include="GhostObject.h" />
     <ClInclude Include="Goomba.h" />
+    <ClInclude Include="Koopa.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="CScene.h" />
@@ -205,8 +211,10 @@
     <ClInclude Include="MarioTail.h" />
     <ClInclude Include="PlayerLevel.h" />
     <ClInclude Include="RacoonMario.h" />
+    <ClInclude Include="RunningShell.h" />
     <ClInclude Include="SmallMario.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="WalkingKoopa.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

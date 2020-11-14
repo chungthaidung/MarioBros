@@ -54,7 +54,7 @@ public:
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVECTOR3 pivot, int alpha = 255);
-	void DrawEx(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVECTOR3 pivot, int scale, int flipx, int alpha = 255);
+	void DrawEx(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVECTOR3 pivot, int scale, D3DXVECTOR2 flip, int alpha = 255);
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
 
@@ -87,6 +87,7 @@ public:
 
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
 	void GetCamPos(float& x, float& y) { x = cam_x; y = cam_y; }
+	D3DXVECTOR2 GetCamPos();
 	static CGame* GetInstance();
 	static DWORD DeltaTime;
 	~CGame();

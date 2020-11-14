@@ -6,7 +6,7 @@
 #include "Brick.h"
 #include "Mario.h"
 #include "Map.h"
-#include "Camera.h"
+
 
 class CPlayScene : public CScene
 {

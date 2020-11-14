@@ -44,6 +44,11 @@ void CMario::Render()
 	level_p->Render();
 }
 
+int CMario::GetLevel()
+{
+	return level_p->GetPlayerLevel();
+}
+
 void CMario::SetState(int state)
 {
 	CGameObject::SetState(state);

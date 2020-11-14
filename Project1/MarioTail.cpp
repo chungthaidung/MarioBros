@@ -35,8 +35,9 @@ void MarioTail::Moving(DWORD dt)
 	//int attackState = (GetTickCount() - attackStart <= 125) ? -1 : 1;
 	if (GetTickCount() - attackStart <= 125) attackState = -1;
 	else attackState = 1;
+	nx = mario->Getnx();
 	vy = 0;
-	vx = 3 * mario->Getnx() * attackState;
+	vx = 3.5 * mario->Getnx() * attackState;
 }
 int MarioTail::GetObjectType()
 {

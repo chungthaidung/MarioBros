@@ -62,6 +62,7 @@ public:
 
 
 	int nx;
+	int ny = 1;
 
 	int state;
 
@@ -77,7 +78,10 @@ public:
 	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
 	void SetWidthHeight(int w, int h) { width = w; height = h; }
 	int GetState() { return this->state; }
-	
+	void Setnx(float n) { nx = n; }
+	int Getnx() { return nx; }
+	void Setny(int a);
+	int Getny();
 	void RenderBoundingBox();
 
 	void SetAnimationSet(LPANIMATION_SET ani_set) { animation_set = ani_set; }

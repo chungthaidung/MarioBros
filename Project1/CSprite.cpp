@@ -11,11 +11,13 @@ CSprite::CSprite(int id, RECT r, D3DXVECTOR3 p, LPDIRECT3DTEXTURE9 tex)
 	this->texture = tex;
 	this->pivot = p;
 }
-void CSprite::Draw(float x, float y, int scale, int flipx, int alpha)
+void CSprite::Draw(float x, float y, int scale,int flipx,int flipy, int alpha)
 {
 	CGame* game = CGame::GetInstance();
 	D3DXVECTOR3 p = pivot;
-	if (flipx * pivot.x < 0)p.x = 0;
-	game->DrawEx(x, y, texture, sprite_r,p,scale,flipx, alpha);
+	D3DXVECTOR2 flip(flipx, flipy);
+	if (flip.x * pivot.x < 0)p.x = 0;
+	if (flip.y * pivot.y < 0)p.y = 0;
+	game->DrawEx(x, y, texture, sprite_r,p,scale,flip, alpha);
 	
 }

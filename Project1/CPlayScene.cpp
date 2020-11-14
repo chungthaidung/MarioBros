@@ -13,7 +13,7 @@
 #include "CAnimationSets.h"
 #include "GhostObject.h"
 #include "Goomba.h"
-
+#include "Koopa.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR mapPath, LPCWSTR filePath) :
@@ -65,6 +65,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_GOOMBA: obj = new Goomba(); break;
 	case OBJECT_TYPE_GHOST: obj = new GhostObject(); break;
+	case OBJECT_TYPE_KOOPA: obj = new Koopa(); break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -154,14 +155,17 @@ void CPlayScene::Update(DWORD dt)
 	CGame* game = CGame::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
 	//cy = CAMERA_Y_POSITION * 2 / 3;
-	if (cy > game->GetScreenHeight() *5/4)
-		cy = CAMERA_Y_POSITION * 1/2;
-	else cy -= game->GetScreenHeight() * 1 / 3;
+	if (cy > game->GetScreenHeight() + 48)
+		cy = CAMERA_Y_POSITION;
+	else if (cy < 768)
+	{
+		cy -= 48;
+	}
 	
 	//cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
 	//cam->SetCamPosition(cx, cy); //dùng để set cam nhưng chưa tạo được class cam
 	if (cx < 0) cx = 0;
-	if (cy < 0)cy = 0;
+	if (cy < 0) cy = 0; 
 	//if (cx + game->GetScreenWidth() > map->GetColumn() * 48) cx = map->GetColumn() * 48 - game->GetScreenWidth(); //hardcode
 	CGame::GetInstance()->SetCamPos(cx, cy/*cy*/);//
 	
@@ -174,7 +178,7 @@ void CPlayScene::Render()
 	map->DrawMap(x,y);
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
-	player->Render();
+
 }
 
 /*

@@ -42,7 +42,6 @@ void MarioFireBall::Update(DWORD dt)
 }
 void MarioFireBall::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	coEResult.clear();
 	CalcPotentialCollisions(coObjects, coEResult);
 }
 void MarioFireBall::FinalUpdate(DWORD dt)
@@ -81,26 +80,15 @@ void MarioFireBall::FinalUpdate(DWORD dt)
 			}
 		}
 		if (ny != 0) { 
-			vy = -FIREBALL_JUMP_FORCE; }
-
-		
-		//if (nx != 0) vx -= 0.5;
-
-		//phuc hoi lai cho nay cho de thay
-		//truong hop nay la vien dan cham goomba truoc, sang lan update sau goomba moi thay vien dan
-		//neu remove tren kia thi no ko co animation nhi
-		//oke, nhưng mà đặt debug xong là b thấy bug r hen, goomba thấy nó chạm viên đạn, nhưng sau 1 nùi lnhà nước update thì viên đạn mới thấy goomba, đúng logic là 2 đứa nó phải thấy nhau cùng lúc
-		//nếu cùng lúc thì thứ tự nó phải liên tiếp mới cùng lúc đc nhỉ, thứ tự trong list ấy. đúng r....
-		// với viên đạn thì mọi thứ vẫn ổn, nhưng qua động tác đạp quái sẽ có nhiều thứ để bàn á, đạp xong con quái trơ mặt ra chạy tiếp chẳng hạn =))))hm...
-		//để tui demo cho xem nè.
+			vy = -FIREBALL_JUMP_FORCE; 
+		}
 
 	}
 	State(dt);
 	for (UINT i = 0; i < coEResult.size(); i++) {
-		/*if (coEResult[i]->obj->GetObjectType() == OBJECT_TYPE_GOOMBA)
-			DebugOut(L"Fireball collide with: %d\n", coEResult[i]->obj->GetObjectType());*/
 		delete coEResult[i];
 	}
+	coEResult.clear();
 }
 void MarioFireBall::Reset(float mx,float my)
 {

@@ -10,7 +10,7 @@ PlayerLevel::PlayerLevel(CMario* mario)
 }
 void PlayerLevel::Update(DWORD dt)
 {
-	MiniJump(dt);
+	MiniJump();
 	PowerMeterUpdate(dt);
 	MovingState(dt);
 	// Calculate dx, dy 
@@ -47,12 +47,11 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 		float rdx = 0;
 		float rdy = 0;
 
-		// TODO: This is a very ugly designed function!!!!
 		mario->FilterCollision(mario->coEResult, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
 		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		//if (rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
+		//if (rdx != 0 && rdx!=mario->dx)
+		//	mario->x += nx*abs(rdx); 
 
 		// block every object first!
 		mario->x += min_tx * mario->dx + nx * 0.4f;
@@ -63,6 +62,15 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 			mario->vy = 0;
 			if (ny < 0) {
 				mario->onGround = true;
+			}
+		}
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (e->obj->GetObjectType() == OBJECT_TYPE_GOOMBA||e->obj->GetObjectType() == OBJECT_TYPE_KOOPA)
+			{
+				if (e->ny<0)
+				MiniJump(true);
 			}
 		}
 	}
@@ -78,7 +86,11 @@ void PlayerLevel::MovingState(DWORD dt)
 			mario->nx = 1;
 		else
 			mario->nx = -1;
-		if (mario->vx * mario->nx < 0) mario->isSkid = true;
+		if (mario->vx * mario->nx < 0 && mario->onGround == true)
+		{
+			if (mario->vx < 0) mario->isSkid = -1;
+			else mario->isSkid = 1;
+		}
 		mario->SetState(MARIO_STATE_WALKING);
 		mario->SetAcceleration(MARIO_WALKING_ACCELERATION * mario->nx);
 		mario->SetDrag(MARIO_WALK_DRAG_FORCE);
@@ -93,7 +105,7 @@ void PlayerLevel::MovingState(DWORD dt)
 			maxspeed = MARIO_RUNNING_SPEED;
 		}
 
-		if (mario->isSkid == 1)
+		if (mario->isSkid !=0)
 		{
 			mario->SetAcceleration(MARIO_SKID_ACCELERATION * mario->nx);
 			mario->SetState(MARIO_STATE_SKID);
@@ -102,7 +114,6 @@ void PlayerLevel::MovingState(DWORD dt)
 		mario->vx += mario->GetAcceleration() * mario->dt;
 		if (abs(mario->vx) > maxspeed)
 		{
-		
 			if (abs(mario->vx) - maxspeed > MARIO_RUN_DRAG_FORCE * dt)
 			{
 				mario->vx -= MARIO_RUN_DRAG_FORCE * dt * mario->nx;
@@ -110,21 +121,22 @@ void PlayerLevel::MovingState(DWORD dt)
 			else
 				mario->vx = maxspeed * mario->nx;
 		}
-		if (mario->vx * mario->nx >= 0) mario->isSkid = false;
+		if (mario->vx *mario->isSkid <= 0) mario->isSkid = 0;
 		
 	}
 	else //khong nhan gi 
 	{
-		if (abs(mario->vx) > mario->GetDrag()*dt&& mario->state!=MARIO_STATE_SKID)
+		if (abs(mario->vx) > mario->GetDrag()*dt )
 		{
 			mario->vx -= mario->GetDrag() * dt * mario->nx;
+			
 		}
 		else
 		{
 			mario->SetState(MARIO_STATE_IDLE);
 			mario->vx = 0;
 		}
-		mario->isSkid = false;
+		mario->isSkid =0;
 	}
 
 }
@@ -192,7 +204,7 @@ void PlayerLevel::CrouchState(DWORD dt)
 	float x, y;
 	mario->GetPosition(x, y);
 	y += collisionbox.y;
-	if (keyboard->IsKeyDown(DIK_DOWN) 
+	if (keyboard->IsKeyDown(DIK_DOWN) && mario->JumpState==MARIO_STATE_JUMP_IDLE
 		&& !keyboard->IsKeyDown(DIK_LEFT) && !keyboard->IsKeyDown(DIK_RIGHT))
 	{
 		mario->SetState(MARIO_STATE_CROUCH);
@@ -225,12 +237,11 @@ void PlayerLevel::PowerMeterUpdate(DWORD dt)
 }
 void PlayerLevel::SetState(int state)
 {
-
 }
-void PlayerLevel::MiniJump(DWORD dt)
+void PlayerLevel::MiniJump(bool isJump)
 {
 	CGame* keyboard = CGame::GetInstance();
-	if (keyboard->IsKeyDown(DIK_X)&&mario->onGround)
+	if ((keyboard->IsKeyDown(DIK_X) || isJump) && mario->onGround)
 	{
 		mario->vy = -MARIO_JUMP_FORCE;
 		mario->canJumpHigh = false;

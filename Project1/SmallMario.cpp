@@ -26,6 +26,8 @@ void SmallMario::Render()
 	{
 		switch (mario->JumpState)
 		{
+		case MARIO_STATE_FALL:
+
 		case MARIO_STATE_JUMP:
 		case MARIO_STATE_HIGH_JUMP:
 			ani = MARIO_ANI_SMALL_JUMP;
@@ -34,9 +36,7 @@ void SmallMario::Render()
 		case MARIO_STATE_SUPER_FALL:
 			ani = MARIO_ANI_SMALL_SUPER_JUMP;
 			break;
-		case MARIO_STATE_FALL:
-			ani = MARIO_ANI_SMALL_FALL;
-			break;
+
 		}
 	}
 	else {
@@ -58,7 +58,7 @@ void SmallMario::Render()
 	}
 
 	int alpha = 255;
-	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);
+	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx,1, alpha);
 	mario->RenderBoundingBox();
 }
 

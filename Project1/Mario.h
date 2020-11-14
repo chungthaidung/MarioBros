@@ -23,7 +23,7 @@ public:
 	bool onGround;
 	bool canJumpHigh;
 	bool canJumpSuper;
-	bool isSkid;
+	int isSkid;
 	bool isCrouch;
 	int JumpState;
 	int AttackState;
@@ -33,14 +33,14 @@ public:
 	void SetyPush(float p) { ypush = p; }
 	void SetPowerMeter(float a) { powerM = a; }
 	void SetGravity(float g) { gravity = g; }
-	void Setnx(float n) { nx = n;}
-	
+
 	float GetAcceleration() { return ax; }
 	float GetDrag() { return dragf; }
 	float GetyPush() { return ypush; }
 	float GetPowerMeter() { return powerM; }
 	float GetGravity() { return gravity; }
-	float Getnx() { return nx; }
+
+	int GetLevel();
 
 	void SetState(int state);
 	void SetLevel(int l);

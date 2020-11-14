@@ -5,15 +5,12 @@ class RacoonMario:public PlayerLevel
 {
 public:
 	RacoonMario(CMario* mario);
-	virtual void Update(DWORD dt);
-	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects);
-	virtual void FinalUpdate(DWORD dt);
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void AttackState(DWORD dt);
 	virtual void PowerMeterUpdate(DWORD dt);
 	virtual void JumpingState(DWORD dt);
-	virtual void MiniJump(DWORD dt);
+	virtual void MiniJump(bool isJump=false);
 	virtual void OnKeyDown(int KeyCode);
 	
 	virtual int GetPlayerLevel();

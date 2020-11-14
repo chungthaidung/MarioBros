@@ -133,6 +133,16 @@ void CGameObject::FilterCollision(
 }
 
 
+void CGameObject::Setny(int a)
+{
+	ny = a;
+}
+
+int CGameObject::Getny()
+{
+	return ny;
+}
+
 void CGameObject::RenderBoundingBox()
 {
 	D3DXVECTOR3 p(0, 0, 0);
