@@ -58,7 +58,7 @@ void BigMario::Render()
 		}
 	
 	}
-	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);
+	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx,1,alpha);
 	mario->RenderBoundingBox();
 }
 

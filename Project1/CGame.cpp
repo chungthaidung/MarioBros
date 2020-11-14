@@ -68,9 +68,9 @@ void CGame::Init(HWND hWnd)
 /*
 	Utility function to wrap LPD3DXSPRITE::Draw
 */
-void CGame::DrawEx(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVECTOR3 pivot, int scale, int flipx, int alpha)
+void CGame::DrawEx(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVECTOR3 pivot, int scale, D3DXVECTOR2 flip, int alpha)
 {
-	if ((scale == 1) && (flipx == 1))
+	if ((scale == 1) && (flip.x==1) && (flip.y==1))
 		Draw(x, y, texture, r,pivot);
 	else {
 		D3DXVECTOR3 p(x - cam_x, y - cam_y, 0);
@@ -83,7 +83,7 @@ void CGame::DrawEx(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVEC
 		//&D3DXVECTOR2(x - cam_x + width / 2, y - cam_y + height / 2) tọa độ giữa sprite 
 		//DebugOut(L"Size(%f, %f)\n", width, height);
 		D3DXMatrixTransformation2D(&newMatrix,
-			&D3DXVECTOR2(x - cam_x + width / 2, y - cam_y + height / 2), 0, &D3DXVECTOR2(scale * flipx, scale), //tan scale | goc xoay (rad) | ti le scale
+			&D3DXVECTOR2(x - cam_x + width / 2, y - cam_y + height / 2), 0, &D3DXVECTOR2(scale * flip.x, scale*flip.y), //tan scale | goc xoay (rad) | ti le scale
 			NULL, NULL,//tam rotate | goc xoay (rad)
 			NULL); //tam translation | trans
 		mMatrix = oldMatrix * newMatrix;
@@ -332,6 +332,12 @@ void CGame::SweptAABB(
 		dy > 0 ? ny = -1.0f : ny = 1.0f;
 	}
 
+}
+
+D3DXVECTOR2 CGame::GetCamPos()
+{
+	D3DXVECTOR2 c(cam_x, cam_y);
+	return c;
 }
 
 CGame* CGame::GetInstance()

@@ -17,7 +17,7 @@ void CAnimation::Add(int spriteId, DWORD time)
 	frames.push_back(frame);
 }
 
-void CAnimation::Render(float x, float y,int scale,int flipx, int alpha)
+void CAnimation::Render(float x, float y,int scale,int flipx, int flipy , int alpha)
 {
 	DWORD now = GetTickCount();
 	if (currentFrame == -1)
@@ -36,15 +36,15 @@ void CAnimation::Render(float x, float y,int scale,int flipx, int alpha)
 		}
 	}
 
-	frames[currentFrame]->GetSprite()->Draw(x, y,scale,flipx, alpha);
+	frames[currentFrame]->GetSprite()->Draw(x, y,scale,flipx,flipy, alpha);
 }
 
-void CAnimation::Render(float x, float y, DWORD timestart, int totaltime, int scale, int flipx, int alpha)
+void CAnimation::Render(float x, float y, DWORD timestart, int totaltime, int scale, int flipx, int flipy, int alpha)
 {
 	DWORD now = GetTickCount();
 	int c_frame = (now - timestart) * frames.size() / totaltime;
 	if (c_frame < 0) c_frame = 0;
 	if (c_frame > frames.size())c_frame = frames.size();
-	frames[c_frame]->GetSprite()->Draw(x, y, scale, flipx, alpha);
+	frames[c_frame]->GetSprite()->Draw(x, y, scale, flipx,flipy, alpha);
 }
 

@@ -17,7 +17,7 @@ public:
 	virtual void Render()=0;
 	virtual void SetState(int state);
 
-	virtual void MiniJump(DWORD dt);
+	virtual void MiniJump(bool isJump=false);
 	virtual void PowerMeterUpdate(DWORD dt);
 	virtual void MovingState(DWORD dt);
 	virtual void JumpingState(DWORD dt);

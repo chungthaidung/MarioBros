@@ -1,10 +1,11 @@
 #pragma once
 #include "CGameObject.h"
-class Goomba :
+#include "WalkingKoopa.h"
+class Koopa :
     public CGameObject
 {
 public:
-	Goomba();
+	Koopa();
 	virtual void Update(DWORD dt);
 	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void FinalUpdate(DWORD dt);
@@ -12,8 +13,14 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Render();
 	virtual int GetObjectType();
+
+	void SetGravity(float a);
+	float GetGravity();
+	
+
 protected:
 	DWORD dietime;
-	D3DXVECTOR2 collision_box;
+	WalkingKoopa* koopaState;
+	float gravity=MARIO_GRAVITY;
 };
 

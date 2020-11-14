@@ -9,23 +9,6 @@ RacoonMario::RacoonMario(CMario* mario) :PlayerLevel(mario)
 	tail->SetActive(false);
 
 }
-void RacoonMario::Update(DWORD dt)
-{
-	//if (tail->GetActive()) tail->Update(dt);
-
-	PlayerLevel::Update(dt);
-
-}
-void RacoonMario::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
-{
-	//if (tail->GetActive()) tail->CollisionUpdate(dt, colliable_objects);
-	PlayerLevel::CollisionUpdate(dt,colliable_objects);
-}
-void RacoonMario::FinalUpdate(DWORD dt)
-{
-	//if (tail->GetActive()) tail->FinalUpdate(dt);
-	PlayerLevel::FinalUpdate(dt);
-}
 int RacoonMario::GetPlayerLevel()
 {
 	return 3;
@@ -43,13 +26,13 @@ void RacoonMario::Render()
 	if (mario->GetState() == MARIO_STATE_CROUCH)
 	{
 		ani = MARIO_ANI_RACOON_CROUCH;
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx,1, alpha);
 		mario->RenderBoundingBox();
 	}
 	else if (mario->AttackState == MARIO_STATE_ATTACK_START)
 	{
 		ani = MARIO_ANI_RACOON_SPIN;
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y,attacktime,500, 1, mario->nx, alpha);
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y,attacktime,MARIO_ATTACK_TIME, 1, mario->nx,1, alpha);
 		mario->RenderBoundingBox();
 	}
 	else if (mario->JumpState != MARIO_STATE_JUMP_IDLE)
@@ -76,7 +59,7 @@ void RacoonMario::Render()
 			ani = MARIO_ANI_RACOON_FLOAT;
 			break;
 		}
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx,1, alpha);
 		mario->RenderBoundingBox();
 	}
 	else {
@@ -98,12 +81,11 @@ void RacoonMario::Render()
 			ani = MARIO_ANI_RACOON_SKID;
 			break;
 		}
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx, alpha);
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx,1, alpha);
 		mario->RenderBoundingBox();
 	}
 		
 	//if (mario->untouchable) alpha = 128;
-	//if (tail->GetActive()) tail->Render();
 	
 }
 void RacoonMario::AttackState(DWORD dt)
@@ -121,7 +103,7 @@ void RacoonMario::AttackState(DWORD dt)
 	switch (mario->AttackState)
 	{
 	case MARIO_STATE_ATTACK_START:
-		if (GetTickCount() - attacktime >= 500) {
+		if (GetTickCount() - attacktime >= MARIO_ATTACK_TIME) {
 			mario->AttackState = MARIO_STATE_ATTACK_END;
 		}
 		break;
@@ -182,7 +164,10 @@ void RacoonMario::JumpingState(DWORD dt)
 		break;
 	case MARIO_STATE_FLOAT:
 		if (keyboard->IsKeyDown(DIK_X))
-			mario->vy -= MARIO_FLOAT * dt;
+		{
+			mario->SetGravity(0);
+			mario->vy += MARIO_FLOAT * dt;
+		}
 		else mario->JumpState = MARIO_STATE_FALL;
 		if (mario->onGround == true)
 		{
@@ -212,6 +197,7 @@ void RacoonMario::JumpingState(DWORD dt)
 		break;
 	case MARIO_STATE_SUPER_FALL:
 	case MARIO_STATE_FALL:
+		mario->SetGravity(MARIO_GRAVITY);
 		if (mario->onGround)
 		{
 			mario->JumpState = MARIO_STATE_JUMP_IDLE;
@@ -242,10 +228,11 @@ void RacoonMario::PowerMeterUpdate(DWORD dt)
 	}
 	mario->SetPowerMeter(power);
 }
-void RacoonMario::MiniJump(DWORD dt)
+void RacoonMario::MiniJump(bool isJump)
 {
 	CGame* keyboard = CGame::GetInstance();
-	if (keyboard->IsKeyDown(DIK_X) && mario->onGround)
+	DWORD dt = CGame::DeltaTime;
+	if ((keyboard->IsKeyDown(DIK_X)||isJump) && mario->onGround)
 	{
 		mario->vy = -MARIO_JUMP_FORCE;
 		mario->canJumpHigh = false;
@@ -257,6 +244,7 @@ void RacoonMario::MiniJump(DWORD dt)
 		if (mario->JumpState == MARIO_STATE_FALL)
 		{
 			mario->JumpState = MARIO_STATE_FLOAT;
+			mario->vy=MARIO_GRAVITY*dt;
 		}
 		else if (mario->JumpState == MARIO_STATE_SUPER_FALL || mario->JumpState == MARIO_STATE_SUPER_JUMP)
 		{

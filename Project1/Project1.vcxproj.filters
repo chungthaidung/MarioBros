@@ -70,6 +70,12 @@
     <Filter Include="Game\Game Object\Object\Enemy">
       <UniqueIdentifier>{5ee8bd02-7fe5-467f-8209-1cd3788288cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Scene\Collision">
+      <UniqueIdentifier>{a8902aa7-9bae-4370-83ac-4d61666fa540}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game Object\Object\Enemy\Koopa">
+      <UniqueIdentifier>{a95132fa-a8a2-4d8c-bed7-af5b22b6e4ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">
@@ -163,7 +169,19 @@
       <Filter>Game\Game Object\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="CCollisionEvent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game\Scene\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Koopa.cpp">
+      <Filter>Game\Game Object\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="WalkingKoopa.cpp">
+      <Filter>Game\Game Object\Object\Enemy\Koopa</Filter>
+    </ClCompile>
+    <ClCompile Include="CrouchKoopa.cpp">
+      <Filter>Game\Game Object\Object\Enemy\Koopa</Filter>
+    </ClCompile>
+    <ClCompile Include="RunningShell.cpp">
+      <Filter>Game\Game Object\Object\Enemy\Koopa</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -258,7 +276,19 @@
       <Filter>Game\Game Object\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="CCollisionEvent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game\Scene\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Koopa.h">
+      <Filter>Game\Game Object\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="WalkingKoopa.h">
+      <Filter>Game\Game Object\Object\Enemy\Koopa</Filter>
+    </ClInclude>
+    <ClInclude Include="CrouchKoopa.h">
+      <Filter>Game\Game Object\Object\Enemy\Koopa</Filter>
+    </ClInclude>
+    <ClInclude Include="RunningShell.h">
+      <Filter>Game\Game Object\Object\Enemy\Koopa</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
