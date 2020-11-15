@@ -13,7 +13,6 @@ FireMario::FireMario(CMario* mario) :PlayerLevel(mario)
 		fireballs.push_back(ball);
 	}
 }
-
 void FireMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	mario->GetPosition(left, top);
@@ -54,6 +53,10 @@ void FireMario::Render()
 			ani = MARIO_ANI_FIRE_SUPER_JUMP;
 			break;
 		}
+		if (mario->GetInHand() != NULL)
+		{
+			ani = MARIO_ANI_FIRE_HOLD_FALL;
+		}
 		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx * f,1, alpha);
 		mario->RenderBoundingBox();
 	}
@@ -78,6 +81,10 @@ void FireMario::Render()
 			break;
 
 		}
+		if (mario->GetInHand() != NULL && mario->GetState() == MARIO_STATE_IDLE)
+			ani = MARIO_ANI_FIRE_HOLD_IDLE;
+		else if (mario->GetInHand() != NULL)
+			ani = MARIO_ANI_FIRE_HOLD;
 		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx * f,1, alpha);
 		mario->RenderBoundingBox();
 	}
@@ -114,6 +121,7 @@ void FireMario::AttackState(DWORD dt)
 }
 void FireMario::OnKeyDown(int KeyCode)
 {
+	PlayerLevel::OnKeyDown(KeyCode);
 	switch (KeyCode)
 	{
 	case DIK_A:
@@ -128,7 +136,7 @@ void FireMario::OnKeyDown(int KeyCode)
 }
 int FireMario::GetPlayerLevel()
 {
-	return 4;
+	return MARIO_LEVEL_FIRE;
 }
 bool FireMario::IsActive()
 {

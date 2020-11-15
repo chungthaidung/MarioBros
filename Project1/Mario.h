@@ -19,6 +19,7 @@ protected:
 	float dragf; // luc keo
 	float ypush;
 	float powerM;
+	CGameObject* inHand;
 public:
 	bool onGround;
 	bool canJumpHigh;
@@ -33,12 +34,15 @@ public:
 	void SetyPush(float p) { ypush = p; }
 	void SetPowerMeter(float a) { powerM = a; }
 	void SetGravity(float g) { gravity = g; }
+	void SetInHand(CGameObject* obj);
 
 	float GetAcceleration() { return ax; }
 	float GetDrag() { return dragf; }
 	float GetyPush() { return ypush; }
 	float GetPowerMeter() { return powerM; }
 	float GetGravity() { return gravity; }
+	CGameObject* GetInHand();
+	D3DXVECTOR2 GetCollisionBox();
 
 	int GetLevel();
 

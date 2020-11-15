@@ -28,7 +28,6 @@ void SmallMario::Render()
 		switch (mario->JumpState)
 		{
 		case MARIO_STATE_FALL:
-
 		case MARIO_STATE_JUMP:
 		case MARIO_STATE_HIGH_JUMP:
 			ani = MARIO_ANI_SMALL_JUMP;
@@ -38,6 +37,10 @@ void SmallMario::Render()
 			ani = MARIO_ANI_SMALL_SUPER_JUMP;
 			break;
 
+		}
+		if (mario->GetInHand() != NULL)
+		{
+			ani = MARIO_ANI_SMALL_HOLD_FALL;
 		}
 	}
 	else {
@@ -57,6 +60,10 @@ void SmallMario::Render()
 			f = -1;
 			break;
 		}
+		if (mario->GetInHand() != NULL && mario->GetState()== MARIO_STATE_IDLE)
+			ani = MARIO_ANI_SMALL_HOLD_IDLE;
+		else if (mario->GetInHand() != NULL)
+			ani = MARIO_ANI_SMALL_HOLD;
 	}
 
 	int alpha = 255;

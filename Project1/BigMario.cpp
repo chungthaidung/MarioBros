@@ -22,7 +22,6 @@ void BigMario::Render()
 	if (mario->GetState() == MARIO_STATE_CROUCH)
 	{
 		ani = MARIO_ANI_BIG_CROUCH;
-		
 	}
 	else if (mario->JumpState != MARIO_STATE_JUMP_IDLE)
 	{
@@ -39,6 +38,10 @@ void BigMario::Render()
 		case MARIO_STATE_FALL:
 			ani = MARIO_ANI_BIG_FALL;
 			break;
+		}
+		if (mario->GetInHand() != NULL)
+		{
+			ani = MARIO_ANI_BIG_HOLD_FALL;
 		}
 	}
 	else {
@@ -58,7 +61,10 @@ void BigMario::Render()
 			f = -1;
 			break;
 		}
-	
+		if (mario->GetInHand() != NULL && mario->GetState() == MARIO_STATE_IDLE)
+			ani = MARIO_ANI_BIG_HOLD_IDLE;
+		else if (mario->GetInHand() != NULL)
+			ani = MARIO_ANI_BIG_HOLD;
 	}
 	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx*f,1,alpha);
 	mario->RenderBoundingBox();

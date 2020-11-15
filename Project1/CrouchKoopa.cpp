@@ -2,6 +2,7 @@
 #include "Koopa.h"
 #include "debug.h"
 #include "CGame.h"
+#include "Mario.h"
 CrouchKoopa::CrouchKoopa(Koopa* k):WalkingKoopa(k)
 {
 	collisionbox.x = KOOPA_BBOX_HEIGHT;
@@ -16,12 +17,11 @@ void CrouchKoopa::Update(DWORD dt)
 {
 	koopa->vy += koopa->GetGravity() * dt;
 	koopa->CGameObject::Update(dt);
-
+	HoldUpdate(dt);
 }
 
 void CrouchKoopa::FinalUpdate(DWORD dt)
 {
-	
 	if (koopa->GetState() == KOOPA_STATE_DIE && koopa->y > CGame::GetInstance()->GetCamPos().y + SCREEN_HEIGHT)
 	{
 		koopa->isRemove = true;
@@ -61,11 +61,15 @@ void CrouchKoopa::FinalUpdate(DWORD dt)
 	for (UINT i = 0; i < coEventsResult.size(); i++)
 	{
 		LPCOLLISIONEVENT e = coEventsResult[i];
-		if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO)
+		if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO )
 		{
-			koopa->nx = e->obj->Getnx();
-			koopa->SetState(KOOPA_STATE_SHELL_RUNNING);
-			koopa->SetGravity(0);
+			if (koopa->GetHolder() == NULL)
+			{
+				koopa->nx = e->obj->Getnx();
+				koopa->SetState(KOOPA_STATE_SHELL_RUNNING);
+				koopa->vy = 0;
+			}
+
 		}
 		else if (e->obj->GetObjectType() == OBJECT_TYPE_TAIL)
 		{
@@ -100,5 +104,27 @@ void CrouchKoopa::Render()
 		ani = KOOPA_ANI_RESPAWN;
 	CAnimations::GetInstance()->Get(ani)->Render(koopa->x, koopa->y, 1, koopa->nx,koopa->Getny());
 	koopa->RenderBoundingBox();
+}
+
+void CrouchKoopa::HoldUpdate(DWORD dt)
+{
+	if (koopa->GetHolder() != NULL)
+	{
+		koopa->SetGravity(0);
+		CMario* mario = koopa->GetHolder();
+		if (mario->nx > 0)
+		{
+			koopa->SetPosition(mario->x + mario->GetCollisionBox().x -2, mario->y+ mario->GetCollisionBox().y-koopa->GetCollisionBox().y);
+		}
+		else
+		{
+			koopa->SetPosition(mario->x - koopa->GetCollisionBox().x +2, mario->y + mario->GetCollisionBox().y - koopa->GetCollisionBox().y);
+		}
+	}
+	else 
+	{ 
+		koopa->SetGravity(MARIO_GRAVITY); 
+	}
+
 }
 

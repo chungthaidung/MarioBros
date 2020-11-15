@@ -8,6 +8,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void FinalUpdate(DWORD dt);
 	virtual void Render();
+	virtual void HoldUpdate(DWORD dt);
 	//virtual void SetState(int state);
 protected:
 	DWORD respawntime;
