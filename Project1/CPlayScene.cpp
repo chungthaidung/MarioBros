@@ -176,9 +176,9 @@ void CPlayScene::Render()
 	float x, y;
 	CGame::GetInstance()->GetCamPos(x,y );
 	map->DrawMap(x,y);
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 1; i < objects.size(); i++)
 		objects[i]->Render();
-
+	player->Render();
 }
 
 /*

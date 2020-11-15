@@ -29,7 +29,7 @@ void Goomba::Update(DWORD dt)
 	if (vx < 0 && x < 0) {
 		x = 0; vx *= -1;
 	}
-	DebugOut(L"vx: %f nx: %d \n", vx,nx);
+	//DebugOut(L"vx: %f nx: %d \n", vx,nx);
 }
 void Goomba::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {

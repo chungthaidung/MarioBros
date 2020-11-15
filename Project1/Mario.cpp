@@ -6,6 +6,7 @@
 #include "SmallMario.h"
 #include "CGameObject.h"
 #include "GhostObject.h"
+#include "Koopa.h"
 #include "RacoonMario.h"
 #include "FireMario.h"
 CMario::CMario(float x, float y) : CGameObject()
@@ -27,6 +28,7 @@ void CMario::Update(DWORD dt)
 {
 	level_p->Update(dt);
 	if (x< 0) x = 0;
+
 }
 
 void CMario::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
@@ -42,6 +44,21 @@ void CMario::FinalUpdate(DWORD dt)
 void CMario::Render()
 {
 	level_p->Render();
+}
+
+void CMario::SetInHand(CGameObject* obj)
+{
+	inHand = obj;
+}
+
+CGameObject* CMario::GetInHand()
+{
+	return inHand;
+}
+
+D3DXVECTOR2 CMario::GetCollisionBox()
+{
+	return level_p->GetCollisionBox();
 }
 
 int CMario::GetLevel()
@@ -101,18 +118,6 @@ void CMario::OnKeyDown(int KeyCode)
 	level_p->OnKeyDown(KeyCode);
 	switch (KeyCode)
 	{
-	case DIK_S:
-		if (onGround && powerM >= MARIO_POWER_METER_MAX)
-		{
-			canJumpSuper = true;
-			JumpState = MARIO_STATE_SUPER_JUMP;
-		}
-		else if (onGround)
-		{
-			canJumpHigh = true;
-			JumpState = MARIO_STATE_JUMP;
-		}
-		break;
 	case DIK_R:
 		Reset();
 		break;
@@ -133,19 +138,39 @@ void CMario::OnKeyDown(int KeyCode)
 void CMario::OnKeyUp(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
-	/*switch (KeyCode)
+	level_p->OnKeyUp(KeyCode);
+	switch (KeyCode)
 	{
 	case DIK_A:
-		if (KeyCode == DIK_RIGHT)
-			SetState(MARIO_STATE_WALKING_RIGHT);
-		else if (KeyCode == DIK_LEFT)
-			SetState(MARIO_STATE_WALKING_LEFT);
+		if (inHand != NULL)
+		{
+			if (inHand->GetObjectType() == OBJECT_TYPE_KOOPA)
+			{
+				Koopa* koopa = dynamic_cast<Koopa*>(inHand);
+				if (koopa->GetState() == KOOPA_STATE_CROUCH)
+				{
+					if (nx > 0)
+					{
+						koopa->SetPosition(x + level_p->GetCollisionBox().x + 1, y + level_p->GetCollisionBox().y - koopa->GetCollisionBox().y);
+					}
+					else
+					{
+						koopa->SetPosition(x - koopa->GetCollisionBox().x - 1, y + level_p->GetCollisionBox().y - koopa->GetCollisionBox().y);
+					}
+					koopa->SetHolder(NULL);
+					inHand = NULL;
+				}
+				else 
+				{
+					koopa->SetHolder(NULL);
+					inHand = NULL;
+				}
+			}
+		}
 		else
-			SetState(MARIO_STATE_IDLE);
+		{
+			inHand = NULL;
+		}
 		break;
-	case DIK_LEFT:
-	case DIK_RIGHT:
-		SetState(MARIO_STATE_IDLE);
-		break;
-	}*/
+	}
 }

@@ -1,5 +1,6 @@
 #include "RunningShell.h"
 #include "Koopa.h"
+#include "debug.h"
 RunningShell::RunningShell(Koopa* k):WalkingKoopa(k)
 {
 	collisionbox.x = KOOPA_BBOX_HEIGHT;
@@ -13,8 +14,6 @@ void RunningShell::Update(DWORD dt)
 	koopa->vy += koopa->GetGravity() * dt;
 	koopa->CGameObject::Update(dt);
 }
-
-
 void RunningShell::FinalUpdate(DWORD dt)
 {
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -34,8 +33,11 @@ void RunningShell::FinalUpdate(DWORD dt)
 		// block every object first!
 		koopa->x += min_tx * koopa->dx + nx * 0.4f;
 		koopa->y += min_ty * koopa->dy + ny * 0.4f;
-
 		
+
+		if (nx != 0) koopa->vx *= -1;
+		if (ny != 0) koopa->vy = 0;
+
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -52,13 +54,9 @@ void RunningShell::FinalUpdate(DWORD dt)
 			{
 				if (e->nx != 0) 
 				{
+					koopa->vx *= -1;
 					koopa->x += koopa->dx;
 				}
-			}
-			else
-			{
-				if (nx != 0) koopa->vx *= -1;
-				if (ny != 0) koopa->vy = 0;
 			}
 		}
 	}

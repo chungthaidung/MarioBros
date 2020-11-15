@@ -6,7 +6,8 @@ WalkingKoopa::WalkingKoopa(Koopa* k)
 	koopa = k;
 	collisionbox.x = KOOPA_BBOX_HEIGHT;
 	collisionbox.y = KOOPA_BBOX_WIDTH;
-	koopa->vx = KOOPA_WALKING_SPEED;
+	koopa->vx = -KOOPA_WALKING_SPEED;
+	koopa->SetGravity(MARIO_GRAVITY);
 }
 void WalkingKoopa::Update(DWORD dt)
 {
@@ -53,9 +54,9 @@ void WalkingKoopa::FinalUpdate(DWORD dt)
 			{
 				if (e->ny > 0) {
 					koopa->SetState(KOOPA_STATE_CROUCH);
-					koopa->SetGravity(0);
+					koopa->vy = 0;
 					koopa->Setny(1);
-
+					//koopa->SetGravity(0);
 				}
 			}
 			else if ( e->obj->GetObjectType() == OBJECT_TYPE_TAIL|| e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL)
@@ -81,7 +82,7 @@ void WalkingKoopa::Render()
 {
 	int ani = KOOPA_ANI_WALKING;
 	int f = -1;
-	CAnimations::GetInstance()->Get(ani)->Render(koopa->x, koopa->y, 1, koopa->nx*f);//vì sprite bị ngược
+	CAnimations::GetInstance()->Get(ani)->Render(koopa->x, koopa->y, 1, koopa->nx*f);
 	koopa->RenderBoundingBox();
 }
 

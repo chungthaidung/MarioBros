@@ -60,6 +60,10 @@ void RacoonMario::Render()
 			ani = MARIO_ANI_RACOON_FLOAT;
 			break;
 		}
+		if (mario->GetInHand() != NULL)
+		{
+			ani = MARIO_ANI_RACOON_HOLD_FALL;
+		}
 		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx*f,1, alpha);
 		mario->RenderBoundingBox();
 	}
@@ -83,6 +87,10 @@ void RacoonMario::Render()
 			f = -1;
 			break;
 		}
+		if (mario->GetInHand() != NULL && mario->GetState() == MARIO_STATE_IDLE)
+			ani = MARIO_ANI_RACOON_HOLD_IDLE;
+		else if (mario->GetInHand() != NULL)
+			ani = MARIO_ANI_RACOON_HOLD;
 		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx*f,1, alpha);
 		mario->RenderBoundingBox();
 	}
@@ -259,11 +267,13 @@ void RacoonMario::MiniJump(bool isJump)
 }
 void RacoonMario::OnKeyDown(int KeyCode)
 {
-	DWORD dt = CGame::DeltaTime;
+	PlayerLevel::OnKeyDown(KeyCode);
 	switch (KeyCode)
 	{
 	case DIK_A:
 		mario->AttackState = MARIO_STATE_ATTACK_START;
+		tail->SetActive(true);
+		CGame::GetInstance()->GetCurrentScene()->SpawnObject(tail);
 		attacktime = GetTickCount();
 		break;
 	}

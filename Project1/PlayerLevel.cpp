@@ -3,7 +3,7 @@
 #include "GhostObject.h"
 #include "debug.h"
 #include "CGame.h"
-
+#include "Koopa.h"
 PlayerLevel::PlayerLevel(CMario* mario)
 {
 	this->mario = mario;
@@ -67,7 +67,26 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetObjectType() == OBJECT_TYPE_GOOMBA||e->obj->GetObjectType() == OBJECT_TYPE_KOOPA)
+			if (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_CROUCH
+				&& mario->GetState()!=MARIO_STATE_CROUCH)
+			{
+				CGame* keyboard = CGame::GetInstance();
+				Koopa* koopa = dynamic_cast<Koopa*>(e->obj);
+				if (e->nx != 0 && keyboard->IsKeyDown(DIK_A) && mario->GetInHand()==NULL)
+				{
+					if (koopa->GetState() == KOOPA_STATE_CROUCH)
+					{
+						mario->SetInHand(e->obj);
+						koopa->SetHolder(mario);
+					}
+					else
+					{
+						mario->SetInHand(NULL);
+						koopa->SetHolder(NULL);
+					}
+				}
+			}
+			else if (e->obj->GetObjectType() == OBJECT_TYPE_GOOMBA||e->obj->GetObjectType() == OBJECT_TYPE_KOOPA)
 			{
 				if (e->ny<0)
 				MiniJump(true);
@@ -82,17 +101,18 @@ void PlayerLevel::MovingState(DWORD dt)
 	CGame* keyboard = CGame::GetInstance();
 	if (keyboard->IsKeyDown(DIK_RIGHT) || keyboard->IsKeyDown(DIK_LEFT))
 	{
+		int key;
 		if (keyboard->IsKeyDown(DIK_RIGHT))
-			mario->nx = 1;
+			key = 1;
 		else
-			mario->nx = -1;
-		if (mario->vx * mario->nx < 0 && mario->onGround == true)
+			key= -1;
+		if (mario->vx * key < 0 && mario->onGround == true)
 		{
 			if (mario->vx < 0) mario->isSkid = -1;
 			else mario->isSkid = 1;
 		}
 		mario->SetState(MARIO_STATE_WALKING);
-		mario->SetAcceleration(MARIO_WALKING_ACCELERATION * mario->nx);
+		mario->SetAcceleration(MARIO_WALKING_ACCELERATION * key);
 		mario->SetDrag(MARIO_WALK_DRAG_FORCE);
 		float maxspeed = MARIO_WALKING_SPEED;
 		
@@ -100,14 +120,14 @@ void PlayerLevel::MovingState(DWORD dt)
 		{
 			if (abs(mario->vx) == MARIO_RUNNING_SPEED)
 				mario->SetState(MARIO_STATE_RUNNING);
-			mario->SetAcceleration(MARIO_RUNNING_ACCELERATION * mario->nx);
+			mario->SetAcceleration(MARIO_RUNNING_ACCELERATION * key);
 			mario->SetDrag(MARIO_RUN_DRAG_FORCE);
 			maxspeed = MARIO_RUNNING_SPEED;
 		}
 
 		if (mario->isSkid !=0)
 		{
-			mario->SetAcceleration(MARIO_SKID_ACCELERATION * mario->nx);
+			mario->SetAcceleration(MARIO_SKID_ACCELERATION * key);
 			mario->SetState(MARIO_STATE_SKID);
 		}
 
@@ -119,8 +139,10 @@ void PlayerLevel::MovingState(DWORD dt)
 				mario->vx -= MARIO_RUN_DRAG_FORCE * dt * mario->nx;
 			}
 			else
-				mario->vx = maxspeed * mario->nx;
+				mario->vx = maxspeed * key;
 		}
+		if (mario->vx < 0)mario->nx = -1;
+		else mario->nx = 1;
 		if (mario->vx *mario->isSkid <= 0) mario->isSkid = 0;
 		
 	}
@@ -128,10 +150,7 @@ void PlayerLevel::MovingState(DWORD dt)
 	{
 		if (abs(mario->vx) > mario->GetDrag()*dt )
 		{
-			if(mario->vx>0)
-				mario->vx -= mario->GetDrag() * dt ;
-			else
-				mario->vx -= mario->GetDrag() * dt*-1;			
+			mario->vx -= mario->GetDrag() * dt *mario->nx;
 		}
 		else
 		{
@@ -252,5 +271,22 @@ void PlayerLevel::MiniJump(bool isJump)
 	}
 }
 void PlayerLevel::OnKeyDown(int KeyCode)
+{
+	switch (KeyCode) {
+	case DIK_S:
+		if (mario->onGround && mario->GetPowerMeter() >= MARIO_POWER_METER_MAX)
+		{
+			mario->canJumpSuper = true;
+			mario->JumpState = MARIO_STATE_SUPER_JUMP;
+		}
+		else if (mario->onGround)
+		{
+			mario->canJumpHigh = true;
+			mario->JumpState = MARIO_STATE_JUMP;
+		}
+		break;
+	}
+}
+void PlayerLevel::OnKeyUp(int KeyCode)
 {
 }

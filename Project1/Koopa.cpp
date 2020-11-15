@@ -23,6 +23,7 @@ void Koopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 void Koopa::Update(DWORD dt)
 {
 	koopaState->Update(dt);
+	//DebugOut(L"KOOPA VY: %f \n", vy);
 }
 void Koopa::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -48,9 +49,22 @@ float Koopa::GetGravity()
 {
 	return gravity;
 }
+D3DXVECTOR2 Koopa::GetCollisionBox()
+{
+	return koopaState->GetCollisionBox();
+}
+void Koopa::SetHolder(CMario* h)
+{
+	holder = h;
+}
+CMario* Koopa::GetHolder()
+{
+	return holder;
+}
 void Koopa::SetState(int state)
 {
 	CGameObject::SetState(state);
+	y += koopaState->GetCollisionBox().y;
 	switch (state)
 	{
 	case KOOPA_STATE_WALKING:
@@ -63,5 +77,6 @@ void Koopa::SetState(int state)
 		koopaState = new RunningShell(this);
 		break;	
 	}
+	y -= koopaState->GetCollisionBox().y+5;
 
 }

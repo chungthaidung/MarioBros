@@ -70,11 +70,11 @@
     <Filter Include="Game\Game Object\Object\Enemy">
       <UniqueIdentifier>{5ee8bd02-7fe5-467f-8209-1cd3788288cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Scene\Collision">
-      <UniqueIdentifier>{a8902aa7-9bae-4370-83ac-4d61666fa540}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Game Object\Object\Enemy\Koopa">
       <UniqueIdentifier>{a95132fa-a8a2-4d8c-bed7-af5b22b6e4ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game Object\CGameObject\Collision">
+      <UniqueIdentifier>{a8902aa7-9bae-4370-83ac-4d61666fa540}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -169,7 +169,7 @@
       <Filter>Game\Game Object\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="CCollisionEvent.cpp">
-      <Filter>Game\Scene\Collision</Filter>
+      <Filter>Game\Game Object\CGameObject\Collision</Filter>
     </ClCompile>
     <ClCompile Include="Koopa.cpp">
       <Filter>Game\Game Object\Object\Enemy</Filter>
@@ -276,7 +276,7 @@
       <Filter>Game\Game Object\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="CCollisionEvent.h">
-      <Filter>Game\Scene\Collision</Filter>
+      <Filter>Game\Game Object\CGameObject\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Koopa.h">
       <Filter>Game\Game Object\Object\Enemy</Filter>

@@ -25,9 +25,10 @@ public:
 	virtual void AttackState(DWORD dt) {};
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom)=0;
 	virtual void SetCollisionBox(float x, float y) { collisionbox.x = x; collisionbox.y = y; }
-
+	
 	D3DXVECTOR2 GetCollisionBox() { return collisionbox; }
 	virtual void OnKeyDown(int KeyCode) ;
+	virtual void OnKeyUp(int KeyCode) ;
 	virtual int GetPlayerLevel() = 0;
 	
 };
