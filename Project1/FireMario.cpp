@@ -23,17 +23,18 @@ void FireMario::GetBoundingBox(float& left, float& top, float& right, float& bot
 void FireMario::Render()
 {
 	int alpha = 255;
+	int f = 1;
 	int ani = MARIO_ANI_FIRE_IDLE;
 	if (mario->GetState() == MARIO_STATE_CROUCH)
 	{
 		ani = MARIO_ANI_FIRE_CROUCH;
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx,1, alpha);
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx * f,1, alpha);
 		mario->RenderBoundingBox();
 	}
 	else if (mario->AttackState == MARIO_STATE_ATTACK_START)
 	{
 		ani = MARIO_ANI_FIRE_THROW;
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y,attacktime,250, 1, mario->nx,1, alpha);
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y,attacktime,250, 1, mario->nx * f,1, alpha);
 		mario->RenderBoundingBox();
 
 	}
@@ -53,7 +54,7 @@ void FireMario::Render()
 			ani = MARIO_ANI_FIRE_SUPER_JUMP;
 			break;
 		}
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx,1, alpha);
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx * f,1, alpha);
 		mario->RenderBoundingBox();
 	}
 	else {
@@ -73,12 +74,11 @@ void FireMario::Render()
 			break;
 		case MARIO_STATE_SKID:
 			ani = MARIO_ANI_FIRE_SKID;
+			f = -1;
 			break;
-		case MARIO_STATE_CROUCH:
-			ani = MARIO_ANI_FIRE_CROUCH;
-			break;
+
 		}
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx,1, alpha);
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx * f,1, alpha);
 		mario->RenderBoundingBox();
 	}
 

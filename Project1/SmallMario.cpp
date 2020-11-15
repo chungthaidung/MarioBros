@@ -17,11 +17,12 @@ void SmallMario::CrouchState(DWORD dt)
 }
 int SmallMario::GetPlayerLevel()
 {
-	return 1;
+	return MARIO_LEVEL_SMALL;
 }
 void SmallMario::Render()
 {
 	int ani = MARIO_ANI_SMALL_IDLE;
+	int f = 1;
 	if (mario->JumpState != MARIO_STATE_JUMP_IDLE)
 	{
 		switch (mario->JumpState)
@@ -53,12 +54,13 @@ void SmallMario::Render()
 			break;
 		case MARIO_STATE_SKID:
 			ani = MARIO_ANI_SMALL_SKID;
+			f = -1;
 			break;
 		}
 	}
 
 	int alpha = 255;
-	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx,1, alpha);
+	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx*f,1, alpha);
 	mario->RenderBoundingBox();
 }
 
