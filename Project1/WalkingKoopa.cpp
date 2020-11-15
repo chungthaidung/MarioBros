@@ -80,7 +80,8 @@ void WalkingKoopa::FinalUpdate(DWORD dt)
 void WalkingKoopa::Render()
 {
 	int ani = KOOPA_ANI_WALKING;
-	CAnimations::GetInstance()->Get(ani)->Render(koopa->x, koopa->y, 1, koopa->nx*-1);//vì sprite bị ngược
+	int f = -1;
+	CAnimations::GetInstance()->Get(ani)->Render(koopa->x, koopa->y, 1, koopa->nx*f);//vì sprite bị ngược
 	koopa->RenderBoundingBox();
 }
 

@@ -22,17 +22,18 @@ void RacoonMario::GetBoundingBox(float& left, float& top, float& right, float& b
 void RacoonMario::Render()
 {
 	int alpha = 255;
+	int f = 1;
 	int ani = MARIO_ANI_RACOON_IDLE;
 	if (mario->GetState() == MARIO_STATE_CROUCH)
 	{
 		ani = MARIO_ANI_RACOON_CROUCH;
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx,1, alpha);
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx * f,1, alpha);
 		mario->RenderBoundingBox();
 	}
 	else if (mario->AttackState == MARIO_STATE_ATTACK_START)
 	{
 		ani = MARIO_ANI_RACOON_SPIN;
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y,attacktime,MARIO_ATTACK_TIME, 1, mario->nx,1, alpha);
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y,attacktime,MARIO_ATTACK_TIME, 1, mario->nx*f,1, alpha);
 		mario->RenderBoundingBox();
 	}
 	else if (mario->JumpState != MARIO_STATE_JUMP_IDLE)
@@ -59,7 +60,7 @@ void RacoonMario::Render()
 			ani = MARIO_ANI_RACOON_FLOAT;
 			break;
 		}
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx,1, alpha);
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx*f,1, alpha);
 		mario->RenderBoundingBox();
 	}
 	else {
@@ -79,9 +80,10 @@ void RacoonMario::Render()
 			break;
 		case MARIO_STATE_SKID:
 			ani = MARIO_ANI_RACOON_SKID;
+			f = -1;
 			break;
 		}
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx,1, alpha);
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx*f,1, alpha);
 		mario->RenderBoundingBox();
 	}
 		

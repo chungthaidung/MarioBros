@@ -128,8 +128,10 @@ void PlayerLevel::MovingState(DWORD dt)
 	{
 		if (abs(mario->vx) > mario->GetDrag()*dt )
 		{
-			mario->vx -= mario->GetDrag() * dt * mario->nx;
-			
+			if(mario->vx>0)
+				mario->vx -= mario->GetDrag() * dt ;
+			else
+				mario->vx -= mario->GetDrag() * dt*-1;			
 		}
 		else
 		{
