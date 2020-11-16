@@ -73,7 +73,7 @@ void CGame::DrawEx(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVEC
 	if ((scale == 1) && (flip.x==1) && (flip.y==1))
 		Draw(x, y, texture, r,pivot);
 	else {
-		D3DXVECTOR3 p(x - cam_x, y - cam_y, 0);
+		D3DXVECTOR3 p(int(x - cam_x), int(y - cam_y), 0);
 
 		D3DXMATRIX oldMatrix, newMatrix, mMatrix;
 		spriteHandler->GetTransform(&oldMatrix);
@@ -97,7 +97,7 @@ void CGame::DrawEx(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVEC
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVECTOR3 pivot, int alpha)
 {
 	
-	D3DXVECTOR3 p(x - cam_x, y - cam_y, 0);
+	D3DXVECTOR3 p(int(x - cam_x), int(y - cam_y), 0);
 	spriteHandler->Draw(texture, &r, &pivot, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 	
 }

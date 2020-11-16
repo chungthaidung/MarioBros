@@ -165,25 +165,23 @@ void PlayerLevel::JumpingState(DWORD dt)
 {
 	CGame* keyboard = CGame::GetInstance();
 	float jumpForce = MARIO_JUMP_FORCE;
-	mario->SetyPush(MARIO_PUSH_FORCE);
 	switch (mario->JumpState)
 	{
 	case MARIO_STATE_JUMP:
-		mario->SetGravity(0);
 		if (keyboard->IsKeyDown(DIK_S) && mario->canJumpHigh)
 		{
 			jumpForce = MARIO_HIGH_JUMP_FORCE;
-			
 		}
 		
 		if (mario->vy > - jumpForce && mario->canJumpHigh) 
 		{ 
-			mario->vy -= mario->GetyPush() *dt;
+			mario->SetGravity(0);
+			mario->vy -= MARIO_PUSH_FORCE *dt;
 		}
 		else
 		{
 			mario->SetGravity(MARIO_GRAVITY);
-			mario->vy = -jumpForce;
+			mario->vy -= jumpForce;
 			mario->JumpState = MARIO_STATE_HIGH_JUMP;
 		}
 		break;
@@ -201,7 +199,7 @@ void PlayerLevel::JumpingState(DWORD dt)
 		}
 		if (mario->vy > -jumpForce && mario->canJumpSuper)
 		{
-			mario->vy -= mario->GetyPush() * dt;
+			mario->vy -= MARIO_PUSH_FORCE * dt;
 		}
 		else
 		{
@@ -212,8 +210,9 @@ void PlayerLevel::JumpingState(DWORD dt)
 		break;
 	case MARIO_STATE_SUPER_FALL:
 	case MARIO_STATE_FALL:
+		mario->SetGravity(MARIO_GRAVITY);
 		if (mario->onGround == true)
-		{	
+		{
 			mario->JumpState = MARIO_STATE_JUMP_IDLE;
 		}
 		break;
@@ -283,6 +282,7 @@ void PlayerLevel::OnKeyDown(int KeyCode)
 		{
 			mario->canJumpHigh = true;
 			mario->JumpState = MARIO_STATE_JUMP;
+			mario->vy = -MARIO_JUMP_FORCE;
 		}
 		break;
 	}

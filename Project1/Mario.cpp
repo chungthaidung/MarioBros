@@ -12,7 +12,7 @@
 CMario::CMario(float x, float y) : CGameObject()
 {
 	level_p = new SmallMario(this); 
-	level = MARIO_LEVEL_SMALL;//hardcode
+	//level = MARIO_LEVEL_SMALL;//hardcode
 	JumpState = MARIO_STATE_JUMP_IDLE;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
@@ -95,20 +95,23 @@ void CMario::Reset()
 void CMario::SetLevel(int level)
 {
 	y += level_p->GetCollisionBox().y;
-	switch (level)
+	if (AttackState != MARIO_STATE_ATTACK_START)
 	{
-	case MARIO_LEVEL_SMALL:
-		level_p = new SmallMario(this);
-		break;
-	case MARIO_LEVEL_BIG:
-		level_p = new BigMario(this);
-		break;
-	case MARIO_LEVEL_RACOON:
-		level_p = new RacoonMario(this);
-		break;
-	case MARIO_LEVEL_FIRE:
-		level_p = new FireMario(this);
-		break;
+		switch (level)
+		{
+		case MARIO_LEVEL_SMALL:
+			level_p = new SmallMario(this);
+			break;
+		case MARIO_LEVEL_BIG:
+			level_p = new BigMario(this);
+			break;
+		case MARIO_LEVEL_RACOON:
+			level_p = new RacoonMario(this);
+			break;
+		case MARIO_LEVEL_FIRE:
+			level_p = new FireMario(this);
+			break;
+		}
 	}
 	y -= level_p->GetCollisionBox().y;
 }
