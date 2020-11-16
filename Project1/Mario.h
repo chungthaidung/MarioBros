@@ -7,7 +7,7 @@ class PlayerLevel;
 
 class CMario : public CGameObject
 {
-	int level;
+	//int level;
 	int untouchable;
 	DWORD untouchable_start;
 	PlayerLevel* level_p;
@@ -17,7 +17,6 @@ protected:
 	float gravity;
 	float ax;//gia toc
 	float dragf; // luc keo
-	float ypush;
 	float powerM;
 	CGameObject* inHand;
 public:
@@ -31,14 +30,12 @@ public:
 
 	void SetAcceleration(float a) { ax = a; }
 	void SetDrag(float d) { dragf = d; }
-	void SetyPush(float p) { ypush = p; }
 	void SetPowerMeter(float a) { powerM = a; }
 	void SetGravity(float g) { gravity = g; }
 	void SetInHand(CGameObject* obj);
 
 	float GetAcceleration() { return ax; }
 	float GetDrag() { return dragf; }
-	float GetyPush() { return ypush; }
 	float GetPowerMeter() { return powerM; }
 	float GetGravity() { return gravity; }
 	CGameObject* GetInHand();

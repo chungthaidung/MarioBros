@@ -128,11 +128,9 @@ void RacoonMario::JumpingState(DWORD dt)
 {
 	CGame* keyboard = CGame::GetInstance();
 	float jumpForce = MARIO_JUMP_FORCE;
-	mario->SetyPush(MARIO_PUSH_FORCE);
 	switch (mario->JumpState)
 	{
 	case MARIO_STATE_JUMP:
-		mario->SetGravity(0);
 		if (keyboard->IsKeyDown(DIK_S) && mario->canJumpHigh)
 		{
 			jumpForce = MARIO_HIGH_JUMP_FORCE;
@@ -140,11 +138,12 @@ void RacoonMario::JumpingState(DWORD dt)
 
 		if (mario->vy > -jumpForce && mario->canJumpHigh)
 		{
-			mario->vy -= mario->GetyPush() * dt;
+			mario->SetGravity(0);
+			mario->vy -= MARIO_PUSH_FORCE * dt;
 		}
 		else
 		{
-			mario->vy = -jumpForce;
+			mario->vy -= jumpForce;
 			mario->JumpState = MARIO_STATE_HIGH_JUMP;
 			mario->SetGravity(MARIO_GRAVITY);
 		}
@@ -156,18 +155,19 @@ void RacoonMario::JumpingState(DWORD dt)
 		}
 		break;
 	case MARIO_STATE_SUPER_JUMP:
-		mario->SetGravity(0);
+		
 		if (keyboard->IsKeyDown(DIK_S) && mario->canJumpSuper)
 		{
 			jumpForce = MARIO_SUPER_JUMP_FORCE;
 		}
 		if (mario->vy > -jumpForce && mario->canJumpSuper)
 		{
-			mario->vy -= mario->GetyPush() * dt;
+			mario->vy -= MARIO_PUSH_FORCE * dt;
+			mario->SetGravity(0);
 		}
 		else
 		{
-			mario->vy = -jumpForce;
+			mario->vy -= jumpForce;
 			mario->JumpState = MARIO_STATE_SUPER_FALL;
 			mario->SetGravity(MARIO_GRAVITY);
 		}
@@ -277,4 +277,9 @@ void RacoonMario::OnKeyDown(int KeyCode)
 		attacktime = GetTickCount();
 		break;
 	}
+}
+
+RacoonMario::~RacoonMario()
+{
+	CGame::GetInstance()->GetCurrentScene()->DespawnObject(tail);
 }
