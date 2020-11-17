@@ -181,7 +181,8 @@ void PlayerLevel::JumpingState(DWORD dt)
 		else
 		{
 			mario->SetGravity(MARIO_GRAVITY);
-			mario->vy -= jumpForce;
+			//mario->vy -= jumpForce;
+			mario->vy = - jumpForce;
 			mario->JumpState = MARIO_STATE_HIGH_JUMP;
 		}
 		break;
@@ -203,7 +204,9 @@ void PlayerLevel::JumpingState(DWORD dt)
 		}
 		else
 		{
+			//mario->vy -= jumpForce;
 			mario->vy = -jumpForce;
+
 			mario->JumpState = MARIO_STATE_SUPER_FALL;
 			mario->SetGravity(MARIO_GRAVITY);
 		}
@@ -217,6 +220,7 @@ void PlayerLevel::JumpingState(DWORD dt)
 		}
 		break;
 	}
+	DebugOut(L"vy: %f \n", mario->vy);
 }
 void PlayerLevel::CrouchState(DWORD dt)
 {
@@ -282,7 +286,7 @@ void PlayerLevel::OnKeyDown(int KeyCode)
 		{
 			mario->canJumpHigh = true;
 			mario->JumpState = MARIO_STATE_JUMP;
-			mario->vy = -MARIO_JUMP_FORCE;
+		
 		}
 		break;
 	}

@@ -143,7 +143,8 @@ void RacoonMario::JumpingState(DWORD dt)
 		}
 		else
 		{
-			mario->vy -= jumpForce;
+			mario->vy = -jumpForce;
+			//mario->vy -= jumpForce;
 			mario->JumpState = MARIO_STATE_HIGH_JUMP;
 			mario->SetGravity(MARIO_GRAVITY);
 		}
@@ -167,7 +168,8 @@ void RacoonMario::JumpingState(DWORD dt)
 		}
 		else
 		{
-			mario->vy -= jumpForce;
+			mario->vy = -jumpForce;
+			//mario->vy -= jumpForce;
 			mario->JumpState = MARIO_STATE_SUPER_FALL;
 			mario->SetGravity(MARIO_GRAVITY);
 		}
