@@ -101,7 +101,7 @@ void RacoonMario::Render()
 void RacoonMario::AttackState(DWORD dt)
 {
 	CGame* keyboard = CGame::GetInstance();
-	if (keyboard->IsKeyDown(DIK_Z)) {
+	if (keyboard->IsKeyDown(DIK_Z) && mario->GetState()!=MARIO_STATE_CROUCH) {
 		if (mario->AttackState != MARIO_STATE_ATTACK_START) {
 			mario->AttackState = MARIO_STATE_ATTACK_START;
 			attacktime = GetTickCount();

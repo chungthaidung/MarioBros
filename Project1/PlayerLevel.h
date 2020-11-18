@@ -33,3 +33,7 @@ public:
 	
 };
 
+#define MARIO_PUSH_FORCE 0.004f
+#define MARIO_JUMP_FORCE 0.64f
+#define MARIO_HIGH_JUMP_FORCE 0.73f
+#define MARIO_SUPER_JUMP_FORCE  0.73f

@@ -19,7 +19,7 @@ void CAnimation::Add(int spriteId, DWORD time)
 
 void CAnimation::Render(float x, float y,int scale,int flipx, int flipy , int alpha)
 {
-	DWORD now = GetTickCount();
+	DWORD now = GetTickCount64();
 	if (currentFrame == -1)
 	{
 		currentFrame = 0;
@@ -41,7 +41,7 @@ void CAnimation::Render(float x, float y,int scale,int flipx, int flipy , int al
 
 void CAnimation::Render(float x, float y, DWORD timestart, int totaltime, int scale, int flipx, int flipy, int alpha)
 {
-	DWORD now = GetTickCount();
+	DWORD now = GetTickCount64();
 	int c_frame = (now - timestart) * frames.size() / totaltime;
 	if (c_frame < 0) c_frame = 0;
 	if (c_frame > frames.size())c_frame = frames.size();
