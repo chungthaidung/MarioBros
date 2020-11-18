@@ -99,9 +99,11 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 void PlayerLevel::MovingState(DWORD dt)
 {	
 	CGame* keyboard = CGame::GetInstance();
+	
 	if (keyboard->IsKeyDown(DIK_RIGHT) || keyboard->IsKeyDown(DIK_LEFT))
 	{
 		int key;
+		
 		if (keyboard->IsKeyDown(DIK_RIGHT))
 			key = 1;
 		else
@@ -144,7 +146,6 @@ void PlayerLevel::MovingState(DWORD dt)
 		if (mario->vx < 0)mario->nx = -1;
 		else mario->nx = 1;
 		if (mario->vx *mario->isSkid <= 0) mario->isSkid = 0;
-		
 	}
 	else //khong nhan gi 
 	{
@@ -154,7 +155,8 @@ void PlayerLevel::MovingState(DWORD dt)
 		}
 		else
 		{
-			mario->SetState(MARIO_STATE_IDLE);
+			if(mario->GetState()!=MARIO_STATE_CROUCH )
+				mario->SetState(MARIO_STATE_IDLE);
 			mario->vx = 0;
 		}
 		mario->isSkid =0;
@@ -228,8 +230,8 @@ void PlayerLevel::CrouchState(DWORD dt)
 	float x, y;
 	mario->GetPosition(x, y);
 	y += collisionbox.y;
-	if (keyboard->IsKeyDown(DIK_DOWN) && mario->JumpState==MARIO_STATE_JUMP_IDLE
-		&& !keyboard->IsKeyDown(DIK_LEFT) && !keyboard->IsKeyDown(DIK_RIGHT))
+	if (keyboard->IsKeyDown(DIK_DOWN) && mario->JumpState == MARIO_STATE_JUMP_IDLE
+		&& !keyboard->IsKeyDown(DIK_LEFT) && !keyboard->IsKeyDown(DIK_RIGHT) )//&& mario->JumpState==MARIO_STATE_JUMP_IDLE
 	{
 		mario->SetState(MARIO_STATE_CROUCH);
 		collisionbox.y = MARIO_CROUCH_BBOX_HEIGHT;
@@ -239,6 +241,7 @@ void PlayerLevel::CrouchState(DWORD dt)
 		collisionbox.y = MARIO_BIG_BBOX_HEIGHT;
 	}
 	mario->SetPosition(x, y - collisionbox.y);
+	DebugOut(L"Mario moving state: %d \n", mario->GetState());
 }
 void PlayerLevel::PowerMeterUpdate(DWORD dt)
 {
@@ -286,11 +289,19 @@ void PlayerLevel::OnKeyDown(int KeyCode)
 		{
 			mario->canJumpHigh = true;
 			mario->JumpState = MARIO_STATE_JUMP;
-		
 		}
 		break;
 	}
 }
 void PlayerLevel::OnKeyUp(int KeyCode)
 {
+	switch (KeyCode)
+	{
+	case DIK_DOWN:
+		mario->SetState(MARIO_STATE_IDLE);
+		break;
+	case DIK_S:
+		mario->canJumpHigh=false;
+		break;
+	}
 }

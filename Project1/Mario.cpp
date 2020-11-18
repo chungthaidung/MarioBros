@@ -115,6 +115,11 @@ void CMario::SetLevel(int level)
 	}
 	y -= level_p->GetCollisionBox().y;
 }
+void CMario::StartUntouchable()
+{
+	untouchable = 1; 
+	untouchable_start = GetTickCount64();
+}
 void CMario::OnKeyDown(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);

@@ -43,6 +43,9 @@ void BigMario::Render()
 		{
 			ani = MARIO_ANI_BIG_HOLD_FALL;
 		}
+		//if(mario->GetState()==MARIO_STATE_CROUCH)
+		//	ani = MARIO_ANI_BIG_CROUCH;
+
 	}
 	else {
 		switch (mario->GetState())
