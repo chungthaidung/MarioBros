@@ -116,7 +116,8 @@ void CGameObject::FilterCollision(
 	{
 		LPCOLLISIONEVENT c = coEvents[i];
 
-		if (dynamic_cast<GhostObject*>(c->obj)&& (c->ny > 0||c->nx!=0)) continue;
+		if (c->obj->GetObjectType()==OBJECT_TYPE_GHOST&& (c->ny > 0||c->nx!=0)) continue;
+		if (c->obj->GetObjectType() == OBJECT_TYPE_COIN ) continue;
 		//c->obj continue
 
 		if (c->t < min_tx && c->nx != 0) {

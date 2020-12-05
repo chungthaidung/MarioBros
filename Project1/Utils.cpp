@@ -61,3 +61,15 @@ LPCWSTR ToLPCWSTR(string st)
 	// delete wcstring   // << can I ? 
 	return w->c_str();
 }
+vector<string> ParseComa(string str) // bo dau ,
+{
+	vector<string> result;
+	stringstream ss(str);
+	while (ss.good())
+	{
+		string substr;
+		getline(ss, substr, ',');
+		result.push_back(substr);
+	}
+	return result;
+}

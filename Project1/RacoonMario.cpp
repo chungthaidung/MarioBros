@@ -136,7 +136,7 @@ void RacoonMario::JumpingState(DWORD dt)
 			jumpForce = MARIO_HIGH_JUMP_FORCE;
 		}
 
-		if (mario->vy > -jumpForce && mario->canJumpHigh)
+		if (mario->vy > -jumpForce && mario->canJumpHigh && mario->vy < 0)
 		{
 			mario->SetGravity(0);
 			mario->vy -= MARIO_PUSH_FORCE * dt;
@@ -157,11 +157,11 @@ void RacoonMario::JumpingState(DWORD dt)
 		break;
 	case MARIO_STATE_SUPER_JUMP:
 		
-		if (keyboard->IsKeyDown(DIK_S) && mario->canJumpSuper)
+		if (keyboard->IsKeyDown(DIK_S) && mario->canJumpSuper )
 		{
 			jumpForce = MARIO_SUPER_JUMP_FORCE;
 		}
-		if (mario->vy > -jumpForce && mario->canJumpSuper)
+		if (mario->vy > -jumpForce && mario->canJumpSuper && mario->vy < 0)
 		{
 			mario->vy -= MARIO_PUSH_FORCE * dt;
 			mario->SetGravity(0);

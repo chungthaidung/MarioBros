@@ -6,7 +6,7 @@
 #include "Brick.h"
 #include "Mario.h"
 #include "Map.h"
-
+#include "CMap.h"
 
 class CPlayScene : public CScene
 {
@@ -16,7 +16,7 @@ protected:
 //	Camera* cam;
 	Map* map;
 	D3DCOLOR mBackColor = D3DCOLOR_XRGB(156, 252, 240);
-
+	CMap* gamemap;
 
 	void _ParseSection_OBJECTS(string line);
 

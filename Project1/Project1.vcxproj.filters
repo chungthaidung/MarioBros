@@ -76,6 +76,9 @@
     <Filter Include="Game\Game Object\CGameObject\Collision">
       <UniqueIdentifier>{a8902aa7-9bae-4370-83ac-4d61666fa540}</UniqueIdentifier>
     </Filter>
+    <Filter Include="tinyxml">
+      <UniqueIdentifier>{8c1590e8-17e1-4496-aa8b-90a2ac2e49bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">
@@ -183,6 +186,33 @@
     <ClCompile Include="RunningShell.cpp">
       <Filter>Game\Game Object\Object\Enemy\Koopa</Filter>
     </ClCompile>
+    <ClCompile Include="FlyingKoopa.cpp">
+      <Filter>Game\Game Object\Object\Enemy\Koopa</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinystr.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinyxml.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinyxmlerror.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml\tinyxmlparser.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="CLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -289,6 +319,27 @@
     </ClInclude>
     <ClInclude Include="RunningShell.h">
       <Filter>Game\Game Object\Object\Enemy\Koopa</Filter>
+    </ClInclude>
+    <ClInclude Include="FlyingKoopa.h">
+      <Filter>Game\Game Object\Object\Enemy\Koopa</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml\tinystr.h">
+      <Filter>tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml\tinyxml.h">
+      <Filter>tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="CLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CTileset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMap.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
