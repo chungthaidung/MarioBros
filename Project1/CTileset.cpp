@@ -39,6 +39,7 @@ void CTileset::AddTiles()
             id++;
         }
     }
+
 }
 
 
@@ -46,6 +47,7 @@ void CTileset::AddTiles()
 void CTileset::Draw(int id, float x, float y)
 {
     tiles[id]->Draw(x, y);
+
 }
 
 int CTileset::GetTileWidth()
