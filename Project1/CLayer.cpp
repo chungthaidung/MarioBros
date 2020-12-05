@@ -10,11 +10,12 @@ CLayer::CLayer(TiXmlElement* data)
     TiXmlElement* mapdata = data->FirstChildElement("data");
     string map = mapdata->GetText();
     vector<string> tilemap= ParseComa(map);
-    for (int i = 0; i < layer_rows; i++)
+    int n = 0;
+    for (int i = 0; i < layer_rows && n < tilemap.size(); i++)
     {
-        for (int j = 0;j < layer_columns; j++)
+        for (int j = 0;j < layer_columns; j++,n++)
         {
-            tile[i][j] = stoi(tilemap[i + j]);
+            tile[i][j] = stoi(tilemap[n]);
         }
     }
   //  DebugOut(L"[INFO]Layer ID: %d \n",id);
@@ -38,11 +39,11 @@ void CLayer::Draw(float cam_x, float cam_y, CTileset* tileset)
     {
         for (int j = begin_column; j < end_column; j++)
         {
-            int id = tile[i][j] - 1;
-            if (id != -1)
+            int idtile = tile[i][j] - 1;
+            if (idtile != -1)
             {
-                tileset->Draw(id, j * tilewidth, i * tileheight);//hardcode không tốt , test
-              //  DebugOut(L"[INFO] ID: %d |X: %d | Y: %d \n",id, j * 48, i * 48.0);
+                tileset->Draw(idtile, j * tilewidth, i * tileheight);//hardcode không tốt , test
+             //   DebugOut(L"[INFO] Layer ID: %d | ID: %d |X: %d | Y: %d \n", id ,idtile, j * 48, i * 48.0);
             }
         }
     }
