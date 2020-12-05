@@ -6,11 +6,12 @@
 #include "WalkingKoopa.h"
 #include "CrouchKoopa.h"
 #include "RunningShell.h"
+#include "FlyingKoopa.h"
 #include "CCollisionEvent.h"
 Koopa::Koopa()
 {
 	koopaState = new WalkingKoopa(this);
-	state = KOOPA_STATE_WALKING;
+	//state = KOOPA_STATE_WALKING;
 }
 void Koopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -76,6 +77,10 @@ void Koopa::SetState(int state)
 	case KOOPA_STATE_SHELL_RUNNING:
 		koopaState = new RunningShell(this);
 		break;	
+	case KOOPA_STATE_FLYING:
+		koopaState = new FlyingKoopa(this);
+		break;	
+
 	}
 	y -= koopaState->GetCollisionBox().y+5;
 

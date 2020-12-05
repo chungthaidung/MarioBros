@@ -27,7 +27,6 @@ void Map::AddTiles(int texID, int row, int column, int tile_width, int tile_heig
             
         }
     }
-
 }
 void Map::LoadMap()
 {
@@ -46,7 +45,7 @@ void Map::LoadMap()
     }
     f.close();
     AddTiles(WORLD_MAP_1_1, tile_row, tile_column, TILE_WIDTH, TILE_HEIGHT);
-    DebugOut(L"[INFO]Load map successful. \n");
+   // DebugOut(L"[INFO]Load map successful. \n");
 }
 void Map::DrawMap(float c_x,float c_y)
 {

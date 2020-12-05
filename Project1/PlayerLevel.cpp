@@ -63,6 +63,11 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 			if (ny < 0) {
 				mario->onGround = true;
 			}
+			if (mario->ny > 0)
+			{
+				mario->SetGravity(MARIO_GRAVITY);
+				mario->vy = 0;
+			}
 		}
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -174,11 +179,10 @@ void PlayerLevel::JumpingState(DWORD dt)
 		{
 			jumpForce = MARIO_HIGH_JUMP_FORCE;
 		}
-		
-		if (mario->vy > - jumpForce && mario->canJumpHigh) 
-		{ 
+		if (mario->vy > -jumpForce && mario->vy < 0 && mario->canJumpHigh )
+		{
 			mario->SetGravity(0);
-			mario->vy -= MARIO_PUSH_FORCE *dt;
+			mario->vy -= MARIO_PUSH_FORCE * dt;
 		}
 		else
 		{
@@ -200,7 +204,7 @@ void PlayerLevel::JumpingState(DWORD dt)
 		{
 			jumpForce = MARIO_SUPER_JUMP_FORCE;
 		}
-		if (mario->vy > -jumpForce && mario->canJumpSuper)
+		if (mario->vy > -jumpForce && mario->canJumpSuper && mario->vy < 0)
 		{
 			mario->vy -= MARIO_PUSH_FORCE * dt;
 		}
@@ -222,7 +226,6 @@ void PlayerLevel::JumpingState(DWORD dt)
 		}
 		break;
 	}
-	DebugOut(L"vy: %f \n", mario->vy);
 }
 void PlayerLevel::CrouchState(DWORD dt)
 {
@@ -231,17 +234,18 @@ void PlayerLevel::CrouchState(DWORD dt)
 	mario->GetPosition(x, y);
 	y += collisionbox.y;
 	if (keyboard->IsKeyDown(DIK_DOWN) && mario->JumpState == MARIO_STATE_JUMP_IDLE
-		&& !keyboard->IsKeyDown(DIK_LEFT) && !keyboard->IsKeyDown(DIK_RIGHT) )//&& mario->JumpState==MARIO_STATE_JUMP_IDLE
+		&& !keyboard->IsKeyDown(DIK_LEFT) && !keyboard->IsKeyDown(DIK_RIGHT) )
 	{
 		mario->SetState(MARIO_STATE_CROUCH);
 		collisionbox.y = MARIO_CROUCH_BBOX_HEIGHT;
 	}
 	else
 	{
+		if(mario->GetState()!=MARIO_STATE_CROUCH)
 		collisionbox.y = MARIO_BIG_BBOX_HEIGHT;
 	}
 	mario->SetPosition(x, y - collisionbox.y);
-	DebugOut(L"Mario moving state: %d \n", mario->GetState());
+	//DebugOut(L"Mario moving state: %d \n", mario->GetState());
 }
 void PlayerLevel::PowerMeterUpdate(DWORD dt)
 {
@@ -284,11 +288,13 @@ void PlayerLevel::OnKeyDown(int KeyCode)
 		{
 			mario->canJumpSuper = true;
 			mario->JumpState = MARIO_STATE_SUPER_JUMP;
+			mario->vy = -0.01;
 		}
 		else if (mario->onGround)
 		{
 			mario->canJumpHigh = true;
 			mario->JumpState = MARIO_STATE_JUMP;
+			mario->vy = -0.01;
 		}
 		break;
 	}

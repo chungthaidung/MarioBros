@@ -1,6 +1,6 @@
 [OBJECTS]
 # type	x	y	ani_set_id	w	h	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3=GHOST OBJECT,4=KOOPA
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3=GHOST OBJECT,4=KOOPA,5=KOOPA FLY,6=COIN
 # MARIO
 0	0	750	1	0	0
 # BRICK 
@@ -60,4 +60,6 @@
 2	1400	1198	3	0	0
 2	250	1198	3	0	0
 4	1824	1100	3	0	0
-4	700	1198	3	0	0
+5	700	1198	3	0	0
+#MISC
+6	200	1100	2	0	0

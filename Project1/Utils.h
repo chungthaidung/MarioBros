@@ -9,7 +9,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <vector>
-
+#include <sstream>
 
 using namespace std;
 
@@ -20,3 +20,4 @@ wstring ToWSTR(string st);
 
 LPCWSTR ToLPCWSTR(string st);
 
+vector<string> ParseComa(string str);

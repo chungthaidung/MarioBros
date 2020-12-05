@@ -14,6 +14,7 @@
 #include "GhostObject.h"
 #include "Goomba.h"
 #include "Koopa.h"
+#include "Coin.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR mapPath, LPCWSTR filePath) :
@@ -65,7 +66,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_GOOMBA: obj = new Goomba(); break;
 	case OBJECT_TYPE_GHOST: obj = new GhostObject(); break;
-	case OBJECT_TYPE_KOOPA: obj = new Koopa(); break;
+	case OBJECT_TYPE_KOOPA: 
+		obj = new Koopa();
+		obj->SetState(KOOPA_STATE_WALKING);
+		break;
+	case OBJECT_TYPE_KOOPA_FLY: 
+		obj = new Koopa(); 
+		obj->SetState(KOOPA_STATE_FLYING);
+		break;
+	case OBJECT_TYPE_COIN: 
+		obj = new Coin(); 
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -111,8 +122,10 @@ void CPlayScene::Load()
 	}
 
 	f.close();
-	map = new Map(mapFilePath);
-	map->LoadMap();
+	//map = new Map(mapFilePath);
+	//map->LoadMap();
+	gamemap = new CMap("Resources/map/1-1/world-1-1-map.tmx");
+	gamemap->LoadGameMap();
 	CGame* game = CGame::GetInstance();
 //	cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
 //	cam->SetTarget(player);
@@ -175,12 +188,12 @@ void CPlayScene::Render()
 {
 	float x, y;
 	CGame::GetInstance()->GetCamPos(x,y );
-	map->DrawMap(x,y);
+	//map->DrawMap(x, y);
+	gamemap->Render();
 	for (int i = 1; i < objects.size(); i++)
 		objects[i]->Render();
 	player->Render();
 }
-
 /*
 	Unload current scene
 */
