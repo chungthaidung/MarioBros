@@ -10,14 +10,13 @@ class CScene
 protected:
 	CKeyEventHandler* key_handler;
 	int id;
-	LPCWSTR mapFilePath;
-	LPCWSTR sceneFilePath;
+	std::string scenePath;
 
 	vector<LPGAMEOBJECT> objects;
 
 
 public:
-	CScene(int id, LPCWSTR mapPath, LPCWSTR filePath);
+	CScene(int id, std::string path);
 
 	CKeyEventHandler* GetKeyEventHandler() { return key_handler; }
 	virtual void Load() = 0;

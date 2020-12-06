@@ -10,7 +10,7 @@
 #include "CKeyEventHandler.h"
 #include "Mario.h"
 
-#include "Brick.h"
+#include "Ground.h"
 #include "define.h"
 
 

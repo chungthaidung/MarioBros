@@ -4,7 +4,7 @@
 #define BRICK_BBOX_WIDTH  48
 #define BRICK_BBOX_HEIGHT 48
 
-class CBrick : public CGameObject
+class CGround : public CGameObject
 {
 public:
 	virtual void Render();

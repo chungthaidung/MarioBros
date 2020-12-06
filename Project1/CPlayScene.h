@@ -3,7 +3,7 @@
 #include "CTextures.h"
 #include "CScene.h"
 #include "CGameObject.h"
-#include "Brick.h"
+#include "Ground.h"
 #include "Mario.h"
 #include "Map.h"
 #include "CMap.h"
@@ -14,15 +14,14 @@ protected:
 	CMario* player;		// A play scene has to have player, right? 
 	
 //	Camera* cam;
-	Map* map;
-	D3DCOLOR mBackColor = D3DCOLOR_XRGB(156, 252, 240);
+	//D3DCOLOR mBackColor = D3DCOLOR_XRGB(156, 252, 240);
 	CMap* gamemap;
 
-	void _ParseSection_OBJECTS(string line);
 
 public:
-	CPlayScene(int id, LPCWSTR mapPath, LPCWSTR filePath);
-
+	CPlayScene(int id,std::string path);
+	void LoadObjects();
+	void LoadObjGroup(TiXmlElement* data,std::string name);
 	virtual void Load();
 	virtual void Update(DWORD dt);
 	virtual void Render();

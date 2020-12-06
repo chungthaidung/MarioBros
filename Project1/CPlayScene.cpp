@@ -17,121 +17,99 @@
 #include "Coin.h"
 using namespace std;
 
-CPlayScene::CPlayScene(int id, LPCWSTR mapPath, LPCWSTR filePath) :
-	CScene(id,mapPath, filePath)
+CPlayScene::CPlayScene(int id,std::string Path) :
+	CScene(id, Path)
 {
 	key_handler = new CPlayScenceKeyHandler(this);
 }
 
-/*
-	Load scene resources from scene file (textures, sprites, animations and objects)
-	See scene1.txt, scene2.txt for detail format specification
-*/
-
-/*
-	Parse a line in section [OBJECTS]
-*/
-void CPlayScene::_ParseSection_OBJECTS(string line)
+void CPlayScene::LoadObjects()
 {
-	vector<string> tokens = split(line);
+	TiXmlDocument doc(scenePath.c_str());
+	if (doc.LoadFile())
+	{
+		TiXmlElement* root = doc.RootElement();
+		for (TiXmlElement* objgr = root->FirstChildElement("objectgroup"); objgr != NULL; objgr = objgr->NextSiblingElement("objectgroup"))
+		{
+			LoadObjGroup(objgr,objgr->Attribute("name"));
+		}
+		DebugOut(L"[INFO]Load Object successful. \n");
 
-	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
+	}
+}
 
-	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
-
-	int object_type = atoi(tokens[0].c_str());
-	float x = atof(tokens[1].c_str());
-	float y = atof(tokens[2].c_str());
-
-	int ani_set_id = atoi(tokens[3].c_str());
-	int w = atoi(tokens[4].c_str());
-	int h = atoi(tokens[5].c_str());
-	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-
+void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
+{
 	CGameObject* obj = NULL;
 	
-	switch (object_type)
+	for (TiXmlElement* objdata = data->FirstChildElement("object"); objdata != NULL; objdata = objdata->NextSiblingElement("object"))
 	{
-	case OBJECT_TYPE_MARIO:
-		if (player != NULL)
-		{
-			DebugOut(L"[ERROR] MARIO object was created before!\n");
-			return;
+		int x, y;
+		float width, height;
+		objdata->QueryIntAttribute("x", &x);
+		objdata->QueryIntAttribute("y", &y);
+		if (name.compare("Mario") == 0) {
+			obj = new CMario();
+			if (player != NULL)
+			{
+				DebugOut(L"[ERROR] MARIO object was created before!\n");
+				continue;
+			}
+			obj = new CMario(x, y);
+			player = (CMario*)obj;
+			DebugOut(L"[INFO] Player object created!\n");
 		}
-		obj = new CMario(x, y);
-		player = (CMario*)obj;
-
-		DebugOut(L"[INFO] Player object created!\n");
-		break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_GOOMBA: obj = new Goomba(); break;
-	case OBJECT_TYPE_GHOST: obj = new GhostObject(); break;
-	case OBJECT_TYPE_KOOPA: 
-		obj = new Koopa();
-		obj->SetState(KOOPA_STATE_WALKING);
-		break;
-	case OBJECT_TYPE_KOOPA_FLY: 
-		obj = new Koopa(); 
-		obj->SetState(KOOPA_STATE_FLYING);
-		break;
-	case OBJECT_TYPE_COIN: 
-		obj = new Coin(); 
-		break;
-	default:
-		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
-		return;
+		else if (name.compare("Ground")==0)
+		{
+			obj = new CGround();
+		}
+		else if (name.compare("Ghost")==0) {
+			obj = new GhostObject();
+		}
+		else if (name.compare("Enemies") == 0) {
+			string enemy = objdata->Attribute("name");
+			if (enemy.compare("Goomba") == 0)
+				obj = new Goomba();
+			else if (enemy.compare("GKoopa") == 0)
+			{
+				obj = new Koopa();
+				obj->SetState(KOOPA_STATE_WALKING);
+			}
+			else if (enemy.compare("GKoopaFly") == 0)
+			{
+				obj = new Koopa();
+				obj->SetState(KOOPA_STATE_FLYING);
+			}
+		}
+		else if (name.compare("Misc") == 0)
+		{
+			string misc = objdata->Attribute("name");
+			if (misc.compare("Coin") == 0)
+			{
+				obj = new Coin();
+			}
+		}
+		objdata->QueryFloatAttribute("width", &width);
+		objdata->QueryFloatAttribute("height", &height);
+		obj->SetWidthHeight(width, height);
+		obj->SetPosition(x, y);
+		DebugOut(L"[INFO]Object x: %d || y: %d || width: %f || height: %f. \n",x,y,width,height);
+		objects.push_back(obj);
+		
 	}
-
-	// General object setup
-	obj->SetPosition(x, y);
-	obj->SetWidthHeight(w, h);
-	LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-
-	obj->SetAnimationSet(ani_set);
-	objects.push_back(obj);
+	
 }
 
 void CPlayScene::Load()
 {
-	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
-
-	ifstream f;
-	f.open(sceneFilePath);
-
-	// current resource section flag
-	int section = SCENE_SECTION_UNKNOWN;
-
-	char str[MAX_SCENE_LINE];
-	while (f.getline(str, MAX_SCENE_LINE))
-	{
-		string line(str);
-
-		if (line[0] == '#') continue;	// skip comment lines	
-		if (line == "[OBJECTS]") {
-			section = SCENE_SECTION_OBJECTS; continue;
-		}
-		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
-
-		//
-		// data section
-		//
-		switch (section)
-		{
-		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
-		}
-	}
-
-	f.close();
-	//map = new Map(mapFilePath);
-	//map->LoadMap();
-	gamemap = new CMap("Resources/map/1-1/world-1-1-map.tmx");
+	DebugOut(L"[INFO] Start loading scene resources from : %s \n", scenePath);
+	LoadObjects();
+	gamemap = new CMap(scenePath);//hardcode
 	gamemap->LoadGameMap();
 	CGame* game = CGame::GetInstance();
 //	cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
 //	cam->SetTarget(player);
-	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
-	
-	
+	DebugOut(L"[INFO] Done loading scene resources %s\n", scenePath);
 }
 
 void CPlayScene::Update(DWORD dt)
@@ -184,11 +162,11 @@ void CPlayScene::Update(DWORD dt)
 	
 	RemoveObjects();
 }
+
 void CPlayScene::Render()
 {
 	float x, y;
 	CGame::GetInstance()->GetCamPos(x,y );
-	//map->DrawMap(x, y);
 	gamemap->Render();
 	for (int i = 1; i < objects.size(); i++)
 		objects[i]->Render();
