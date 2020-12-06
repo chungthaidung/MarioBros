@@ -2,9 +2,9 @@
 [SETTINGS]
 start	1		
 #scene list
-#id_scene	mappath	objectfilepath
+#id_scene	path
 [SCENES]
-1	Resources/map/world-1-1.txt	Resources/map/world1_1.txt
+1	Resources/map/1-1/world-1-1-map.tmx
 #sprites_path
 [SPRITES]
 sprites_world.txt

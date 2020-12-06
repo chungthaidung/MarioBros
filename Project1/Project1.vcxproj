@@ -146,7 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BigMario.cpp" />
-    <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CAnimation.cpp" />
     <ClCompile Include="CAnimationFrame.cpp" />
@@ -192,7 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BigMario.h" />
-    <ClInclude Include="Brick.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CAnimation.h" />
     <ClInclude Include="CAnimationFrame.h" />

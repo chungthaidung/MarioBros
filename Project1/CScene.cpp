@@ -1,9 +1,9 @@
 #include "CScene.h"
-CScene::CScene(int id, LPCWSTR mapPath, LPCWSTR filePath)
+CScene::CScene(int id, std::string path)
 {
 	this->id = id;
-	this->mapFilePath = mapPath;
-	this->sceneFilePath = filePath;
+	this->scenePath = path;
+
 }
 
 void CScene::RemoveObjects()

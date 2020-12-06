@@ -162,9 +162,6 @@
     <ClCompile Include="GhostObject.cpp">
       <Filter>Game\Game Object\Object\Misc</Filter>
     </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>Game\Game Object\Object\Misc</Filter>
-    </ClCompile>
     <ClCompile Include="MarioTail.cpp">
       <Filter>Game\Game Object\Object\Mario\Weapon</Filter>
     </ClCompile>
@@ -204,14 +201,17 @@
     <ClCompile Include="tinyxml\tinyxmlparser.cpp">
       <Filter>tinyxml</Filter>
     </ClCompile>
+    <ClCompile Include="CMap.cpp">
+      <Filter>Game\Scene\Map</Filter>
+    </ClCompile>
     <ClCompile Include="CLayer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game\Scene\Map</Filter>
     </ClCompile>
     <ClCompile Include="CTileset.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game\Scene\Map</Filter>
     </ClCompile>
-    <ClCompile Include="CMap.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Ground.cpp">
+      <Filter>Game\Game Object\Object\Misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -293,9 +293,6 @@
     <ClInclude Include="GhostObject.h">
       <Filter>Game\Game Object\Object\Misc</Filter>
     </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>Game\Game Object\Object\Misc</Filter>
-    </ClInclude>
     <ClInclude Include="MarioTail.h">
       <Filter>Game\Game Object\Object\Mario\Weapon</Filter>
     </ClInclude>
@@ -333,13 +330,16 @@
       <Filter>tinyxml</Filter>
     </ClInclude>
     <ClInclude Include="CLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CTileset.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game\Scene\Map</Filter>
     </ClInclude>
     <ClInclude Include="CMap.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game\Scene\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="CTileset.h">
+      <Filter>Game\Scene\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>Game\Game Object\Object\Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
