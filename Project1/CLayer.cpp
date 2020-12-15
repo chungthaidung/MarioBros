@@ -4,9 +4,11 @@
 CLayer::CLayer(TiXmlElement* data)
 {
     int tilecount;
+    visible = 1;
     data->QueryIntAttribute("id", &id);
     data->QueryIntAttribute("height", &layer_rows);
     data->QueryIntAttribute("width", &layer_columns);
+    data->QueryIntAttribute("visible", &visible);
     TiXmlElement* mapdata = data->FirstChildElement("data");
     string map = mapdata->GetText();
     vector<string> tilemap= ParseComa(map);
@@ -20,6 +22,16 @@ CLayer::CLayer(TiXmlElement* data)
     }
   //  DebugOut(L"[INFO]Layer ID: %d \n",id);
 
+}
+
+void CLayer::SetVisible(int set)
+{
+    visible = set;
+}
+
+int CLayer::isVisible()
+{
+    return visible;
 }
 
 void CLayer::Draw(float cam_x, float cam_y, CTileset* tileset)

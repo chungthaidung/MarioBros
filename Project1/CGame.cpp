@@ -416,7 +416,7 @@ void CGame::_ParseSection_SPRITES(string line)
 	}
 
 	CSprites::GetInstance()->Add(ID, r, p,tex);
-	/*DebugOut(CSprites::GetInstance()->Get(ID) ? L"Have sprite \n" : L"Dont have sprite: %d \n",ID);*/
+	//DebugOut(CSprites::GetInstance()->Get(ID) ? L"Have sprite \n" : L"Dont have sprite: %d \n",ID);
 }
 
 void CGame::_ParseSection_ANIMATIONS(string line)

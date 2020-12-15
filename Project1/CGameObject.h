@@ -69,14 +69,17 @@ public:
 	bool isRemove;
 	DWORD dt;
 
+	bool canDelete = true;
+
 	LPANIMATION_SET animation_set;
 	vector<LPCOLLISIONEVENT> coEResult;
 public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
+	D3DXVECTOR2 GetPosition();
 	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
-	void SetWidthHeight(int w, int h) { width = w; height = h; }
+	virtual void SetWidthHeight(int w, int h) { width = w; height = h; }
 	int GetState() { return this->state; }
 	void Setnx(float n) { nx = n; }
 	int Getnx() { return nx; }
@@ -101,6 +104,7 @@ public:
 	CGameObject();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
+	virtual D3DXVECTOR2 GetWidthHeight();
 	virtual void Update(DWORD dt);
 	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void FinalUpdate(DWORD dt);

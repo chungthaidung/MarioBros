@@ -7,7 +7,7 @@ RacoonMario::RacoonMario(CMario* mario) :PlayerLevel(mario)
 	collisionbox.y = MARIO_RACOON_BBOX_HEIGHT;
 	tail = new MarioTail(mario);
 	tail->SetActive(false);
-
+	tail->canDelete = false;
 }
 int RacoonMario::GetPlayerLevel()
 {
@@ -139,7 +139,7 @@ void RacoonMario::JumpingState(DWORD dt)
 		if (mario->vy > -jumpForce && mario->canJumpHigh && mario->vy < 0)
 		{
 			mario->SetGravity(0);
-			mario->vy -= MARIO_PUSH_FORCE * dt;
+			mario->vy -= MARIO_PUSH_FORCE;
 		}
 		else
 		{
@@ -163,7 +163,7 @@ void RacoonMario::JumpingState(DWORD dt)
 		}
 		if (mario->vy > -jumpForce && mario->canJumpSuper && mario->vy < 0)
 		{
-			mario->vy -= MARIO_PUSH_FORCE * dt;
+			mario->vy -= MARIO_PUSH_FORCE;
 			mario->SetGravity(0);
 		}
 		else

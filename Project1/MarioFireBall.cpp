@@ -7,6 +7,7 @@
 MarioFireBall::MarioFireBall(CMario* p)
 {
 	mario = p;
+	canDelete = false;
 }
 void MarioFireBall::Render()
 {

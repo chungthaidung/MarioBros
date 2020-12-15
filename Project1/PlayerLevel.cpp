@@ -4,6 +4,8 @@
 #include "debug.h"
 #include "CGame.h"
 #include "Koopa.h"
+#include "QuestionBox.h"
+#include "Brick.h"
 PlayerLevel::PlayerLevel(CMario* mario)
 {
 	this->mario = mario;
@@ -21,7 +23,7 @@ void PlayerLevel::Update(DWORD dt)
 	mario->vy += mario->GetGravity() * dt;
 	mario->CGameObject::Update(dt);
 //	Collision(coObjects);
-	//DebugOut(L"Mario vx: %f \n", mario->vx);
+	//DebugOut(L"Mario vy: %f \n", mario->vy);
 	//DebugOut(L"Mario jump state: %d \n", mario->JumpState);
 	//DebugOut(L"Mario power meter: %f \n", mario->GetPowerMeter());
 }
@@ -50,8 +52,8 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 		mario->FilterCollision(mario->coEResult, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
 		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		//if (rdx != 0 && rdx!=mario->dx)
-		//	mario->x += nx*abs(rdx); 
+		/*if (rdx != 0 && rdx!=mario->dx)
+			mario->x += nx*abs(rdx); */
 
 		// block every object first!
 		mario->x += min_tx * mario->dx + nx * 0.4f;
@@ -62,11 +64,11 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 			mario->vy = 0;
 			if (ny < 0) {
 				mario->onGround = true;
+				mario->SetBounc(1);
 			}
 			if (mario->ny > 0)
 			{
 				mario->SetGravity(MARIO_GRAVITY);
-				mario->vy = 0;
 			}
 		}
 		for (UINT i = 0; i < coEventsResult.size(); i++)
@@ -95,6 +97,31 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 			{
 				if (e->ny<0)
 				MiniJump(true);
+				
+			}
+			else if (e->obj->GetObjectType() == OBJECT_TYPE_QUESTION_BOX  && e->obj->GetState()==QUESTION_BOX_REWARD)
+			{
+				if (e->ny > 0)
+				{
+					QuestionBox* box = dynamic_cast<QuestionBox*>(e->obj);
+					if (box->GetState() == QUESTION_BOX_REWARD && mario->GetBounc()==1)
+					{
+						box->SetState(QUESTION_BOX_BOUNC);
+						mario->SetBounc(0);
+					}
+				}
+			}
+			else if ((e->obj->GetObjectType() == OBJECT_TYPE_QUESTION_BOX ||e->obj->GetObjectType() == OBJECT_TYPE_BRICK) && e->obj->GetState()==QUESTION_BOX_REWARD)
+			{
+				if (e->ny > 0)
+				{
+					Brick* box = dynamic_cast<Brick*>(e->obj);
+					if (box->GetState() == BRICK_REWARD && mario->GetBounc() == 1)
+					{
+						box->SetState(BRICK_BOUNC);
+						mario->SetBounc(0);
+					}
+				}
 			}
 		}
 	}
@@ -182,7 +209,7 @@ void PlayerLevel::JumpingState(DWORD dt)
 		if (mario->vy > -jumpForce && mario->vy < 0 && mario->canJumpHigh )
 		{
 			mario->SetGravity(0);
-			mario->vy -= MARIO_PUSH_FORCE * dt;
+			mario->vy -= MARIO_PUSH_FORCE ;
 		}
 		else
 		{
@@ -206,15 +233,14 @@ void PlayerLevel::JumpingState(DWORD dt)
 		}
 		if (mario->vy > -jumpForce && mario->canJumpSuper && mario->vy < 0)
 		{
-			mario->vy -= MARIO_PUSH_FORCE * dt;
+			mario->vy -= MARIO_PUSH_FORCE ;
 		}
 		else
 		{
+			mario->SetGravity(MARIO_GRAVITY);
 			//mario->vy -= jumpForce;
 			mario->vy = -jumpForce;
-
 			mario->JumpState = MARIO_STATE_SUPER_FALL;
-			mario->SetGravity(MARIO_GRAVITY);
 		}
 		break;
 	case MARIO_STATE_SUPER_FALL:
@@ -288,13 +314,13 @@ void PlayerLevel::OnKeyDown(int KeyCode)
 		{
 			mario->canJumpSuper = true;
 			mario->JumpState = MARIO_STATE_SUPER_JUMP;
-			mario->vy = -0.01;
+			mario->vy = -0.4 ;
 		}
 		else if (mario->onGround)
 		{
 			mario->canJumpHigh = true;
 			mario->JumpState = MARIO_STATE_JUMP;
-			mario->vy = -0.01;
+			mario->vy = -0.4 ;
 		}
 		break;
 	}

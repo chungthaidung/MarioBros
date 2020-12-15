@@ -2,6 +2,7 @@
 
 void Coin::Render()
 {
+
 	int ani = COIN_ANI;
 	CAnimations::GetInstance()->Get(ani)->Render(x, y);
 	RenderBoundingBox();

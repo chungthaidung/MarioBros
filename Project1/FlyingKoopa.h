@@ -5,6 +5,8 @@ class FlyingKoopa :
 {
 public:
 	FlyingKoopa(Koopa* k);
+	~FlyingKoopa();
+	
 	virtual void Update(DWORD dt);
 	virtual void FinalUpdate(DWORD dt);
 	virtual void Render();
