@@ -15,6 +15,9 @@
 #include "Goomba.h"
 #include "Koopa.h"
 #include "Coin.h"
+#include "QuestionBox.h"
+#include "Brick.h"
+#include "Piranha.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id,std::string Path) :
@@ -44,6 +47,9 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 	
 	for (TiXmlElement* objdata = data->FirstChildElement("object"); objdata != NULL; objdata = objdata->NextSiblingElement("object"))
 	{
+		int visible = 1;
+		objdata->QueryIntAttribute("visible", &visible);
+		if (visible == 0) continue;
 		int x, y;
 		float width, height;
 		objdata->QueryIntAttribute("x", &x);
@@ -69,16 +75,30 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 		else if (name.compare("Enemies") == 0) {
 			string enemy = objdata->Attribute("name");
 			if (enemy.compare("Goomba") == 0)
-				obj = new Goomba();
-			else if (enemy.compare("GKoopa") == 0)
 			{
-				obj = new Koopa();
-				obj->SetState(KOOPA_STATE_WALKING);
+				int type, state;
+				objdata->QueryIntAttribute("type", &type);
+				obj = new Goomba(type);
+				TiXmlElement* property = objdata->FirstChildElement("properties");
+				property = property->FirstChildElement("property");
+				property->QueryIntAttribute("value", &state);
+				obj->SetState(state);
 			}
-			else if (enemy.compare("GKoopaFly") == 0)
+			else if (enemy.compare("Koopa") == 0)
 			{
-				obj = new Koopa();
-				obj->SetState(KOOPA_STATE_FLYING);
+				int type,state;
+				objdata->QueryIntAttribute("type", &type);
+				obj = new Koopa(type);
+				TiXmlElement* property = objdata->FirstChildElement("properties");
+				property = property->FirstChildElement("property");
+				property->QueryIntAttribute("value", &state);
+				obj->SetState(state);
+			}
+			else if (enemy.compare("Piranha") == 0)
+			{
+				int type;
+				objdata->QueryIntAttribute("type", &type);
+				obj = new Piranha(type,y);
 			}
 		}
 		else if (name.compare("Misc") == 0)
@@ -88,12 +108,43 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 			{
 				obj = new Coin();
 			}
+			else if (misc.compare("QuestionBox") == 0)
+			{
+				int r;
+				CGameObject* reward = NULL;
+				TiXmlElement* property = objdata->FirstChildElement("properties");
+				property = property->FirstChildElement("property");
+				property->QueryIntAttribute("value",&r);
+				switch (r)
+				{
+				case OBJECT_TYPE_COIN:
+					reward = new Coin();
+					break;
+				}
+				obj = new QuestionBox(reward,y);
+			}
+			else if (misc.compare("Brick") == 0)
+			{
+				int r,type;
+				objdata->QueryIntAttribute("type", &type);
+				CGameObject* reward = NULL;
+				TiXmlElement* property = objdata->FirstChildElement("properties");
+				property = property->FirstChildElement("property");
+				property->QueryIntAttribute("value", &r);
+				switch (r)
+				{
+				case OBJECT_TYPE_COIN:
+					reward = new Coin();
+					break;
+				}
+				obj = new Brick(reward,type, y);
+			}
 		}
 		objdata->QueryFloatAttribute("width", &width);
 		objdata->QueryFloatAttribute("height", &height);
 		obj->SetWidthHeight(width, height);
 		obj->SetPosition(x, y);
-		DebugOut(L"[INFO]Object x: %d || y: %d || width: %f || height: %f. \n",x,y,width,height);
+	//	DebugOut(L"[INFO]Object x: %d || y: %d || width: %f || height: %f. \n",x,y,width,height);
 		objects.push_back(obj);
 		
 	}
@@ -153,11 +204,10 @@ void CPlayScene::Update(DWORD dt)
 		cy -= 48;
 	}
 	
-	//cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
-	//cam->SetCamPosition(cx, cy); //dùng để set cam nhưng chưa tạo được class cam
+
 	if (cx < 0) cx = 0;
 	if (cy < 0) cy = 0; 
-	//if (cx + game->GetScreenWidth() > map->GetColumn() * 48) cx = map->GetColumn() * 48 - game->GetScreenWidth(); //hardcode
+	if (cx  > gamemap->GetSize().x - game->GetScreenWidth()) cx = gamemap->GetSize().x - game->GetScreenWidth();
 	CGame::GetInstance()->SetCamPos(cx, cy/*cy*/);//
 	
 	RemoveObjects();
@@ -167,9 +217,17 @@ void CPlayScene::Render()
 {
 	float x, y;
 	CGame::GetInstance()->GetCamPos(x,y );
+	for (int i = 1; i < objects.size(); i++)
+	{
+		if (objects[i]->GetObjectType()== OBJECT_TYPE_PIRANHA)
+			objects[i]->Render();
+	}
 	gamemap->Render();
 	for (int i = 1; i < objects.size(); i++)
-		objects[i]->Render();
+	{
+		if(objects[i]->GetObjectType()!=OBJECT_TYPE_PIRANHA)
+			objects[i]->Render();
+	}
 	player->Render();
 }
 /*

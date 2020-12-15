@@ -53,6 +53,7 @@ void CrouchKoopa::FinalUpdate(DWORD dt)
 		if (ny != 0) { 
 			koopa->vy = 0; 
 			koopa->vx = 0;
+			if (ny > 0) koopa->y -= 2;
 		}
 	}
 	//
@@ -81,7 +82,7 @@ void CrouchKoopa::FinalUpdate(DWORD dt)
 				respawntime = GetTickCount();
 			}
 		}
-		else if (e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL)
+		else if (e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL || (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_SHELL_RUNNING))
 		{
 			koopa->SetState(KOOPA_STATE_DIE);
 			koopa->Setny(-1);
@@ -102,6 +103,12 @@ void CrouchKoopa::Render()
 	int ani = KOOPA_ANI_CROUCH;
 	if (GetTickCount() - respawntime > 3500)
 		ani = KOOPA_ANI_RESPAWN;
+	if (koopa->GetType() == RED_KOOPA) { 
+		ani = RED_KOOPA_ANI_CROUCH;
+		if (GetTickCount() - respawntime > 3500)
+			ani = RED_KOOPA_ANI_RESPAWN;
+	}
+	
 	CAnimations::GetInstance()->Get(ani)->Render(koopa->x, koopa->y, 1, koopa->nx,koopa->Getny());
 	koopa->RenderBoundingBox();
 }

@@ -146,6 +146,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BigMario.cpp" />
+    <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="BrokenBrick.cpp" />
+    <ClCompile Include="EndGameReward.cpp" />
+    <ClCompile Include="FlyingGoomba.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CAnimation.cpp" />
@@ -174,12 +178,14 @@
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="MarioFireBall.cpp" />
     <ClCompile Include="MarioTail.cpp" />
+    <ClCompile Include="NormalGoomba.cpp" />
+    <ClCompile Include="Piranha.cpp" />
     <ClCompile Include="PlayerLevel.cpp" />
+    <ClCompile Include="QuestionBox.cpp" />
     <ClCompile Include="RacoonMario.cpp" />
     <ClCompile Include="RunningShell.cpp" />
     <ClCompile Include="SmallMario.cpp" />
@@ -188,10 +194,15 @@
     <ClCompile Include="tinyxml\tinyxmlerror.cpp" />
     <ClCompile Include="tinyxml\tinyxmlparser.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Venus.cpp" />
     <ClCompile Include="WalkingKoopa.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BigMario.h" />
+    <ClInclude Include="Brick.h" />
+    <ClInclude Include="BrokenBrick.h" />
+    <ClInclude Include="EndGameReward.h" />
+    <ClInclude Include="FlyingGoomba.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CAnimation.h" />
@@ -220,18 +231,21 @@
     <ClInclude Include="GhostObject.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="Koopa.h" />
-    <ClInclude Include="Map.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="MarioFireBall.h" />
     <ClInclude Include="MarioTail.h" />
+    <ClInclude Include="NormalGoomba.h" />
+    <ClInclude Include="Piranha.h" />
     <ClInclude Include="PlayerLevel.h" />
+    <ClInclude Include="QuestionBox.h" />
     <ClInclude Include="RacoonMario.h" />
     <ClInclude Include="RunningShell.h" />
     <ClInclude Include="SmallMario.h" />
     <ClInclude Include="tinyxml\tinystr.h" />
     <ClInclude Include="tinyxml\tinyxml.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Venus.h" />
     <ClInclude Include="WalkingKoopa.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

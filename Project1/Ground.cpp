@@ -15,5 +15,5 @@ void CGround::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 int CGround::GetObjectType()
 {
-	return 1;
+	return OBJECT_TYPE_GROUND;
 }

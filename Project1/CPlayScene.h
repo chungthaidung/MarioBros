@@ -5,7 +5,6 @@
 #include "CGameObject.h"
 #include "Ground.h"
 #include "Mario.h"
-#include "Map.h"
 #include "CMap.h"
 
 class CPlayScene : public CScene

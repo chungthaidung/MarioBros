@@ -19,6 +19,11 @@ public:
 	CMap(std::string filePath);
 	void LoadGameMap();
 	void Render();
+	int GetTileWidth();
+	int GetTileHeight();
+	int GetRows();
+	int GetColumns();
+	D3DXVECTOR2 GetSize();
 	~CMap();
 	
 };

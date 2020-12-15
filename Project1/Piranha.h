@@ -1,18 +1,16 @@
 #pragma once
 #include "CGameObject.h"
-#include "NormalGoomba.h"
-#define RED_GOOMBA_ANI_WALKING 1011
-#define RED_GOOMBA_ANI_DIE 1012
-#define RED_GOOMBA_FLY_ANI_WALK 1013
-#define RED_GOOMBA_FLY_ANI_FLY 1014
-#define GOOMBA_FLY_ANI_WALK 1015
-#define GOOMBA_FLY_ANI_FLY 1016
-class Goomba :
+#define PIRANHA_BBOX_WIDTH 48
+#define PIRANHA_BBOX_HEIGHT 72
+
+#define PIRANHA_STATE_UP 1
+#define PIRANHA_STATE_DOWN 2
+#define PIRANHA_STATE_STAY 3
+class Piranha :
     public CGameObject
 {
 public:
-	Goomba(int type);
-
+	Piranha(int t,float start_y);
 	virtual void Update(DWORD dt);
 	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void FinalUpdate(DWORD dt);
@@ -21,12 +19,9 @@ public:
 	virtual void Render();
 	virtual int GetObjectType();
 	int GetType();
-	DWORD GetDieTime();
-	void SetDieTime(DWORD time);
 protected:
-	DWORD dietime;
-	D3DXVECTOR2 collision_box;
 	int type;
-	NormalGoomba* goombaState;
+	float y_start;
+	DWORD staytime;
 };
 

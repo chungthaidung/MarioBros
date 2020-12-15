@@ -10,10 +10,11 @@ class CLayer
 {
 	int tile[500][500];
 	int layer_columns, layer_rows;
-	int id;
+	int id, visible;
 public: 
 	CLayer(TiXmlElement* data);
-
+	void SetVisible(int set);
+	int isVisible();
 	void Draw(float cam_x,float cam_y,CTileset* tileset);
 	~CLayer();
 };

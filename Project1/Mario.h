@@ -19,6 +19,7 @@ protected:
 	float dragf; // luc keo
 	float powerM;
 	CGameObject* inHand;
+	int bounc = 1;
 public:
 	bool onGround;
 	bool canJumpHigh;
@@ -33,7 +34,9 @@ public:
 	void SetPowerMeter(float a) { powerM = a; }
 	void SetGravity(float g) { gravity = g; }
 	void SetInHand(CGameObject* obj);
-
+	void SetBounc(int a);
+	
+	int GetBounc();
 	float GetAcceleration() { return ax; }
 	float GetDrag() { return dragf; }
 	float GetPowerMeter() { return powerM; }

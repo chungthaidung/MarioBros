@@ -1,25 +1,23 @@
 #pragma once
-#include <d3dx9.h>
-#include <d3d9.h>
-#include "CGameObject.h"
+#include "NormalGoomba.h"
 
-class Koopa;
-class WalkingKoopa
+class FlyingGoomba :
+    public NormalGoomba
 {
 public:
-	WalkingKoopa(Koopa* k);
+    FlyingGoomba(Goomba* obj);
 	virtual void Update(DWORD dt);
+	virtual void Moving();
 	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects);
 	virtual void FinalUpdate(DWORD dt);
 	virtual void Render();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	virtual void SetCollisionBox(float x, float y) { collisionbox.x = x; collisionbox.y = y; }
-
-	D3DXVECTOR2 GetCollisionBox();
-
+	virtual void SetCollisionBox(float x, float y);
+	virtual void SetState(int state);
+	virtual D3DXVECTOR2 GetCollisionBox();
 protected:
-	Koopa* koopa;
-	D3DXVECTOR2 collisionbox;
+	int jumpcount;
+	DWORD walktime;
 };
 

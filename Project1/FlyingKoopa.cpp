@@ -1,6 +1,6 @@
 #include "FlyingKoopa.h"
 #include "Koopa.h"
-
+#include "debug.h"
 FlyingKoopa::FlyingKoopa(Koopa* k):WalkingKoopa(k)
 {
 	koopa = k;
@@ -8,6 +8,10 @@ FlyingKoopa::FlyingKoopa(Koopa* k):WalkingKoopa(k)
 	collisionbox.y = KOOPA_BBOX_WIDTH;
 	koopa->SetGravity(MARIO_GRAVITY);
 	koopa->vx = -KOOPA_WALKING_SPEED;
+}
+
+FlyingKoopa::~FlyingKoopa()
+{
 }
 
 void FlyingKoopa::Update(DWORD dt)
@@ -43,6 +47,8 @@ void FlyingKoopa::FinalUpdate(DWORD dt)
 		if (ny != 0) { 
 			koopa->vy = 0;
 			if (ny < 0) koopa->vy = -KOOPA_JUMP_FORCE;
+			if (ny > 0) koopa->y -= 2;
+
 		}
 
 		for (UINT i = 0; i < coEventsResult.size(); i++)

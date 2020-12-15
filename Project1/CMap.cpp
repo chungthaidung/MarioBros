@@ -36,8 +36,38 @@ void CMap::Render()
 	for (int i = 0; i < layers.size(); i++)
 	{
 		//DebugOut(L"[INFO] Layer ID: %d \n",i);
-		layers[i]->Draw(cam.x, cam.y, tileset);
+		if (layers[i]->isVisible() == true)
+			layers[i]->Draw(cam.x, cam.y, tileset);
 	}
 	
 
+}
+
+int CMap::GetTileWidth()
+{
+	return tilewidth;
+}
+
+int CMap::GetTileHeight()
+{
+	return tileheight;
+}
+
+int CMap::GetRows()
+{
+	return rows;
+}
+
+int CMap::GetColumns()
+{
+	return columns;
+}
+
+D3DXVECTOR2 CMap::GetSize()
+{
+	return D3DXVECTOR2(tilewidth*columns,tileheight*rows);
+}
+
+CMap::~CMap()
+{
 }

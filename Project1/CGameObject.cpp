@@ -18,6 +18,12 @@ CGameObject::CGameObject()
 	isRemove = false;
 }
 
+D3DXVECTOR2 CGameObject::GetWidthHeight()
+{
+
+	return D3DXVECTOR2(width,height);
+}
+
 void CGameObject::Update(DWORD dt)
 {
 	this->dt = dt;
@@ -120,11 +126,11 @@ void CGameObject::FilterCollision(
 		if (c->obj->GetObjectType() == OBJECT_TYPE_COIN ) continue;
 		//c->obj continue
 
-		if (c->t < min_tx && c->nx != 0) {
+		if (c->t < min_tx && c->nx != 0 ) {//&& c->nx*vx<0
 			min_tx = c->t; nx = c->nx; min_ix = i; rdx = c->dx;
 		}
 
-		if (c->t < min_ty && c->ny != 0) {
+		if (c->t < min_ty && c->ny != 0 ) {//&&c->ny * vy < 0
 			min_ty = c->t; ny = c->ny; min_iy = i; rdy = c->dy;
 		}
 	}
@@ -133,6 +139,11 @@ void CGameObject::FilterCollision(
 	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
 }
 
+
+D3DXVECTOR2 CGameObject::GetPosition()
+{
+	return D3DXVECTOR2(x,y);
+}
 
 void CGameObject::Setny(int a)
 {
@@ -165,5 +176,5 @@ void CGameObject::RenderBoundingBox()
 
 CGameObject::~CGameObject()
 {
-
+	DebugOut(L"Da xoa object\n");
 }

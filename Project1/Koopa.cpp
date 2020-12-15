@@ -8,10 +8,15 @@
 #include "RunningShell.h"
 #include "FlyingKoopa.h"
 #include "CCollisionEvent.h"
-Koopa::Koopa()
+Koopa::Koopa(int t)
 {
 	koopaState = new WalkingKoopa(this);
+	type = t;
 	//state = KOOPA_STATE_WALKING;
+}
+Koopa::~Koopa()
+{
+	DebugOut(L"Ba Don giet toi rooiiiiii\n");
 }
 void Koopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -33,6 +38,7 @@ void Koopa::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Koopa::FinalUpdate(DWORD dt)
 {
 	koopaState->FinalUpdate(dt);
+	if (y > 41*48) isRemove = true;// hardcode
 }
 void Koopa::Render()
 {
@@ -61,6 +67,14 @@ void Koopa::SetHolder(CMario* h)
 CMario* Koopa::GetHolder()
 {
 	return holder;
+}
+void Koopa::SetType(int type)
+{
+	this->type = type;
+}
+int Koopa::GetType()
+{
+	return type;
 }
 void Koopa::SetState(int state)
 {

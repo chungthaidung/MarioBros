@@ -43,10 +43,12 @@ void WalkingKoopa::FinalUpdate(DWORD dt)
 		// block every object first!
 		koopa->x += min_tx * koopa->dx + nx * 0.4f;
 		koopa->y += min_ty * koopa->dy + ny * 0.4f;
-
 		if (nx != 0) koopa->vx *= -1;
-		if (ny != 0) koopa->vy = 0;
-
+		if (ny != 0)
+		{
+			koopa->vy = 0;
+			if (ny > 0)koopa->y -= 2;
+		}
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -59,12 +61,38 @@ void WalkingKoopa::FinalUpdate(DWORD dt)
 					//koopa->SetGravity(0);
 				}
 			}
-			else if ( e->obj->GetObjectType() == OBJECT_TYPE_TAIL|| e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL)
+			else if (e->obj->GetObjectType() == OBJECT_TYPE_TAIL || e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL || (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA&& e->obj->GetState()== KOOPA_STATE_SHELL_RUNNING))
 			{
 				if (e->nx != 0) {
 					koopa->SetState(KOOPA_STATE_CROUCH);
 					koopa->Setny(-1);
 					koopa->vy = -0.5;
+				}
+			}
+			else if ((e->obj->GetObjectType() == OBJECT_TYPE_GHOST || e->obj->GetObjectType() == OBJECT_TYPE_GROUND || e->obj->GetObjectType() == OBJECT_TYPE_BRICK )&&koopa->GetType()==RED_KOOPA)
+			{
+				if (e->ny < 0)
+				{
+					float l, t, r, b;
+					koopa->GetBoundingBox(l, t, r, b);
+					//DebugOut(L" e->obj width: %f \n", e->obj->GetWidthHeight().x);
+
+					if (l < (e->obj->x - (koopa->GetCollisionBox().x / 2))&& koopa->nx == -1)
+					{
+						koopa->x = e->obj->x - koopa->GetCollisionBox().x / 2;
+						//DebugOut(L"[INFO] left: %f || e->obj l: %f || koopa nx: %d  || e->obj r: %f \n", l, e->obj->x, koopa->nx,  e->obj->width);
+						koopa->vx *= -1;
+
+					}
+					else if (l > (e->obj->x + e->obj->width - (koopa->GetCollisionBox().x / 2)) && koopa->nx == 1)
+					{
+						koopa->x = e->obj->x + e->obj->width - koopa->GetCollisionBox().x / 2;
+						koopa->vx *= -1;
+						//DebugOut(L"[INFO] left: %f || e->obj l: %f || koopa nx: %d  || e->obj r: %f \n", l, e->obj->x, koopa->nx,  e->obj->width);
+
+					}
+
+					//DebugOut(L"[INFO] left: %f || e->obj l: %f || right: %f  || e->obj r: %f \n", l, e->obj->x, r, (e->obj->x + e->obj->width));
 				}
 			}
 		}
@@ -77,6 +105,7 @@ void WalkingKoopa::FinalUpdate(DWORD dt)
 void WalkingKoopa::Render()
 {
 	int ani = KOOPA_ANI_WALKING;
+	if (koopa->GetType() == RED_KOOPA) ani = RED_KOOPA_ANI_WALKING;
 	int f = -1;
 	CAnimations::GetInstance()->Get(ani)->Render(koopa->x, koopa->y, 1, koopa->nx*f);
 	koopa->RenderBoundingBox();

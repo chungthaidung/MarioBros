@@ -1,6 +1,7 @@
 #include "RunningShell.h"
 #include "Koopa.h"
 #include "debug.h"
+#include "Brick.h"
 RunningShell::RunningShell(Koopa* k):WalkingKoopa(k)
 {
 	collisionbox.x = KOOPA_BBOX_HEIGHT;
@@ -36,12 +37,15 @@ void RunningShell::FinalUpdate(DWORD dt)
 		
 
 		if (nx != 0) koopa->vx *= -1;
-		if (ny != 0) koopa->vy = 0;
+		if (ny != 0) {
+			koopa->vy = 0;
+			if (ny > 0) koopa->y -= 2;
+		}
 
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL || e->obj->GetObjectType() == OBJECT_TYPE_TAIL)
+			if (e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL || e->obj->GetObjectType() == OBJECT_TYPE_TAIL )
 			{
 				if (e->nx != 0) {
 					koopa->SetState(KOOPA_STATE_CROUCH);
@@ -50,7 +54,7 @@ void RunningShell::FinalUpdate(DWORD dt)
 					koopa->vx = e->nx * 0.2;
 				}
 			}
-			else if (e->obj->GetObjectType() == OBJECT_TYPE_GOOMBA )
+			else if (e->obj->GetObjectType() == OBJECT_TYPE_GOOMBA || e->obj->GetObjectType() == OBJECT_TYPE_KOOPA ||( e->obj->GetObjectType() == OBJECT_TYPE_BRICK && e->obj->GetState() == BRICK_BREAKABLE))
 			{
 				if (e->nx != 0) 
 				{
@@ -67,6 +71,7 @@ void RunningShell::FinalUpdate(DWORD dt)
 void RunningShell::Render()
 {
 	int ani = KOOPA_SHELL_ANI_RUN;
+	if (koopa->GetType() == RED_KOOPA) ani = RED_KOOPA_SHELL_ANI_RUN;
 	CAnimations::GetInstance()->Get(ani)->Render(koopa->x, koopa->y, 1, koopa->nx,koopa->Getny());
 	koopa->RenderBoundingBox();
 }

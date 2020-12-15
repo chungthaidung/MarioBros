@@ -9,7 +9,11 @@ CScene::CScene(int id, std::string path)
 void CScene::RemoveObjects()
 {
 	objects.erase(remove_if(objects.begin(), objects.end(), [](CGameObject* obj) {
-		return obj->isRemove;
+		if (obj->isRemove) {
+			if (obj->canDelete) delete obj;
+			return true;
+		}
+		return false;
 		}), objects.end());
 }
 

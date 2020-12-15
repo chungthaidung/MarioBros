@@ -13,5 +13,5 @@ void GhostObject::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 int GhostObject::GetObjectType()
 {
-	return 3;
+	return OBJECT_TYPE_GHOST;
 }
