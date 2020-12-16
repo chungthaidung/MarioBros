@@ -1,16 +1,14 @@
 #pragma once
 #include "CGameObject.h"
-#define PIRANHA_BBOX_WIDTH 48
-#define PIRANHA_BBOX_HEIGHT 72
+#define SUPER_MUSHROOM_BBOX_WIDTH 48
+#define SUPER_MUSHROOM_BBOX_HEIGHT 48
 
-#define PIRANHA_STATE_UP 1
-#define PIRANHA_STATE_DOWN 2
-#define PIRANHA_STATE_STAY 3
-class Piranha :
+#define SUPER_MUSHROOM_ANI	611
+class SuperMushroom :
     public CGameObject
 {
 public:
-	Piranha(int t,int ny,float start_y);
+    SuperMushroom();
 	virtual void Update(DWORD dt);
 	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void FinalUpdate(DWORD dt);
@@ -18,10 +16,8 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Render();
 	virtual int GetObjectType();
-	int GetType();
+	void SetGravity(float g);
 protected:
-	int type;
-	float y_start;
-	DWORD staytime;
+	float gravity;
 };
 

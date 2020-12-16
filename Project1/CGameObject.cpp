@@ -124,6 +124,7 @@ void CGameObject::FilterCollision(
 
 		if (c->obj->GetObjectType()==OBJECT_TYPE_GHOST&& (c->ny > 0||c->nx!=0)) continue;
 		if (c->obj->GetObjectType() == OBJECT_TYPE_COIN ) continue;
+		if (c->obj->GetObjectType() == OBJECT_TYPE_END_GAME_REWARD ) continue;
 		//c->obj continue
 
 		if (c->t < min_tx && c->nx != 0 ) {//&& c->nx*vx<0

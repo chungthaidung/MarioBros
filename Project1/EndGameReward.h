@@ -8,6 +8,16 @@
 #define END_GAME_REWARD_STATE_MUSHROOM	2
 #define END_GAME_REWARD_STATE_STAR	3
 #define END_GAME_REWARD_STATE_EMPTY	0
+
+#define FLOWER	1
+#define MUSHROOM	2
+#define STAR	3
+
+#define END_GAME_REWARD_ANI_FLOWER	607
+#define END_GAME_REWARD_ANI_MUSHROOM	608
+#define END_GAME_REWARD_ANI_STAR	609
+#define END_GAME_REWARD_ANI_EMPTY	610
+
 class EndGameReward :
     public CGameObject
 {
@@ -20,5 +30,8 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Render();
 	virtual int GetObjectType();
+protected:
+	DWORD changetime;
+	int reward;
 };
 

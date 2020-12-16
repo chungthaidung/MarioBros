@@ -189,12 +189,14 @@
     <ClCompile Include="RacoonMario.cpp" />
     <ClCompile Include="RunningShell.cpp" />
     <ClCompile Include="SmallMario.cpp" />
+    <ClCompile Include="SuperMushroom.cpp" />
     <ClCompile Include="tinyxml\tinystr.cpp" />
     <ClCompile Include="tinyxml\tinyxml.cpp" />
     <ClCompile Include="tinyxml\tinyxmlerror.cpp" />
     <ClCompile Include="tinyxml\tinyxmlparser.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Venus.cpp" />
+    <ClCompile Include="VenusFireBall.cpp" />
     <ClCompile Include="WalkingKoopa.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -242,10 +244,12 @@
     <ClInclude Include="RacoonMario.h" />
     <ClInclude Include="RunningShell.h" />
     <ClInclude Include="SmallMario.h" />
+    <ClInclude Include="SuperMushroom.h" />
     <ClInclude Include="tinyxml\tinystr.h" />
     <ClInclude Include="tinyxml\tinyxml.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Venus.h" />
+    <ClInclude Include="VenusFireBall.h" />
     <ClInclude Include="WalkingKoopa.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

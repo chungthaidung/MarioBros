@@ -27,6 +27,7 @@ void MarioTail::Moving(DWORD dt)
 {
 	x = mario->x + (MARIO_RACOON_BBOX_WIDTH - MARIO_TAIL_BBOX_WIDTH) / 2;
 	y = mario->y + (MARIO_RACOON_BBOX_HEIGHT - MARIO_TAIL_BBOX_HEIGHT) / 2;
+	//DebugOut(L"Tail x: %f, tail y: %f\n", x, y);
 	if (!active) {
 		vx = 0;
 		return;

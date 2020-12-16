@@ -19,7 +19,7 @@ class Brick :
     public QuestionBox
 {
 public:
-    Brick(CGameObject* obj,int type, float y = 0.0f);
+    Brick(int obj_type,int type, float y = 0.0f);
 	~Brick();
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
@@ -29,6 +29,7 @@ public:
 	virtual void SetState(int state);
 	virtual int GetObjectType();
 	virtual void SetWidthHeight(int w, int h);
+
 protected:
 	DWORD time;
 	BrokenBrick* broken = NULL;

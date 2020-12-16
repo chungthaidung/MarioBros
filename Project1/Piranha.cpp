@@ -4,20 +4,22 @@
 #include "CGame.h"
 #include "Mario.h"
 #include "CPlayScene.h"
-Piranha::Piranha(int t, float start_y)
+Piranha::Piranha(int t, int ny, float start_y)
 {
 	type = t;
+	this->ny = ny;
+	//DebugOut(L"NY: %d\n", ny);
 	y_start = start_y;
 	SetState(PIRANHA_STATE_UP);
 }
 
 void Piranha::Update(DWORD dt)
 {
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+	CMario* mario = scene->GetPlayer();
 	if (y > y_start && state == PIRANHA_STATE_DOWN)
 	{
 		y = y_start;
-		CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
-		CMario* mario = scene->GetPlayer();
 		if (mario->GetPosition().x > x - 72 && mario->GetPosition().x < x + PIRANHA_BBOX_WIDTH + 72)
 			SetState(PIRANHA_STATE_DOWN);
 		else
@@ -43,28 +45,26 @@ void Piranha::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Piranha::FinalUpdate(DWORD dt)
 {
 	y += dy;
-	/*vector<LPCOLLISIONEVENT> coEventsResult;
+	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEventsResult.clear();
-	if (coEResult.size() == 0)
+	/*if (coEResult.size() == 0)
 	{
 		x += dx;
 		y += dy;
 	}
 	else
+	{*/
+	float min_tx, min_ty, nx = 0, ny;
+	float rdx = 0;
+	float rdy = 0;
+	FilterCollision(coEResult, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+	for (UINT i = 0; i < coEventsResult.size(); i++)
 	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
-		FilterCollision(coEResult, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-		}
-	}*/
+		LPCOLLISIONEVENT e = coEventsResult[i];
+	}
+	//}
 	for (UINT i = 0; i < coEResult.size(); i++) delete  coEResult[i];
 	coEResult.clear();
-	
-	
 }
 
 void Piranha::SetState(int state)
@@ -96,8 +96,9 @@ void Piranha::GetBoundingBox(float& left, float& top, float& right, float& botto
 void Piranha::Render()
 {
 	int ani = GREEN_PIRANHA_ANI;
-
-	CAnimations::GetInstance()->Get(ani)->Render(x, y);
+	if(type==RED_TYPE)
+		ani = RED_PIRANHA_ANI;
+	CAnimations::GetInstance()->Get(ani)->Render(x, y,1,1,ny);
 	RenderBoundingBox();
 }
 

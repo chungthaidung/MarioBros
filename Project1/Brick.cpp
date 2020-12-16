@@ -1,8 +1,9 @@
 #include "Brick.h"
 #include "debug.h"
-Brick::Brick(CGameObject* obj, int type, float y) :QuestionBox(obj, y)
+Brick::Brick(int obj_type, int type, float y) :QuestionBox(obj_type, y)
 {
 	state = type;
+	QuestionBox::SetReward(obj_type);
 }
 
 Brick::~Brick()
