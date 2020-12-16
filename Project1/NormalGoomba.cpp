@@ -114,6 +114,7 @@ void NormalGoomba::Render()
 	int ani = GOOMBA_ANI_WALKING;
 	if(goomba->GetType()==GOOMBA)
 	{
+		ani = GOOMBA_ANI_WALKING;
 		switch (goomba->state)
 		{
 		case GOOMBA_STATE_DIE:
@@ -123,6 +124,8 @@ void NormalGoomba::Render()
 	}
 	else if (goomba->GetType() == RED_GOOMBA)
 	{
+		ani = RED_GOOMBA_ANI_WALKING;
+
 		switch (goomba->state)
 		{
 		case GOOMBA_STATE_DIE:

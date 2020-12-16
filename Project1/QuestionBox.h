@@ -12,7 +12,7 @@ class QuestionBox :
     public CGameObject
 {
 public:
-	QuestionBox(CGameObject* obj, float y = 0.0f);
+	QuestionBox(int obj_type, float y = 0.0f);
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt);
@@ -20,7 +20,7 @@ public:
 	virtual void FinalUpdate(DWORD dt);
 	virtual void SetState(int state);
 	virtual int GetObjectType();
-	
+	virtual void SetReward(int obj_type);
 protected:
 	float gravity = 0;
 	CGameObject* reward;

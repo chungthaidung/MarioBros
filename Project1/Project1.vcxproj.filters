@@ -82,6 +82,9 @@
     <Filter Include="Game\Game Object\Object\Enemy\Goomba">
       <UniqueIdentifier>{16d887da-af86-4728-9ff4-15766b98d044}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Game Object\Object\Enemy\Venus">
+      <UniqueIdentifier>{b86748b6-7ebc-4f59-9ec0-b8c804429584}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">
@@ -219,9 +222,6 @@
     <ClCompile Include="NormalGoomba.cpp">
       <Filter>Game\Game Object\Object\Enemy\Goomba</Filter>
     </ClCompile>
-    <ClCompile Include="BrokenBrick.cpp">
-      <Filter>Game\Game Object\Object\Misc</Filter>
-    </ClCompile>
     <ClCompile Include="Brick.cpp">
       <Filter>Game\Game Object\Object\Misc</Filter>
     </ClCompile>
@@ -231,10 +231,19 @@
     <ClCompile Include="Piranha.cpp">
       <Filter>Game\Game Object\Object\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Venus.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="EndGameReward.cpp">
+      <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="BrokenBrick.cpp">
+      <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Venus.cpp">
+      <Filter>Game\Game Object\Object\Enemy\Venus</Filter>
+    </ClCompile>
+    <ClCompile Include="VenusFireBall.cpp">
+      <Filter>Game\Game Object\Object\Enemy\Venus</Filter>
+    </ClCompile>
+    <ClCompile Include="SuperMushroom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -380,10 +389,16 @@
     <ClInclude Include="Piranha.h">
       <Filter>Game\Game Object\Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Venus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EndGameReward.h">
+      <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Venus.h">
+      <Filter>Game\Game Object\Object\Enemy\Venus</Filter>
+    </ClInclude>
+    <ClInclude Include="VenusFireBall.h">
+      <Filter>Game\Game Object\Object\Enemy\Venus</Filter>
+    </ClInclude>
+    <ClInclude Include="SuperMushroom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

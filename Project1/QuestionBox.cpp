@@ -1,9 +1,11 @@
 #include "QuestionBox.h"
 #include "debug.h"
-QuestionBox::QuestionBox(CGameObject* obj,float y)
+#include "Coin.h"
+QuestionBox::QuestionBox(int obj_type,float y)
 {
 	y_start = y;
-	reward = obj;
+	SetReward(obj_type);
+	DebugOut(L"OBJ TYPE: %d\n", reward->GetObjectType());
 	state = QUESTION_BOX_REWARD;
 	width = QUESTION_BOX_BBOX_WIDTH;
 	height = QUESTION_BOX_BBOX_HEIGHT;
@@ -121,4 +123,14 @@ void QuestionBox::SetState(int state)
 int QuestionBox::GetObjectType()
 {
 	return OBJECT_TYPE_QUESTION_BOX;
+}
+
+void QuestionBox::SetReward(int obj_type)
+{
+	switch (obj_type)
+	{
+	case OBJECT_TYPE_COIN:
+		reward = new Coin();
+		break;
+	}
 }

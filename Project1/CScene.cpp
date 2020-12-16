@@ -1,4 +1,5 @@
 #include "CScene.h"
+#include "debug.h"
 CScene::CScene(int id, std::string path)
 {
 	this->id = id;
@@ -21,6 +22,8 @@ void CScene::SpawnObject(CGameObject* obj)
 {
 	obj->isRemove = false;
 	objects.push_back(obj);
+	//DebugOut(L"ADD thanh cong \n");
+
 }
 
 void CScene::DespawnObject(CGameObject* obj)

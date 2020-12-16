@@ -105,7 +105,7 @@ void MarioFireBall::Reset(float mx,float my)
 }
 int MarioFireBall::GetObjectType()
 {
-	return 20;
+	return OBJECT_TYPE_FIREBALL;
 }
 
 void MarioFireBall::State(DWORD dt)

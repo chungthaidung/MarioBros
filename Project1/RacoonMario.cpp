@@ -280,7 +280,6 @@ void RacoonMario::OnKeyDown(int KeyCode)
 		break;
 	}
 }
-
 RacoonMario::~RacoonMario()
 {
 	CGame::GetInstance()->GetCurrentScene()->DespawnObject(tail);

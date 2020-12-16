@@ -18,6 +18,8 @@
 #include "QuestionBox.h"
 #include "Brick.h"
 #include "Piranha.h"
+#include "EndGameReward.h"
+#include "Venus.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id,std::string Path) :
@@ -96,9 +98,21 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 			}
 			else if (enemy.compare("Piranha") == 0)
 			{
-				int type;
+				int type,ny;
 				objdata->QueryIntAttribute("type", &type);
-				obj = new Piranha(type,y);
+				TiXmlElement* property = objdata->FirstChildElement("properties");
+				property = property->FirstChildElement("property");
+				property->QueryIntAttribute("value", &ny);
+				obj = new Piranha(type,ny,y);
+			}
+			else if (enemy.compare("Venus") == 0)
+			{
+				int type,ny;
+				objdata->QueryIntAttribute("type", &type);
+				TiXmlElement* property = objdata->FirstChildElement("properties");
+				property = property->FirstChildElement("property");
+				property->QueryIntAttribute("value", &ny);
+				obj = new Venus(type,ny,y);
 			}
 		}
 		else if (name.compare("Misc") == 0)
@@ -115,13 +129,7 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 				TiXmlElement* property = objdata->FirstChildElement("properties");
 				property = property->FirstChildElement("property");
 				property->QueryIntAttribute("value",&r);
-				switch (r)
-				{
-				case OBJECT_TYPE_COIN:
-					reward = new Coin();
-					break;
-				}
-				obj = new QuestionBox(reward,y);
+				obj = new QuestionBox(r,y);
 			}
 			else if (misc.compare("Brick") == 0)
 			{
@@ -131,13 +139,12 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 				TiXmlElement* property = objdata->FirstChildElement("properties");
 				property = property->FirstChildElement("property");
 				property->QueryIntAttribute("value", &r);
-				switch (r)
-				{
-				case OBJECT_TYPE_COIN:
-					reward = new Coin();
-					break;
-				}
-				obj = new Brick(reward,type, y);
+				
+				obj = new Brick(r,type, y);
+			}
+			else if (misc.compare("EndGameReward") == 0)
+			{
+				obj = new EndGameReward();
 			}
 		}
 		objdata->QueryFloatAttribute("width", &width);
@@ -176,15 +183,27 @@ void CPlayScene::Update(DWORD dt)
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
+		if ((objects[i]->GetPosition().x< CGame::GetInstance()->GetCamPos().x - CGame::GetInstance()->GetScreenWidth() * 1 / 2 || objects[i]->GetPosition().x > CGame::GetInstance()->GetCamPos().x + CGame::GetInstance()->GetScreenWidth() * 3 / 2
+			|| objects[i]->GetPosition().y < CGame::GetInstance()->GetCamPos().y - CGame::GetInstance()->GetScreenHeight() * 1 / 2 || objects[i]->GetPosition().y > CGame::GetInstance()->GetCamPos().y + CGame::GetInstance()->GetScreenHeight() * 3 / 2)
+			&& objects[i]->GetObjectType()!=OBJECT_TYPE_MARIO && objects[i]->GetObjectType() != OBJECT_TYPE_TAIL)
+			continue;
 		objects[i]->Update(dt);
 	}
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
+		if ((objects[i]->GetPosition().x< CGame::GetInstance()->GetCamPos().x - CGame::GetInstance()->GetScreenWidth() * 1 / 2 || objects[i]->GetPosition().x > CGame::GetInstance()->GetCamPos().x + CGame::GetInstance()->GetScreenWidth() * 3 / 2
+			|| objects[i]->GetPosition().y < CGame::GetInstance()->GetCamPos().y - CGame::GetInstance()->GetScreenHeight() * 1 / 2 || objects[i]->GetPosition().y > CGame::GetInstance()->GetCamPos().y + CGame::GetInstance()->GetScreenHeight() * 3 / 2)
+			&& objects[i]->GetObjectType() != OBJECT_TYPE_MARIO && objects[i]->GetObjectType() != OBJECT_TYPE_TAIL)
+			continue;
 		objects[i]->CollisionUpdate(dt, &coObjects);
 	}
 	for (size_t i = 0; i < objects.size(); i++)
 	{
+		if ((objects[i]->GetPosition().x< CGame::GetInstance()->GetCamPos().x - CGame::GetInstance()->GetScreenWidth() * 1 / 2 || objects[i]->GetPosition().x > CGame::GetInstance()->GetCamPos().x + CGame::GetInstance()->GetScreenWidth() * 3 / 2
+			|| objects[i]->GetPosition().y < CGame::GetInstance()->GetCamPos().y - CGame::GetInstance()->GetScreenHeight() * 1 / 2 || objects[i]->GetPosition().y > CGame::GetInstance()->GetCamPos().y + CGame::GetInstance()->GetScreenHeight() * 3 / 2)
+			&& objects[i]->GetObjectType() != OBJECT_TYPE_MARIO && objects[i]->GetObjectType() != OBJECT_TYPE_TAIL)
+			continue;
 		objects[i]->FinalUpdate(dt);
 	}
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
@@ -209,8 +228,9 @@ void CPlayScene::Update(DWORD dt)
 	if (cy < 0) cy = 0; 
 	if (cx  > gamemap->GetSize().x - game->GetScreenWidth()) cx = gamemap->GetSize().x - game->GetScreenWidth();
 	CGame::GetInstance()->SetCamPos(cx, cy/*cy*/);//
-	
+
 	RemoveObjects();
+
 }
 
 void CPlayScene::Render()
@@ -219,14 +239,15 @@ void CPlayScene::Render()
 	CGame::GetInstance()->GetCamPos(x,y );
 	for (int i = 1; i < objects.size(); i++)
 	{
-		if (objects[i]->GetObjectType()== OBJECT_TYPE_PIRANHA)
+		if (objects[i]->GetObjectType()== OBJECT_TYPE_PIRANHA|| objects[i]->GetObjectType() == OBJECT_TYPE_VENUS)
 			objects[i]->Render();
 	}
 	gamemap->Render();
 	for (int i = 1; i < objects.size(); i++)
 	{
-		if(objects[i]->GetObjectType()!=OBJECT_TYPE_PIRANHA)
+		if(objects[i]->GetObjectType()!=OBJECT_TYPE_PIRANHA && objects[i]->GetObjectType() != OBJECT_TYPE_VENUS)
 			objects[i]->Render();
+
 	}
 	player->Render();
 }
