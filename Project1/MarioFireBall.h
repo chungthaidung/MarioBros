@@ -13,7 +13,7 @@ public:
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Reset(float mx, float my);
 	virtual int GetObjectType();
-	void State(DWORD dt);
+	//void State(DWORD dt);
 	
 	void SetActive(bool a) { active = a; }
 	bool GetActive() { return active; }

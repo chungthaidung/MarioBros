@@ -4,7 +4,7 @@
 #include <d3d9.h>
 #include <string>
 #include "CGameObject.h"
-
+#include "Effect.h"
 class CScene
 {
 protected:
@@ -13,6 +13,7 @@ protected:
 	std::string scenePath;
 
 	vector<LPGAMEOBJECT> objects;
+	vector<LPEFFECT> effects;
 
 
 public:
@@ -25,6 +26,9 @@ public:
 	virtual void Render() = 0;
 	virtual void RemoveObjects();
 	virtual void SpawnObject(CGameObject* obj);
-	virtual void DespawnObject(CGameObject* obj);
+	virtual void DespawnObject(CGameObject* obj);	
+	virtual void RemoveEffects();
+	virtual void AddEffect(LPEFFECT ef);
+	virtual void DeleteEffect(LPEFFECT ef);
 };
 typedef CScene* LPSCENE;

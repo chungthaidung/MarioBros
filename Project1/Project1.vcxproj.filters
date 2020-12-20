@@ -85,6 +85,9 @@
     <Filter Include="Game\Game Object\Object\Enemy\Venus">
       <UniqueIdentifier>{b86748b6-7ebc-4f59-9ec0-b8c804429584}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Game Object\Object\Effect">
+      <UniqueIdentifier>{87f44843-ec40-4b5f-adb8-019b99e6667a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">
@@ -244,6 +247,18 @@
       <Filter>Game\Game Object\Object\Enemy\Venus</Filter>
     </ClCompile>
     <ClCompile Include="SuperMushroom.cpp">
+      <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="TailAttackEf.cpp">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBallEf.cpp">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="GoombaDieEff.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -399,6 +414,18 @@
       <Filter>Game\Game Object\Object\Enemy\Venus</Filter>
     </ClInclude>
     <ClInclude Include="SuperMushroom.h">
+      <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="TailAttackEf.h">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBallEf.h">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="GoombaDieEff.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

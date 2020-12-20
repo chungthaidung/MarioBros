@@ -35,6 +35,7 @@ void PlayerLevel::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_obje
 }
 void PlayerLevel::FinalUpdate(DWORD dt)
 {
+	
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	if (mario->coEResult.size() == 0)
 	{
@@ -64,13 +65,19 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 			mario->vy = 0;
 			if (ny < 0) {
 				mario->onGround = true;
-				mario->SetBounc(1);
 			}
 			if (mario->ny > 0)
 			{
-				mario->SetGravity(MARIO_GRAVITY);
+				if(mario->JumpState==MARIO_STATE_SUPER_JUMP)
+					mario->JumpState = MARIO_STATE_SUPER_FALL;
+				else if (mario->JumpState == MARIO_STATE_JUMP)
+					mario->JumpState = MARIO_STATE_FALL;
 			}
 		}
+		bool bounc = true;
+		QuestionBox* hit = NULL;
+		float hitLength = 0;
+		int countqblock = 0;
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -99,31 +106,38 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 				MiniJump(true);
 				
 			}
-			else if (e->obj->GetObjectType() == OBJECT_TYPE_QUESTION_BOX  && e->obj->GetState()==QUESTION_BOX_REWARD)
+			else if ( e->obj->GetObjectType() == OBJECT_TYPE_QUESTION_BOX && e->ny > 0)//bounc==true &&	
 			{
-				if (e->ny > 0)
+				countqblock++;
+				QuestionBox* box = dynamic_cast<QuestionBox*>(e->obj);
+				DebugOut(L"[INFO] Touching length: %f \n", e->touchingLength);
+
+				if (box->GetState() == QUESTION_BOX_REWARD)
 				{
-					QuestionBox* box = dynamic_cast<QuestionBox*>(e->obj);
-					if (box->GetState() == QUESTION_BOX_REWARD && mario->GetBounc()==1)
-					{
-						box->SetState(QUESTION_BOX_BOUNC);
-						mario->SetBounc(0);
-					}
+					//if (hitLength < e->touchingLength)
+					//{
+					//	hit = box;
+					//	//box->SetState(QUESTION_BOX_BOUNC);
+					//	hitLength = e->touchingLength;
+					//	bounc = false;
+					//}
 				}
+				//DebugOut(L"[INFO] Hit length: %f \n",hitLength);
 			}
-			else if ((e->obj->GetObjectType() == OBJECT_TYPE_QUESTION_BOX ||e->obj->GetObjectType() == OBJECT_TYPE_BRICK) && e->obj->GetState()==QUESTION_BOX_REWARD)
+			else if (e->obj->GetObjectType() == OBJECT_TYPE_BRICK && e->ny > 0)//bounc == true && 
 			{
-				if (e->ny > 0)
+				Brick* box = dynamic_cast<Brick*>(e->obj);
+				if (box->GetState() == BRICK_REWARD)
 				{
-					Brick* box = dynamic_cast<Brick*>(e->obj);
-					if (box->GetState() == BRICK_REWARD && mario->GetBounc() == 1)
-					{
-						box->SetState(BRICK_BOUNC);
-						mario->SetBounc(0);
-					}
+					box->SetState(BRICK_BOUNC);
+					bounc = false;
 				}
 			}
 		}
+		DebugOut(L"[INFO] Q block %d \n", countqblock);
+
+		/*if(hit)
+			hit->SetState(QUESTION_BOX_BOUNC);*/
 	}
 	for (UINT i = 0; i < mario->coEResult.size(); i++) delete  mario->coEResult[i];
 	mario->coEResult.clear();

@@ -240,7 +240,7 @@ void CGame::SweptAABB(
 	float ml, float mt, float mr, float mb,
 	float dx, float dy,
 	float sl, float st, float sr, float sb,
-	float& t, float& nx, float& ny)
+	float& t, float& nx, float& ny, float& touchingLength)
 {
 
 	float dx_entry, dx_exit, tx_entry, tx_exit;
@@ -320,16 +320,24 @@ void CGame::SweptAABB(
 	if (t_entry > t_exit) return;
 
 	t = t_entry;
-
+	touchingLength = 0;
 	if (tx_entry > ty_entry)
 	{
 		ny = 0.0f;
 		dx > 0 ? nx = -1.0f : nx = 1.0f;
+		// touching length
+		float mst = mt + dy * t_entry;
+		float msb = mb + dy * t_entry;
+		touchingLength = min(msb, sb) - max(mst, st);
 	}
 	else
 	{
 		nx = 0.0f;
 		dy > 0 ? ny = -1.0f : ny = 1.0f;
+		//touching lenghth
+		float msl = ml + dx * t_entry;
+		float msr = mr + dx * t_entry;
+		touchingLength = min(msr, sr) - max(msl, sl);
 	}
 
 }

@@ -23,10 +23,30 @@ void CScene::SpawnObject(CGameObject* obj)
 	obj->isRemove = false;
 	objects.push_back(obj);
 	//DebugOut(L"ADD thanh cong \n");
-
 }
-
 void CScene::DespawnObject(CGameObject* obj)
 {
 	obj->isRemove = true;
+}
+
+void CScene::RemoveEffects()
+{
+	effects.erase(remove_if(effects.begin(), effects.end(), [](LPEFFECT ef) {
+		if (ef->isRemove) {
+			if (ef->canDelete) delete ef;
+			return true;
+		}
+		return false;
+		}), effects.end());
+}
+
+void CScene::AddEffect(LPEFFECT ef)
+{
+	ef->isRemove = false;
+	effects.push_back(ef);
+}
+
+void CScene::DeleteEffect(LPEFFECT ef)
+{
+	ef->isRemove = true;
 }

@@ -523,7 +523,7 @@
   </object>
   <object id="63" name="QuestionBox" x="720" y="912">
    <properties>
-    <property name="Reward" type="int" value="6"/>
+    <property name="Reward" type="int" value="12"/>
    </properties>
    <point/>
   </object>

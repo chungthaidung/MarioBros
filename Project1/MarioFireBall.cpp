@@ -3,7 +3,7 @@
 #include "debug.h"
 #include "CGame.h"
 #include "debug.h"
-
+#include "FireBallEf.h"
 MarioFireBall::MarioFireBall(CMario* p)
 {
 	mario = p;
@@ -12,20 +12,8 @@ MarioFireBall::MarioFireBall(CMario* p)
 void MarioFireBall::Render()
 {
 	int ani = MARIO_ANI_FIRE_BALL;
-	switch (state)
-	{
-	case MARIO_FIRE_BALL_STATE_DAMAGED:
-		ani = MARIO_ANI_FIRE_BALL_DAMAGED;
-		CAnimations::GetInstance()->Get(ani)->Render(x, y,damagedtime,120);
-		RenderBoundingBox();
-		break;
-	case MARIO_FIRE_BALL_STATE:
-		ani = MARIO_ANI_FIRE_BALL;
-		CAnimations::GetInstance()->Get(ani)->Render(x, y);
-		RenderBoundingBox();
-		break;
-	}
-	
+	CAnimations::GetInstance()->Get(ani)->Render(x, y);
+	RenderBoundingBox();
 }
 void MarioFireBall::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
@@ -75,17 +63,17 @@ void MarioFireBall::FinalUpdate(DWORD dt)
 			vy = 0;
 			vx = 0;
 			gravity = 0;
-			if (state != MARIO_FIRE_BALL_STATE_DAMAGED) {
-				SetState(MARIO_FIRE_BALL_STATE_DAMAGED);
-				damagedtime = GetTickCount();
-			}
+			FireBallEf* effect = new FireBallEf();
+			effect->SetPosition(x, y);
+			CGame::GetInstance()->GetCurrentScene()->AddEffect(effect);
+			active = false;
+			isRemove = true;
 		}
 		if (ny != 0) { 
 			vy = -FIREBALL_JUMP_FORCE; 
 		}
 
 	}
-	State(dt);
 	for (UINT i = 0; i < coEResult.size(); i++) {
 		delete coEResult[i];
 	}
@@ -94,7 +82,7 @@ void MarioFireBall::FinalUpdate(DWORD dt)
 void MarioFireBall::Reset(float mx,float my)
 {
 	if (mario != NULL) {
-		SetState(MARIO_FIRE_BALL_STATE);
+		
 		gravity = FIREBALL_GRAVITY;
 		vx = FIREBALL_SPEED * nx;
 		x = mx;
@@ -106,17 +94,4 @@ void MarioFireBall::Reset(float mx,float my)
 int MarioFireBall::GetObjectType()
 {
 	return OBJECT_TYPE_FIREBALL;
-}
-
-void MarioFireBall::State(DWORD dt)
-{
-	switch (state)
-	{
-	case MARIO_FIRE_BALL_STATE_DAMAGED:
-		if (GetTickCount() - damagedtime >= 120) {
-			active = false;
-			isRemove = true;
-		}
-		break;
-	}
 }
