@@ -4,6 +4,7 @@
 #include "CGame.h"
 #include "CPlayScene.h"
 #include "Mario.h"
+#include "TailAttackEf.h"
 FlyingGoomba::FlyingGoomba(Goomba* obj):NormalGoomba(obj)
 {
 	goomba = obj;
@@ -115,8 +116,12 @@ void FlyingGoomba::FinalUpdate(DWORD dt)
 			{
 				if (e->nx != 0)
 				{
+					
 					goomba->SetState(GOOMBA_STATE_WEAPON_DIE);
 					goomba->nx = e->nx;
+					TailAttackEf* eff = new TailAttackEf();
+					eff->SetPosition(goomba->x, goomba->y);
+					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 				}
 			}
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL)
@@ -150,11 +155,16 @@ void FlyingGoomba::Render()
 		ani = RED_GOOMBA_FLY_ANI_FLY;
 		if(jumpcount<-1)
 			ani = RED_GOOMBA_FLY_ANI_WALK;
+		if(goomba->GetState()== GOOMBA_STATE_WEAPON_DIE)
+			ani = RED_GOOMBA_ANI_WALKING;
 	}
 	else if (goomba->GetType() == GOOMBA)
 	{
 		if (jumpcount < -1)
 			ani = GOOMBA_FLY_ANI_WALK;
+		if (goomba->GetState() == GOOMBA_STATE_WEAPON_DIE)
+			ani = GOOMBA_ANI_WALKING;
+
 	}
 	CAnimations::GetInstance()->Get(ani)->Render(goomba->x, goomba->y, 1, goomba->nx, goomba->ny);
 	goomba->RenderBoundingBox();

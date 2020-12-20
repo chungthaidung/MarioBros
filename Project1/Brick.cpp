@@ -12,7 +12,6 @@ Brick::~Brick()
 
 void Brick::Render()
 {
-	if (state!=BRICK_BROKEN){
 		int ani = BRICK_ANI_REWARD;
 		switch (state)
 		{
@@ -26,11 +25,7 @@ void Brick::Render()
 		}
 		CAnimations::GetInstance()->Get(ani)->Render(x, y);
 		RenderBoundingBox();
-	}
-	else
-	{
-		broken->Render();
-	}
+	
 	
 }
 
@@ -44,24 +39,15 @@ void Brick::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void Brick::Update(DWORD dt)
 {
-	if (state != BRICK_BROKEN){
-		vy += gravity * dt;
-
-		CGameObject::Update(dt);
-	}
-	else
-	{
-		broken->Update(dt);
-	}
+	vy += gravity * dt;
+	CGameObject::Update(dt);
 	
 }
 
 void Brick::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (state != BRICK_BROKEN) {
-		CalcPotentialCollisions(coObjects, coEResult);
-	}
-	
+	CalcPotentialCollisions(coObjects, coEResult);
+
 }
 
 void Brick::FinalUpdate(DWORD dt)
@@ -153,7 +139,6 @@ void Brick::SetState(int state)
 		break;
 	case BRICK_BROKEN:
 		time = GetTickCount();
-		broken = new BrokenBrick(this);
 		//isRemove = true;
 		//DebugOut(L"aaaa \n");
 		break;

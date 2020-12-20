@@ -44,7 +44,7 @@ void CAnimation::Render(float x, float y, DWORD timestart, int totaltime, int sc
 	DWORD now = GetTickCount64();
 	int c_frame = (now - timestart) * frames.size() / totaltime;
 	if (c_frame < 0) c_frame = 0;
-	if (c_frame > frames.size())c_frame = frames.size();
+	if (c_frame >= frames.size())c_frame = frames.size()-1;
 	frames[c_frame]->GetSprite()->Draw(x, y, scale, flipx,flipy, alpha);
 }
 

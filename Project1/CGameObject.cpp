@@ -51,7 +51,7 @@ LPCOLLISIONEVENT CGameObject::SweptAABBEx(LPGAMEOBJECT coO)
 {
 	float sl, st, sr, sb;		// static object bbox
 	float ml, mt, mr, mb;		// moving object bbox
-	float t, nx, ny;
+	float t, nx, ny,touchingLength;
 
 	coO->GetBoundingBox(sl, st, sr, sb);
 
@@ -72,10 +72,10 @@ LPCOLLISIONEVENT CGameObject::SweptAABBEx(LPGAMEOBJECT coO)
 		ml, mt, mr, mb,
 		rdx, rdy,
 		sl, st, sr, sb,
-		t, nx, ny
+		t, nx, ny, touchingLength
 	);
 
-	CCollisionEvent* e = new CCollisionEvent(t, nx, ny, rdx, rdy, coO);
+	CCollisionEvent* e = new CCollisionEvent(t, nx, ny, rdx, rdy, touchingLength, coO);
 	return e;
 }
 
@@ -125,6 +125,9 @@ void CGameObject::FilterCollision(
 		if (c->obj->GetObjectType()==OBJECT_TYPE_GHOST&& (c->ny > 0||c->nx!=0)) continue;
 		if (c->obj->GetObjectType() == OBJECT_TYPE_COIN ) continue;
 		if (c->obj->GetObjectType() == OBJECT_TYPE_END_GAME_REWARD ) continue;
+		if (c->obj->GetObjectType() == OBJECT_TYPE_SUPER_MUSHROOM && c -> nx !=0 ) continue;
+		if (c->obj->GetObjectType() == OBJECT_TYPE_MARIO && c->nx != 0 && GetObjectType() != OBJECT_TYPE_COIN && GetObjectType() != OBJECT_TYPE_KOOPA && GetState() != KOOPA_STATE_CROUCH) continue;
+		//if (c->obj->GetObjectType() == OBJECT_TYPE_MARIO && c->nx!=0 && GetObjectType() != OBJECT_TYPE_KOOPA && GetState()!=KOOPA_STATE_CROUCH) continue;
 		//c->obj continue
 
 		if (c->t < min_tx && c->nx != 0 ) {//&& c->nx*vx<0

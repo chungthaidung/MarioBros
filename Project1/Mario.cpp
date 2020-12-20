@@ -51,15 +51,7 @@ void CMario::SetInHand(CGameObject* obj)
 	inHand = obj;
 }
 
-void CMario::SetBounc(int a)
-{
-	bounc = a;
-}
 
-int CMario::GetBounc()
-{
-	return bounc;
-}
 
 CGameObject* CMario::GetInHand()
 {

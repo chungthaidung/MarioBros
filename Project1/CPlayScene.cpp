@@ -39,7 +39,6 @@ void CPlayScene::LoadObjects()
 			LoadObjGroup(objgr,objgr->Attribute("name"));
 		}
 		DebugOut(L"[INFO]Load Object successful. \n");
-
 	}
 }
 
@@ -172,8 +171,6 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
-	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
 
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 0; i < objects.size(); i++)
@@ -189,6 +186,11 @@ void CPlayScene::Update(DWORD dt)
 			continue;
 		objects[i]->Update(dt);
 	}
+	for (size_t i = 0; i < effects.size(); i++)
+	{
+		effects[i]->Update(dt);
+	}
+	//DebugOut(L"[EFFECT INFO] EFFECTS SIZE: %d \n", effects.size());
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
@@ -228,7 +230,8 @@ void CPlayScene::Update(DWORD dt)
 	if (cy < 0) cy = 0; 
 	if (cx  > gamemap->GetSize().x - game->GetScreenWidth()) cx = gamemap->GetSize().x - game->GetScreenWidth();
 	CGame::GetInstance()->SetCamPos(cx, cy/*cy*/);//
-
+	
+	RemoveEffects();
 	RemoveObjects();
 
 }
@@ -250,6 +253,11 @@ void CPlayScene::Render()
 
 	}
 	player->Render();
+	for (int i = 0; i < effects.size(); i++)
+	{
+		effects[i]->Render();
+
+	}
 }
 /*
 	Unload current scene
@@ -258,8 +266,11 @@ void CPlayScene::Unload()
 {
 	for (int i = 0; i < objects.size(); i++)
 		delete objects[i];
+	for (int i = 0; i < effects.size(); i++)
+		delete effects[i];
 
 	objects.clear();
+	effects.clear();
 	player = NULL;
 
 	//DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);

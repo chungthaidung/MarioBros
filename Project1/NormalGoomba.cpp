@@ -4,6 +4,8 @@
 #include "debug.h"
 #include "CPlayScene.h"
 #include "Mario.h"
+#include "TailAttackEf.h"
+#include "GoombaDieEff.h"
 NormalGoomba::NormalGoomba(Goomba* k)
 {
 	goomba = k;
@@ -23,11 +25,12 @@ void NormalGoomba::Update(DWORD dt)
 	}
 	if (goomba->vx > 0) goomba->nx = 1;
 	else goomba->nx = -1;
-	goomba->vy += MARIO_GRAVITY * dt;
-	goomba->CGameObject::Update(dt);
 	if (goomba->vx < 0 && goomba->x < 0) {
 		goomba->x = 0; goomba->vx *= -1;
 	}
+	goomba->vy += MARIO_GRAVITY * dt;
+	goomba->CGameObject::Update(dt);
+	
 
 }
 void NormalGoomba::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -36,8 +39,9 @@ void NormalGoomba::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 void NormalGoomba::FinalUpdate(DWORD dt)
 {
-	if ((goomba->state == GOOMBA_STATE_WEAPON_DIE && goomba->y > CGame::GetInstance()->GetCamPos().y + SCREEN_HEIGHT) ||
-		(goomba->state == GOOMBA_STATE_DIE && GetTickCount() - goomba->GetDieTime() > 500))
+	Effect* eff = NULL;
+	if ((goomba->state == GOOMBA_STATE_WEAPON_DIE ) ||
+		(goomba->state == GOOMBA_STATE_DIE && GetTickCount() - goomba->GetDieTime() > 500))//&& goomba->y > CGame::GetInstance()->GetCamPos().y + SCREEN_HEIGHT
 	{
 		goomba->isRemove = true;
 	}
@@ -64,8 +68,8 @@ void NormalGoomba::FinalUpdate(DWORD dt)
 		goomba->x += min_tx * goomba->dx + nx * 0.4f;
 		goomba->y += min_ty * goomba->dy + ny * 0.4f;
 
-		if (nx != 0) { 
-			goomba->vx *= -1; 
+		if (nx != 0) {
+			goomba->vx *= -1;
 		}
 		if (ny != 0) {
 			if (ny < 0) goomba->vy = 0;
@@ -82,6 +86,7 @@ void NormalGoomba::FinalUpdate(DWORD dt)
 					goomba->SetState(GOOMBA_STATE_DIE);
 					goomba->SetDieTime(GetTickCount());
 				}
+				
 			}
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_TAIL)
 			{
@@ -89,11 +94,15 @@ void NormalGoomba::FinalUpdate(DWORD dt)
 				{
 					goomba->SetState(GOOMBA_STATE_WEAPON_DIE);
 					goomba->nx = e->nx;
+					eff = new TailAttackEf();
+					eff->SetPosition(goomba->x, goomba->y);
+					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 				}
 			}
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL)
 			{
 				goomba->SetState(GOOMBA_STATE_WEAPON_DIE);
+				
 				goomba->nx = e->nx;
 			}
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_SHELL_RUNNING)
@@ -101,11 +110,13 @@ void NormalGoomba::FinalUpdate(DWORD dt)
 				goomba->SetState(GOOMBA_STATE_WEAPON_DIE);
 				goomba->nx = e->nx;
 			}
+			/*else if (e->obj->GetObjectType() == OBJECT_TYPE_GROUND)
+			{
+				
+			}*/
 		}
 	}
-	//
-	// Collision logic with other objects
-	//
+	
 	for (UINT i = 0; i < goomba->coEResult.size(); i++) delete goomba->coEResult[i];
 	goomba->coEResult.clear();
 }
@@ -161,8 +172,15 @@ void NormalGoomba::SetState(int state)
 		goomba->vy = 0;
 		break;
 	case GOOMBA_STATE_WEAPON_DIE:
-		goomba->ny = -1;
-		goomba->vy = -0.5;
+		Effect* eff = NULL;
+
+		if(goomba->GetType()==GOOMBA)
+			eff = new GoombaDieEff(GOOMBA_ANI_WALKING);
+		else eff = new GoombaDieEff(RED_GOOMBA_ANI_WALKING);
+		eff->SetPosition(goomba->x, goomba->y);
+		CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
+		/*goomba->ny = -1;
+		goomba->vy = -0.5;*/
 		break;
 	}
 }

@@ -1,6 +1,8 @@
 #include "QuestionBox.h"
 #include "debug.h"
 #include "Coin.h"
+#include "SuperMushroom.h"
+#include "CGame.h"
 QuestionBox::QuestionBox(int obj_type,float y)
 {
 	y_start = y;
@@ -101,6 +103,7 @@ void QuestionBox::FinalUpdate(DWORD dt)
 	else if ( y == y_start - 40 && state == QUESTION_BOX_BOUNC)
 	{	
 		SetState(QUESTION_BOX_EMPTY);
+		CGame::GetInstance()->GetCurrentScene()->SpawnObject(reward);
 	}
 }
 
@@ -115,7 +118,8 @@ void QuestionBox::SetState(int state)
 	case QUESTION_BOX_EMPTY:
 		vy = 0;
 		y = y_start;
-		gravity = 0;
+		reward->SetPosition(x, y);
+
 		break;
 	}
 }
@@ -131,6 +135,10 @@ void QuestionBox::SetReward(int obj_type)
 	{
 	case OBJECT_TYPE_COIN:
 		reward = new Coin();
+		break;
+	case OBJECT_TYPE_SUPER_MUSHROOM:
+		reward = new SuperMushroom(y_start);
+		reward->SetState(1);
 		break;
 	}
 }
