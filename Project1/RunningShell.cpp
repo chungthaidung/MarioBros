@@ -2,6 +2,8 @@
 #include "Koopa.h"
 #include "debug.h"
 #include "Brick.h"
+#include "TailAttackEf.h"
+#include "CGame.h"
 RunningShell::RunningShell(Koopa* k):WalkingKoopa(k)
 {
 	collisionbox.x = KOOPA_BBOX_HEIGHT;
@@ -45,13 +47,16 @@ void RunningShell::FinalUpdate(DWORD dt)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL || e->obj->GetObjectType() == OBJECT_TYPE_TAIL )
+			if ( e->obj->GetObjectType() == OBJECT_TYPE_TAIL )
 			{
 				if (e->nx != 0) {
 					koopa->SetState(KOOPA_STATE_CROUCH);
 					koopa->Setny(-1);
 					koopa->vy = -0.5;
 					koopa->vx = e->nx * 0.2;
+					TailAttackEf* eff = new TailAttackEf();
+					eff->SetPosition(koopa->x, koopa->y);
+					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 				}
 			}
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_GOOMBA || e->obj->GetObjectType() == OBJECT_TYPE_KOOPA ||( e->obj->GetObjectType() == OBJECT_TYPE_BRICK && e->obj->GetState() == BRICK_BREAKABLE))
@@ -61,6 +66,10 @@ void RunningShell::FinalUpdate(DWORD dt)
 					koopa->vx *= -1;
 					koopa->x += koopa->dx;
 				}
+			}
+			else if (e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL)
+			{
+				koopa->SetState(KOOPA_STATE_DIE);
 			}
 		}
 	}

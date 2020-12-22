@@ -1,19 +1,11 @@
 #pragma once
 #include "CGameObject.h"
-#define SUPER_MUSHROOM_BBOX_WIDTH 48
-#define SUPER_MUSHROOM_BBOX_HEIGHT 48
 
-#define SUPER_MUSHROOM_VELOCITY 0.22f
-
-#define SUPER_MUSHROOM_STATE_UP 1
-#define SUPER_MUSHROOM_STATE_MOVE 2
-
-#define SUPER_MUSHROOM_ANI	611
-class SuperMushroom :
+class SuperLeaf :
     public CGameObject
 {
 public:
-    SuperMushroom(float y_s);
+    SuperLeaf(float x_s,float y_s);
 	virtual void Update(DWORD dt);
 	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void FinalUpdate(DWORD dt);
@@ -22,8 +14,9 @@ public:
 	virtual void Render();
 	virtual int GetObjectType();
 	void SetGravity(float g);
+	void SetXStart(float x_s);
 protected:
 	float gravity;
-	float y_start;
+	float x_start,y_start;
 };
 

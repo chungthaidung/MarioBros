@@ -17,7 +17,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 	gravity = MARIO_GRAVITY;
-
+	renderOrder = 0;
 	start_x = x;
 	start_y = y;
 	this->x = x;
@@ -51,6 +51,19 @@ void CMario::SetInHand(CGameObject* obj)
 	inHand = obj;
 }
 
+void CMario::LevelUp(CGameObject* obj)
+{
+	switch (obj->GetObjectType())
+	{
+	case OBJECT_TYPE_SUPER_MUSHROOM:
+		SetLevel(MARIO_LEVEL_BIG);
+		break;
+	case OBJECT_TYPE_SUPER_LEAF:
+		SetLevel(MARIO_LEVEL_RACOON);
+		break;
+	}
+}
+
 
 
 CGameObject* CMario::GetInHand()
@@ -81,7 +94,7 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 int CMario::GetObjectType()
 {
-	return 0;
+	return OBJECT_TYPE_MARIO;
 }
 
 /*

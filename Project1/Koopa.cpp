@@ -8,15 +8,17 @@
 #include "RunningShell.h"
 #include "FlyingKoopa.h"
 #include "CCollisionEvent.h"
+#include "GoombaDieEff.h"
+#include "CGame.h"
 Koopa::Koopa(int t)
 {
 	koopaState = new WalkingKoopa(this);
 	type = t;
+	isEnemy = true;
 	//state = KOOPA_STATE_WALKING;
 }
 Koopa::~Koopa()
 {
-	DebugOut(L"Ba Don giet toi rooiiiiii\n");
 }
 void Koopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -94,7 +96,15 @@ void Koopa::SetState(int state)
 	case KOOPA_STATE_FLYING:
 		koopaState = new FlyingKoopa(this);
 		break;	
-
+	case KOOPA_STATE_DIE:
+		isRemove = true;
+		int ani = KOOPA_ANI_CROUCH;
+		if(type==RED_KOOPA)
+			ani = RED_KOOPA_ANI_CROUCH;
+		Effect* eff = new GoombaDieEff(ani);
+		eff->SetPosition(x, y);
+		CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
+		break;
 	}
 	y -= koopaState->GetCollisionBox().y+5;
 

@@ -10,6 +10,10 @@
 #include "CTextures.h"	
 #include "GhostObject.h"
 #include "CCollisionEvent.h"
+bool CGameObject::rendercompare(CGameObject*& a, CGameObject*& b)
+{
+	return a->renderOrder < b->renderOrder ;
+}
 CGameObject::CGameObject()
 {
 	x = y = 0;
@@ -121,26 +125,53 @@ void CGameObject::FilterCollision(
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
 		LPCOLLISIONEVENT c = coEvents[i];
-
+		
 		if (c->obj->GetObjectType()==OBJECT_TYPE_GHOST&& (c->ny > 0||c->nx!=0)) continue;
 		if (c->obj->GetObjectType() == OBJECT_TYPE_COIN ) continue;
+		if (c->obj->GetState()==BRICK_COIN && c->obj->GetObjectType() == OBJECT_TYPE_BRICK ) continue;
+		//if (c->obj->GetObjectType() == OBJECT_TYPE_SUPER_MUSHROOM ) continue;
 		if (c->obj->GetObjectType() == OBJECT_TYPE_END_GAME_REWARD ) continue;
-		if (c->obj->GetObjectType() == OBJECT_TYPE_SUPER_MUSHROOM && c -> nx !=0 ) continue;
-		if (c->obj->GetObjectType() == OBJECT_TYPE_MARIO && c->nx != 0 && GetObjectType() != OBJECT_TYPE_COIN && GetObjectType() != OBJECT_TYPE_KOOPA && GetState() != KOOPA_STATE_CROUCH) continue;
+		//if (c->obj->GetObjectType() == OBJECT_TYPE_MARIO && c->nx != 0 && GetObjectType() != OBJECT_TYPE_COIN && GetObjectType() != OBJECT_TYPE_KOOPA && GetState() != KOOPA_STATE_CROUCH) continue;
+		if (GetObjectType() == OBJECT_TYPE_SUPER_MUSHROOM)
+		{
+			if (c->obj->isEnemy == true) continue;
+		}
+		if (GetObjectType() == OBJECT_TYPE_VENUS_FIREBALL)
+		{
+			if (c->obj->GetObjectType() == OBJECT_TYPE_MARIO) continue;
+		}
+		if (c->obj->isEnemy == true)
+		{
+			if (GetObjectType() == OBJECT_TYPE_SUPER_MUSHROOM || GetObjectType() == OBJECT_TYPE_SUPER_LEAF) continue;
+			if (GetObjectType() == OBJECT_TYPE_VENUS_FIREBALL) continue;
+		}
 		//if (c->obj->GetObjectType() == OBJECT_TYPE_MARIO && c->nx!=0 && GetObjectType() != OBJECT_TYPE_KOOPA && GetState()!=KOOPA_STATE_CROUCH) continue;
 		//c->obj continue
+		//if (c->obj->GetObjectType() == OBJECT_TYPE_QUESTION_BOX) DebugOut(L"[FILTER] Question box \n");
 
 		if (c->t < min_tx && c->nx != 0 ) {//&& c->nx*vx<0
-			min_tx = c->t; nx = c->nx; min_ix = i; rdx = c->dx;
+			min_tx = c->t; 
+			nx = c->nx; 
+			min_ix = i; 
+			rdx = c->dx;
 		}
 
-		if (c->t < min_ty && c->ny != 0 ) {//&&c->ny * vy < 0
-			min_ty = c->t; ny = c->ny; min_iy = i; rdy = c->dy;
+		if (c->t < min_ty && c->ny != 0) {//&&c->ny * vy < 0
+			min_ty = c->t;
+			ny = c->ny; 
+			min_iy = i; 
+			rdy = c->dy;
 		}
 	}
-
-	if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
-	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
+	for (UINT i = 0; i < coEvents.size(); i++) {
+		LPCOLLISIONEVENT c = coEvents[i];
+		if (c->nx != 0 && c->t == min_tx)
+			coEventsResult.push_back(c);
+		if (c->ny != 0 && c->t == min_ty)
+			coEventsResult.push_back(c);
+	}
+	//if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
+	//if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
 }
 
 

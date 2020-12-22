@@ -5,16 +5,16 @@ GoombaDieEff::GoombaDieEff(int animation):Effect()
 {
 	ny = -1;
 	vy = -0.7;
+	vx = 0.1;
 	ani = animation;
 	time = GetTickCount();
 }
-GoombaDieEff::GoombaDieEff(int animation, float vy, int ny) :Effect()
+GoombaDieEff::GoombaDieEff(int animation, float vx, int ny) :Effect()
 {
 	this->ny = ny;
-	this->vy = vy;
+	this->vx = vx;
 	ani = animation;
 	time = GetTickCount();
-
 }
 void GoombaDieEff::Update(DWORD dt)
 {
@@ -30,5 +30,5 @@ void GoombaDieEff::Update(DWORD dt)
 
 void GoombaDieEff::Render()
 {
-	CAnimations::GetInstance()->Get(ani)->Render(x,y,1,nx,ny);
+	CAnimations::GetInstance()->Get(ani)->Render(x,y,1,1,ny);
 }

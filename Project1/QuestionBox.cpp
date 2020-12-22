@@ -3,11 +3,15 @@
 #include "Coin.h"
 #include "SuperMushroom.h"
 #include "CGame.h"
+#include "CoinEff.h"
+#include "SuperLeaf.h"
+#include "CPlayScene.h"
+#include "SwitchButton.h"
+#include "define.h"
 QuestionBox::QuestionBox(int obj_type,float y)
 {
 	y_start = y;
 	SetReward(obj_type);
-	DebugOut(L"OBJ TYPE: %d\n", reward->GetObjectType());
 	state = QUESTION_BOX_REWARD;
 	width = QUESTION_BOX_BBOX_WIDTH;
 	height = QUESTION_BOX_BBOX_HEIGHT;
@@ -39,6 +43,7 @@ void QuestionBox::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void QuestionBox::Update(DWORD dt)
 {
+	RewardChecking();
 	vy += gravity * dt;
 	CGameObject::Update(dt);
 	//DebugOut(L"{INFO] Start y %f.\n", y_start);
@@ -94,6 +99,7 @@ void QuestionBox::FinalUpdate(DWORD dt)
 	
 	for (UINT i = 0; i < coEResult.size(); i++) delete coEResult[i];
 	coEResult.clear();
+	Effect* eff = NULL;
 	if (y < y_start - 40 && state == QUESTION_BOX_BOUNC)
 	{
 		vy = 0;
@@ -103,7 +109,14 @@ void QuestionBox::FinalUpdate(DWORD dt)
 	else if ( y == y_start - 40 && state == QUESTION_BOX_BOUNC)
 	{	
 		SetState(QUESTION_BOX_EMPTY);
-		CGame::GetInstance()->GetCurrentScene()->SpawnObject(reward);
+		if (reward->GetObjectType() != OBJECT_TYPE_COIN)
+			CGame::GetInstance()->GetCurrentScene()->SpawnObject(reward);
+		else 
+		{
+			eff = new CoinEff(); 
+			eff->SetPosition(x, y);
+			CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
+		}
 	}
 }
 
@@ -119,7 +132,11 @@ void QuestionBox::SetState(int state)
 		vy = 0;
 		y = y_start;
 		reward->SetPosition(x, y);
-
+		if (reward->GetObjectType() == OBJECT_TYPE_SUPER_LEAF) 
+		{
+			SuperLeaf* leaf = dynamic_cast<SuperLeaf*>(reward);
+			leaf->SetXStart(x);
+		}
 		break;
 	}
 }
@@ -138,7 +155,33 @@ void QuestionBox::SetReward(int obj_type)
 		break;
 	case OBJECT_TYPE_SUPER_MUSHROOM:
 		reward = new SuperMushroom(y_start);
-		reward->SetState(1);
+		reward->SetState(SUPER_MUSHROOM_STATE_UP);
+		break;
+	case OBJECT_TYPE_SUPER_LEAF:
+		reward = new SuperLeaf(x,y_start);
+		reward->SetState(SUPER_LEAF_STATE_UP);
+		break;
+	case OBJECT_TYPE_SWITCH_BUTTON:
+		reward = new SwitchButton();
+		reward->SetState(SWITCH_BUTTON_STATE_UP);
 		break;
 	}
+}
+
+void QuestionBox::RewardChecking()
+{
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+	CMario* mario = scene->GetPlayer();
+//	DebugOut(L"Mario level: %d\n ", mario->GetLevel());
+	if (mario->GetLevel()<MARIO_LEVEL_BIG)
+	{
+		if (reward->GetObjectType() == OBJECT_TYPE_SUPER_LEAF)
+			SetReward(OBJECT_TYPE_SUPER_MUSHROOM);
+	}
+}
+
+void QuestionBox::SetRewardnx(int nx_r)
+{
+	if(reward->GetObjectType()==OBJECT_TYPE_SUPER_MUSHROOM)
+		reward->Setnx(nx_r);
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "QuestionBox.h"
-
+#include "Coin.h"
 
 #define BRICK_BBOX_WIDTH  48
 #define BRICK_BBOX_HEIGHT 48
@@ -15,6 +15,7 @@
 
 #define BRICK_BREAKABLE 2
 #define BRICK_BROKEN 21
+#define BRICK_COIN 22
 class Brick :
     public QuestionBox
 {
@@ -29,9 +30,9 @@ public:
 	virtual void SetState(int state);
 	virtual int GetObjectType();
 	virtual void SetWidthHeight(int w, int h);
-
+	virtual void SpawnCoin();
+	virtual void DespawnCoin();
 protected:
-	DWORD time;
-	
+	Coin* coin;
 };
 

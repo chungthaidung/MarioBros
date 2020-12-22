@@ -1,6 +1,7 @@
 #include "SuperMushroom.h"
 #include "define.h"
 #include "debug.h"
+#include "CGame.h"
 SuperMushroom::SuperMushroom( float y_s) :CGameObject()
 {
 	y = y_s;
@@ -49,11 +50,17 @@ void SuperMushroom::FinalUpdate(DWORD dt)
 		if (ny != 0) {
 			vy = 0;
 		}
-		/*for (UINT i = 0; i < coEventsResult.size(); i++)
+		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
+			//DebugOut(L"COEVENT RESULT SIZE: %d \n", coEventsResult.size());
 
-		}*/
+			if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO)
+			{
+				CGame::GetInstance()->GetCurrentScene()->DespawnObject(this);
+
+			}
+		}
 	}
 	//
 	// Collision logic with other objects

@@ -8,8 +8,8 @@ VenusFireBall::VenusFireBall(Venus* v)
 	venus = v;
 	canDelete = false;
 	active = false;
-	vx = 0.1;
-	vy = 0.1;
+	vx = VENUS_FIRE_BALL_VELOCITY;
+	vy = VENUS_FIRE_BALL_VELOCITY;
 }
 
 void VenusFireBall::Update(DWORD dt)
@@ -83,10 +83,10 @@ void VenusFireBall::Reset(float start_x, float start_y, float mx, float my)
 	if (venus != NULL) {
 		nx = venus->Getnx();
 		if (venus->GetHead() == VENUS_HEAD_UP)
-			vy = -0.1*my;
+			vy = -VENUS_FIRE_BALL_VELOCITY *my;
 		else if (venus->GetHead() == VENUS_HEAD_DOWN)
-			vy = 0.1*my;
-		vx = 0.1 * nx*mx;
+			vy = VENUS_FIRE_BALL_VELOCITY *my;
+		vx = VENUS_FIRE_BALL_VELOCITY * nx*mx;
 		x = start_x;
 		y = start_y;
 	}

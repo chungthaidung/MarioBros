@@ -33,7 +33,7 @@ public:
 	void SetPowerMeter(float a) { powerM = a; }
 	void SetGravity(float g) { gravity = g; }
 	void SetInHand(CGameObject* obj);
-	
+	void LevelUp(CGameObject* obj);
 	float GetAcceleration() { return ax; }
 	float GetDrag() { return dragf; }
 	float GetPowerMeter() { return powerM; }

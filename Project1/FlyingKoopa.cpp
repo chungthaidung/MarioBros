@@ -1,6 +1,8 @@
 #include "FlyingKoopa.h"
 #include "Koopa.h"
 #include "debug.h"
+#include "TailAttackEf.h"
+#include "CGame.h"
 FlyingKoopa::FlyingKoopa(Koopa* k):WalkingKoopa(k)
 {
 	koopa = k;
@@ -61,13 +63,22 @@ void FlyingKoopa::FinalUpdate(DWORD dt)
 					//koopa->SetGravity(0);
 				}
 			}
-			else if (e->obj->GetObjectType() == OBJECT_TYPE_TAIL || e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL)
+			else if (e->obj->GetObjectType() == OBJECT_TYPE_TAIL )
 			{
 				if (e->nx != 0) {
 					koopa->SetState(KOOPA_STATE_CROUCH);
 					koopa->Setny(-1);
 					koopa->vy = -0.5;
+					TailAttackEf* eff = new TailAttackEf();
+					eff->SetPosition(koopa->x, koopa->y);
+					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 				}
+			}
+			else if ((e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_SHELL_RUNNING) || e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL)
+			{
+
+				koopa->SetState(KOOPA_STATE_DIE);
+
 			}
 		}
 	}

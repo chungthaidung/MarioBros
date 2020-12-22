@@ -3,6 +3,8 @@
 #include "debug.h"
 #include "CGame.h"
 #include "Mario.h"
+#include "TailAttackEf.h"
+#include "CGame.h"
 CrouchKoopa::CrouchKoopa(Koopa* k):WalkingKoopa(k)
 {
 	collisionbox.x = KOOPA_BBOX_HEIGHT;
@@ -22,15 +24,6 @@ void CrouchKoopa::Update(DWORD dt)
 
 void CrouchKoopa::FinalUpdate(DWORD dt)
 {
-	if (koopa->GetState() == KOOPA_STATE_DIE && koopa->y > CGame::GetInstance()->GetCamPos().y + SCREEN_HEIGHT)
-	{
-		koopa->isRemove = true;
-	}
-	if (koopa->GetState() == KOOPA_STATE_DIE) { 
-		koopa->x += koopa->dx;
-		koopa->y += koopa->dy;
-		return; 
-	}
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEventsResult.clear();
 	if (koopa->coEResult.size() == 0)
@@ -80,6 +73,9 @@ void CrouchKoopa::FinalUpdate(DWORD dt)
 				koopa->vy = -0.7;
 				koopa->vx = e->nx*0.2;
 				respawntime = GetTickCount();
+				TailAttackEf* eff = new TailAttackEf();
+				eff->SetPosition(koopa->x, koopa->y);
+				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 			}
 		}
 		else if (e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL || (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_SHELL_RUNNING))
@@ -101,11 +97,11 @@ void CrouchKoopa::FinalUpdate(DWORD dt)
 void CrouchKoopa::Render()
 {
 	int ani = KOOPA_ANI_CROUCH;
-	if (GetTickCount() - respawntime > 3500)
+	if (GetTickCount() - respawntime > 4500)
 		ani = KOOPA_ANI_RESPAWN;
 	if (koopa->GetType() == RED_KOOPA) { 
 		ani = RED_KOOPA_ANI_CROUCH;
-		if (GetTickCount() - respawntime > 3500)
+		if (GetTickCount() - respawntime > 4500)
 			ani = RED_KOOPA_ANI_RESPAWN;
 	}
 	

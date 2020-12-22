@@ -36,7 +36,7 @@ void CMap::Render()
 	for (int i = 0; i < layers.size(); i++)
 	{
 		//DebugOut(L"[INFO] Layer ID: %d \n",i);
-		if (layers[i]->isVisible() == true)
+		if (layers[i]->isVisible() == 1)
 			layers[i]->Draw(cam.x, cam.y, tileset);
 	}
 	

@@ -5,6 +5,7 @@
 #include "CPlayScene.h"
 #include "Mario.h"
 #include "TailAttackEf.h"
+#include "GoombaDieEff.h"
 FlyingGoomba::FlyingGoomba(Goomba* obj):NormalGoomba(obj)
 {
 	goomba = obj;
@@ -47,13 +48,10 @@ void FlyingGoomba::Moving()
 		goomba->vy = -0.65;
 		break;
 	case -1:
-		goomba->vy == 0;
-		//jumpcount = 4;
+		goomba->vy = 0;
 		walktime = GetTickCount();
 		break;
 	}
-	/*if (GetTickCount() - walktime > 1000)
-		jumpcount == 3;*/
 }
 void FlyingGoomba::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -61,13 +59,9 @@ void FlyingGoomba::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 void FlyingGoomba::FinalUpdate(DWORD dt)
 {
-	if ((goomba->state == GOOMBA_STATE_WEAPON_DIE && goomba->y > CGame::GetInstance()->GetCamPos().y + SCREEN_HEIGHT))
+	if (goomba->state == GOOMBA_STATE_WEAPON_DIE )
 	{
 		goomba->isRemove = true;
-	}
-	if (goomba->state == GOOMBA_STATE_WEAPON_DIE) {
-		goomba->x += goomba->dx;
-		goomba->y += goomba->dy;
 	}
 	if (goomba->state == GOOMBA_STATE_WEAPON_DIE) return;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -118,7 +112,6 @@ void FlyingGoomba::FinalUpdate(DWORD dt)
 				{
 					
 					goomba->SetState(GOOMBA_STATE_WEAPON_DIE);
-					goomba->nx = e->nx;
 					TailAttackEf* eff = new TailAttackEf();
 					eff->SetPosition(goomba->x, goomba->y);
 					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
@@ -127,12 +120,10 @@ void FlyingGoomba::FinalUpdate(DWORD dt)
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL)
 			{
 				goomba->SetState(GOOMBA_STATE_WEAPON_DIE);
-				goomba->nx = e->nx;
 			}
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_SHELL_RUNNING)
 			{
 				goomba->SetState(GOOMBA_STATE_WEAPON_DIE);
-				goomba->nx = e->nx;
 			}
 		}
 	}
@@ -186,8 +177,12 @@ void FlyingGoomba::SetState(int state)
 	switch (state)
 	{
 	case GOOMBA_STATE_WEAPON_DIE:
-		goomba->ny = -1;
-		goomba->vy = -0.5;
+		Effect* eff = NULL;
+		if (goomba->GetType() == GOOMBA)
+			eff = new GoombaDieEff(GOOMBA_ANI_WALKING);
+		else eff = new GoombaDieEff(RED_GOOMBA_ANI_WALKING);
+		eff->SetPosition(goomba->x, goomba->y);
+		CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 		break;
 	}
 	

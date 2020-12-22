@@ -39,16 +39,19 @@ public:
 	int ny = 1;
 
 	int state;
-
+	bool isEnemy = false;
 	bool isRemove;
 	DWORD dt;
 
 	bool canDelete = true;
 
+	int renderOrder=50;
+
 	LPANIMATION_SET animation_set;
 	vector<LPCOLLISIONEVENT> coEResult;
 public:
-	void SetPosition(float x, float y) { this->x = x, this->y = y; }
+
+	virtual void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	D3DXVECTOR2 GetPosition();
@@ -75,6 +78,7 @@ public:
 		float& rdx,
 		float& rdy);
 
+	static bool rendercompare(CGameObject*& a, CGameObject*& b);
 	CGameObject();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;

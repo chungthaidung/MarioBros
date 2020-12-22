@@ -4,7 +4,6 @@
 
 #define COIN_BBOX_WIDTH  48
 #define COIN_BBOX_HEIGHT 48
-#define COIN_ANI 602
 class Coin :
     public CGameObject
 {

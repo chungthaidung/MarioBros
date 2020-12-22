@@ -13,6 +13,7 @@ Goomba::Goomba(int type)
 	SetState(GOOMBA_STATE_WALKING);
 	collision_box.x = GOOMBA_BBOX_WIDTH;
 	collision_box.y = GOOMBA_BBOX_HEIGHT;
+	isEnemy = true;
 }
 
 void Goomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
