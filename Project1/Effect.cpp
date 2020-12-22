@@ -4,6 +4,7 @@ Effect::Effect()
 {
 	canDelete = true;
 	isRemove = false;
+	renderOrder = 200;
 }
 
 void Effect::Update(DWORD dt)

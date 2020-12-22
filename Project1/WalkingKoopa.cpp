@@ -1,6 +1,8 @@
 ﻿#include "WalkingKoopa.h"
 #include "Koopa.h"
 #include "debug.h"
+#include "TailAttackEf.h"
+#include "CGame.h"
 WalkingKoopa::WalkingKoopa(Koopa* k)
 {
 	koopa = k;
@@ -47,7 +49,7 @@ void WalkingKoopa::FinalUpdate(DWORD dt)
 		if (ny != 0)
 		{
 			koopa->vy = 0;
-			if (ny > 0)koopa->y -= 2;
+			if (ny > 0) koopa->y -= 2;
 		}
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -61,13 +63,21 @@ void WalkingKoopa::FinalUpdate(DWORD dt)
 					//koopa->SetGravity(0);
 				}
 			}
-			else if (e->obj->GetObjectType() == OBJECT_TYPE_TAIL || e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL || (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA&& e->obj->GetState()== KOOPA_STATE_SHELL_RUNNING))
+			else if (e->obj->GetObjectType() == OBJECT_TYPE_TAIL)
 			{
 				if (e->nx != 0) {
 					koopa->SetState(KOOPA_STATE_CROUCH);
 					koopa->Setny(-1);
 					koopa->vy = -0.5;
+					TailAttackEf* eff = new TailAttackEf();
+					eff->SetPosition(koopa->x, koopa->y);
+					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 				}
+			}
+			else if (e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL || (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_SHELL_RUNNING))
+			{
+
+				koopa->SetState(KOOPA_STATE_DIE);
 			}
 			else if ((e->obj->GetObjectType() == OBJECT_TYPE_GHOST || e->obj->GetObjectType() == OBJECT_TYPE_GROUND || e->obj->GetObjectType() == OBJECT_TYPE_BRICK )&&koopa->GetType()==RED_KOOPA)
 			{
@@ -82,26 +92,21 @@ void WalkingKoopa::FinalUpdate(DWORD dt)
 						koopa->x = e->obj->x - koopa->GetCollisionBox().x / 2;
 						//DebugOut(L"[INFO] left: %f || e->obj l: %f || koopa nx: %d  || e->obj r: %f \n", l, e->obj->x, koopa->nx,  e->obj->width);
 						koopa->vx *= -1;
-
 					}
 					else if (l > (e->obj->x + e->obj->width - (koopa->GetCollisionBox().x / 2)) && koopa->nx == 1)
 					{
 						koopa->x = e->obj->x + e->obj->width - koopa->GetCollisionBox().x / 2;
 						koopa->vx *= -1;
 						//DebugOut(L"[INFO] left: %f || e->obj l: %f || koopa nx: %d  || e->obj r: %f \n", l, e->obj->x, koopa->nx,  e->obj->width);
-
 					}
-
 					//DebugOut(L"[INFO] left: %f || e->obj l: %f || right: %f  || e->obj r: %f \n", l, e->obj->x, r, (e->obj->x + e->obj->width));
 				}
 			}
 		}
-		
 	}	
 	for (UINT i = 0; i < koopa->coEResult.size(); i++) delete koopa->coEResult[i];
 	koopa->coEResult.clear();
 }
-
 void WalkingKoopa::Render()
 {
 	int ani = KOOPA_ANI_WALKING;
@@ -110,14 +115,12 @@ void WalkingKoopa::Render()
 	CAnimations::GetInstance()->Get(ani)->Render(koopa->x, koopa->y, 1, koopa->nx*f);
 	koopa->RenderBoundingBox();
 }
-
 void WalkingKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	koopa->GetPosition(left, top);
 	right = left + collisionbox.x;
 	bottom = top + collisionbox.y;
 }
-
 D3DXVECTOR2 WalkingKoopa::GetCollisionBox()
 {
 	return collisionbox;

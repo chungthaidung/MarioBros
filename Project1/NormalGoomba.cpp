@@ -6,6 +6,7 @@
 #include "Mario.h"
 #include "TailAttackEf.h"
 #include "GoombaDieEff.h"
+#include "Koopa.h"
 NormalGoomba::NormalGoomba(Goomba* k)
 {
 	goomba = k;
@@ -40,14 +41,9 @@ void NormalGoomba::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void NormalGoomba::FinalUpdate(DWORD dt)
 {
 	Effect* eff = NULL;
-	if ((goomba->state == GOOMBA_STATE_WEAPON_DIE ) ||
-		(goomba->state == GOOMBA_STATE_DIE && GetTickCount() - goomba->GetDieTime() > 500))//&& goomba->y > CGame::GetInstance()->GetCamPos().y + SCREEN_HEIGHT
+	if ((goomba->state == GOOMBA_STATE_WEAPON_DIE ) || (goomba->state == GOOMBA_STATE_DIE && GetTickCount() - goomba->GetDieTime() > 500))
 	{
 		goomba->isRemove = true;
-	}
-	if (goomba->state == GOOMBA_STATE_WEAPON_DIE) {
-		goomba->x += goomba->dx;
-		goomba->y += goomba->dy;
 	}
 	if (goomba->state == GOOMBA_STATE_DIE || goomba->state == GOOMBA_STATE_WEAPON_DIE) return;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -102,18 +98,19 @@ void NormalGoomba::FinalUpdate(DWORD dt)
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL)
 			{
 				goomba->SetState(GOOMBA_STATE_WEAPON_DIE);
-				
-				goomba->nx = e->nx;
 			}
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_SHELL_RUNNING)
 			{
 				goomba->SetState(GOOMBA_STATE_WEAPON_DIE);
-				goomba->nx = e->nx;
 			}
-			/*else if (e->obj->GetObjectType() == OBJECT_TYPE_GROUND)
+			else if (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_CROUCH)
 			{
-				
-			}*/
+				Koopa* koopa = dynamic_cast<Koopa*>(e->obj);
+				if (koopa->GetHolder() != NULL)
+				{
+					goomba->SetState(GOOMBA_STATE_WEAPON_DIE);
+				}
+			}
 		}
 	}
 	
@@ -173,14 +170,11 @@ void NormalGoomba::SetState(int state)
 		break;
 	case GOOMBA_STATE_WEAPON_DIE:
 		Effect* eff = NULL;
-
 		if(goomba->GetType()==GOOMBA)
 			eff = new GoombaDieEff(GOOMBA_ANI_WALKING);
 		else eff = new GoombaDieEff(RED_GOOMBA_ANI_WALKING);
 		eff->SetPosition(goomba->x, goomba->y);
 		CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
-		/*goomba->ny = -1;
-		goomba->vy = -0.5;*/
 		break;
 	}
 }

@@ -95,7 +95,7 @@ void FireMario::Render()
 void FireMario::AttackState(DWORD dt)
 {
 	CGame* keyboard = CGame::GetInstance();
-	if (keyboard->IsKeyDown(DIK_Z) && mario->AttackState != MARIO_STATE_ATTACK_START)
+	if (keyboard->IsKeyDown(DIK_Z) && mario->AttackState != MARIO_STATE_ATTACK_START)//
 	{
 		if (IsActive() == false)
 		{

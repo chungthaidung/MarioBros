@@ -74,10 +74,10 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 					mario->JumpState = MARIO_STATE_FALL;
 			}
 		}
-		bool bounc = true;
+		//bool bounc = true;
 		QuestionBox* hit = NULL;
 		float hitLength = 0;
-		int countqblock = 0;
+		//int countqblock = 0;
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -106,22 +106,27 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 				MiniJump(true);
 				
 			}
-			else if ( e->obj->GetObjectType() == OBJECT_TYPE_QUESTION_BOX && e->ny > 0)//bounc==true &&	
+			else if ( e->obj->GetObjectType() == OBJECT_TYPE_QUESTION_BOX && e->ny > 0)//bounc==true &&	 && e->ny > 0
 			{
-				countqblock++;
+				//countqblock++;
 				QuestionBox* box = dynamic_cast<QuestionBox*>(e->obj);
-				DebugOut(L"[INFO] Touching length: %f \n", e->touchingLength);
-
-				if (box->GetState() == QUESTION_BOX_REWARD)
+				//DebugOut(L"[INFO] Touching length: %f \n", e->touchingLength);
+				if(hitLength<e->touchingLength)
 				{
-					//if (hitLength < e->touchingLength)
+					hitLength = e->touchingLength;
+					hit = box;
+					//if(hit->GetState() == QUESTION_BOX_REWARD)
 					//{
-					//	hit = box;
-					//	//box->SetState(QUESTION_BOX_BOUNC);
-					//	hitLength = e->touchingLength;
-					//	bounc = false;
+					//	hit->SetState(QUESTION_BOX_BOUNC);
+					//	if (hitLength < e->touchingLength)
+					//	{
+					//		hit = box;
+					//		//box->SetState(QUESTION_BOX_BOUNC);
+					//		hitLength = e->touchingLength;
+					//	}
 					//}
 				}
+				
 				//DebugOut(L"[INFO] Hit length: %f \n",hitLength);
 			}
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_BRICK && e->ny > 0)//bounc == true && 
@@ -130,14 +135,23 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 				if (box->GetState() == BRICK_REWARD)
 				{
 					box->SetState(BRICK_BOUNC);
-					bounc = false;
+					//bounc = false;
 				}
 			}
+			else if (e->obj->GetObjectType() == OBJECT_TYPE_SUPER_MUSHROOM || (e->obj->GetObjectType() == OBJECT_TYPE_SUPER_LEAF && e->obj->GetState()!= SUPER_LEAF_STATE_UP))//bounc == true && 
+			{
+				mario->LevelUp(e->obj);
+				if(e->obj!=NULL)
+					CGame::GetInstance()->GetCurrentScene()->DespawnObject(e->obj);
+			}
 		}
-		DebugOut(L"[INFO] Q block %d \n", countqblock);
+		//DebugOut(L"[INFO] Q block %d \n", countqblock);
 
-		/*if(hit)
-			hit->SetState(QUESTION_BOX_BOUNC);*/
+		if (hit && hit->GetState() == QUESTION_BOX_REWARD) {
+
+			hit->SetState(QUESTION_BOX_BOUNC);
+			hit->SetRewardnx(mario->nx);
+		}
 	}
 	for (UINT i = 0; i < mario->coEResult.size(); i++) delete  mario->coEResult[i];
 	mario->coEResult.clear();

@@ -11,6 +11,8 @@ Piranha::Piranha(int t, int ny, float start_y)
 	//DebugOut(L"NY: %d\n", ny);
 	y_start = start_y;
 	SetState(PIRANHA_STATE_UP);
+	isEnemy = true;
+	renderOrder = 1;
 }
 
 void Piranha::Update(DWORD dt)

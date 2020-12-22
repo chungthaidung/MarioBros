@@ -1,5 +1,10 @@
 #include "Brick.h"
 #include "debug.h"
+#include "CGame.h"
+#include "CoinEff.h"
+#include "SuperLeaf.h"
+#include "Coin.h"
+#include "SwitchButton.h"
 Brick::Brick(int obj_type, int type, float y) :QuestionBox(obj_type, y)
 {
 	state = type;
@@ -12,21 +17,22 @@ Brick::~Brick()
 
 void Brick::Render()
 {
-		int ani = BRICK_ANI_REWARD;
-		switch (state)
-		{
-		case BRICK_REWARD:
-		case BRICK_BREAKABLE:
-			ani = BRICK_ANI_REWARD;
-			break;
-		case BRICK_EMPTY:
-			ani = BRICK_ANI_EMPTY;
-			break;
-		}
-		CAnimations::GetInstance()->Get(ani)->Render(x, y);
-		RenderBoundingBox();
-	
-	
+	int ani = BRICK_ANI_REWARD;
+	switch (state)
+	{
+	case BRICK_REWARD:
+	case BRICK_BREAKABLE:
+		ani = BRICK_ANI_REWARD;
+		break;
+	case BRICK_EMPTY:
+		ani = BRICK_ANI_EMPTY;
+		break;
+	case BRICK_COIN:
+		ani = COIN_ANI;
+		break;
+	}
+	CAnimations::GetInstance()->Get(ani)->Render(x, y);
+	RenderBoundingBox();
 }
 
 void Brick::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -39,6 +45,7 @@ void Brick::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void Brick::Update(DWORD dt)
 {
+	RewardChecking();
 	vy += gravity * dt;
 	CGameObject::Update(dt);
 	
@@ -52,11 +59,12 @@ void Brick::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Brick::FinalUpdate(DWORD dt)
 {
-	if (state == BRICK_BROKEN && GetTickCount() - time> 100) isRemove = true;
 	if (state == BRICK_EMPTY || state == BRICK_BROKEN) return;
 
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEventsResult.clear();
+	Effect* eff = NULL;
+
 	if (coEResult.size() == 0)
 	{
 		//x += dx;
@@ -69,45 +77,51 @@ void Brick::FinalUpdate(DWORD dt)
 		float rdx = 0;
 		float rdy = 0;
 		FilterCollision(coEResult, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO)
+			{
+				if (state == BRICK_BREAKABLE)
+				{
+					if (e->ny < 0)
+					{
+						SetState(BRICK_BROKEN);
+					}
+				}
+				else if (state == BRICK_COIN)
+				{
+					isRemove = true;
+				}
+			}
+			else if ((e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_SHELL_RUNNING) || (e->obj->GetObjectType() == OBJECT_TYPE_TAIL))
+			{
+				if (state == BRICK_REWARD)
+				{
+					if (e->nx != 0)
+					{
+						SetState(BRICK_BOUNC);
+					}
+				}
+				else if (state == BRICK_BREAKABLE)
+				{
+					if (e->nx != 0)
+					{
+						SetState(BRICK_BROKEN);
+					}
+				}
+			}
+		}
 	}
 
 	//
 	// Collision logic with other objects
 	//
-	for (UINT i = 0; i < coEventsResult.size(); i++)
-	{
-		LPCOLLISIONEVENT e = coEventsResult[i];
-		if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO)
-		{
-			 if (state == BRICK_BREAKABLE)
-			{
-				if (e->ny < 0)
-				{
-					SetState(BRICK_BROKEN);
-				}
-			}
-			
-		}
-		else if ((e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_SHELL_RUNNING) || (e->obj->GetObjectType() == OBJECT_TYPE_TAIL))
-		{
-			if (state == BRICK_REWARD) 
-			{
-				if (e->nx != 0)
-				{
-					SetState(BRICK_BOUNC);
-				}
-			}
-			else if (state == BRICK_BREAKABLE)
-			{
-				if (e->nx != 0 )
-				{
-					SetState(BRICK_BROKEN);
-				}
-			}
-		}
-	}
+	
 	for (UINT i = 0; i < coEResult.size(); i++) delete coEResult[i];
 	coEResult.clear();
+	
 	if(state == BRICK_BOUNC)
 	{
 		if (y < y_start - 40)
@@ -118,6 +132,15 @@ void Brick::FinalUpdate(DWORD dt)
 		else if (y == y_start - 40)
 		{
 			SetState(BRICK_EMPTY);
+			if (reward->GetObjectType() != OBJECT_TYPE_COIN) {
+				CGame::GetInstance()->GetCurrentScene()->SpawnObject(reward);
+			}
+			else
+			{
+				eff = new CoinEff();
+				eff->SetPosition(x, y);
+				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
+			}
 		}
 	}
 }
@@ -134,13 +157,26 @@ void Brick::SetState(int state)
 		vy = 0;
 		y = y_start;
 		gravity = 0;
+		reward->SetPosition(x, y);
+		if (reward->GetObjectType() == OBJECT_TYPE_SUPER_LEAF)
+		{
+			SuperLeaf* leaf = dynamic_cast<SuperLeaf*>(reward);
+			leaf->SetXStart(x);
+		}
+		else if (reward->GetObjectType() == OBJECT_TYPE_SWITCH_BUTTON)
+		{
+			reward->SetPosition(x, y-48);
+		}
 		break;
 	case BRICK_BREAKABLE:
 		break;
 	case BRICK_BROKEN:
-		time = GetTickCount();
-		//isRemove = true;
-		//DebugOut(L"aaaa \n");
+		isRemove = true;
+		break;
+	case BRICK_COIN:
+		/*coin = new Coin();
+		coin->SetPosition(x, y);
+		CGame::GetInstance()->GetCurrentScene()->SpawnObject(coin);*/
 		break;
 	}
 }
@@ -154,4 +190,14 @@ void Brick::SetWidthHeight(int w, int h)
 {
 	width = BRICK_BBOX_WIDTH;
 	height = BRICK_BBOX_HEIGHT;
+}
+
+void Brick::SpawnCoin()
+{
+	SetState(BRICK_COIN);
+}
+
+void Brick::DespawnCoin()
+{
+	SetState(BRICK_BREAKABLE);
 }

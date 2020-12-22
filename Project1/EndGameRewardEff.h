@@ -1,11 +1,10 @@
 #pragma once
 #include "Effect.h"
-class GoombaDieEff : //enemy die effect
+class EndGameRewardEff :
     public Effect
 {
 public:
-    GoombaDieEff(int animation);
-    GoombaDieEff(int animation,float vx,int ny);
+    EndGameRewardEff(int ani);
     virtual void Update(DWORD dt);
     virtual void Render();
 protected:

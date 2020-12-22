@@ -1,32 +1,32 @@
 #include "EndGameReward.h"
 #include "debug.h"
+#include "EndGameRewardEff.h"
+#include "CGame.h"
 EndGameReward::EndGameReward():CGameObject()
 {
-	state = END_GAME_REWARD_STATE_FLOWER;
+	state = END_GAME_REWARD_STATE_MUSHROOM;
 }
-
 void EndGameReward::Update(DWORD dt)
 {
 	if (GetTickCount() - changetime > 100)
 	{
-		if (state == END_GAME_REWARD_STATE_FLOWER)
-			SetState(END_GAME_REWARD_STATE_MUSHROOM);
-		else if (state == END_GAME_REWARD_STATE_MUSHROOM)
+		if (state == END_GAME_REWARD_STATE_MUSHROOM)
+			SetState(END_GAME_REWARD_STATE_FLOWER);
+		else if (state == END_GAME_REWARD_STATE_FLOWER)
 			SetState(END_GAME_REWARD_STATE_STAR);
 		else if (state == END_GAME_REWARD_STATE_STAR)
-			SetState(END_GAME_REWARD_STATE_FLOWER);
+			SetState(END_GAME_REWARD_STATE_MUSHROOM);
 	}
 	//DebugOut(L"[INFO] REWARD: %d\n", reward);
 	CGameObject::Update(dt);
 }
-
 void EndGameReward::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CalcPotentialCollisions(coObjects, coEResult);
 }
-
 void EndGameReward::FinalUpdate(DWORD dt)
 {
+	if (state == END_GAME_REWARD_STATE_EMPTY) return;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEventsResult.clear();
 	if (coEResult.size() == 0)
@@ -45,13 +45,11 @@ void EndGameReward::FinalUpdate(DWORD dt)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO)
 			{
-
 				SetState(END_GAME_REWARD_STATE_EMPTY);
 			}
 		}
 	}
 }
-
 void EndGameReward::SetState(int state)
 {
 	CGameObject::SetState(state);
@@ -70,10 +68,17 @@ void EndGameReward::SetState(int state)
 		reward = STAR;
 		break;
 	case END_GAME_REWARD_STATE_EMPTY:
+		int ani = END_GAME_REWARD_EFFECT_ANI_MUSHROOM;
+		if (reward == FLOWER)
+			ani = END_GAME_REWARD_EFFECT_ANI_FLOWER;
+		else if (reward == STAR)
+			ani = END_GAME_REWARD_EFFECT_ANI_STAR;
+		EndGameRewardEff* eff = new EndGameRewardEff(ani);
+		eff->SetPosition(x, y);
+		CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 		break;
 	}
 }
-
 void EndGameReward::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
@@ -81,7 +86,6 @@ void EndGameReward::GetBoundingBox(float& left, float& top, float& right, float&
 	right = x + END_GAME_REWARD_BBBOX_WIDTH;
 	bottom = y + END_GAME_REWARD_BBBOX_HEIGHT;
 }
-
 void EndGameReward::Render()
 {
 	int ani = END_GAME_REWARD_ANI_FLOWER;
@@ -103,7 +107,6 @@ void EndGameReward::Render()
 	CAnimations::GetInstance()->Get(ani)->Render(x, y);
 	RenderBoundingBox();
 }
-
 int EndGameReward::GetObjectType()
 {
 	return OBJECT_TYPE_END_GAME_REWARD;

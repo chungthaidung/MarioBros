@@ -88,6 +88,12 @@
     <Filter Include="Game\Game Object\Object\Effect">
       <UniqueIdentifier>{87f44843-ec40-4b5f-adb8-019b99e6667a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Game Object\Object\Misc\Goods">
+      <UniqueIdentifier>{37b28021-8c97-4739-b28e-c692b1664ee8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\PlayScene">
+      <UniqueIdentifier>{e6b70949-8b78-42c6-9b76-72c8792be74d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">
@@ -119,9 +125,6 @@
     </ClCompile>
     <ClCompile Include="CScenceKeyHandler.cpp">
       <Filter>Game\Scene\KeyHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlayScene.cpp">
-      <Filter>Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="CAnimationSets.cpp">
       <Filter>Game\Animation_Textures\AnimationSets</Filter>
@@ -186,9 +189,6 @@
     <ClCompile Include="FlyingKoopa.cpp">
       <Filter>Game\Game Object\Object\Enemy\Koopa</Filter>
     </ClCompile>
-    <ClCompile Include="Coin.cpp">
-      <Filter>Game\Game Object\Object\Misc</Filter>
-    </ClCompile>
     <ClCompile Include="tinyxml\tinystr.cpp">
       <Filter>tinyxml</Filter>
     </ClCompile>
@@ -237,17 +237,11 @@
     <ClCompile Include="EndGameReward.cpp">
       <Filter>Game\Game Object\Object\Misc</Filter>
     </ClCompile>
-    <ClCompile Include="BrokenBrick.cpp">
-      <Filter>Game\Game Object\Object\Misc</Filter>
-    </ClCompile>
     <ClCompile Include="Venus.cpp">
       <Filter>Game\Game Object\Object\Enemy\Venus</Filter>
     </ClCompile>
     <ClCompile Include="VenusFireBall.cpp">
       <Filter>Game\Game Object\Object\Enemy\Venus</Filter>
-    </ClCompile>
-    <ClCompile Include="SuperMushroom.cpp">
-      <Filter>Game\Game Object\Object\Misc</Filter>
     </ClCompile>
     <ClCompile Include="Effect.cpp">
       <Filter>Game\Game Object\Object\Effect</Filter>
@@ -259,6 +253,27 @@
       <Filter>Game\Game Object\Object\Effect</Filter>
     </ClCompile>
     <ClCompile Include="GoombaDieEff.cpp">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CoinEff.cpp">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="SuperMushroom.cpp">
+      <Filter>Game\Game Object\Object\Misc\Goods</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Game\Game Object\Object\Misc\Goods</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayScene.cpp">
+      <Filter>Game\Scene\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SuperLeaf.cpp">
+      <Filter>Game\Game Object\Object\Misc\Goods</Filter>
+    </ClCompile>
+    <ClCompile Include="EndGameRewardEff.cpp">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="SwitchButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -295,9 +310,6 @@
     </ClInclude>
     <ClInclude Include="CScenceKeyHandler.h">
       <Filter>Game\Scene\KeyHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlayScene.h">
-      <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="CPlaySceneKeyHandler.h">
       <Filter>Game\Scene\KeyHandler</Filter>
@@ -359,9 +371,6 @@
     <ClInclude Include="FlyingKoopa.h">
       <Filter>Game\Game Object\Object\Enemy\Koopa</Filter>
     </ClInclude>
-    <ClInclude Include="Coin.h">
-      <Filter>Game\Game Object\Object\Misc</Filter>
-    </ClInclude>
     <ClInclude Include="tinyxml\tinystr.h">
       <Filter>tinyxml</Filter>
     </ClInclude>
@@ -395,9 +404,6 @@
     <ClInclude Include="Brick.h">
       <Filter>Game\Game Object\Object\Misc</Filter>
     </ClInclude>
-    <ClInclude Include="BrokenBrick.h">
-      <Filter>Game\Game Object\Object\Misc</Filter>
-    </ClInclude>
     <ClInclude Include="FlyingGoomba.h">
       <Filter>Game\Game Object\Object\Enemy\Goomba</Filter>
     </ClInclude>
@@ -413,9 +419,6 @@
     <ClInclude Include="VenusFireBall.h">
       <Filter>Game\Game Object\Object\Enemy\Venus</Filter>
     </ClInclude>
-    <ClInclude Include="SuperMushroom.h">
-      <Filter>Game\Game Object\Object\Misc</Filter>
-    </ClInclude>
     <ClInclude Include="Effect.h">
       <Filter>Game\Game Object\Object\Effect</Filter>
     </ClInclude>
@@ -426,6 +429,27 @@
       <Filter>Game\Game Object\Object\Effect</Filter>
     </ClInclude>
     <ClInclude Include="GoombaDieEff.h">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CoinEff.h">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="SuperMushroom.h">
+      <Filter>Game\Game Object\Object\Misc\Goods</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Game\Game Object\Object\Misc\Goods</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayScene.h">
+      <Filter>Game\Scene\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SuperLeaf.h">
+      <Filter>Game\Game Object\Object\Misc\Goods</Filter>
+    </ClInclude>
+    <ClInclude Include="EndGameRewardEff.h">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="SwitchButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

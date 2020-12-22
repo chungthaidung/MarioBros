@@ -6,7 +6,7 @@
 
 #define VENUS_FIRE_BALL_ANI	500
 
-#define VENUS_FIRE_BALL_VELOCITY	0.1
+#define VENUS_FIRE_BALL_VELOCITY	0.15
 class Venus;
 class VenusFireBall :
     public CGameObject

@@ -21,9 +21,11 @@ public:
 	virtual void SetState(int state);
 	virtual int GetObjectType();
 	virtual void SetReward(int obj_type);
+	virtual void RewardChecking();
+	void SetRewardnx(int nx_r);
 protected:
 	float gravity = 0;
 	CGameObject* reward;
-	float y_start=y;
+	float y_start;
 };
 

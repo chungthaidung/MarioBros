@@ -1,14 +1,15 @@
 #pragma once
 #include "Effect.h"
-class GoombaDieEff : //enemy die effect
+#define COIN_EFFECT_ANI 503
+class CoinEff :
     public Effect
 {
 public:
-    GoombaDieEff(int animation);
-    GoombaDieEff(int animation,float vx,int ny);
+    CoinEff();
     virtual void Update(DWORD dt);
     virtual void Render();
+    virtual void SetPosition(float x,float y);
 protected:
-    int ani;
+    float y_start;
 };
 

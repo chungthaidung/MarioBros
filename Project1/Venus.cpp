@@ -5,11 +5,13 @@
 Venus::Venus(int t, int ny, float start_y)
 {
 	type = t;
+	isEnemy = true;
 	this->ny = ny;
 	y_start = start_y;
 	SetState(VENUS_STATE_UP);
 	head = VENUS_HEAD_UP;
 	fireball = new VenusFireBall(this);
+	renderOrder = 1;
 }
 
 void Venus::Update(DWORD dt)

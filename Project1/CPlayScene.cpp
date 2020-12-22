@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <fstream>
+#include <algorithm>
 
 #include "define.h"
 #include "debug.h"
@@ -177,6 +178,7 @@ void CPlayScene::Update(DWORD dt)
 	{
 		coObjects.push_back(objects[i]);
 	}
+	//DebugOut(L"[EFFECT INFO1] Object SIZE: %d \n", objects.size());
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
@@ -190,8 +192,7 @@ void CPlayScene::Update(DWORD dt)
 	{
 		effects[i]->Update(dt);
 	}
-	//DebugOut(L"[EFFECT INFO] EFFECTS SIZE: %d \n", effects.size());
-
+//	DebugOut(L"[EFFECT INFO2] Object SIZE: %d \n", objects.size());
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		if ((objects[i]->GetPosition().x< CGame::GetInstance()->GetCamPos().x - CGame::GetInstance()->GetScreenWidth() * 1 / 2 || objects[i]->GetPosition().x > CGame::GetInstance()->GetCamPos().x + CGame::GetInstance()->GetScreenWidth() * 3 / 2
@@ -200,6 +201,7 @@ void CPlayScene::Update(DWORD dt)
 			continue;
 		objects[i]->CollisionUpdate(dt, &coObjects);
 	}
+
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		if ((objects[i]->GetPosition().x< CGame::GetInstance()->GetCamPos().x - CGame::GetInstance()->GetScreenWidth() * 1 / 2 || objects[i]->GetPosition().x > CGame::GetInstance()->GetCamPos().x + CGame::GetInstance()->GetScreenWidth() * 3 / 2
@@ -240,15 +242,16 @@ void CPlayScene::Render()
 {
 	float x, y;
 	CGame::GetInstance()->GetCamPos(x,y );
-	for (int i = 1; i < objects.size(); i++)
+	std::sort(objects.begin(), objects.end(), CGameObject::rendercompare);
+	for (int i = 0; i < objects.size() && objects[i]->renderOrder<2; i++)
 	{
-		if (objects[i]->GetObjectType()== OBJECT_TYPE_PIRANHA|| objects[i]->GetObjectType() == OBJECT_TYPE_VENUS)
+		if(objects[i]->GetObjectType()!=OBJECT_TYPE_MARIO)
 			objects[i]->Render();
 	}
 	gamemap->Render();
-	for (int i = 1; i < objects.size(); i++)
+	for (int i = 0; i < objects.size(); i++)
 	{
-		if(objects[i]->GetObjectType()!=OBJECT_TYPE_PIRANHA && objects[i]->GetObjectType() != OBJECT_TYPE_VENUS)
+		if(objects[i]->renderOrder>=2)
 			objects[i]->Render();
 
 	}
@@ -256,7 +259,6 @@ void CPlayScene::Render()
 	for (int i = 0; i < effects.size(); i++)
 	{
 		effects[i]->Render();
-
 	}
 }
 /*
