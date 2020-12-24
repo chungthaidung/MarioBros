@@ -99,9 +99,11 @@ void CGame::DrawEx(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVEC
 		//&D3DXVECTOR2(scale*flipx*1.0f,scale*1.0f) scale và flip
 		//&D3DXVECTOR2(x - cam_x + width / 2, y - cam_y + height / 2) tọa độ giữa sprite 
 		//DebugOut(L"Size(%f, %f)\n", width, height);
+		D3DXVECTOR2 tam(x + width / 2, y + height / 2);
+		D3DXVECTOR2 scalexy(scale * flip.x, scale * flip.y);
+
 		D3DXMatrixTransformation2D(&newMatrix,
-			//&D3DXVECTOR2(x - cx + width / 2, y - cy + height / 2), 0, &D3DXVECTOR2(scale * flip.x, scale*flip.y), //tan scale | goc xoay (rad) | ti le scale
-			&D3DXVECTOR2(x + width / 2, y + height / 2), 0, &D3DXVECTOR2(scale * flip.x, scale*flip.y), //tan scale | goc xoay (rad) | ti le scale
+			&tam, 0, &scalexy, //tam scale | goc xoay (rad) | ti le scale
 			NULL, NULL,//tam rotate | goc xoay (rad)
 			NULL); //tam translation | trans
 		mMatrix = oldMatrix * newMatrix;

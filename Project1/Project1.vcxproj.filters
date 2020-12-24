@@ -285,6 +285,9 @@
     <ClCompile Include="EndGameReward.cpp">
       <Filter>Game\Game Object\Object\Misc\Goods</Filter>
     </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -469,6 +472,9 @@
     </ClInclude>
     <ClInclude Include="EndGameReward.h">
       <Filter>Game\Game Object\Object\Misc\Goods</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -290,7 +290,7 @@ void CPlayScene::Render()
 	}
 
 	CGame::GetInstance()->SetViewport(0,GAME_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
-	CGame::GetInstance()->GetDirect3DDevice()->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 120, 255), 1.0f, 0);
+	CGame::GetInstance()->GetDirect3DDevice()->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
 
 }
 /*
