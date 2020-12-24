@@ -9,12 +9,12 @@
 #include "Koopa.h"
 #include "RacoonMario.h"
 #include "FireMario.h"
+#include "CPlayScene.h"
 CMario::CMario(float x, float y) : CGameObject()
 {
 	level_p = new SmallMario(this); 
-	//level = MARIO_LEVEL_SMALL;//hardcode
 	JumpState = MARIO_STATE_JUMP_IDLE;
-	untouchable = 0;
+	untouchable = false;
 	SetState(MARIO_STATE_IDLE);
 	gravity = MARIO_GRAVITY;
 	renderOrder = 0;
@@ -26,9 +26,23 @@ CMario::CMario(float x, float y) : CGameObject()
 
 void CMario::Update(DWORD dt)
 {
+	LockControlUpdate(dt);
+
 	level_p->Update(dt);
 	if (x< 0) x = 0;
 
+}
+
+void CMario::LockControlUpdate(DWORD dt)
+{
+	if (lockcontrol == false) return;
+	if (onGround == true)
+	{
+		SetState(MARIO_STATE_WALKING);
+		gravity = 0;
+		vx = MARIO_WALKING_SPEED;
+		nx = 1;
+	}
 }
 
 void CMario::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
@@ -39,11 +53,42 @@ void CMario::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 void CMario::FinalUpdate(DWORD dt)
 {
 	level_p->FinalUpdate(dt);
+
 }
 
 void CMario::Render()
 {
 	level_p->Render();
+}
+
+bool CMario::GetUntouchable()
+{
+	return untouchable;
+}
+
+DWORD CMario::GetUntouchableStart()
+{
+	return untouchable_start;
+}
+
+bool CMario::GetLockControl()
+{
+	return lockcontrol;
+}
+
+void CMario::SetUntouchable(bool a)
+{
+	untouchable = a;
+}
+
+void CMario::SetUntouchableStart(DWORD a)
+{
+	untouchable_start = a;
+}
+
+void CMario::SetLockControl(bool a)
+{
+	lockcontrol = a;
 }
 
 void CMario::SetInHand(CGameObject* obj)
@@ -53,15 +98,49 @@ void CMario::SetInHand(CGameObject* obj)
 
 void CMario::LevelUp(CGameObject* obj)
 {
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
 	switch (obj->GetObjectType())
 	{
 	case OBJECT_TYPE_SUPER_MUSHROOM:
-		SetLevel(MARIO_LEVEL_BIG);
+		if (level_p->GetPlayerLevel() != MARIO_LEVEL_BIG)
+		{
+			scene->SetDelayTime(500);
+			SetLevel(MARIO_LEVEL_BIG);
+			if(JumpState==MARIO_STATE_JUMP_IDLE)
+				SetState(MARIO_STATE_IDLE);
+		}
 		break;
 	case OBJECT_TYPE_SUPER_LEAF:
-		SetLevel(MARIO_LEVEL_RACOON);
+		if (level_p->GetPlayerLevel() != MARIO_LEVEL_RACOON)
+		{
+			scene->SetDelayTime(500);
+			SetLevel(MARIO_LEVEL_RACOON);
+		}
 		break;
 	}
+}
+
+void CMario::LevelDown()
+{
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+	StartUntouchable();
+	switch (level_p->GetPlayerLevel())
+	{
+	case MARIO_LEVEL_SMALL:
+		SetLevel(MARIO_LEVEL_SMALL);
+		break;
+	case MARIO_LEVEL_BIG:
+		SetLevel(MARIO_LEVEL_SMALL);
+		break;
+	case MARIO_LEVEL_RACOON:
+		SetLevel(MARIO_LEVEL_BIG);
+		break;
+	case MARIO_LEVEL_FIRE:
+		SetLevel(MARIO_LEVEL_BIG);
+		break;
+	}
+	scene->SetDelayTime(500);
+
 }
 
 
@@ -103,7 +182,7 @@ int CMario::GetObjectType()
 void CMario::Reset()
 {
 	SetState(MARIO_STATE_IDLE);
-	SetLevel(MARIO_LEVEL_BIG);
+	SetLevel(MARIO_LEVEL_SMALL);
 	SetPosition(x, start_y);
 	SetSpeed(0, 0);
 }
@@ -132,11 +211,13 @@ void CMario::SetLevel(int level)
 }
 void CMario::StartUntouchable()
 {
-	untouchable = 1; 
-	untouchable_start = GetTickCount64();
+	DebugOut(L"TURN ON UNTOUCHABLE \n");
+	untouchable = true; 
+	untouchable_start = GetTickCount();
 }
 void CMario::OnKeyDown(int KeyCode)
 {
+	if (lockcontrol == true) return;
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	level_p->OnKeyDown(KeyCode);
 	switch (KeyCode)
@@ -160,6 +241,7 @@ void CMario::OnKeyDown(int KeyCode)
 }
 void CMario::OnKeyUp(int KeyCode)
 {
+	if (lockcontrol == true) return;
 	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 	level_p->OnKeyUp(KeyCode);
 	switch (KeyCode)

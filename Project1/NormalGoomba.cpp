@@ -7,6 +7,7 @@
 #include "TailAttackEf.h"
 #include "GoombaDieEff.h"
 #include "Koopa.h"
+#include "PointsEff.h"
 NormalGoomba::NormalGoomba(Goomba* k)
 {
 	goomba = k;
@@ -81,6 +82,9 @@ void NormalGoomba::FinalUpdate(DWORD dt)
 				if (e->ny > 0) {
 					goomba->SetState(GOOMBA_STATE_DIE);
 					goomba->SetDieTime(GetTickCount());
+					eff = new PointsEff(POINT_100_ANI);
+					eff->SetPosition(goomba->x, goomba->y);
+					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 				}
 				
 			}
@@ -102,6 +106,12 @@ void NormalGoomba::FinalUpdate(DWORD dt)
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_SHELL_RUNNING)
 			{
 				goomba->SetState(GOOMBA_STATE_WEAPON_DIE);
+				eff = new TailAttackEf();
+				eff->SetPosition(goomba->x, goomba->y);
+				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
+				eff = new PointsEff(POINT_100_ANI);
+				eff->SetPosition(goomba->x, goomba->y);
+				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 			}
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_CROUCH)
 			{
@@ -144,7 +154,9 @@ void NormalGoomba::Render()
 			break;
 		}
 	}
-	CAnimations::GetInstance()->Get(ani)->Render(goomba->x, goomba->y, 1, goomba->nx, goomba->ny);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(goomba->x-cx, goomba->y-cy, 1, goomba->nx, goomba->ny);
 	goomba->RenderBoundingBox();
 }
 void NormalGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)

@@ -34,6 +34,9 @@ void CGame::Init(HWND hWnd)
 	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
 	d3dpp.BackBufferCount = 1;
 
+	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+	d3dpp.MultiSampleType = D3DMULTISAMPLE_NONE;
+	d3dpp.MultiSampleQuality = NULL;
 	RECT r;
 	GetClientRect(hWnd, &r);	// retrieve Window width & height 
 
@@ -47,7 +50,7 @@ void CGame::Init(HWND hWnd)
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
 		hWnd,
-		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
+		D3DCREATE_HARDWARE_VERTEXPROCESSING,
 		&d3dpp,
 		&d3ddv);
 
@@ -62,6 +65,8 @@ void CGame::Init(HWND hWnd)
 	// Initialize sprite helper from Direct3DX helper library
 	D3DXCreateSprite(d3ddv, &spriteHandler);
 
+	d3ddv->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE); // enable Scissor Test
+
 	OutputDebugString(L"[INFO] InitGame done;\n");
 }
 
@@ -70,10 +75,22 @@ void CGame::Init(HWND hWnd)
 */
 void CGame::DrawEx(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVECTOR3 pivot, int scale, D3DXVECTOR2 flip, int alpha)
 {
+	//float cx, cy;
+	//cx = GetCurrentScene()->GetCamera()->position.x;
+	//cy = GetCurrentScene()->GetCamera()->position.y;
+	//D3DXVECTOR3 p(int(x - cx), int(y - cy), 0); // cam_x, cam_y
+
+	RECT viewport;
+	d3ddv->GetScissorRect(&viewport); // toa do viewport
+
+	x += viewport.left; //ve theo toa do viewport
+	y += viewport.top;
+
+	D3DXVECTOR3 p(int(x), int(y), 0);
+
 	if ((scale == 1) && (flip.x==1) && (flip.y==1))
-		Draw(x, y, texture, r,pivot);
+		spriteHandler->Draw(texture, &r, &pivot, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 	else {
-		D3DXVECTOR3 p(int(x - cam_x), int(y - cam_y), 0);
 
 		D3DXMATRIX oldMatrix, newMatrix, mMatrix;
 		spriteHandler->GetTransform(&oldMatrix);
@@ -83,7 +100,8 @@ void CGame::DrawEx(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVEC
 		//&D3DXVECTOR2(x - cam_x + width / 2, y - cam_y + height / 2) tọa độ giữa sprite 
 		//DebugOut(L"Size(%f, %f)\n", width, height);
 		D3DXMatrixTransformation2D(&newMatrix,
-			&D3DXVECTOR2(x - cam_x + width / 2, y - cam_y + height / 2), 0, &D3DXVECTOR2(scale * flip.x, scale*flip.y), //tan scale | goc xoay (rad) | ti le scale
+			//&D3DXVECTOR2(x - cx + width / 2, y - cy + height / 2), 0, &D3DXVECTOR2(scale * flip.x, scale*flip.y), //tan scale | goc xoay (rad) | ti le scale
+			&D3DXVECTOR2(x + width / 2, y + height / 2), 0, &D3DXVECTOR2(scale * flip.x, scale*flip.y), //tan scale | goc xoay (rad) | ti le scale
 			NULL, NULL,//tam rotate | goc xoay (rad)
 			NULL); //tam translation | trans
 		mMatrix = oldMatrix * newMatrix;
@@ -93,13 +111,6 @@ void CGame::DrawEx(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVEC
 
 		spriteHandler->SetTransform(&oldMatrix);
 	}
-}
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVECTOR3 pivot, int alpha)
-{
-	
-	D3DXVECTOR3 p(int(x - cam_x), int(y - cam_y), 0);
-	spriteHandler->Draw(texture, &r, &pivot, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
-	
 }
 
 int CGame::IsKeyDown(int KeyCode)
@@ -232,6 +243,19 @@ CGame::~CGame()
 	if (d3d != NULL) d3d->Release();
 }
 
+void CGame::SetViewport(long left, long top, long right, long bottom)
+{
+	ClipScene();
+	RECT rect{ left, top, right, bottom };
+	d3ddv->SetScissorRect(&rect);
+}// set viewport
+
+void CGame::ClipScene()
+{
+	spriteHandler->End();
+	spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+}
+
 /*
 	Standard sweptAABB implementation
 	Source: GameDev.net
@@ -341,12 +365,11 @@ void CGame::SweptAABB(
 	}
 
 }
-
-D3DXVECTOR2 CGame::GetCamPos()
-{
-	D3DXVECTOR2 c(cam_x, cam_y);
-	return c;
-}
+//D3DXVECTOR2 CGame::GetCamPos()
+//{
+//	D3DXVECTOR2 c(cam_x, cam_y);
+//	return c;
+//}
 
 CGame* CGame::GetInstance()
 {
@@ -376,7 +399,8 @@ void CGame::_ParseSection_SCENES(string line)
 	if (tokens.size() < 2) return;
 	int id = atoi(tokens[0].c_str());
 	string path = tokens[1].c_str();
-	LPSCENE scene = new CPlayScene(id, path);
+	long time = atoi(tokens[2].c_str());	
+	LPSCENE scene = new CPlayScene(id, path,time);
 	scenes[id] = scene;
 }
 
@@ -582,4 +606,14 @@ void CGame::SwitchScene(int scene_id)
 	LPSCENE s = scenes[scene_id];
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();*/
+}
+
+void CGame::SaveMarioLevel(int level)
+{
+	mario_level = level;
+}
+
+int CGame::GetMarioLevel()
+{
+	return mario_level;
 }

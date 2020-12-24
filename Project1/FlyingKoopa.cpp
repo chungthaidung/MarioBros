@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "TailAttackEf.h"
 #include "CGame.h"
+#include "PointsEff.h"
 FlyingKoopa::FlyingKoopa(Koopa* k):WalkingKoopa(k)
 {
 	koopa = k;
@@ -60,6 +61,9 @@ void FlyingKoopa::FinalUpdate(DWORD dt)
 			{
 				if (e->ny > 0) {
 					koopa->SetState(KOOPA_STATE_WALKING);
+					PointsEff* eff = new PointsEff(POINT_100_ANI);
+					eff->SetPosition(koopa->x, koopa->y);
+					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 					//koopa->SetGravity(0);
 				}
 			}
@@ -76,9 +80,11 @@ void FlyingKoopa::FinalUpdate(DWORD dt)
 			}
 			else if ((e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_SHELL_RUNNING) || e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL)
 			{
-
+				PointsEff* eff = new PointsEff(POINT_100_ANI);
+				eff->SetPosition(koopa->x, koopa->y);
+				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 				koopa->SetState(KOOPA_STATE_DIE);
-
+				
 			}
 		}
 	}
@@ -90,7 +96,9 @@ void FlyingKoopa::Render()
 {
 	int ani = KOOPA_ANI_FLY;
 	int f = -1;
-	CAnimations::GetInstance()->Get(ani)->Render(koopa->x, koopa->y, 1, koopa->nx*f, koopa->Getny());
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(koopa->x-cx, koopa->y-cy, 1, koopa->nx*f, koopa->Getny());
 	koopa->RenderBoundingBox();
 }
 

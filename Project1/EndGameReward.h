@@ -1,6 +1,6 @@
 #pragma once
 #include "CGameObject.h"
-
+#include "Mario.h"
 #define END_GAME_REWARD_BBBOX_WIDTH	48
 #define END_GAME_REWARD_BBBOX_HEIGHT	48
 
@@ -38,4 +38,3 @@ protected:
 	DWORD changetime;
 	int reward;
 };
-

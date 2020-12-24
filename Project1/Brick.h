@@ -2,12 +2,8 @@
 #include "QuestionBox.h"
 #include "Coin.h"
 
-#define BRICK_BBOX_WIDTH  48
-#define BRICK_BBOX_HEIGHT 48
-
 #define BRICK_ANI_REWARD		605
 #define BRICK_ANI_EMPTY		604
-#define BRICK_ANI_BROKEN		606
 
 #define BRICK_REWARD 1
 #define BRICK_BOUNC 12

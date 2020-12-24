@@ -17,8 +17,8 @@ void SuperLeaf::Update(DWORD dt)
 		SetState(SUPER_LEAF_STATE_RIGHT);
 	}
 	vy += gravity * dt;
-	if (vy > SUPER_LEAF_GRAVITY * dt*1.5)
-		vy = gravity * dt*1.5;
+	if (vy > SUPER_LEAF_GRAVITY * dt)
+		vy = gravity * dt;
 	CGameObject::Update(dt);
 	//DebugOut(L"[INFO] SUPER LEAF x: %f || y: %f \n", x, y);
 }
@@ -30,7 +30,7 @@ void SuperLeaf::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void SuperLeaf::FinalUpdate(DWORD dt)
 {
-	if (y > CGame::GetInstance()->GetCamPos().y + SCREEN_HEIGHT)
+	if (y > CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y + SCREEN_HEIGHT)
 	{
 		CGame::GetInstance()->GetCurrentScene()->DespawnObject(this);
 	}
@@ -51,8 +51,7 @@ void SuperLeaf::FinalUpdate(DWORD dt)
 		LPCOLLISIONEVENT e = coEventsResult[i];
 		if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO)
 		{
-			CGame::GetInstance()->GetCurrentScene()->DespawnObject(this);
-
+			isRemove = true;
 		}
 	}
 	for (UINT i = 0; i < coEResult.size(); i++) delete coEResult[i];
@@ -106,13 +105,21 @@ void SuperLeaf::Render()
 {
 	int f = -1;
 	int ani = SUPER_LEAF_ANI;
-	CAnimations::GetInstance()->Get(ani)->Render(x, y,1,nx*f);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(x-cx, y-cy,1,nx*f);
 	RenderBoundingBox();
 }
 
 int SuperLeaf::GetObjectType()
 {
 	return OBJECT_TYPE_SUPER_LEAF;
+}
+
+void SuperLeaf::SetPosition(float x, float y)
+{
+	CGameObject::SetPosition(x, y);
+	x_start = x;
 }
 
 void SuperLeaf::SetGravity(float g)

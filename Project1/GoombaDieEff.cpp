@@ -18,7 +18,7 @@ GoombaDieEff::GoombaDieEff(int animation, float vx, int ny) :Effect()
 }
 void GoombaDieEff::Update(DWORD dt)
 {
-	if (y > CGame::GetInstance()->GetCamPos().y + SCREEN_HEIGHT)
+	if (y > CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y + SCREEN_HEIGHT)
 	{
 		CGame::GetInstance()->GetCurrentScene()->DeleteEffect(this);
 	}
@@ -30,5 +30,7 @@ void GoombaDieEff::Update(DWORD dt)
 
 void GoombaDieEff::Render()
 {
-	CAnimations::GetInstance()->Get(ani)->Render(x,y,1,1,ny);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(x-cx,y-cy,1,1,ny);
 }

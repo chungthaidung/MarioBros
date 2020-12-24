@@ -16,5 +16,7 @@ void TailAttackEf::Update(DWORD dt)
 void TailAttackEf::Render()
 {
 	int ani = TAIL_ATTACK_EFFECT_ANI;
-	CAnimations::GetInstance()->Get(ani)->Render(x, y, time, 250); //
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(x-cx, y-cy, time, 250); //
 }

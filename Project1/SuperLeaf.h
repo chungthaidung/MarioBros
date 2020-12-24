@@ -13,6 +13,7 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Render();
 	virtual int GetObjectType();
+	virtual void SetPosition(float x, float y);
 	void SetGravity(float g);
 	void SetXStart(float x_s);
 protected:

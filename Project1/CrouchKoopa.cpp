@@ -5,6 +5,7 @@
 #include "Mario.h"
 #include "TailAttackEf.h"
 #include "CGame.h"
+#include "PointsEff.h"
 CrouchKoopa::CrouchKoopa(Koopa* k):WalkingKoopa(k)
 {
 	collisionbox.x = KOOPA_BBOX_HEIGHT;
@@ -62,6 +63,12 @@ void CrouchKoopa::FinalUpdate(DWORD dt)
 				koopa->nx = e->obj->Getnx();
 				koopa->SetState(KOOPA_STATE_SHELL_RUNNING);
 				koopa->vy = 0;
+				if (e->ny > 0)
+				{
+					PointsEff* eff = new PointsEff(POINT_200_ANI);
+					eff->SetPosition(koopa->x, koopa->y);
+					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
+				}
 			}
 
 		}
@@ -104,8 +111,9 @@ void CrouchKoopa::Render()
 		if (GetTickCount() - respawntime > 4500)
 			ani = RED_KOOPA_ANI_RESPAWN;
 	}
-	
-	CAnimations::GetInstance()->Get(ani)->Render(koopa->x, koopa->y, 1, koopa->nx,koopa->Getny());
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(koopa->x-cx, koopa->y-cy, 1, koopa->nx,koopa->Getny());
 	koopa->RenderBoundingBox();
 }
 

@@ -10,6 +10,7 @@ VenusFireBall::VenusFireBall(Venus* v)
 	active = false;
 	vx = VENUS_FIRE_BALL_VELOCITY;
 	vy = VENUS_FIRE_BALL_VELOCITY;
+	isEnemy = true;
 }
 
 void VenusFireBall::Update(DWORD dt)
@@ -28,7 +29,9 @@ void VenusFireBall::FinalUpdate(DWORD dt)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEventsResult.clear();
 	float cx, cy;
-	CGame::GetInstance()->GetCamPos(cx, cy);
+	cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	//CGame::GetInstance()->GetCamPos(cx, cy);
 	if (x > cx + SCREEN_WIDTH || x < cx)
 	{
 		active = false;
@@ -66,7 +69,9 @@ void VenusFireBall::FinalUpdate(DWORD dt)
 void VenusFireBall::Render()
 {
 	int ani = MARIO_ANI_FIRE_BALL;
-	CAnimations::GetInstance()->Get(ani)->Render(x, y);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(x-cx, y-cy);
 	RenderBoundingBox();
 }
 

@@ -50,3 +50,13 @@ void CScene::DeleteEffect(LPEFFECT ef)
 {
 	ef->isRemove = true;
 }
+
+Camera* CScene::GetCamera()
+{
+	return cam;
+}
+
+CMap* CScene::GetMap()
+{
+	return gamemap;
+}

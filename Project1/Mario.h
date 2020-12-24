@@ -7,12 +7,12 @@ class PlayerLevel;
 
 class CMario : public CGameObject
 {
-	//int level;
-	int untouchable;
+	bool untouchable;
 	DWORD untouchable_start;
 	PlayerLevel* level_p;
 	float start_x;			// initial position of Mario at scene
 	float start_y;
+	bool lockcontrol=false;
 protected:
 	float gravity;
 	float ax;//gia toc
@@ -28,12 +28,24 @@ public:
 	int JumpState;
 	int AttackState;
 
+	bool GetUntouchable();
+	DWORD GetUntouchableStart();
+	bool GetLockControl();
+
+	void SetUntouchable(bool a);
+	void SetUntouchableStart(DWORD a);
+	void SetLockControl(bool a);
+
 	void SetAcceleration(float a) { ax = a; }
 	void SetDrag(float d) { dragf = d; }
 	void SetPowerMeter(float a) { powerM = a; }
 	void SetGravity(float g) { gravity = g; }
 	void SetInHand(CGameObject* obj);
+
+
 	void LevelUp(CGameObject* obj);
+	void LevelDown();
+
 	float GetAcceleration() { return ax; }
 	float GetDrag() { return dragf; }
 	float GetPowerMeter() { return powerM; }
@@ -49,6 +61,7 @@ public:
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt);
+	virtual void LockControlUpdate(DWORD dt);
 	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void FinalUpdate(DWORD dt);
 	virtual void Render();

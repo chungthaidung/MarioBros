@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "TailAttackEf.h"
 #include "CGame.h"
+#include "PointsEff.h"
 WalkingKoopa::WalkingKoopa(Koopa* k)
 {
 	koopa = k;
@@ -58,6 +59,9 @@ void WalkingKoopa::FinalUpdate(DWORD dt)
 			{
 				if (e->ny > 0) {
 					koopa->SetState(KOOPA_STATE_CROUCH);
+					PointsEff* eff = new PointsEff(POINT_100_ANI);
+					eff->SetPosition(koopa->x, koopa->y);
+					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 					koopa->vy = 0;
 					koopa->Setny(1);
 					//koopa->SetGravity(0);
@@ -76,7 +80,9 @@ void WalkingKoopa::FinalUpdate(DWORD dt)
 			}
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL || (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_SHELL_RUNNING))
 			{
-
+				PointsEff* eff = new PointsEff(POINT_100_ANI);
+				eff->SetPosition(koopa->x, koopa->y);
+				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 				koopa->SetState(KOOPA_STATE_DIE);
 			}
 			else if ((e->obj->GetObjectType() == OBJECT_TYPE_GHOST || e->obj->GetObjectType() == OBJECT_TYPE_GROUND || e->obj->GetObjectType() == OBJECT_TYPE_BRICK )&&koopa->GetType()==RED_KOOPA)
@@ -112,7 +118,9 @@ void WalkingKoopa::Render()
 	int ani = KOOPA_ANI_WALKING;
 	if (koopa->GetType() == RED_KOOPA) ani = RED_KOOPA_ANI_WALKING;
 	int f = -1;
-	CAnimations::GetInstance()->Get(ani)->Render(koopa->x, koopa->y, 1, koopa->nx*f);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(koopa->x-cx, koopa->y-cy, 1, koopa->nx*f);
 	koopa->RenderBoundingBox();
 }
 void WalkingKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)

@@ -40,15 +40,6 @@ void Goomba::FinalUpdate(DWORD dt)
 }
 void Goomba::Render()
 {
-	/*int ani = GOOMBA_ANI_WALKING;
-	switch (state)
-	{
-	case GOOMBA_STATE_DIE:
-		ani = GOOMBA_ANI_DIE;
-		break;
-	}
-	CAnimations::GetInstance()->Get(ani)->Render(x, y, 1,nx,ny);
-	RenderBoundingBox();*/
 	goombaState->Render();
 }
 int Goomba::GetObjectType()

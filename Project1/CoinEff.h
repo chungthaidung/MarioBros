@@ -6,6 +6,7 @@ class CoinEff :
 {
 public:
     CoinEff();
+    ~CoinEff();
     virtual void Update(DWORD dt);
     virtual void Render();
     virtual void SetPosition(float x,float y);

@@ -45,7 +45,7 @@ void SwitchButton::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void SwitchButton::FinalUpdate(DWORD dt)
 {
 	if (state == SWITCH_BUTTON_STATE_DOWN && GetTickCount() - time > 6100) return;
-	DebugOut(L"BRICK SIZE: %d\n", bricks.size());
+	//DebugOut(L"BRICK SIZE: %d\n", bricks.size());
 
 	if (GetTickCount() - time > 6000&& bricks.size()>0)
 	{
@@ -97,7 +97,9 @@ void SwitchButton::Render()
 	int ani = SWITCH_BUTTON_ANI_UP;
 	if (state == SWITCH_BUTTON_STATE_DOWN) 
 		ani = SWITCH_BUTTON_ANI_DOWN;
-	CAnimations::GetInstance()->Get(ani)->Render(x, y);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(x-cx, y-cy);
 	RenderBoundingBox();
 }
 

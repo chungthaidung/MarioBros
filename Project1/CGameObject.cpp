@@ -10,6 +10,7 @@
 #include "CTextures.h"	
 #include "GhostObject.h"
 #include "CCollisionEvent.h"
+#include "Mario.h"
 bool CGameObject::rendercompare(CGameObject*& a, CGameObject*& b)
 {
 	return a->renderOrder < b->renderOrder ;
@@ -126,24 +127,36 @@ void CGameObject::FilterCollision(
 	{
 		LPCOLLISIONEVENT c = coEvents[i];
 		
-		if (c->obj->GetObjectType()==OBJECT_TYPE_GHOST&& (c->ny > 0||c->nx!=0)) continue;
-		if (c->obj->GetObjectType() == OBJECT_TYPE_COIN ) continue;
-		if (c->obj->GetState()==BRICK_COIN && c->obj->GetObjectType() == OBJECT_TYPE_BRICK ) continue;
-		//if (c->obj->GetObjectType() == OBJECT_TYPE_SUPER_MUSHROOM ) continue;
-		if (c->obj->GetObjectType() == OBJECT_TYPE_END_GAME_REWARD ) continue;
-		//if (c->obj->GetObjectType() == OBJECT_TYPE_MARIO && c->nx != 0 && GetObjectType() != OBJECT_TYPE_COIN && GetObjectType() != OBJECT_TYPE_KOOPA && GetState() != KOOPA_STATE_CROUCH) continue;
+		if (c->obj->GetObjectType()==OBJECT_TYPE_GHOST&& (c->ny > 0||c->nx!=0)) continue; // ko xet va cham phuong ngang va tu duoi
+		if (c->obj->GetObjectType() == OBJECT_TYPE_COIN ) continue; // ko xet va cham voi dong tien
+		if (c->obj->GetState()==BRICK_COIN && c->obj->GetObjectType() == OBJECT_TYPE_BRICK ) continue; // ko xet va cham voi brick thanh dong tien
+		if (c->obj->GetObjectType() == OBJECT_TYPE_END_GAME_REWARD ) continue; // ko xet va cham voi end game reward
 		if (GetObjectType() == OBJECT_TYPE_SUPER_MUSHROOM)
 		{
-			if (c->obj->isEnemy == true) continue;
+			if (c->obj->isEnemy == true) continue; // nam ko xet va cham voi enemy
 		}
 		if (GetObjectType() == OBJECT_TYPE_VENUS_FIREBALL)
 		{
-			if (c->obj->GetObjectType() == OBJECT_TYPE_MARIO) continue;
+			if (c->obj->GetObjectType() == OBJECT_TYPE_MARIO) continue; // cuc lua cua venus ko xet va cham voi mario
+		}
+		if (GetObjectType() == OBJECT_TYPE_FIREBALL)
+		{
+			if (c->obj->GetObjectType() == OBJECT_TYPE_VENUS_FIREBALL) continue; // cuc lua cua mario ko xet va cham voi cuc lua cua venus
 		}
 		if (c->obj->isEnemy == true)
 		{
-			if (GetObjectType() == OBJECT_TYPE_SUPER_MUSHROOM || GetObjectType() == OBJECT_TYPE_SUPER_LEAF) continue;
-			if (GetObjectType() == OBJECT_TYPE_VENUS_FIREBALL) continue;
+			if (GetObjectType() == OBJECT_TYPE_SUPER_MUSHROOM || GetObjectType() == OBJECT_TYPE_SUPER_LEAF) continue; // enemy ko xet va ccham voi goods
+			if (GetObjectType() == OBJECT_TYPE_VENUS_FIREBALL) continue;// enemy ko xet va ccham voi cuc lua venus
+		}
+		if (c->obj->GetObjectType() == OBJECT_TYPE_MARIO)
+		{
+			CMario* mario = dynamic_cast<CMario*>(c->obj);
+			if (mario->GetUntouchable() == true) continue; //khong xet va cham voi mario trong trang thai untouchable
+		}
+		if (GetObjectType() == OBJECT_TYPE_MARIO)
+		{
+			CMario* mario = dynamic_cast<CMario*>(this);
+			if (mario->GetUntouchable()==true && c->obj->isEnemy==true) continue;// mario trong trang thai untouchable ko xet va cham voi enemy
 		}
 		//if (c->obj->GetObjectType() == OBJECT_TYPE_MARIO && c->nx!=0 && GetObjectType() != OBJECT_TYPE_KOOPA && GetState()!=KOOPA_STATE_CROUCH) continue;
 		//c->obj continue
@@ -204,8 +217,9 @@ void CGameObject::RenderBoundingBox()
 	rect.top = 0;
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
-
-	CGame::GetInstance()->Draw(x, y, bbox, rect,p, 32);//hardcode
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CGame::GetInstance()->DrawEx(x-cx, y-cy, bbox, rect,p, 1, D3DXVECTOR2(1.0f, 1.0f), 32);//hardcode
 }
 
 

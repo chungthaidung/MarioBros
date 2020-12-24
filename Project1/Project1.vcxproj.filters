@@ -234,9 +234,6 @@
     <ClCompile Include="Piranha.cpp">
       <Filter>Game\Game Object\Object\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EndGameReward.cpp">
-      <Filter>Game\Game Object\Object\Misc</Filter>
-    </ClCompile>
     <ClCompile Include="Venus.cpp">
       <Filter>Game\Game Object\Object\Enemy\Venus</Filter>
     </ClCompile>
@@ -274,7 +271,19 @@
       <Filter>Game\Game Object\Object\Effect</Filter>
     </ClCompile>
     <ClCompile Include="SwitchButton.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="PointsEff.cpp">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyDamagedEff.cpp">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="DebrisEff.cpp">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EndGameReward.cpp">
+      <Filter>Game\Game Object\Object\Misc\Goods</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -410,9 +419,6 @@
     <ClInclude Include="Piranha.h">
       <Filter>Game\Game Object\Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="EndGameReward.h">
-      <Filter>Game\Game Object\Object\Misc</Filter>
-    </ClInclude>
     <ClInclude Include="Venus.h">
       <Filter>Game\Game Object\Object\Enemy\Venus</Filter>
     </ClInclude>
@@ -450,7 +456,19 @@
       <Filter>Game\Game Object\Object\Effect</Filter>
     </ClInclude>
     <ClInclude Include="SwitchButton.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="PointsEff.h">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDamagedEff.h">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="DebrisEff.h">
+      <Filter>Game\Game Object\Object\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EndGameReward.h">
+      <Filter>Game\Game Object\Object\Misc\Goods</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

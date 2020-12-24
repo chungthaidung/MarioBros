@@ -5,6 +5,7 @@
 #include "SuperLeaf.h"
 #include "Coin.h"
 #include "SwitchButton.h"
+#include "DebrisEff.h"
 Brick::Brick(int obj_type, int type, float y) :QuestionBox(obj_type, y)
 {
 	state = type;
@@ -31,7 +32,9 @@ void Brick::Render()
 		ani = COIN_ANI;
 		break;
 	}
-	CAnimations::GetInstance()->Get(ani)->Render(x, y);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(x-cx, y-cy);
 	RenderBoundingBox();
 }
 
@@ -45,8 +48,6 @@ void Brick::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void Brick::Update(DWORD dt)
 {
-	RewardChecking();
-	vy += gravity * dt;
 	CGameObject::Update(dt);
 	
 }
@@ -87,7 +88,14 @@ void Brick::FinalUpdate(DWORD dt)
 				{
 					if (e->ny < 0)
 					{
+						for (int i = 0; i < 4; i++)
+						{
+							DebrisEff* eff = new DebrisEff(i);
+							eff->SetPosition(x, y);
+							CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
+						}
 						SetState(BRICK_BROKEN);
+						
 					}
 				}
 				else if (state == BRICK_COIN)
@@ -108,7 +116,14 @@ void Brick::FinalUpdate(DWORD dt)
 				{
 					if (e->nx != 0)
 					{
+						for (int i = 0; i < 4; i++)
+						{
+							DebrisEff* eff = new DebrisEff(i);
+							eff->SetPosition(x, y);
+							CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
+						}
 						SetState(BRICK_BROKEN);
+						
 					}
 				}
 			}
@@ -143,6 +158,8 @@ void Brick::FinalUpdate(DWORD dt)
 			}
 		}
 	}
+	RewardChecking();
+
 }
 
 void Brick::SetState(int state)
@@ -156,14 +173,15 @@ void Brick::SetState(int state)
 	case BRICK_EMPTY:
 		vy = 0;
 		y = y_start;
-		gravity = 0;
 		reward->SetPosition(x, y);
-		if (reward->GetObjectType() == OBJECT_TYPE_SUPER_LEAF)
-		{
-			SuperLeaf* leaf = dynamic_cast<SuperLeaf*>(reward);
-			leaf->SetXStart(x);
-		}
-		else if (reward->GetObjectType() == OBJECT_TYPE_SWITCH_BUTTON)
+
+		//if (reward->GetObjectType() == OBJECT_TYPE_SUPER_LEAF)
+		//{
+		//	SuperLeaf* leaf = dynamic_cast<SuperLeaf*>(reward);
+		//	//leaf->SetXStart(x);
+
+		//} else
+		 if (reward->GetObjectType() == OBJECT_TYPE_SWITCH_BUTTON)
 		{
 			reward->SetPosition(x, y-48);
 		}
