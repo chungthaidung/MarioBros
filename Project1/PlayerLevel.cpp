@@ -6,6 +6,7 @@
 #include "Koopa.h"
 #include "QuestionBox.h"
 #include "Brick.h"
+#include "PointsEff.h"
 PlayerLevel::PlayerLevel(CMario* mario)
 {
 	this->mario = mario;
@@ -22,7 +23,6 @@ void PlayerLevel::Update(DWORD dt)
 	// Simple fall down
 	mario->vy += mario->GetGravity() * dt;
 	mario->CGameObject::Update(dt);
-//	Collision(coObjects);
 	//DebugOut(L"Mario vy: %f \n", mario->vy);
 	//DebugOut(L"Mario jump state: %d \n", mario->JumpState);
 	//DebugOut(L"Mario power meter: %f \n", mario->GetPowerMeter());
@@ -35,7 +35,6 @@ void PlayerLevel::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_obje
 }
 void PlayerLevel::FinalUpdate(DWORD dt)
 {
-	
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	if (mario->coEResult.size() == 0)
 	{
@@ -71,7 +70,9 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 				if(mario->JumpState==MARIO_STATE_SUPER_JUMP)
 					mario->JumpState = MARIO_STATE_SUPER_FALL;
 				else if (mario->JumpState == MARIO_STATE_JUMP)
+				{
 					mario->JumpState = MARIO_STATE_FALL;
+				}
 			}
 		}
 		//bool bounc = true;
@@ -81,30 +82,49 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_CROUCH
-				&& mario->GetState()!=MARIO_STATE_CROUCH)
+			
+			if (e->obj != NULL && e->obj->isEnemy == true)
 			{
-				CGame* keyboard = CGame::GetInstance();
-				Koopa* koopa = dynamic_cast<Koopa*>(e->obj);
-				if (e->nx != 0 && keyboard->IsKeyDown(DIK_A) && mario->GetInHand()==NULL)
+				if (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_CROUCH
+					&& mario->GetState() != MARIO_STATE_CROUCH)
 				{
-					if (koopa->GetState() == KOOPA_STATE_CROUCH)
+					CGame* keyboard = CGame::GetInstance();
+					Koopa* koopa = dynamic_cast<Koopa*>(e->obj);
+					if (e->nx != 0 && keyboard->IsKeyDown(DIK_A) && mario->GetInHand() == NULL)
 					{
-						mario->SetInHand(e->obj);
-						koopa->SetHolder(mario);
+						if (koopa->GetState() == KOOPA_STATE_CROUCH)
+						{
+							mario->SetInHand(e->obj);
+							koopa->SetHolder(mario);
+						}
+						else
+						{
+							mario->SetInHand(NULL);
+							koopa->SetHolder(NULL);
+						}
+					}
+				}
+				else if (e->obj->GetObjectType() == OBJECT_TYPE_GOOMBA || e->obj->GetObjectType() == OBJECT_TYPE_KOOPA)
+				{
+					if (e->ny < 0)
+					{
+						MiniJump(true);
 					}
 					else
 					{
-						mario->SetInHand(NULL);
-						koopa->SetHolder(NULL);
+						if (e->ny > 0)
+							mario->y -= 2;
+						mario->LevelDown();
 					}
 				}
-			}
-			else if (e->obj->GetObjectType() == OBJECT_TYPE_GOOMBA||e->obj->GetObjectType() == OBJECT_TYPE_KOOPA)
-			{
-				if (e->ny<0)
-				MiniJump(true);
-				
+				else if (e->obj->GetObjectType() == OBJECT_TYPE_VENUS || e->obj->GetObjectType() == OBJECT_TYPE_PIRANHA || e->obj->GetObjectType() == OBJECT_TYPE_VENUS_FIREBALL)
+				{
+
+					if (e->ny > 0)
+						mario->y -= 2;
+					mario->LevelDown();
+
+				}
 			}
 			else if ( e->obj->GetObjectType() == OBJECT_TYPE_QUESTION_BOX && e->ny > 0)//bounc==true &&	 && e->ny > 0
 			{
@@ -115,16 +135,6 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 				{
 					hitLength = e->touchingLength;
 					hit = box;
-					//if(hit->GetState() == QUESTION_BOX_REWARD)
-					//{
-					//	hit->SetState(QUESTION_BOX_BOUNC);
-					//	if (hitLength < e->touchingLength)
-					//	{
-					//		hit = box;
-					//		//box->SetState(QUESTION_BOX_BOUNC);
-					//		hitLength = e->touchingLength;
-					//	}
-					//}
 				}
 				
 				//DebugOut(L"[INFO] Hit length: %f \n",hitLength);
@@ -140,14 +150,19 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 			}
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_SUPER_MUSHROOM || (e->obj->GetObjectType() == OBJECT_TYPE_SUPER_LEAF && e->obj->GetState()!= SUPER_LEAF_STATE_UP))//bounc == true && 
 			{
+				 if (e->ny > 0)
+					 mario->y -= 2;
 				mario->LevelUp(e->obj);
+				PointsEff* eff = new PointsEff(POINT_1000_ANI);
+				eff->SetPosition(mario->x, mario->y);
+				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 				if(e->obj!=NULL)
 					CGame::GetInstance()->GetCurrentScene()->DespawnObject(e->obj);
 			}
 		}
 		//DebugOut(L"[INFO] Q block %d \n", countqblock);
 
-		if (hit && hit->GetState() == QUESTION_BOX_REWARD) {
+		if (hit!=NULL && hit->GetState() == QUESTION_BOX_REWARD) {
 
 			hit->SetState(QUESTION_BOX_BOUNC);
 			hit->SetRewardnx(mario->nx);
@@ -155,11 +170,18 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 	}
 	for (UINT i = 0; i < mario->coEResult.size(); i++) delete  mario->coEResult[i];
 	mario->coEResult.clear();
+	if (mario->GetUntouchable() == true && GetTickCount() - mario->GetUntouchableStart() > MARIO_UNTOUCHABLE_TIME)
+	{
+		DebugOut(L"TURN OFF UNTOUCHABLE \n");
+		mario->SetUntouchable(false);
+		mario->SetUntouchableStart(0);
+	}
 }
 void PlayerLevel::MovingState(DWORD dt)
 {	
+	if (mario->GetLockControl() == true) return;
+
 	CGame* keyboard = CGame::GetInstance();
-	
 	if (keyboard->IsKeyDown(DIK_RIGHT) || keyboard->IsKeyDown(DIK_LEFT))
 	{
 		int key;
@@ -225,6 +247,7 @@ void PlayerLevel::MovingState(DWORD dt)
 }
 void PlayerLevel::JumpingState(DWORD dt)
 {
+	//if (mario->GetLockControl() == true) return;
 	CGame* keyboard = CGame::GetInstance();
 	float jumpForce = MARIO_JUMP_FORCE;
 	switch (mario->JumpState)
@@ -274,7 +297,7 @@ void PlayerLevel::JumpingState(DWORD dt)
 	case MARIO_STATE_SUPER_FALL:
 	case MARIO_STATE_FALL:
 		mario->SetGravity(MARIO_GRAVITY);
-		if (mario->onGround == true)
+		if (mario->onGround == true )
 		{
 			mario->JumpState = MARIO_STATE_JUMP_IDLE;
 		}
@@ -283,6 +306,7 @@ void PlayerLevel::JumpingState(DWORD dt)
 }
 void PlayerLevel::CrouchState(DWORD dt)
 {
+	if (mario->GetLockControl() == true) return;
 	CGame* keyboard = CGame::GetInstance();
 	float x, y;
 	mario->GetPosition(x, y);
@@ -303,6 +327,7 @@ void PlayerLevel::CrouchState(DWORD dt)
 }
 void PlayerLevel::PowerMeterUpdate(DWORD dt)
 {
+	if (mario->GetLockControl() == true) return;
 	CGame* keyboard = CGame::GetInstance();
 	float power = mario->GetPowerMeter();
 	if (abs(mario->vx)>MARIO_WALKING_SPEED && mario->onGround)
@@ -325,6 +350,7 @@ void PlayerLevel::SetState(int state)
 }
 void PlayerLevel::MiniJump(bool isJump)
 {
+	if (mario->GetLockControl() == true) return;
 	CGame* keyboard = CGame::GetInstance();
 	if ((keyboard->IsKeyDown(DIK_X) || isJump) && mario->onGround)
 	{

@@ -45,6 +45,8 @@ void EndGameReward::FinalUpdate(DWORD dt)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO)
 			{
+				CMario* mr = dynamic_cast<CMario*>(e->obj);
+				mr->SetLockControl(true);
 				SetState(END_GAME_REWARD_STATE_EMPTY);
 			}
 		}
@@ -104,7 +106,9 @@ void EndGameReward::Render()
 		ani = END_GAME_REWARD_ANI_EMPTY;
 		break;
 	}
-	CAnimations::GetInstance()->Get(ani)->Render(x, y);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(x-cx, y-cy);
 	RenderBoundingBox();
 }
 int EndGameReward::GetObjectType()

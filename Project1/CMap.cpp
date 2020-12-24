@@ -32,7 +32,8 @@ void CMap::LoadGameMap()
 
 void CMap::Render()
 {
-	D3DXVECTOR2 cam=CGame::GetInstance()->GetCamPos();
+	D3DXVECTOR2 cam=CGame::GetInstance()->GetCurrentScene()->GetCamera()->position;
+
 	for (int i = 0; i < layers.size(); i++)
 	{
 		//DebugOut(L"[INFO] Layer ID: %d \n",i);

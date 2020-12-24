@@ -24,16 +24,31 @@ void FireMario::Render()
 	int alpha = 255;
 	int f = 1;
 	int ani = MARIO_ANI_FIRE_IDLE;
+	if (mario->GetUntouchable() == true)
+	{
+		int dt = CGame::GetInstance()->DeltaTime;
+		if (dt % 2 == 0)
+		{
+			alpha = 128;
+		}
+		else {
+			alpha = 255;
+		}
+	}
 	if (mario->GetState() == MARIO_STATE_CROUCH)
 	{
 		ani = MARIO_ANI_FIRE_CROUCH;
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx * f,1, alpha);
+		float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+		float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x-cx, mario->y-cy, 1, mario->nx * f,1, alpha);
 		mario->RenderBoundingBox();
 	}
 	else if (mario->AttackState == MARIO_STATE_ATTACK_START)
 	{
 		ani = MARIO_ANI_FIRE_THROW;
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y,attacktime,250, 1, mario->nx * f,1, alpha);
+		float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+		float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x-cx, mario->y-cy,attacktime,250, 1, mario->nx * f,1, alpha);
 		mario->RenderBoundingBox();
 
 	}
@@ -57,7 +72,9 @@ void FireMario::Render()
 		{
 			ani = MARIO_ANI_FIRE_HOLD_FALL;
 		}
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx * f,1, alpha);
+		float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+		float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x-cx, mario->y-cy, 1, mario->nx * f,1, alpha);
 		mario->RenderBoundingBox();
 	}
 	else {
@@ -85,7 +102,11 @@ void FireMario::Render()
 			ani = MARIO_ANI_FIRE_HOLD_IDLE;
 		else if (mario->GetInHand() != NULL)
 			ani = MARIO_ANI_FIRE_HOLD;
-		CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx * f,1, alpha);
+
+
+		float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+		float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+		CAnimations::GetInstance()->Get(ani)->Render(mario->x - cx, mario->y - cy, 1, mario->nx * f,1, alpha);
 		mario->RenderBoundingBox();
 	}
 

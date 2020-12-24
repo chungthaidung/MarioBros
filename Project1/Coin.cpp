@@ -1,10 +1,12 @@
 #include "Coin.h"
-
+#include "CGame.h"
 void Coin::Render()
 {
 
 	int ani = COIN_ANI;
-	CAnimations::GetInstance()->Get(ani)->Render(x, y);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(x-cx, y-cy);
 	RenderBoundingBox();
 }
 

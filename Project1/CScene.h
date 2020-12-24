@@ -5,12 +5,18 @@
 #include <string>
 #include "CGameObject.h"
 #include "Effect.h"
+#include "Camera.h"
+//#include "CMap.h"
+class CMap;
 class CScene
 {
 protected:
 	CKeyEventHandler* key_handler;
 	int id;
 	std::string scenePath;
+
+	Camera* cam;
+	CMap* gamemap;
 
 	vector<LPGAMEOBJECT> objects;
 	vector<LPEFFECT> effects;
@@ -24,11 +30,16 @@ public:
 	virtual void Unload() = 0;
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0;
+
 	virtual void RemoveObjects();
 	virtual void SpawnObject(CGameObject* obj);
 	virtual void DespawnObject(CGameObject* obj);	
+	
 	virtual void RemoveEffects();
 	virtual void AddEffect(LPEFFECT ef);
 	virtual void DeleteEffect(LPEFFECT ef);
+
+	virtual Camera* GetCamera();
+	virtual CMap* GetMap();
 };
 typedef CScene* LPSCENE;

@@ -6,6 +6,7 @@
 #include "Mario.h"
 #include "TailAttackEf.h"
 #include "GoombaDieEff.h"
+#include "PointsEff.h"
 FlyingGoomba::FlyingGoomba(Goomba* obj):NormalGoomba(obj)
 {
 	goomba = obj;
@@ -90,7 +91,6 @@ void FlyingGoomba::FinalUpdate(DWORD dt)
 				Moving();
 				jumpcount--;
 				//DebugOut(L"JUMP COUNT: %d \n", jumpcount);
-
 				//goomba->vy = -0.3;
 			}
 			if (ny > 0) goomba->y -= 2;
@@ -104,6 +104,9 @@ void FlyingGoomba::FinalUpdate(DWORD dt)
 
 				if (e->ny > 0) {
 					goomba->SetState(GOOMBA_STATE_WALKING);
+					PointsEff* eff = new PointsEff(POINT_100_ANI);
+					eff->SetPosition(goomba->x, goomba->y);
+					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 				}
 			}
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_TAIL)
@@ -124,6 +127,9 @@ void FlyingGoomba::FinalUpdate(DWORD dt)
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_SHELL_RUNNING)
 			{
 				goomba->SetState(GOOMBA_STATE_WEAPON_DIE);
+				TailAttackEf* eff = new TailAttackEf();
+				eff->SetPosition(goomba->x, goomba->y);
+				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 			}
 		}
 	}
@@ -157,7 +163,9 @@ void FlyingGoomba::Render()
 			ani = GOOMBA_ANI_WALKING;
 
 	}
-	CAnimations::GetInstance()->Get(ani)->Render(goomba->x, goomba->y, 1, goomba->nx, goomba->ny);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(goomba->x-cx, goomba->y-cy, 1, goomba->nx, goomba->ny);
 	goomba->RenderBoundingBox();
 }
 void FlyingGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)

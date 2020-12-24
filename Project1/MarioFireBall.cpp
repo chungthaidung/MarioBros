@@ -12,7 +12,9 @@ MarioFireBall::MarioFireBall(CMario* p)
 void MarioFireBall::Render()
 {
 	int ani = MARIO_ANI_FIRE_BALL;
-	CAnimations::GetInstance()->Get(ani)->Render(x, y);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(x-cx, y-cy);
 	RenderBoundingBox();
 }
 void MarioFireBall::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -38,7 +40,8 @@ void MarioFireBall::FinalUpdate(DWORD dt)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEventsResult.clear();
 	float cx, cy;
-	CGame::GetInstance()->GetCamPos(cx, cy);
+	cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
 	if (x > cx + SCREEN_WIDTH || x < cx)
 	{
 		active = false;

@@ -54,7 +54,7 @@ void CLayer::Draw(float cam_x, float cam_y, CTileset* tileset)
             int idtile = tile[i][j] - 1;
             if (idtile != -1)
             {
-                tileset->Draw(idtile, j * tilewidth, i * tileheight);//hardcode không tốt , test
+                tileset->Draw(idtile, j * tilewidth - cam_x, i * tileheight - cam_y);//hardcode không tốt , test
              //   DebugOut(L"[INFO] Layer ID: %d | ID: %d |X: %d | Y: %d \n", id ,idtile, j * 48, i * 48.0);
             }
         }

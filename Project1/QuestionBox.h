@@ -24,7 +24,7 @@ public:
 	virtual void RewardChecking();
 	void SetRewardnx(int nx_r);
 protected:
-	float gravity = 0;
+
 	CGameObject* reward;
 	float y_start;
 };

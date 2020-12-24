@@ -1,21 +1,20 @@
-#include "FireBallEf.h"
+#include "EnemyDamagedEff.h"
 #include "CGame.h"
-
-FireBallEf::FireBallEf():Effect()
+EnemyDamagedEff::EnemyDamagedEff()
 {
 	time = GetTickCount();
 }
 
-void FireBallEf::Update(DWORD dt)
+void EnemyDamagedEff::Update(DWORD dt)
 {
-	if (GetTickCount() - time > 120)
+	if(GetTickCount()-time>250)
 		CGame::GetInstance()->GetCurrentScene()->DeleteEffect(this);
 }
 
-void FireBallEf::Render()
+void EnemyDamagedEff::Render()
 {
+	int ani = ENEMY_DAMAGED_EFFECT_ANI;
 	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
 	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
-	int ani = FIREBALL_DAMAGED_EFFECT_ANI;
-	CAnimations::GetInstance()->Get(ani)->Render(x-cx, y-cy, time, 120);
+	CAnimations::GetInstance()->Get(ani)->Render(x-cx, y-cy,time,250);
 }

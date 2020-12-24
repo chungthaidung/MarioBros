@@ -81,7 +81,9 @@ void RunningShell::Render()
 {
 	int ani = KOOPA_SHELL_ANI_RUN;
 	if (koopa->GetType() == RED_KOOPA) ani = RED_KOOPA_SHELL_ANI_RUN;
-	CAnimations::GetInstance()->Get(ani)->Render(koopa->x, koopa->y, 1, koopa->nx,koopa->Getny());
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(koopa->x-cx, koopa->y-cy, 1, koopa->nx,koopa->Getny());
 	koopa->RenderBoundingBox();
 }
 

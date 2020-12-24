@@ -7,6 +7,7 @@
 #include "SuperLeaf.h"
 #include "CPlayScene.h"
 #include "SwitchButton.h"
+#include "PointsEff.h"
 #include "define.h"
 QuestionBox::QuestionBox(int obj_type,float y)
 {
@@ -29,7 +30,9 @@ void QuestionBox::Render()
 		ani = QUESTION_BOX_ANI_EMPTY;
 		break;
 	}
-	CAnimations::GetInstance()->Get(ani)->Render(x, y);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(x-cx, y-cy);
 	RenderBoundingBox();
 }
 
@@ -43,8 +46,6 @@ void QuestionBox::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void QuestionBox::Update(DWORD dt)
 {
-	RewardChecking();
-	vy += gravity * dt;
 	CGameObject::Update(dt);
 	//DebugOut(L"{INFO] Start y %f.\n", y_start);
 }
@@ -56,13 +57,15 @@ void QuestionBox::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void QuestionBox::FinalUpdate(DWORD dt)
 {
+
 	if (state == QUESTION_BOX_EMPTY) return;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEventsResult.clear();
+	y += dy;
+
 	if (coEResult.size() == 0)
 	{
 		//x += dx;
-		y += dy;
 
 	}
 	else
@@ -118,6 +121,8 @@ void QuestionBox::FinalUpdate(DWORD dt)
 			CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 		}
 	}
+	RewardChecking();
+
 }
 
 void QuestionBox::SetState(int state)
@@ -132,11 +137,11 @@ void QuestionBox::SetState(int state)
 		vy = 0;
 		y = y_start;
 		reward->SetPosition(x, y);
-		if (reward->GetObjectType() == OBJECT_TYPE_SUPER_LEAF) 
+	/*	if (reward->GetObjectType() == OBJECT_TYPE_SUPER_LEAF) 
 		{
 			SuperLeaf* leaf = dynamic_cast<SuperLeaf*>(reward);
 			leaf->SetXStart(x);
-		}
+		}*/
 		break;
 	}
 }
@@ -172,10 +177,9 @@ void QuestionBox::RewardChecking()
 {
 	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
 	CMario* mario = scene->GetPlayer();
-//	DebugOut(L"Mario level: %d\n ", mario->GetLevel());
 	if (mario->GetLevel()<MARIO_LEVEL_BIG)
 	{
-		if (reward->GetObjectType() == OBJECT_TYPE_SUPER_LEAF)
+		if ( reward->GetObjectType() == OBJECT_TYPE_SUPER_LEAF)
 			SetReward(OBJECT_TYPE_SUPER_MUSHROOM);
 	}
 }

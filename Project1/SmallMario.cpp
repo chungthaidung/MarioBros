@@ -1,5 +1,6 @@
 #include "SmallMario.h"
-
+#include "CGame.h"
+#include "debug.h"
 SmallMario::SmallMario(CMario* mario):PlayerLevel(mario)
 {
 	collisionbox.x = MARIO_SMALL_BBOX_WIDTH;
@@ -21,8 +22,20 @@ int SmallMario::GetPlayerLevel()
 }
 void SmallMario::Render()
 {
+	int alpha = 255;
 	int ani = MARIO_ANI_SMALL_IDLE;
 	int f = 1;
+	if (mario->GetUntouchable() == true)
+	{
+		int dt = CGame::GetInstance()->DeltaTime;
+		if (dt % 2 == 0)
+		{
+			alpha = 128;
+		}
+		else { 
+			alpha = 255; 
+		}
+	}
 	if (mario->JumpState != MARIO_STATE_JUMP_IDLE)
 	{
 		switch (mario->JumpState)
@@ -42,6 +55,7 @@ void SmallMario::Render()
 		{
 			ani = MARIO_ANI_SMALL_HOLD_FALL;
 		}
+
 	}
 	else {
 		switch (mario->GetState())
@@ -65,9 +79,9 @@ void SmallMario::Render()
 		else if (mario->GetInHand() != NULL)
 			ani = MARIO_ANI_SMALL_HOLD;
 	}
-
-	int alpha = 255;
-	CAnimations::GetInstance()->Get(ani)->Render(mario->x, mario->y, 1, mario->nx*f,1, alpha);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(mario->x-cx, mario->y-cy, 1, mario->nx*f,1, alpha);
 	mario->RenderBoundingBox();
 }
 

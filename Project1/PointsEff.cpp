@@ -1,20 +1,25 @@
-#include "EndGameRewardEff.h"
+#include "PointsEff.h"
 #include "CGame.h"
-EndGameRewardEff::EndGameRewardEff(int ani)
+#include "debug.h"
+PointsEff::PointsEff(int animation):Effect()
 {
-	this->ani = ani;
-	vy = -0.5;
+	vy = -0.2;
+	ani = animation;
+	updatetime = 0;
 }
-void EndGameRewardEff::Update(DWORD dt)
+
+void PointsEff::Update(DWORD dt)
 {
-	if (y < CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y)
-	{
+	//DebugOut(L"delta time: %d\n", deltatime);
+	if (updatetime > 400)
 		CGame::GetInstance()->GetCurrentScene()->DeleteEffect(this);
-	}
 	CGameObject::Update(dt);
 	y += dy;
+	updatetime += dt;
+
 }
-void EndGameRewardEff::Render()
+
+void PointsEff::Render()
 {
 	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
 	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;

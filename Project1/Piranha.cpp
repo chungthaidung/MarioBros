@@ -4,6 +4,7 @@
 #include "CGame.h"
 #include "Mario.h"
 #include "CPlayScene.h"
+#include "EnemyDamagedEff.h"
 Piranha::Piranha(int t, int ny, float start_y)
 {
 	type = t;
@@ -63,6 +64,13 @@ void Piranha::FinalUpdate(DWORD dt)
 	for (UINT i = 0; i < coEventsResult.size(); i++)
 	{
 		LPCOLLISIONEVENT e = coEventsResult[i];
+		if ((e->obj->GetObjectType() == OBJECT_TYPE_TAIL || e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL) && e->nx != 0)
+		{
+			EnemyDamagedEff* eff = new EnemyDamagedEff();
+			eff->SetPosition(x, y);
+			CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
+			isRemove = true;
+		}
 	}
 	//}
 	for (UINT i = 0; i < coEResult.size(); i++) delete  coEResult[i];
@@ -100,7 +108,9 @@ void Piranha::Render()
 	int ani = GREEN_PIRANHA_ANI;
 	if(type==RED_TYPE)
 		ani = RED_PIRANHA_ANI;
-	CAnimations::GetInstance()->Get(ani)->Render(x, y,1,1,ny);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(x-cx, y-cy,1,1,ny);
 	RenderBoundingBox();
 }
 

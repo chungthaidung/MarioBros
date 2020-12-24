@@ -32,8 +32,8 @@ class CGame
 
 	LPKEYEVENTHANDLER keyHandler;
 	
-	float cam_x = 0.0f;
-	float cam_y = 0.0f;
+	/*float cam_x = 0.0f;
+	float cam_y = 0.0f;*/
 
 	int screen_width;
 	int screen_height;
@@ -41,6 +41,7 @@ class CGame
 	unordered_map<int, LPSCENE> scenes;
 	int current_scene;
 	
+	int mario_level=MARIO_LEVEL_SMALL;
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line); 
 	void _ParseSection_TEXTURES(string line);
@@ -53,7 +54,6 @@ public:
 	void InitKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);
-	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVECTOR3 pivot, int alpha = 255);
 	void DrawEx(float x, float y, LPDIRECT3DTEXTURE9 texture, RECT r, D3DXVECTOR3 pivot, int scale, D3DXVECTOR2 flip, int alpha = 255);
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
@@ -64,8 +64,14 @@ public:
 	int GetCurrentSceneID() { return current_scene; }
 	void SwitchScene(int scene_id);
 
+	void SaveMarioLevel(int level);
+	int GetMarioLevel();
+
 	int GetScreenWidth() { return screen_width; }
 	int GetScreenHeight() { return screen_height; }
+
+	void SetViewport(long left, long top, long right, long bottom);
+	void ClipScene();
 
 	static void SweptAABB(
 		float ml,			// move left 
@@ -87,9 +93,9 @@ public:
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
-	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
-	void GetCamPos(float& x, float& y) { x = cam_x; y = cam_y; }
-	D3DXVECTOR2 GetCamPos();
+	//void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
+	//void GetCamPos(float& x, float& y) { x = cam_x; y = cam_y; }
+	//D3DXVECTOR2 GetCamPos();
 	static CGame* GetInstance();
 	static DWORD DeltaTime;
 	~CGame();

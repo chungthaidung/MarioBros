@@ -2,6 +2,7 @@
 #include "Mario.h"
 #include "CPlayScene.h"
 #include "debug.h"
+#include "EnemyDamagedEff.h"
 Venus::Venus(int t, int ny, float start_y)
 {
 	type = t;
@@ -74,6 +75,14 @@ void Venus::FinalUpdate(DWORD dt)
 	for (UINT i = 0; i < coEventsResult.size(); i++)
 	{
 		LPCOLLISIONEVENT e = coEventsResult[i];
+		if ((e->obj->GetObjectType() == OBJECT_TYPE_TAIL || e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL) && e->nx != 0)
+		{
+			EnemyDamagedEff* eff = new EnemyDamagedEff();
+			eff->SetPosition(x, y);
+			CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
+			fireball->canDelete = true;
+			isRemove = true;
+		}
 	}
 	for (UINT i = 0; i < coEResult.size(); i++) delete  coEResult[i];
 	coEResult.clear();
@@ -144,7 +153,9 @@ void Venus::Render()
 			break;
 		}
 	}
-	CAnimations::GetInstance()->Get(ani)->Render(x, y, 1, nx*f, ny);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(x-cx, y-cy, 1, nx*f, ny);
 	RenderBoundingBox();
 }
 
@@ -173,8 +184,13 @@ void Venus::Attack()
 	distance = (mario->GetPosition().y - y_s) * (mario->GetPosition().y - y_s) + (mario->GetPosition().x - x_s) * (mario->GetPosition().x - x_s);
 	mx = abs(mario->GetPosition().x - x_s) / sqrt(distance);
 	my = abs(mario->GetPosition().y - y_s) / sqrt(distance);
-	if (mx < sin(PI * 2 / 9)) mx = sin(PI * 2 / 9);
-	if (my > cos(PI * 2 / 9)) my = cos(PI * 2 / 9);
+	mx = min(sin(PI * 7/18), max(mx, sin(PI * 2 / 9))); // trong khoang 40 ~ 70 do
+	my = max(cos(PI * 7 / 18), min(my, cos(PI * 2 / 9))); // trong khoang 40 ~ 70 do
+	/*if (mx < sin(PI * 2 / 9) || mx > sin(PI * 5 / 12))
+	{
+		mx = sin(PI * 2 / 9);
+	}
+	if (my > cos(PI * 2 / 9)) my = cos(PI * 2 / 9);*/
 //	DebugOut(L"mx: %f, my: %f, distance: %f \n", mx, my, sqrt(distance));
 	fireball->SetActive(true);
 	CGame::GetInstance()->GetCurrentScene()->SpawnObject(fireball);

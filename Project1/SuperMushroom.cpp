@@ -100,7 +100,9 @@ void SuperMushroom::GetBoundingBox(float& left, float& top, float& right, float&
 void SuperMushroom::Render()
 {
 	int ani = SUPER_MUSHROOM_ANI;
-	CAnimations::GetInstance()->Get(ani)->Render(x, y);
+	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+	CAnimations::GetInstance()->Get(ani)->Render(x-cx, y-cy);
 	RenderBoundingBox();
 
 }

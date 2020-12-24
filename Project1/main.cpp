@@ -49,9 +49,11 @@ void Render()
 	LPDIRECT3DSURFACE9 bb = game->GetBackBuffer();
 	LPD3DXSPRITE spriteHandler = game->GetSpriteHandler();
 
-	if (d3ddv->BeginScene())
-	{
+	//if (d3ddv->BeginScene())//SUCCEEDED(
+	//{
+		d3ddv->BeginScene();
 		// Clear back buffer with a color
+
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
@@ -60,7 +62,7 @@ void Render()
 
 		spriteHandler->End();
 		d3ddv->EndScene();
-	}
+	//}
 
 	// Display back buffer content to the screen
 	d3ddv->Present(NULL, NULL, NULL, NULL);
@@ -148,6 +150,7 @@ int Run()
 			
 			Update(dt);
 			Render();
+			Sleep(0);
 		}
 		else
 			Sleep(tickPerFrame - dt);
