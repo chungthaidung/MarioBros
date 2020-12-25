@@ -60,3 +60,13 @@ CMap* CScene::GetMap()
 {
 	return gamemap;
 }
+
+void CScene::SetBoundary(RECT a)
+{
+	cam_boundary = a;
+}
+
+RECT CScene::GetBoundary()
+{
+	return cam_boundary;
+}

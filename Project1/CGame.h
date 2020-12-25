@@ -9,6 +9,7 @@
 
 #include <dinput.h>
 #include "CScene.h"
+#include "Mario.h"
 #include "define.h"
 
 using namespace std;
@@ -41,7 +42,8 @@ class CGame
 	unordered_map<int, LPSCENE> scenes;
 	int current_scene;
 	
-	int mario_level=MARIO_LEVEL_SMALL;
+	CMario* mario;
+	//int mario_level=MARIO_LEVEL_SMALL;
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line); 
 	void _ParseSection_TEXTURES(string line);
@@ -64,9 +66,10 @@ public:
 	int GetCurrentSceneID() { return current_scene; }
 	void SwitchScene(int scene_id);
 
-	void SaveMarioLevel(int level);
-	int GetMarioLevel();
-
+	/*void SaveMarioLevel(int level);
+	int GetMarioLevel();*/
+	void SaveMarioState(CMario* player);
+	CMario* GetMario();
 	int GetScreenWidth() { return screen_width; }
 	int GetScreenHeight() { return screen_height; }
 

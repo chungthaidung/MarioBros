@@ -53,7 +53,7 @@ void CMario::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 void CMario::FinalUpdate(DWORD dt)
 {
 	level_p->FinalUpdate(dt);
-
+	//DebugOut(L"Power Meter: %f\n", powerM);
 }
 
 void CMario::Render()
@@ -169,6 +169,18 @@ void CMario::SetState(int state)
 void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	level_p->GetBoundingBox(left,top,right,bottom);
+}
+
+RECT CMario::GetBoundingBox()
+{
+	RECT a;
+	float left, top, right, bottom;
+	level_p->GetBoundingBox(left, top, right, bottom);
+	a.left = long(left);
+	a.top = long(top);
+	a.right = long(right);
+	a.bottom = long(bottom);
+	return a;
 }
 
 int CMario::GetObjectType()

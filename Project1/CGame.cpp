@@ -610,12 +610,13 @@ void CGame::SwitchScene(int scene_id)
 	s->Load();*/
 }
 
-void CGame::SaveMarioLevel(int level)
+void CGame::SaveMarioState(CMario* player)
 {
-	mario_level = level;
+	mario = player;
 }
 
-int CGame::GetMarioLevel()
+CMario* CGame::GetMario()
 {
-	return mario_level;
+	return mario;
 }
+

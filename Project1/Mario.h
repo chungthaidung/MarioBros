@@ -66,6 +66,7 @@ public:
 	virtual void FinalUpdate(DWORD dt);
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual RECT GetBoundingBox();
 	virtual int GetObjectType();
 
 	void Reset();

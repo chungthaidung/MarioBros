@@ -9,7 +9,7 @@ class Camera
 {//Camera tự update theo object => bỏ *obj zo cam
 protected:
 	CMario* target;
-	float y_limit;
+	float y_ground;
 public:
 	Camera(TiXmlElement* data);
 	void SetTarget(CMario* player);
