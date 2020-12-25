@@ -6,6 +6,7 @@
 #include "CGameObject.h"
 #include "Effect.h"
 #include "Camera.h"
+#include "HUD.h"
 //#include "CMap.h"
 class CMap;
 class CScene
@@ -14,10 +15,10 @@ protected:
 	CKeyEventHandler* key_handler;
 	int id;
 	std::string scenePath;
-
+	RECT cam_boundary;
 	Camera* cam;
 	CMap* gamemap;
-
+	HUD* hud;
 	vector<LPGAMEOBJECT> objects;
 	vector<LPEFFECT> effects;
 
@@ -41,5 +42,8 @@ public:
 
 	virtual Camera* GetCamera();
 	virtual CMap* GetMap();
+
+	virtual void SetBoundary(RECT a);
+	virtual RECT GetBoundary();
 };
 typedef CScene* LPSCENE;

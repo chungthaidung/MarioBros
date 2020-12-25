@@ -192,6 +192,7 @@
     <ClCompile Include="NormalGoomba.cpp" />
     <ClCompile Include="Piranha.cpp" />
     <ClCompile Include="PlayerLevel.cpp" />
+    <ClCompile Include="PMeterHUD.cpp" />
     <ClCompile Include="PointsEff.cpp" />
     <ClCompile Include="QuestionBox.cpp" />
     <ClCompile Include="RacoonMario.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="NormalGoomba.h" />
     <ClInclude Include="Piranha.h" />
     <ClInclude Include="PlayerLevel.h" />
+    <ClInclude Include="PMeterHUD.h" />
     <ClInclude Include="PointsEff.h" />
     <ClInclude Include="QuestionBox.h" />
     <ClInclude Include="RacoonMario.h" />

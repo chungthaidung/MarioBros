@@ -74,7 +74,8 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 			}
 			obj = new CMario(x, y);
 			player = (CMario*)obj;
-			player->SetLevel(CGame::GetInstance()->GetMarioLevel());
+			if(CGame::GetInstance()->GetMario()!=NULL)
+				player->SetLevel(CGame::GetInstance()->GetMario()->GetLevel());
 			DebugOut(L"[INFO] Player object created!\n");
 		}
 		else if (name.compare("Ground")==0)
@@ -173,11 +174,16 @@ void CPlayScene::Load()
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", scenePath);
 	LoadObjects();
 	gamemap = new CMap(scenePath);//hardcode
+	hud = new HUD();
 	gamemap->LoadGameMap();
 	CGame* game = CGame::GetInstance();
 	if (player != NULL && cam != NULL)
 	{
 		cam->SetTarget(player);
+	}
+	if (player != NULL)
+	{
+		hud->SetTarget(player);
 	}
 //	cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
 //	cam->SetTarget(player);
@@ -222,6 +228,7 @@ void CPlayScene::Update(DWORD dt)
 				continue;
 			objects[i]->FinalUpdate(dt);
 		}
+		hud->Update(dt);
 		for (size_t i = 0; i < effects.size(); i++)
 		{
 			effects[i]->Update(dt);
@@ -291,7 +298,7 @@ void CPlayScene::Render()
 
 	CGame::GetInstance()->SetViewport(0,GAME_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
 	CGame::GetInstance()->GetDirect3DDevice()->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
-
+	hud->Render();
 }
 /*
 	Unload current scene
@@ -305,7 +312,7 @@ void CPlayScene::Unload()
 
 	objects.clear();
 	effects.clear();
-	CGame::GetInstance()->SaveMarioLevel(player->GetLevel());
+	CGame::GetInstance()->SaveMarioState(player);
 	player = NULL;
 
 	//DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
