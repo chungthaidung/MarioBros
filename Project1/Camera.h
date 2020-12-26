@@ -10,11 +10,12 @@ class Camera
 protected:
 	CMario* target;
 	float y_ground;
+	bool lock_cam=false;
 public:
 	Camera(TiXmlElement* data);
 	void SetTarget(CMario* player);
 	void Update(DWORD dt);
-	
+	void SetLockCam(bool a);
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 size= D3DXVECTOR2(GAME_WIDTH, GAME_HEIGHT);
 

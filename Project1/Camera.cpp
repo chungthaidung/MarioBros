@@ -49,18 +49,17 @@ void Camera::Update(DWORD dt)
 	//	DebugOut(L"[BOUNDARY] left: %d || top: %d || right: %d || bottom: %d \n", boundary.left, boundary.top, boundary.right, boundary.bottom);
 		//D3DXVECTOR2 mapsize = CGame::GetInstance()->GetCurrentScene()->GetMap()->GetSize();
 		position.x = target->GetPosition().x - size.x/2;
-		position.y = y_ground;
+		//position.y = y_ground;
 		//DebugOut(L"cam x: %f || cam y: %f \n", position.x, y_ground);
 
-		if (target->GetLevel()==MARIO_LEVEL_RACOON && target->GetPosition().y - position.y < size.y / 4)
+		if (lock_cam==true && target->GetPosition().y - position.y < size.y / 4)
 		{
 			position.y = target->GetPosition().y - size.y / 4;
 		}
-		else if (target->GetLevel() == MARIO_LEVEL_RACOON && target->GetBoundingBox().bottom -position.y >= size.y-48)
+		else if ( target->GetBoundingBox().bottom -position.y >= size.y-96)
 		{
-			position.y = target->GetBoundingBox().bottom-size.y +48;
+			position.y = target->GetBoundingBox().bottom-size.y +96;
 		//	DebugOut(L"[INFO CAMERA]x: %f || y: %f \n", position.x, position.y);
-
 		}
 		if (position.x < boundary.left)
 			position.x = boundary.left;
@@ -69,11 +68,18 @@ void Camera::Update(DWORD dt)
 
 		if (position.y < boundary.top)
 			position.y = boundary.top;
-		if (position.y > boundary.bottom-size.y)
+		if (position.y > boundary.bottom - size.y)
+		{
 			position.y = boundary.bottom - size.y;
-
+			lock_cam = false;
+		}
 		//DebugOut(L"[INFO BOUNDARY] y: %f \n", boundary.bottom - size.y);
 
 		//else if()
 	}
+}
+
+void Camera::SetLockCam(bool a)
+{
+	lock_cam = a;
 }

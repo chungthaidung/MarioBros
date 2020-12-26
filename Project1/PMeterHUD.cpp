@@ -1,9 +1,10 @@
 #include "PMeterHUD.h"
 #include "debug.h"
+#include "HUD.h"
 PMeterHUD::PMeterHUD()
 {
-	x = PMETER_HUD_POSITION_X;
-	y = PMETER_HUD_POSITION_Y;
+	x = PMETER_HUD_POSITION_X+HUD_POSITION_X;
+	y = PMETER_HUD_POSITION_Y+HUD_POSITION_Y;
 }
 
 void PMeterHUD::Update(DWORD dt)

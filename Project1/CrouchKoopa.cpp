@@ -19,8 +19,9 @@ CrouchKoopa::CrouchKoopa(Koopa* k):WalkingKoopa(k)
 void CrouchKoopa::Update(DWORD dt)
 {
 	koopa->vy += koopa->GetGravity() * dt;
-	koopa->CGameObject::Update(dt);
 	HoldUpdate(dt);
+
+	koopa->CGameObject::Update(dt);
 }
 
 void CrouchKoopa::FinalUpdate(DWORD dt)
@@ -135,6 +136,7 @@ void CrouchKoopa::HoldUpdate(DWORD dt)
 	else 
 	{ 
 		koopa->SetGravity(MARIO_GRAVITY); 
+		//koopa->SetState(KOOPA_STATE_SHELL_RUNNING);
 	}
 
 }

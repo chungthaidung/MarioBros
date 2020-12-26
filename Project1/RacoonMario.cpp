@@ -206,6 +206,7 @@ void RacoonMario::JumpingState(DWORD dt)
 		}
 		break;
 	case MARIO_STATE_FLY:
+		CGame::GetInstance()->GetCurrentScene()->GetCamera()->SetLockCam(true);
 		if (GetTickCount() - flytime < 4000) {
 			if (keyboard->IsKeyDown(DIK_X))
 			{

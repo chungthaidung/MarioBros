@@ -210,6 +210,8 @@
     <ClCompile Include="Venus.cpp" />
     <ClCompile Include="VenusFireBall.cpp" />
     <ClCompile Include="WalkingKoopa.cpp" />
+    <ClCompile Include="WorldMario.cpp" />
+    <ClCompile Include="WorldScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BigMario.h" />
@@ -275,6 +277,8 @@
     <ClInclude Include="Venus.h" />
     <ClInclude Include="VenusFireBall.h" />
     <ClInclude Include="WalkingKoopa.h" />
+    <ClInclude Include="WorldMario.h" />
+    <ClInclude Include="WorldScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
