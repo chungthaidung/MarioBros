@@ -64,9 +64,6 @@
     <Filter Include="Game\Game Object\Object\Mario\Weapon">
       <UniqueIdentifier>{cd155f85-0bb8-4cd8-9d23-c17710e0ddab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Game Object\Object\Misc">
-      <UniqueIdentifier>{8522da5b-238e-4880-be09-c4c240196256}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Game Object\Object\Enemy">
       <UniqueIdentifier>{5ee8bd02-7fe5-467f-8209-1cd3788288cf}</UniqueIdentifier>
     </Filter>
@@ -88,14 +85,20 @@
     <Filter Include="Game\Game Object\Object\Effect">
       <UniqueIdentifier>{87f44843-ec40-4b5f-adb8-019b99e6667a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Game Object\Object\Misc\Goods">
-      <UniqueIdentifier>{37b28021-8c97-4739-b28e-c692b1664ee8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Scene\PlayScene">
       <UniqueIdentifier>{e6b70949-8b78-42c6-9b76-72c8792be74d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Scene\HUD Components">
       <UniqueIdentifier>{5105d783-931b-47ea-9af1-6510efec2402}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\WorldMap">
+      <UniqueIdentifier>{8205d51a-513b-413a-86c0-a1153c511c33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game Object\Object\Misc">
+      <UniqueIdentifier>{8522da5b-238e-4880-be09-c4c240196256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game Object\Object\Misc\Goods">
+      <UniqueIdentifier>{37b28021-8c97-4739-b28e-c692b1664ee8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -294,6 +297,12 @@
     <ClCompile Include="PMeterHUD.cpp">
       <Filter>Game\Scene\HUD Components</Filter>
     </ClCompile>
+    <ClCompile Include="WorldMario.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldScene.cpp">
+      <Filter>Game\Scene\WorldMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -484,6 +493,12 @@
     </ClInclude>
     <ClInclude Include="PMeterHUD.h">
       <Filter>Game\Scene\HUD Components</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldMario.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldScene.h">
+      <Filter>Game\Scene\WorldMap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

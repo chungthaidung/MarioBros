@@ -80,7 +80,6 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 		}
 		else if (name.compare("Ground")==0)
 		{
-
 			obj = new CGround();
 		}
 		else if (name.compare("Ghost")==0) {
@@ -187,7 +186,7 @@ void CPlayScene::Load()
 	}
 //	cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
 //	cam->SetTarget(player);
-	DebugOut(L"[INFO] Done loading scene resources %s\n", scenePath);
+	DebugOut(L"[INFO] Done loading scene resources %s\n", ToLPCWSTR(scenePath));
 }
 
 void CPlayScene::Update(DWORD dt)

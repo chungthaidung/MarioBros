@@ -23,6 +23,7 @@ void PlayerLevel::Update(DWORD dt)
 	// Simple fall down
 	mario->vy += mario->GetGravity() * dt;
 	mario->CGameObject::Update(dt);
+
 	//DebugOut(L"Mario vy: %f \n", mario->vy);
 	//DebugOut(L"Mario jump state: %d \n", mario->JumpState);
 	//DebugOut(L"Mario power meter: %f \n", mario->GetPowerMeter());
@@ -92,6 +93,7 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 					Koopa* koopa = dynamic_cast<Koopa*>(e->obj);
 					if (e->nx != 0 && keyboard->IsKeyDown(DIK_A) && mario->GetInHand() == NULL)
 					{
+						
 						if (koopa->GetState() == KOOPA_STATE_CROUCH)
 						{
 							mario->SetInHand(e->obj);
@@ -112,8 +114,6 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 					}
 					else
 					{
-						if (e->ny > 0)
-							mario->y -= 2;
 						mario->LevelDown();
 					}
 				}
@@ -125,6 +125,8 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 					mario->LevelDown();
 
 				}
+				if (e->ny > 0)
+					mario->y -= 2;
 			}
 			else if ( e->obj->GetObjectType() == OBJECT_TYPE_QUESTION_BOX && e->ny > 0)//bounc==true &&	 && e->ny > 0
 			{
@@ -170,6 +172,16 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 	}
 	for (UINT i = 0; i < mario->coEResult.size(); i++) delete  mario->coEResult[i];
 	mario->coEResult.clear();
+	if (mario->GetInHand()!=NULL)
+	{
+		if (mario->GetInHand()->GetState() != KOOPA_STATE_CROUCH)
+		{
+			Koopa* koopa = dynamic_cast<Koopa*>(mario->GetInHand());
+			koopa->SetHolder(NULL);
+			mario->SetInHand(NULL);
+
+		}
+	}
 	if (mario->GetUntouchable() == true && GetTickCount() - mario->GetUntouchableStart() > MARIO_UNTOUCHABLE_TIME)
 	{
 		DebugOut(L"TURN OFF UNTOUCHABLE \n");
@@ -388,6 +400,13 @@ void PlayerLevel::OnKeyUp(int KeyCode)
 		break;
 	case DIK_S:
 		mario->canJumpHigh=false;
+		break;
+	case DIK_A:
+		if (mario->GetInHand() != NULL)
+		{
+			mario->GetInHand()->SetState(KOOPA_STATE_SHELL_RUNNING);
+			mario->GetInHand()->Setnx(mario->Getnx());
+		}
 		break;
 	}
 }

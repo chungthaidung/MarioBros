@@ -177,11 +177,16 @@ void QuestionBox::RewardChecking()
 {
 	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
 	CMario* mario = scene->GetPlayer();
-	if (mario->GetLevel()<MARIO_LEVEL_BIG)
+	if (reward->GetObjectType() == OBJECT_TYPE_SUPER_LEAF)
 	{
-		if ( reward->GetObjectType() == OBJECT_TYPE_SUPER_LEAF)
+		if (mario->GetLevel() < MARIO_LEVEL_BIG)
+		{
 			SetReward(OBJECT_TYPE_SUPER_MUSHROOM);
+		}
+		else SetReward(OBJECT_TYPE_SUPER_LEAF);
 	}
+	
+	
 }
 
 void QuestionBox::SetRewardnx(int nx_r)

@@ -401,9 +401,18 @@ void CGame::_ParseSection_SCENES(string line)
 	if (tokens.size() < 2) return;
 	int id = atoi(tokens[0].c_str());
 	string path = tokens[1].c_str();
-	long time = atoi(tokens[2].c_str());	
-	LPSCENE scene = new CPlayScene(id, path,time);
-	scenes[id] = scene;
+	long time = atoi(tokens[2].c_str());
+	int type = atoi(tokens[3].c_str());
+	switch (type) {
+	case PLAY_SCENE:
+		LPSCENE scene = new CPlayScene(id, path, time);
+		scenes[id] = scene;
+		break;
+	/*case WORLD_MAP:
+		break;*/
+	}
+	/*LPSCENE scene = new CPlayScene(id, path,time);
+	scenes[id] = scene;*/
 }
 
 void CGame::_ParseSection_TEXTURES(string line)

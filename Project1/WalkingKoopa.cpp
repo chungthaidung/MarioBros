@@ -14,13 +14,14 @@ WalkingKoopa::WalkingKoopa(Koopa* k)
 }
 void WalkingKoopa::Update(DWORD dt)
 {
+	if (koopa->vx < 0 && koopa->x < 0) {
+		koopa->x = 0; koopa->vx *= -1;
+	}
 	if (koopa->vx > 0)koopa->nx = 1;
 	else koopa->nx = -1;
 	koopa->vy += koopa->GetGravity() * dt;
 	koopa->CGameObject::Update(dt);
-	if (koopa->vx < 0 && koopa->x < 0) {
-		koopa->x = 0; koopa->vx *=-1;
-	}
+	
 }
 void WalkingKoopa::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 {
