@@ -100,6 +100,9 @@
     <Filter Include="Game\Game Object\Object\Misc\Goods">
       <UniqueIdentifier>{37b28021-8c97-4739-b28e-c692b1664ee8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Game Object\Object\Teleport">
+      <UniqueIdentifier>{6b534b15-45ad-4902-beac-1201a1247959}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">
@@ -303,6 +306,9 @@
     <ClCompile Include="WorldScene.cpp">
       <Filter>Game\Scene\WorldMap</Filter>
     </ClCompile>
+    <ClCompile Include="Teleport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -499,6 +505,9 @@
     </ClInclude>
     <ClInclude Include="WorldScene.h">
       <Filter>Game\Scene\WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Teleport.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

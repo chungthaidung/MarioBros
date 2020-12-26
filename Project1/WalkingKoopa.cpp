@@ -10,7 +10,7 @@ WalkingKoopa::WalkingKoopa(Koopa* k)
 	collisionbox.x = KOOPA_BBOX_HEIGHT;
 	collisionbox.y = KOOPA_BBOX_WIDTH;
 	koopa->vx = -KOOPA_WALKING_SPEED;
-	koopa->SetGravity(MARIO_GRAVITY);
+	koopa->SetGravity(KOOPA_GRAVITY);
 }
 void WalkingKoopa::Update(DWORD dt)
 {

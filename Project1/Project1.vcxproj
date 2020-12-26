@@ -202,6 +202,7 @@
     <ClCompile Include="SuperMushroom.cpp" />
     <ClCompile Include="SwitchButton.cpp" />
     <ClCompile Include="TailAttackEf.cpp" />
+    <ClCompile Include="Teleport.cpp" />
     <ClCompile Include="tinyxml\tinystr.cpp" />
     <ClCompile Include="tinyxml\tinyxml.cpp" />
     <ClCompile Include="tinyxml\tinyxmlerror.cpp" />
@@ -271,6 +272,7 @@
     <ClInclude Include="SuperMushroom.h" />
     <ClInclude Include="SwitchButton.h" />
     <ClInclude Include="TailAttackEf.h" />
+    <ClInclude Include="Teleport.h" />
     <ClInclude Include="tinyxml\tinystr.h" />
     <ClInclude Include="tinyxml\tinyxml.h" />
     <ClInclude Include="Utils.h" />
