@@ -56,9 +56,9 @@ void Camera::Update(DWORD dt)
 		{
 			position.y = target->GetPosition().y - size.y / 4;
 		}
-		else if ( target->GetBoundingBox().bottom -position.y >= size.y-96)
+		else if ( target->GetBoundingBox().bottom -position.y >= size.y- size.y / 3)
 		{
-			position.y = target->GetBoundingBox().bottom-size.y +96;
+			position.y = target->GetBoundingBox().bottom-size.y + size.y/3;
 		//	DebugOut(L"[INFO CAMERA]x: %f || y: %f \n", position.x, position.y);
 		}
 		if (position.x < boundary.left)

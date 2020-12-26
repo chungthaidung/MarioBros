@@ -13,10 +13,12 @@ public:
 	virtual void JumpingState(DWORD dt);
 	virtual void MiniJump(bool isJump=false);
 	virtual void OnKeyDown(int KeyCode);
+	virtual void OnKeyUp(int KeyCode);
 	virtual int GetPlayerLevel();
 protected:
 	DWORD flytime;
 	DWORD attacktime;
 	MarioTail* tail;
+	bool flyflag;
 };
 
