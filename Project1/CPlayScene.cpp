@@ -22,6 +22,7 @@
 #include "EndGameReward.h"
 #include "Venus.h"
 #include "CMap.h"
+#include "Teleport.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id,std::string Path,long ptime) :
@@ -157,6 +158,10 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 			{
 				obj = new EndGameReward();
 			}
+		}
+		else if (name.compare("Teleport") == 0)
+		{
+			obj = new Teleport(objdata);
 		}
 		objdata->QueryFloatAttribute("width", &width);
 		objdata->QueryFloatAttribute("height", &height);

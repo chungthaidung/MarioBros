@@ -30,7 +30,7 @@ void NormalGoomba::Update(DWORD dt)
 	if (goomba->vx < 0 && goomba->x < 0) {
 		goomba->x = 0; goomba->vx *= -1;
 	}
-	goomba->vy += MARIO_GRAVITY * dt;
+	goomba->vy += GOOMBA_GRAVITY * dt;
 	goomba->CGameObject::Update(dt);
 	
 
@@ -78,13 +78,14 @@ void NormalGoomba::FinalUpdate(DWORD dt)
 
 			if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO)
 			{
-
+				
 				if (e->ny > 0) {
 					goomba->SetState(GOOMBA_STATE_DIE);
 					goomba->SetDieTime(GetTickCount());
 					eff = new PointsEff(POINT_100_ANI);
 					eff->SetPosition(goomba->x, goomba->y);
 					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
+					//DebugOut(L"bi mario giet\n");
 				}
 				
 			}

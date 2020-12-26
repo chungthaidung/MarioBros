@@ -7,6 +7,8 @@
 #define RED_GOOMBA_FLY_ANI_FLY 1014
 #define GOOMBA_FLY_ANI_WALK 1015
 #define GOOMBA_FLY_ANI_FLY 1016
+#define GOOMBA_GRAVITY	0.002
+
 class Goomba :
     public CGameObject
 {

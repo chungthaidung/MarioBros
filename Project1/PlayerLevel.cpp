@@ -7,6 +7,7 @@
 #include "QuestionBox.h"
 #include "Brick.h"
 #include "PointsEff.h"
+#include "Teleport.h"
 PlayerLevel::PlayerLevel(CMario* mario)
 {
 	this->mario = mario;
@@ -160,6 +161,22 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 				if(e->obj!=NULL)
 					CGame::GetInstance()->GetCurrentScene()->DespawnObject(e->obj);
+			}
+			else if (e->obj->GetObjectType() == OBJECT_TYPE_TELEPORT  )
+			{
+				CGame* keyboard = CGame::GetInstance();
+				if (keyboard->IsKeyDown(DIK_DOWN) && e->ny < 0)
+				{
+					Teleport* tele = dynamic_cast<Teleport*>(e->obj);
+					CGame::GetInstance()->GetCurrentScene()->SetBoundary(tele->GetReBoundary());
+					mario->SetPosition(tele->GetRePosition().x, tele->GetRePosition().y);
+				}
+				else if (e->ny > 0)
+				{
+					Teleport* tele = dynamic_cast<Teleport*>(e->obj);
+					CGame::GetInstance()->GetCurrentScene()->SetBoundary(tele->GetReBoundary());
+					mario->SetPosition(tele->GetRePosition().x, tele->GetRePosition().y);
+				}
 			}
 		}
 		//DebugOut(L"[INFO] Q block %d \n", countqblock);
