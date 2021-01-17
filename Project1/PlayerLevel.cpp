@@ -8,6 +8,7 @@
 #include "Brick.h"
 #include "PointsEff.h"
 #include "Teleport.h"
+#include "Portal.h"
 PlayerLevel::PlayerLevel(CMario* mario)
 {
 	this->mario = mario;
@@ -43,7 +44,7 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 		mario->x += mario->dx;
 		mario->y += mario->dy;
 		mario->onGround = false;
-
+	//	DebugOut(L"Mario onground: %d \n", mario->onGround);
 	}
 	else
 	{
@@ -177,6 +178,11 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 					CGame::GetInstance()->GetCurrentScene()->SetBoundary(tele->GetReBoundary());
 					mario->SetPosition(tele->GetRePosition().x, tele->GetRePosition().y);
 				}
+			}
+			else if (e->obj->GetObjectType() == OBJECT_TYPE_PORTAL) 
+			{
+				Portal* portal = dynamic_cast<Portal*>(e->obj);
+				CGame::GetInstance()->SwitchScene(portal->GetSceneID());
 			}
 		}
 		//DebugOut(L"[INFO] Q block %d \n", countqblock);

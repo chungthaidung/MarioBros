@@ -48,6 +48,8 @@ void EndGameReward::FinalUpdate(DWORD dt)
 				CMario* mr = dynamic_cast<CMario*>(e->obj);
 				mr->SetLockControl(true);
 				SetState(END_GAME_REWARD_STATE_EMPTY);
+				mr->endgame_reward.push_back(reward);
+			//	DebugOut(L"STATE REWARD: %d \n", reward);
 			}
 		}
 	}

@@ -27,6 +27,7 @@ public:
 	bool isCrouch;
 	int JumpState;
 	int AttackState;
+	vector<int> endgame_reward;
 
 	bool GetUntouchable();
 	DWORD GetUntouchableStart();

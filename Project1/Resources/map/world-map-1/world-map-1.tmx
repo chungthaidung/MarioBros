@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="16" height="15" tilewidth="48" tileheight="48" infinite="0" nextlayerid="7" nextobjectid="17">
- <tileset firstgid="1" name="tileset(x3)" tilewidth="48" tileheight="48" tilecount="32" columns="8">
-  <image source="tileset(x3).png" width="384" height="192"/>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="16" height="15" tilewidth="48" tileheight="48" infinite="0" nextlayerid="11" nextobjectid="126">
+ <tileset firstgid="1" name="tileset" tilewidth="48" tileheight="48" tilecount="216" columns="9">
+  <image source="tileset.png" width="446" height="348"/>
  </tileset>
  <layer id="1" name="black" width="16" height="15">
   <data encoding="csv">
@@ -16,10 +16,10 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,
-28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,
-28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,
-28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28
+31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,
+31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,
+31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,
+31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31
 </data>
  </layer>
  <layer id="2" name="yellow" width="16" height="15">
@@ -43,18 +43,18 @@
  </layer>
  <layer id="3" name="border" width="16" height="15">
   <data encoding="csv">
-23,29,29,29,29,29,29,29,29,29,29,29,29,29,29,24,
-21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,
-21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,
-21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,
-21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,
-21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,
-21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,
-21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,
-21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,
-21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,
-21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,
-31,30,30,30,30,30,30,30,30,30,30,30,30,30,30,32,
+25,32,32,32,32,32,32,32,32,32,32,32,32,32,32,26,
+23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,
+23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,
+23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,
+23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,
+23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,
+23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,
+23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,
+23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,
+23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,
+23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,24,
+34,33,33,33,33,33,33,33,33,33,33,33,33,33,33,35,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -63,15 +63,34 @@
  <layer id="4" name="background" width="16" height="15">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,19,6,19,0,19,0,19,6,0,0,0,
-0,0,0,0,20,0,0,0,20,0,0,0,20,0,0,0,
-0,19,0,19,8,0,0,0,7,19,0,19,17,0,0,0,
-0,0,0,0,18,0,0,0,20,0,0,0,0,0,0,0,
-0,0,0,0,7,19,4,19,0,0,0,12,10,11,0,0,
-0,0,0,0,20,0,0,0,0,12,10,14,2,9,0,0,
-0,0,0,16,7,16,17,19,6,13,19,19,3,9,0,0,
-0,0,16,16,20,16,16,0,20,9,0,0,0,9,0,0,
-0,0,16,16,0,19,6,19,0,15,10,10,10,14,0,0,
+0,0,0,0,0,21,6,21,0,21,0,21,6,0,0,0,
+0,0,0,0,22,0,0,0,22,0,0,0,22,0,0,0,
+0,21,0,21,8,0,0,0,7,21,0,21,19,0,0,0,
+0,0,0,0,20,0,0,0,22,0,0,0,0,0,0,0,
+0,0,0,0,7,21,4,21,0,0,0,13,11,12,0,0,
+0,0,0,0,22,0,0,0,0,13,11,15,2,10,0,0,
+0,0,0,17,7,17,19,21,6,14,21,21,3,10,0,0,
+0,0,17,17,22,17,17,0,22,10,0,0,0,10,0,0,
+0,0,17,17,0,21,6,21,0,16,11,11,11,15,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="8" name="checkpoint" width="16" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,57,0,0,0,58,0,59,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,55,0,0,0,0,0,0,0,60,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,44,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,61,0,0,0,62,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -80,21 +99,378 @@
 </data>
  </layer>
  <objectgroup id="6" name="Mario">
-  <object id="16" x="96.4136" y="145.04">
+  <object id="16" name="Mario" x="101" y="144.5">
    <point/>
   </object>
  </objectgroup>
+ <objectgroup id="7" name="Camera">
+  <properties>
+   <property name="boundary" value="0,0,768,576"/>
+  </properties>
+ </objectgroup>
  <objectgroup id="5" name="Ground">
-  <object id="1" x="48" y="48" width="144" height="96"/>
-  <object id="3" x="240" y="96" width="144" height="144"/>
-  <object id="4" x="48" y="192" width="144" height="336"/>
-  <object id="5" x="432" y="96" width="144" height="48"/>
-  <object id="7" x="624" y="48" width="96" height="480"/>
-  <object id="8" x="431.765" y="191.989" width="192" height="96"/>
-  <object id="9" x="240" y="288" width="383.15" height="48"/>
+  <object id="1" x="48" y="48" width="143" height="95"/>
+  <object id="3" x="241" y="97" width="142" height="142"/>
+  <object id="4" x="48" y="193" width="144" height="336"/>
+  <object id="5" x="433" y="97" width="142" height="46"/>
+  <object id="7" x="625" y="48" width="96" height="480"/>
+  <object id="8" x="433" y="193" width="192" height="95"/>
+  <object id="9" x="241" y="289" width="383" height="46"/>
   <object id="10" x="192" y="480" width="432" height="48"/>
-  <object id="11" x="240" y="384" width="144" height="48"/>
-  <object id="13" x="432" y="384" width="192" height="96"/>
+  <object id="11" x="241" y="385" width="142" height="46"/>
+  <object id="13" x="433" y="385" width="192" height="96"/>
   <object id="14" x="48" y="144" width="48" height="48"/>
+  <object id="75" x="0" y="0" width="768" height="48"/>
+  <object id="78" x="192" y="193" width="48.5455" height="2.90909"/>
+  <object id="91" x="192" y="29.75" width="47.75" height="16.25"/>
+  <object id="92" x="174.875" y="48" width="14.25" height="47.75"/>
+  <object id="93" x="384.375" y="32.875" width="47.75" height="13.5"/>
+  <object id="108" x="241" y="322.625" width="46.75" height="78.75"/>
+  <object id="110" x="192" y="481.375" width="47.75" height="16.25"/>
+  <object id="112" x="176.5" y="432.292" width="14.25" height="47.75"/>
+  <object id="116" x="384.375" y="481.125" width="47.75" height="16.25"/>
+  <object id="120" x="434.375" y="432.625" width="14.25" height="47.75"/>
+  <object id="123" x="271.375" y="336.125" width="14.25" height="47.75"/>
+ </objectgroup>
+ <objectgroup id="10" name="CheckPoint">
+  <object id="84" x="192.015" y="44.5" width="47.8182" height="4.18182">
+   <properties>
+    <property name="cantele" type="bool" value="true"/>
+    <property name="collision" value="0,1"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="85" x="185.174" y="47.9924" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="true"/>
+    <property name="collision" value="1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="86" x="384.758" y="44.5758" width="47.8182" height="4.18182">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="0,1"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="87" x="377.174" y="48.4962" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="88" x="432.841" y="48.8296" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="-1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="89" x="294.508" y="48.8296" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="90" x="341.841" y="48.8296" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="-1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="94" x="476.591" y="48.1629" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="95" x="524.591" y="48.6629" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="-1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="96" x="383.924" y="140.076" width="47.8182" height="4.18182">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="0,1"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="97" x="383" y="192" width="47.8182" height="4.18182">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="0,-1"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="98" x="476.716" y="144.538" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="true"/>
+    <property name="collision" value="1,0"/>
+    <property name="sceneID" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="99" x="524.841" y="145.163" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="true"/>
+    <property name="collision" value="-1,0"/>
+    <property name="sceneID" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="100" x="333.174" y="239.83" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="-1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="102" x="285.174" y="240.163" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="103" x="192.424" y="288.8" width="47.8182" height="4.18182">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="0,-1"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="104" x="192.091" y="236.242" width="47.8182" height="4.18182">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="0,1"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="105" x="192.091" y="331.992" width="47.8182" height="4.18182">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="0,1"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="106" x="192.341" y="384.8" width="47.8182" height="4.18182">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="0,-1"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="109" x="192" y="480" width="47.8182" height="4.18182">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="0,-1"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="111" x="186.841" y="432.163" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="true"/>
+    <property name="collision" value="1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="113" x="343.091" y="431.83" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="-1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="114" x="299.091" y="431.58" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="115" x="384.591" y="480" width="47.8182" height="4.18182">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="0,-1"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="119" x="432.216" y="432.288" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="-1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="122" x="283.841" y="335.663" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="124" x="377.091" y="336.163" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="125" x="432.841" y="336.413" width="6.3182" height="47.6742">
+   <properties>
+    <property name="cantele" type="bool" value="false"/>
+    <property name="collision" value="-1,0"/>
+    <property name="sceneID" type="int" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="9" name="Cactus">
+  <object id="18" x="48" y="48">
+   <point/>
+  </object>
+  <object id="19" x="96" y="48">
+   <point/>
+  </object>
+  <object id="20" x="146" y="48">
+   <point/>
+  </object>
+  <object id="21" x="48" y="96">
+   <point/>
+  </object>
+  <object id="22" x="96" y="96">
+   <point/>
+  </object>
+  <object id="23" x="146" y="96">
+   <point/>
+  </object>
+  <object id="24" x="48" y="196">
+   <point/>
+  </object>
+  <object id="25" x="96" y="196.5">
+   <point/>
+  </object>
+  <object id="26" x="144" y="195">
+   <point/>
+  </object>
+  <object id="27" x="48" y="240">
+   <point/>
+  </object>
+  <object id="28" x="96" y="240">
+   <point/>
+  </object>
+  <object id="29" x="144" y="240">
+   <point/>
+  </object>
+  <object id="30" x="48" y="288">
+   <point/>
+  </object>
+  <object id="39" x="243" y="99">
+   <point/>
+  </object>
+  <object id="40" x="289" y="99.5">
+   <point/>
+  </object>
+  <object id="41" x="337.5" y="99.5">
+   <point/>
+  </object>
+  <object id="42" x="243" y="144">
+   <point/>
+  </object>
+  <object id="43" x="288" y="144">
+   <point/>
+  </object>
+  <object id="44" x="336" y="144">
+   <point/>
+  </object>
+  <object id="45" x="243.5" y="192">
+   <point/>
+  </object>
+  <object id="46" x="288" y="192">
+   <point/>
+  </object>
+  <object id="47" x="336" y="192">
+   <point/>
+  </object>
+  <object id="48" x="433" y="97">
+   <point/>
+  </object>
+  <object id="49" x="480" y="97">
+   <point/>
+  </object>
+  <object id="50" x="528" y="97">
+   <point/>
+  </object>
+  <object id="51" x="433" y="193">
+   <point/>
+  </object>
+  <object id="52" x="480" y="193">
+   <point/>
+  </object>
+  <object id="53" x="528" y="193">
+   <point/>
+  </object>
+  <object id="54" x="576" y="193">
+   <point/>
+  </object>
+  <object id="55" x="433" y="240">
+   <point/>
+  </object>
+  <object id="56" x="480" y="240">
+   <point/>
+  </object>
+  <object id="58" x="288" y="289">
+   <point/>
+  </object>
+  <object id="59" x="336" y="289">
+   <point/>
+  </object>
+  <object id="60" x="384" y="289">
+   <point/>
+  </object>
+  <object id="61" x="625" y="48">
+   <point/>
+  </object>
+  <object id="62" x="672" y="48">
+   <point/>
+  </object>
+  <object id="63" x="625" y="96">
+   <point/>
+  </object>
+  <object id="64" x="672" y="96">
+   <point/>
+  </object>
+  <object id="65" x="625" y="144">
+   <point/>
+  </object>
+  <object id="66" x="672" y="144">
+   <point/>
+  </object>
+  <object id="67" x="625" y="192">
+   <point/>
+  </object>
+  <object id="68" x="672" y="192">
+   <point/>
+  </object>
+  <object id="69" x="672" y="240">
+   <point/>
+  </object>
+  <object id="70" x="672" y="288">
+   <point/>
+  </object>
+  <object id="71" x="672" y="336">
+   <point/>
+  </object>
+  <object id="72" x="672" y="384">
+   <point/>
+  </object>
+  <object id="73" x="672" y="432">
+   <point/>
+  </object>
  </objectgroup>
 </map>

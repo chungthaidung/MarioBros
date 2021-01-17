@@ -103,6 +103,15 @@
     <Filter Include="Game\Game Object\Object\Teleport">
       <UniqueIdentifier>{6b534b15-45ad-4902-beac-1201a1247959}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Game Object\Object\WorldMario">
+      <UniqueIdentifier>{8072ac2f-eb32-411b-b9ee-33863b531e46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game Object\Object\Portal">
+      <UniqueIdentifier>{6146ee93-d33e-4ace-bf7d-967098a33614}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game Object\World Map Object">
+      <UniqueIdentifier>{3273d553-6d26-4a0d-ab87-4291e699e69d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">
@@ -300,13 +309,22 @@
     <ClCompile Include="PMeterHUD.cpp">
       <Filter>Game\Scene\HUD Components</Filter>
     </ClCompile>
-    <ClCompile Include="WorldMario.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WorldScene.cpp">
       <Filter>Game\Scene\WorldMap</Filter>
     </ClCompile>
     <ClCompile Include="Teleport.cpp">
+      <Filter>Game\Game Object\Object\Teleport</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldMario.cpp">
+      <Filter>Game\Game Object\Object\WorldMario</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Game\Game Object\Object\Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="Cactus.cpp">
+      <Filter>Game\Game Object\World Map Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -500,13 +518,22 @@
     <ClInclude Include="PMeterHUD.h">
       <Filter>Game\Scene\HUD Components</Filter>
     </ClInclude>
-    <ClInclude Include="WorldMario.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WorldScene.h">
       <Filter>Game\Scene\WorldMap</Filter>
     </ClInclude>
     <ClInclude Include="Teleport.h">
+      <Filter>Game\Game Object\Object\Teleport</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldMario.h">
+      <Filter>Game\Game Object\Object\WorldMario</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Game\Game Object\Object\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="Cactus.h">
+      <Filter>Game\Game Object\World Map Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

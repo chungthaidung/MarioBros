@@ -23,6 +23,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+	virtual int GetSceneType();
 
 	long GetPlayTime();
 	void SetDelayTime(DWORD delay);

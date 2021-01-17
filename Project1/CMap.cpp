@@ -26,8 +26,9 @@ void CMap::LoadGameMap()
 			layers.push_back(layer);
 		}
 		DebugOut(L"[INFO]Load map successful. \n");
-		
 	}
+	else
+		DebugOut(L"[INFO]Load map failed. \n");
 }
 
 void CMap::Render()

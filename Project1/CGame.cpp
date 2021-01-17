@@ -9,7 +9,7 @@
 #include "CAnimations.h"
 #include "CTextures.h"
 #include "CSprites.h"
-
+#include "WorldScene.h"
 CGame* CGame::__instance = NULL;
 DWORD CGame::DeltaTime = 0;
 
@@ -403,13 +403,20 @@ void CGame::_ParseSection_SCENES(string line)
 	string path = tokens[1].c_str();
 	long time = atoi(tokens[2].c_str());
 	int type = atoi(tokens[3].c_str());
+	 //scene = new CPlayScene(id, path, time);
 	switch (type) {
 	case PLAY_SCENE:
+	{
 		LPSCENE scene = new CPlayScene(id, path, time);
 		scenes[id] = scene;
+	}
 		break;
-	/*case WORLD_MAP:
-		break;*/
+	case WORLD_MAP: 
+	{
+		LPSCENE scene = new WorldScene(id, path);
+		scenes[id] = scene;
+	}
+		break;
 	}
 	/*LPSCENE scene = new CPlayScene(id, path,time);
 	scenes[id] = scene;*/
@@ -549,7 +556,7 @@ void CGame::Load(LPCWSTR gameFile)
 	
 	DebugOut(L"[INFO] Loading game file : %s has been loaded successfully\n", gameFile);
 	DebugOut(L"[INFO] Current scene : %d \n", current_scene);
-	
+	mario = new CMario();
 	LPSCENE s = scenes[current_scene];
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();
@@ -613,15 +620,16 @@ void CGame::SwitchScene(int scene_id)
 	CSprites::GetInstance()->Clear();
 	CAnimations::GetInstance()->Clear();*/
 
-	/*current_scene = scene_id;
+	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
-	s->Load();*/
+	s->Load();
 }
 
 void CGame::SaveMarioState(CMario* player)
 {
 	mario = player;
+	mario->SetPowerMeter(0);
 }
 
 CMario* CGame::GetMario()

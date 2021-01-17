@@ -22,6 +22,8 @@ CMario::CMario(float x, float y) : CGameObject()
 	start_y = y;
 	this->x = x;
 	this->y = y;
+	endgame_reward.clear();
+
 }
 
 void CMario::Update(DWORD dt)

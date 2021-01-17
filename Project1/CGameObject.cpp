@@ -11,6 +11,7 @@
 #include "GhostObject.h"
 #include "CCollisionEvent.h"
 #include "Mario.h"
+#include "CheckPoint.h"
 bool CGameObject::rendercompare(CGameObject*& a, CGameObject*& b)
 {
 	return a->renderOrder < b->renderOrder ;
@@ -128,6 +129,18 @@ void CGameObject::FilterCollision(
 		LPCOLLISIONEVENT c = coEvents[i];
 		
 		if (c->obj->GetObjectType()==OBJECT_TYPE_GHOST&& (c->ny > 0||c->nx!=0)) continue; // ko xet va cham phuong ngang va tu duoi
+		if (c->obj->GetObjectType() == OBJECT_TYPE_CHECKPOINT)
+		{
+			CheckPoint* checkpoint = dynamic_cast<CheckPoint*>(c->obj);
+			if (checkpoint->GetNCollision().x != 0)
+			{
+				if (c->nx != checkpoint->GetNCollision().x) continue;
+			}
+			else if (checkpoint->GetNCollision().y != 0)
+			{
+				if (c->ny != checkpoint->GetNCollision().y) continue;
+			}
+		}
 		if (c->obj->GetObjectType() == OBJECT_TYPE_COIN ) continue; // ko xet va cham voi dong tien
 		if (c->obj->GetState()==BRICK_COIN && c->obj->GetObjectType() == OBJECT_TYPE_BRICK ) continue; // ko xet va cham voi brick thanh dong tien
 		if (c->obj->GetObjectType() == OBJECT_TYPE_END_GAME_REWARD ) continue; // ko xet va cham voi end game reward
@@ -158,9 +171,6 @@ void CGameObject::FilterCollision(
 			CMario* mario = dynamic_cast<CMario*>(this);
 			if (mario->GetUntouchable()==true && c->obj->isEnemy==true) continue;// mario trong trang thai untouchable ko xet va cham voi enemy
 		}
-		//if (c->obj->GetObjectType() == OBJECT_TYPE_MARIO && c->nx!=0 && GetObjectType() != OBJECT_TYPE_KOOPA && GetState()!=KOOPA_STATE_CROUCH) continue;
-		//c->obj continue
-		//if (c->obj->GetObjectType() == OBJECT_TYPE_QUESTION_BOX) DebugOut(L"[FILTER] Question box \n");
 
 		if (c->t < min_tx && c->nx != 0 ) {//&& c->nx*vx<0
 			min_tx = c->t; 

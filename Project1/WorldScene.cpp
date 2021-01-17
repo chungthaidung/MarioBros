@@ -5,6 +5,8 @@
 #include "CMap.h"
 #include "Ground.h"
 #include "WorldMario.h"
+#include "Cactus.h"
+#include "CheckPoint.h"
 WorldScene::WorldScene(int id, std::string path):
 	CScene(id,path)
 {
@@ -48,7 +50,7 @@ void WorldScene::LoadObjGroup(TiXmlElement* data, std::string name)
 			obj = new WorldMario();
 			if (player != NULL)
 			{
-				DebugOut(L"[ERROR] MARIO object was created before!\n");
+				DebugOut(L"[ERROR] WORLD MARIO object was created before!\n");
 				continue;
 			}
 			//obj = new CMario(x, y);
@@ -61,6 +63,15 @@ void WorldScene::LoadObjGroup(TiXmlElement* data, std::string name)
 		{
 			obj = new CGround();
 		}
+		else if(name.compare("Cactus")==0)
+		{
+			obj = new Cactus();
+		}
+		else if(name.compare("CheckPoint")==0)
+		{
+			obj = new CheckPoint(objdata);
+		}
+		
 		objdata->QueryFloatAttribute("width", &width);
 		objdata->QueryFloatAttribute("height", &height);
 		obj->SetWidthHeight(width, height);
@@ -72,32 +83,93 @@ void WorldScene::LoadObjGroup(TiXmlElement* data, std::string name)
 
 void WorldScene::Load()
 {
-	DebugOut(L"[INFO] Start loading scene resources from : %s \n", scenePath);
+	DebugOut(L"[INFO] Start loading scene resources from : %s \n", ToLPCWSTR(scenePath));
 	LoadObjects();
 	gamemap = new CMap(scenePath);
 	hud = new HUD();
 	gamemap->LoadGameMap();
 	CGame* game = CGame::GetInstance();
-	/*if (player != NULL && cam != NULL)
+	if (player != NULL && cam != NULL)
 	{
 		cam->SetTarget(player);
 	}
 	if (player != NULL)
 	{
-		hud->SetTarget(player);
-	}*/
-	//	cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
-	//	cam->SetTarget(player);
+		hud->SetTarget(game->GetMario());
+	}
+	/*cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
+	cam->SetTarget(player);*/
 	DebugOut(L"[INFO] Done loading scene resources %s\n", ToLPCWSTR(scenePath));
 
 }
 
 void WorldScene::Update(DWORD dt)
 {
+	if (delaytime <= 0) {
+		vector<LPGAMEOBJECT> coObjects;
+		for (size_t i = 0; i < objects.size(); i++)
+		{
+			coObjects.push_back(objects[i]);
+		}
+		//DebugOut(L"[EFFECT INFO1] Object SIZE: %d \n", objects.size());
+		float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
+		float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+		for (size_t i = 0; i < objects.size(); i++)
+		{
+			if ((objects[i]->GetPosition().x< cx - CGame::GetInstance()->GetScreenWidth() * 1 / 2 || objects[i]->GetPosition().x > cx + CGame::GetInstance()->GetScreenWidth() * 3 / 2
+				|| objects[i]->GetPosition().y < cy - CGame::GetInstance()->GetScreenHeight() * 1 / 2 || objects[i]->GetPosition().y > cy + CGame::GetInstance()->GetScreenHeight() * 3 / 2)
+				&& objects[i]->GetObjectType() != OBJECT_TYPE_MARIO && objects[i]->GetObjectType() != OBJECT_TYPE_TAIL)
+				continue;
+			objects[i]->Update(dt);
+		}
+
+		//	DebugOut(L"[EFFECT INFO2] Object SIZE: %d \n", objects.size());
+		for (size_t i = 0; i < objects.size(); i++)
+		{
+			if ((objects[i]->GetPosition().x< cx - CGame::GetInstance()->GetScreenWidth() * 1 / 2 || objects[i]->GetPosition().x > cx + CGame::GetInstance()->GetScreenWidth() * 3 / 2
+				|| objects[i]->GetPosition().y < cy - CGame::GetInstance()->GetScreenHeight() * 1 / 2 || objects[i]->GetPosition().y > cy + CGame::GetInstance()->GetScreenHeight() * 3 / 2)
+				&& objects[i]->GetObjectType() != OBJECT_TYPE_MARIO && objects[i]->GetObjectType() != OBJECT_TYPE_TAIL)
+				continue;
+			objects[i]->CollisionUpdate(dt, &coObjects);
+		}
+
+		for (size_t i = 0; i < objects.size(); i++)
+		{
+			if ((objects[i]->GetPosition().x< cx - CGame::GetInstance()->GetScreenWidth() * 1 / 2 || objects[i]->GetPosition().x > cx + CGame::GetInstance()->GetScreenWidth() * 3 / 2
+				|| objects[i]->GetPosition().y < cy - CGame::GetInstance()->GetScreenHeight() * 1 / 2 || objects[i]->GetPosition().y > cy + CGame::GetInstance()->GetScreenHeight() * 3 / 2)
+				&& objects[i]->GetObjectType() != OBJECT_TYPE_MARIO && objects[i]->GetObjectType() != OBJECT_TYPE_TAIL)
+				continue;
+			objects[i]->FinalUpdate(dt);
+		}
+		hud->Update(dt);
+		for (size_t i = 0; i < effects.size(); i++)
+		{
+			effects[i]->Update(dt);
+		}
+		// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
+		if (player == NULL) return;
+		cam->Update(dt);
+		RemoveEffects();
+		RemoveObjects();
+	}
+	else
+	{
+		delaytime -= dt;
+	}
 }
 
 void WorldScene::Render()
 {
+	CGame::GetInstance()->SetViewport(0, 0, GAME_WIDTH, GAME_HEIGHT);
+	gamemap->Render();
+	for (int i = 0; i < objects.size(); i++)
+	{
+		objects[i]->Render();
+	}
+	player->Render();
+	CGame::GetInstance()->SetViewport(0, GAME_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+	CGame::GetInstance()->GetDirect3DDevice()->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+	hud->Render();
 }
 
 void WorldScene::Unload()
@@ -111,4 +183,14 @@ void WorldScene::Unload()
 	effects.clear();
 	//CGame::GetInstance()->SaveMarioState(player);
 	player = NULL;
+}
+
+int WorldScene::GetSceneType()
+{
+	return WORLD_MAP;
+}
+
+WorldMario* WorldScene::GetPlayer()
+{
+	return player;
 }

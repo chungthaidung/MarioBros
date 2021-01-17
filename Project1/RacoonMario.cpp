@@ -81,10 +81,7 @@ void RacoonMario::Render()
 		}
 		float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
 		float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
-		if ( flyflag == true)//(ani == MARIO_ANI_RACOON_FLY|| ani == MARIO_ANI_RACOON_FLOAT) &&
-		{
-			CAnimations::GetInstance()->Get(ani)->Render(mario->x - cx, mario->y - cy,GetTickCount(),150,1, mario->nx * f, 1, alpha);
-		}else
+	
 		CAnimations::GetInstance()->Get(ani)->Render(mario->x-cx, mario->y-cy, 1, mario->nx*f,1, alpha);
 		mario->RenderBoundingBox();
 	}
@@ -198,44 +195,47 @@ void RacoonMario::JumpingState(DWORD dt)
 		}
 		break;
 	case MARIO_STATE_FLOAT:
-		if (keyboard->IsKeyDown(DIK_X) || flyflag)
+		if (keyboard->IsKeyDown(DIK_X) || flyflag>0)
 		{
-			if (flyflag) mario->vy += 2.2*MARIO_FLOAT * dt;
+			/*if (flyflag) mario->vy += 2.2*MARIO_FLOAT * dt;
 			else
-			{
+			{*/
 				mario->SetGravity(0);
 				mario->vy += MARIO_FLOAT * dt;
-			}
+			//}
 			//DebugOut(L"mario->vy: %f\n", mario->vy);
-			flyflag = false;
+			flyflag -= dt;
 		}
 		else mario->JumpState = MARIO_STATE_FALL;
 		if (mario->onGround == true)
 		{
 			mario->JumpState = MARIO_STATE_JUMP_IDLE;
+			mario->SetGravity(MARIO_GRAVITY);
 		}
 		break;
 	case MARIO_STATE_FLY:
 		CGame::GetInstance()->GetCurrentScene()->GetCamera()->SetLockCam(true);
 		if ( flytime < 4000) { //GetTickCount() - 
-			if (keyboard->IsKeyDown(DIK_X) || flyflag)
+			if (keyboard->IsKeyDown(DIK_X) || flyflag>0)
 			{
 				if (mario->vy > 0) mario->vy = 0;
 				mario->SetGravity(0);
-				if (flyflag) mario->vy = -0.42f; // nhap S lien tuc
-				else mario->vy = -MARIO_FLY_FORCE;
+				//if (flyflag) mario->vy = -0.42f; // nhap S lien tuc
+				 mario->vy = -MARIO_FLY_FORCE;
 			}
 			else mario->SetGravity(MARIO_GRAVITY);
-			flyflag = false;
+			flyflag -= dt;
 		}
 		else
 		{
+			mario->SetPowerMeter(0);
 			mario->SetGravity(MARIO_GRAVITY);
 			mario->JumpState = MARIO_STATE_FLOAT;
 		}
 		if (mario->onGround == true)
 		{
 			mario->JumpState = MARIO_STATE_JUMP_IDLE;
+			mario->SetGravity(MARIO_GRAVITY);
 		}
 		flytime += dt;
 		//DebugOut(L"FLY time: %d \n",flytime);
@@ -284,7 +284,7 @@ void RacoonMario::MiniJump(bool isJump)
 		mario->canJumpSuper = false;
 		mario->JumpState = MARIO_STATE_JUMP;
 	}
-	else if (keyboard->IsKeyDown(DIK_X) || flyflag )
+	else if (keyboard->IsKeyDown(DIK_X) || flyflag>0 )
 	{
 		if (mario->JumpState == MARIO_STATE_FALL)
 		{
@@ -325,22 +325,22 @@ void RacoonMario::OnKeyDown(int KeyCode)
 		}
 		else if (mario->JumpState == MARIO_STATE_SUPER_JUMP || mario->JumpState == MARIO_STATE_FALL ||
 			mario->JumpState == MARIO_STATE_SUPER_FALL || mario->JumpState == MARIO_STATE_FLY || mario->JumpState == MARIO_STATE_FLOAT)
-			flyflag = true;
+			flyflag = 200;
 		break;
 	}
 }
 void RacoonMario::OnKeyUp(int KeyCode)
 {
 	PlayerLevel::OnKeyUp(KeyCode);
-	switch (KeyCode)
-	{
-	case DIK_S:
-		if (flyflag == true) {
-			flyflag = false;
-			//mario->vy = 0;
-		}
-		break;
-	}
+	//switch (KeyCode)
+	//{
+	//case DIK_S:
+	//	if (flyflag == true) {
+	//		flyflag = false;
+	//		//mario->vy = 0;
+	//	}
+	//	break;
+	//}
 }
 RacoonMario::~RacoonMario()
 {

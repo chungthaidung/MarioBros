@@ -19,6 +19,7 @@ protected:
 	DWORD flytime;
 	DWORD attacktime;
 	MarioTail* tail;
-	bool flyflag;
+	int flyflag;
+	
 };
 

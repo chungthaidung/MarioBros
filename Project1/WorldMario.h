@@ -22,5 +22,7 @@ public:
 	virtual int GetObjectType();
 	
 	void SetLevel(int level);
+	void OnKeyDown(int KeyCode);
+	void OnKeyUp(int KeyCode);
 };
 

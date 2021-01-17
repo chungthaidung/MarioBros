@@ -6,6 +6,7 @@ class WorldScene :
 {
 protected:
     WorldMario* player;
+	long delaytime = 0;
 public:
     WorldScene(int id, std::string path);
 	void LoadObjects();
@@ -14,5 +15,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+	virtual int GetSceneType();
+	WorldMario* GetPlayer();
 };
 

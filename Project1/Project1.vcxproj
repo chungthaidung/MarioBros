@@ -147,6 +147,8 @@
   <ItemGroup>
     <ClCompile Include="BigMario.cpp" />
     <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="Cactus.cpp" />
+    <ClCompile Include="CheckPoint.cpp" />
     <ClCompile Include="CoinEff.cpp" />
     <ClCompile Include="DebrisEff.cpp" />
     <ClCompile Include="Effect.cpp" />
@@ -194,6 +196,7 @@
     <ClCompile Include="PlayerLevel.cpp" />
     <ClCompile Include="PMeterHUD.cpp" />
     <ClCompile Include="PointsEff.cpp" />
+    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="QuestionBox.cpp" />
     <ClCompile Include="RacoonMario.cpp" />
     <ClCompile Include="RunningShell.cpp" />
@@ -217,6 +220,8 @@
   <ItemGroup>
     <ClInclude Include="BigMario.h" />
     <ClInclude Include="Brick.h" />
+    <ClInclude Include="Cactus.h" />
+    <ClInclude Include="CheckPoint.h" />
     <ClInclude Include="CoinEff.h" />
     <ClInclude Include="DebrisEff.h" />
     <ClInclude Include="Effect.h" />
@@ -264,6 +269,7 @@
     <ClInclude Include="PlayerLevel.h" />
     <ClInclude Include="PMeterHUD.h" />
     <ClInclude Include="PointsEff.h" />
+    <ClInclude Include="Portal.h" />
     <ClInclude Include="QuestionBox.h" />
     <ClInclude Include="RacoonMario.h" />
     <ClInclude Include="RunningShell.h" />

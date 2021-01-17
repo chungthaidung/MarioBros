@@ -10,13 +10,7 @@ Camera::Camera(TiXmlElement* data)
 	for (TiXmlElement* property = properties->FirstChildElement("property"); property != NULL; property = property->NextSiblingElement("property"))
 	{
 		string name = property->Attribute("name");
-		if (name.compare("y_ground") == 0)
-		{
-			property->QueryFloatAttribute("value", &y_ground);
-			//DebugOut(L"y ground: %f \n", y_ground);
-
-		}
-		else if (name.compare("boundary") == 0)
+		 if (name.compare("boundary") == 0)
 		{
 			string boundary = property->Attribute("value");
 			vector<string> boun = ParseComa(boundary);
@@ -33,7 +27,7 @@ Camera::Camera(TiXmlElement* data)
 
 }
 
-void Camera::SetTarget(CMario* player)
+void Camera::SetTarget(CGameObject* player)
 {
 	if (player != NULL) {
 		target = player;
@@ -51,14 +45,15 @@ void Camera::Update(DWORD dt)
 		position.x = target->GetPosition().x - size.x/2;
 		//position.y = y_ground;
 		//DebugOut(L"cam x: %f || cam y: %f \n", position.x, y_ground);
-
+		float l, t, r, b;
+		target->GetBoundingBox(l, t, r, b);
 		if (lock_cam==true && target->GetPosition().y - position.y < size.y / 4)
 		{
 			position.y = target->GetPosition().y - size.y / 4;
 		}
-		else if ( target->GetBoundingBox().bottom -position.y >= size.y- size.y / 3)
+		else if (b -position.y >= size.y- size.y / 3)
 		{
-			position.y = target->GetBoundingBox().bottom-size.y + size.y/3;
+			position.y = b-size.y + size.y/3;
 		//	DebugOut(L"[INFO CAMERA]x: %f || y: %f \n", position.x, position.y);
 		}
 		if (position.x < boundary.left)

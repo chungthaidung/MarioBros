@@ -14,8 +14,13 @@ CTileset::CTileset(TiXmlElement* data)
     switch (sceneid)
     {
     case 1:
-        texture = CTextures::GetInstance()->Get(WORLD_MAP_1_1);
-        DebugOut(L"[INFO] WORLD_MAP_1_1 \n");
+    case 2:
+        texture = CTextures::GetInstance()->Get(WORLD_1_1);
+        DebugOut(L"[INFO] WORLD_1_1 \n");
+        break;
+    case 0:
+        texture = CTextures::GetInstance()->Get(WORLD_MAP_1);
+        DebugOut(L"[INFO] WORLD_MAP_1 \n");
         break;
     }
     AddTiles();

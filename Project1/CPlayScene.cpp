@@ -23,6 +23,7 @@
 #include "Venus.h"
 #include "CMap.h"
 #include "Teleport.h"
+#include "Portal.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id,std::string Path,long ptime) :
@@ -43,7 +44,7 @@ void CPlayScene::LoadObjects()
 			string name = objgr->Attribute("name");
 			if (name.compare("Camera") == 0)
 			{
-				DebugOut(L"CREATE CAMERA  \n");
+				//DebugOut(L"CREATE CAMERA  \n");
 				Camera* camera = new Camera(objgr);
 				cam = camera;
 			}
@@ -75,8 +76,10 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 			}
 			obj = new CMario(x, y);
 			player = (CMario*)obj;
-			if(CGame::GetInstance()->GetMario()!=NULL)
+			if (CGame::GetInstance()->GetMario() != NULL) {
 				player->SetLevel(CGame::GetInstance()->GetMario()->GetLevel());
+				player->endgame_reward = CGame::GetInstance()->GetMario()->endgame_reward;
+			}
 			DebugOut(L"[INFO] Player object created!\n");
 		}
 		else if (name.compare("Ground")==0)
@@ -163,11 +166,15 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 		{
 			obj = new Teleport(objdata);
 		}
+		else if (name.compare("Portal") == 0)
+		{
+			obj = new Portal(objdata);
+		}
 		objdata->QueryFloatAttribute("width", &width);
 		objdata->QueryFloatAttribute("height", &height);
 		obj->SetWidthHeight(width, height);
 		obj->SetPosition(x, y);
-	//	DebugOut(L"[INFO]Object x: %d || y: %d || width: %f || height: %f. \n",x,y,width,height);
+		//DebugOut(L"[INFO]Object x: %d || y: %d || width: %f || height: %f. \n",x,y,width,height);
 		objects.push_back(obj);
 	}
 	
@@ -240,28 +247,9 @@ void CPlayScene::Update(DWORD dt)
 		// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 		if (player == NULL) return;
 		cam->Update(dt);
-		// Update camera to follow mario
-		//float cx, cy;
-		////	cam->GetCamPosition(cx, cy);
-		//player->GetPosition(cx, cy);
-		//CGame* game = CGame::GetInstance();
-		//cx -= game->GetScreenWidth() / 2;
-		////cy = CAMERA_Y_POSITION * 2 / 3;
-		//if (cy > game->GetScreenHeight() + 48)
-		//	cy = CAMERA_Y_POSITION;
-		//else if (cy < 768)
-		//{
-		//	cy -= 48;
-		//}
-		//if (cx < 0) cx = 0;
-		//if (cy < 0) cy = 0;
-		//if (cx > gamemap->GetSize().x - game->GetScreenWidth()) cx = gamemap->GetSize().x - game->GetScreenWidth();
-		//CGame::GetInstance()->SetCamPos(cx, cy/*cy*/);//
-		//DebugOut(L"[INFO]Cam_x: %f || Cam_y: %f \n",cx,cy);
 		RemoveEffects();
 		RemoveObjects();
 		playtime-=dt;
-		
 		//DebugOut(L"[INFO] Play time : %d\n", playtime);
 	}
 	else
@@ -320,6 +308,11 @@ void CPlayScene::Unload()
 	player = NULL;
 
 	//DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
+}
+
+int CPlayScene::GetSceneType()
+{
+	return PLAY_SCENE;
 }
 
 long CPlayScene::GetPlayTime()

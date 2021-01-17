@@ -8,12 +8,12 @@
 class Camera 
 {//Camera tự update theo object => bỏ *obj zo cam
 protected:
-	CMario* target;
-	float y_ground;
+	CGameObject* target;
+	//float y_ground;
 	bool lock_cam=false;
 public:
 	Camera(TiXmlElement* data);
-	void SetTarget(CMario* player);
+	void SetTarget(CGameObject* player);
 	void Update(DWORD dt);
 	void SetLockCam(bool a);
 	D3DXVECTOR2 position;
