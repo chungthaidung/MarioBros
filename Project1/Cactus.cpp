@@ -28,3 +28,8 @@ int Cactus::GetObjectType()
 {
 	return OBJECT_TYPE_CACTUS;
 }
+
+bool Cactus::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
+{
+	return true;
+}

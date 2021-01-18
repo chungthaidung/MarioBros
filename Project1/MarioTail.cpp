@@ -44,6 +44,16 @@ int MarioTail::GetObjectType()
 {
 	return 21;
 }
+bool MarioTail::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
+{
+	if (obj->GetObjectType() == OBJECT_TYPE_GHOST && (direction.y > 0 || direction.x != 0))
+		return true;
+	if (obj->GetObjectType() == OBJECT_TYPE_COIN)
+		return true;
+	if (obj->GetState() == BRICK_COIN && obj->GetObjectType() == OBJECT_TYPE_BRICK) return true;
+	if (obj->GetObjectType() == OBJECT_TYPE_END_GAME_REWARD) return true;
+	return false;
+}
 void MarioTail::SetActive(bool a)
 {
 	if (!active && a) {

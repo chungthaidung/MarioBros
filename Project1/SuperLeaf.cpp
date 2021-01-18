@@ -116,6 +116,18 @@ int SuperLeaf::GetObjectType()
 	return OBJECT_TYPE_SUPER_LEAF;
 }
 
+bool SuperLeaf::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
+{
+	if (obj->GetObjectType() == OBJECT_TYPE_MARIO)
+		return false;
+	if (obj->GetObjectType() == OBJECT_TYPE_MARIO)
+	{
+		CMario* mario = dynamic_cast<CMario*>(obj);
+		if (mario->GetUntouchable() == true) return true;
+	}
+	return true;
+}
+
 void SuperLeaf::SetPosition(float x, float y)
 {
 	CGameObject::SetPosition(x, y);

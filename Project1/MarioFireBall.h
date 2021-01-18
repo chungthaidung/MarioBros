@@ -13,6 +13,7 @@ public:
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Reset(float mx, float my);
 	virtual int GetObjectType();
+	virtual bool GetThrough(CGameObject* obj, D3DXVECTOR2 direction);
 	//void State(DWORD dt);
 	
 	void SetActive(bool a) { active = a; }

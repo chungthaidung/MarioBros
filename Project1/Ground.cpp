@@ -17,3 +17,8 @@ int CGround::GetObjectType()
 {
 	return OBJECT_TYPE_GROUND;
 }
+
+bool CGround::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
+{
+	return false;
+}

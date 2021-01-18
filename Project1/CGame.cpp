@@ -637,3 +637,29 @@ CMario* CGame::GetMario()
 	return mario;
 }
 
+void CGame::SaveMarioWorldPos(D3DXVECTOR2 pos)
+{
+	world_pos.x = pos.x;
+	world_pos.y = pos.y;
+}
+
+void CGame::StateClear()
+{
+	stageclear++;
+}
+
+D3DXVECTOR2 CGame::GetMarioWorldPos()
+{
+	return world_pos;
+}
+
+int CGame::GetMarioLife()
+{
+	return life;
+}
+
+int CGame::GetStageClear()
+{
+	return stageclear;
+}
+

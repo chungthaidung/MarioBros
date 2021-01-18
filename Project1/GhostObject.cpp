@@ -15,3 +15,8 @@ int GhostObject::GetObjectType()
 {
 	return OBJECT_TYPE_GHOST;
 }
+
+bool GhostObject::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
+{
+	return false;
+}

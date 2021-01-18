@@ -21,7 +21,7 @@ protected:
 	HUD* hud;
 	vector<LPGAMEOBJECT> objects;
 	vector<LPEFFECT> effects;
-
+	long playtime;
 
 public:
 	CScene(int id, std::string path);
@@ -43,7 +43,7 @@ public:
 
 	virtual Camera* GetCamera();
 	virtual CMap* GetMap();
-
+	long GetPlayTime();
 	virtual void SetBoundary(RECT a);
 	virtual RECT GetBoundary();
 };

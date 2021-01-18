@@ -11,6 +11,7 @@ public:
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual int GetObjectType();
 	int GetSceneID();
+	virtual bool GetThrough(CGameObject* obj, D3DXVECTOR2 direction);
 
 protected:
 	int sceneID;

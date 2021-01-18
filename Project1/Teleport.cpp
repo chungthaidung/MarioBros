@@ -1,6 +1,7 @@
 #include "Teleport.h"
 #include "Utils.h"
 #include "debug.h"
+#include "Mario.h"
 Teleport::Teleport(TiXmlElement* data)
 {
 	TiXmlElement* properties = data->FirstChildElement("properties");
@@ -46,6 +47,18 @@ void Teleport::GetBoundingBox(float& l, float& t, float& r, float& b)
 int Teleport::GetObjectType()
 {
 	return OBJECT_TYPE_TELEPORT;
+}
+
+bool Teleport::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
+{
+	if (obj->GetObjectType() == OBJECT_TYPE_MARIO)
+		return false;
+	if (obj->GetObjectType() == OBJECT_TYPE_MARIO)
+	{
+		CMario* mario = dynamic_cast<CMario*>(obj);
+		if (mario->GetUntouchable() == true) return true;
+	}
+	return true;
 }
 
 RECT Teleport::GetReBoundary()

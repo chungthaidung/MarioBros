@@ -12,7 +12,6 @@ protected:
 	CMario* player;		// A play scene has to have player, right? 
 	//D3DCOLOR mBackColor = D3DCOLOR_XRGB(156, 252, 240);
 
-	long playtime ;
 	long delaytime = 0;
 
 public:
@@ -25,7 +24,6 @@ public:
 	virtual void Unload();
 	virtual int GetSceneType();
 
-	long GetPlayTime();
 	void SetDelayTime(DWORD delay);
 	CMario* GetPlayer() { return player; }
 //	Camera* GetCamera() { return cam; }

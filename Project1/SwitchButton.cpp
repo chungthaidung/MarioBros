@@ -111,6 +111,16 @@ void SwitchButton::GetBoundingBox(float& l, float& t, float& r, float& b)
 	b = y + collisionbox.y;
 }
 
+bool SwitchButton::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
+{
+	if (obj->GetObjectType() == OBJECT_TYPE_MARIO)
+	{
+		CMario* mario = dynamic_cast<CMario*>(obj);
+		if (mario->GetUntouchable() == true) return true;
+	}
+	return false;
+}
+
 void SwitchButton::SetState(int state)
 {
 	y += collisionbox.y;

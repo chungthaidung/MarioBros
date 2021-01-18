@@ -18,6 +18,7 @@ public:
 	virtual void FinalUpdate(DWORD dt);
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
+	virtual bool GetThrough(CGameObject* obj, D3DXVECTOR2 direction);
 	virtual void SetState(int state);
 	virtual int GetObjectType();
 protected:

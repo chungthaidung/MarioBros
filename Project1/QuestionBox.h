@@ -20,6 +20,7 @@ public:
 	virtual void FinalUpdate(DWORD dt);
 	virtual void SetState(int state);
 	virtual int GetObjectType();
+	virtual bool GetThrough(CGameObject* obj, D3DXVECTOR2 direction);
 	virtual void SetReward(int obj_type);
 	virtual void RewardChecking();
 	void SetRewardnx(int nx_r);

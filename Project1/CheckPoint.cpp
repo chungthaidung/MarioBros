@@ -23,8 +23,8 @@ CheckPoint::CheckPoint(TiXmlElement* data)
 			vector<string> b = ParseComa(collision);
 			float x = stof(b[0]);
 			float y = stof(b[1]);
-			ncollision.x = x;
-			ncollision.y = y;
+			direction.x = x;
+			direction.y = y;
 		}
 		
 	}
@@ -48,6 +48,11 @@ int CheckPoint::GetObjectType()
 	return OBJECT_TYPE_CHECKPOINT;
 }
 
+bool CheckPoint::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
+{
+	return true;
+}
+
 int CheckPoint::GetSceneID()
 {
 	return sceneID;
@@ -58,7 +63,7 @@ bool CheckPoint::CanTele()
 	return canTele;
 }
 
-D3DXVECTOR2 CheckPoint::GetNCollision()
+D3DXVECTOR2 CheckPoint::GetDirection()
 {
-	return ncollision;
+	return direction;
 }

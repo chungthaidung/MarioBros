@@ -119,6 +119,24 @@ int Piranha::GetObjectType()
 	return OBJECT_TYPE_PIRANHA;
 }
 
+bool Piranha::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
+{
+	if (obj->GetObjectType() == OBJECT_TYPE_SUPER_MUSHROOM || obj->GetObjectType() == OBJECT_TYPE_SUPER_LEAF || obj->GetObjectType() == OBJECT_TYPE_VENUS_FIREBALL)
+		return true;
+	if (obj->GetObjectType() == OBJECT_TYPE_GHOST && (direction.y > 0 || direction.x != 0))
+		return true;
+	if (obj->GetObjectType() == OBJECT_TYPE_COIN)
+		return true;
+	if (obj->GetState() == BRICK_COIN && obj->GetObjectType() == OBJECT_TYPE_BRICK) return true;
+	if (obj->GetObjectType() == OBJECT_TYPE_END_GAME_REWARD) return true;
+	if (obj->GetObjectType() == OBJECT_TYPE_MARIO)
+	{
+		CMario* mario = dynamic_cast<CMario*>(obj);
+		if (mario->GetUntouchable() == true) return true; //khong xet va cham voi mario trong trang thai untouchable
+	}
+	return false;
+}
+
 int Piranha::GetType()
 {
 	return type;

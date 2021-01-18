@@ -21,6 +21,7 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Render();
 	virtual int GetObjectType();
+	virtual bool GetThrough(CGameObject* obj, D3DXVECTOR2 direction);
 	void SetGravity(float g);
 protected:
 	float gravity;

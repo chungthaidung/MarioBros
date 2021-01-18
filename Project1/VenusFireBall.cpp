@@ -102,6 +102,11 @@ int VenusFireBall::GetObjectType()
 	return OBJECT_TYPE_VENUS_FIREBALL;
 }
 
+bool VenusFireBall::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
+{
+	return true;
+}
+
 void VenusFireBall::SetActive(bool a)
 {
 	active = a;

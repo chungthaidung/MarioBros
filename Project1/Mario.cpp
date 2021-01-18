@@ -10,6 +10,7 @@
 #include "RacoonMario.h"
 #include "FireMario.h"
 #include "CPlayScene.h"
+#include "CheckPoint.h"
 CMario::CMario(float x, float y) : CGameObject()
 {
 	level_p = new SmallMario(this); 
@@ -171,6 +172,31 @@ void CMario::SetState(int state)
 void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	level_p->GetBoundingBox(left,top,right,bottom);
+}
+
+bool CMario::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
+{
+
+	if (obj->GetObjectType() == OBJECT_TYPE_GHOST && (direction.y > 0 || direction.x != 0))
+		return true;
+	if (obj->GetObjectType() == OBJECT_TYPE_COIN )
+		return true;
+	if (obj->GetState() == BRICK_COIN && obj->GetObjectType() == OBJECT_TYPE_BRICK) return true;
+	if (obj->GetObjectType() == OBJECT_TYPE_END_GAME_REWARD) return true;
+	if (GetUntouchable() && obj->isEnemy) return true;
+	if (obj->GetObjectType() == OBJECT_TYPE_CHECKPOINT)
+	{
+		CheckPoint* checkpoint = dynamic_cast<CheckPoint*>(obj);
+		if (checkpoint->GetDirection().x != 0)
+		{
+			if (direction.x != checkpoint->GetDirection().x) return true;
+		}
+		else if (checkpoint->GetDirection().y != 0)
+		{
+			if (direction.y != checkpoint->GetDirection().y) return true;
+		}
+	}
+	return false;
 }
 
 RECT CMario::GetBoundingBox()

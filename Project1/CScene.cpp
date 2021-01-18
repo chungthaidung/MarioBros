@@ -61,6 +61,11 @@ CMap* CScene::GetMap()
 	return gamemap;
 }
 
+long CScene::GetPlayTime()
+{
+	return playtime;
+}
+
 void CScene::SetBoundary(RECT a)
 {
 	cam_boundary = a;

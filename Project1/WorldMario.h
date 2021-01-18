@@ -20,7 +20,7 @@ public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual int GetObjectType();
-	
+	virtual bool GetThrough(CGameObject* obj, D3DXVECTOR2 direction);
 	void SetLevel(int level);
 	void OnKeyDown(int KeyCode);
 	void OnKeyUp(int KeyCode);

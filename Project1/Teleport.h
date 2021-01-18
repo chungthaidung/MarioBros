@@ -10,7 +10,7 @@ public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual int GetObjectType();
-
+	virtual bool GetThrough(CGameObject* obj, D3DXVECTOR2 direction);
 	RECT GetReBoundary();
 	D3DXVECTOR2 GetRePosition();
 protected:

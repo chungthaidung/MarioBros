@@ -315,11 +315,6 @@ int CPlayScene::GetSceneType()
 	return PLAY_SCENE;
 }
 
-long CPlayScene::GetPlayTime()
-{
-	return playtime;
-}
-
 void CPlayScene::SetDelayTime(DWORD delay)
 {
 	delaytime = delay;

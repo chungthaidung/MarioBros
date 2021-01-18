@@ -82,6 +82,7 @@ public:
 	CGameObject();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
+	virtual bool GetThrough(CGameObject* obj, D3DXVECTOR2 direction) = 0;
 	virtual D3DXVECTOR2 GetWidthHeight();
 	virtual void Update(DWORD dt);
 	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);

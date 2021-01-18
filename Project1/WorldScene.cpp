@@ -76,6 +76,10 @@ void WorldScene::LoadObjGroup(TiXmlElement* data, std::string name)
 		objdata->QueryFloatAttribute("height", &height);
 		obj->SetWidthHeight(width, height);
 		obj->SetPosition(x, y);
+		if (obj->GetObjectType() == OBJECT_TYPE_WORLD_MARIO && CGame::GetInstance()->GetMarioWorldPos() != D3DXVECTOR2(0, 0))
+		{
+			obj->SetPosition(CGame::GetInstance()->GetMarioWorldPos().x, CGame::GetInstance()->GetMarioWorldPos().y);
+		}
 		//	DebugOut(L"[INFO]Object x: %d || y: %d || width: %f || height: %f. \n",x,y,width,height);
 		objects.push_back(obj);
 	}
@@ -182,6 +186,7 @@ void WorldScene::Unload()
 	objects.clear();
 	effects.clear();
 	//CGame::GetInstance()->SaveMarioState(player);
+
 	player = NULL;
 }
 

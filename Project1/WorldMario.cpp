@@ -49,6 +49,7 @@ void WorldMario::FinalUpdate(DWORD dt)
 			if (e->obj->GetObjectType() == OBJECT_TYPE_CHECKPOINT )
 			{
 				CheckPoint* checkpoint = dynamic_cast<CheckPoint*>(e->obj);
+				//DebugOut(L"[INFO MARIO WORLD] pos x: %f || pos y: %f \n", x, y);
 				if (e->ny != 0) {
 					if (e->ny > 0) vy = -0.01;
 					if (e->ny < 0) vy = 0.01;
@@ -57,7 +58,7 @@ void WorldMario::FinalUpdate(DWORD dt)
 					if (e->nx > 0) vx = -0.01;
 					if (e->nx < 0) vx = 0.01;
 				}
-				if (keyboard->IsKeyDown(DIK_W) && checkpoint->CanTele() == true)
+				if (keyboard->IsKeyDown(DIK_S) && checkpoint->CanTele() == true)
 					CGame::GetInstance()->SwitchScene(checkpoint->GetSceneID());
 			}
 		}
@@ -104,6 +105,23 @@ int WorldMario::GetObjectType()
 	return OBJECT_TYPE_WORLD_MARIO;
 }
 
+bool WorldMario::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
+{
+	if (obj->GetObjectType() == OBJECT_TYPE_CHECKPOINT)
+	{
+		CheckPoint* checkpoint = dynamic_cast<CheckPoint*>(obj);
+		if (checkpoint->GetDirection().x != 0)
+		{
+			if (direction.x != checkpoint->GetDirection().x) return true;
+		}
+		else if (checkpoint->GetDirection().y != 0)
+		{
+			if (direction.y != checkpoint->GetDirection().y) return true;
+		}
+	}
+	return false;
+}
+
 void WorldMario::SetLevel(int level)
 {
 	level_p = level;
@@ -138,9 +156,4 @@ void WorldMario::OnKeyDown(int KeyCode)
 void WorldMario::OnKeyUp(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
-	switch (KeyCode)
-	{
-	default:
-		break;
-	}
 }

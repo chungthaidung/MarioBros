@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="161" height="29" tilewidth="48" tileheight="48" infinite="0" nextlayerid="13" nextobjectid="107">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="161" height="29" tilewidth="48" tileheight="48" infinite="0" nextlayerid="14" nextobjectid="110">
  <tileset firstgid="1" name="Final1(48)" tilewidth="48" tileheight="48" tilecount="870" columns="29">
   <image source="Final1(48).png" width="1392" height="1440"/>
  </tileset>
@@ -219,6 +219,7 @@
   <object id="6" x="5904" y="1104" width="144" height="96"/>
   <object id="7" x="6192" y="1248" width="1536" height="48"/>
   <object id="8" x="6576" y="1152" width="96" height="96"/>
+  <object id="109" x="7680" y="1056" width="48" height="192"/>
  </objectgroup>
  <objectgroup id="10" name="Misc">
   <object id="16" name="Brick" type="2" x="672" y="1056">
@@ -706,6 +707,14 @@
    <properties>
     <property name="boundary" value="6192,0,7728,1344"/>
     <property name="tele_position" value="6600,1057"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="13" name="Portal">
+  <object id="108" x="7632" y="1152" width="48" height="96">
+   <properties>
+    <property name="sceneID" type="int" value="0"/>
+    <property name="world_pos" value="482.4,144.6"/>
    </properties>
   </object>
  </objectgroup>

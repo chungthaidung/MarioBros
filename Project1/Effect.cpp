@@ -23,6 +23,11 @@ void Effect::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	bottom = y;
 }
 
+bool Effect::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
+{
+	return true;
+}
+
 int Effect::GetObjectType()
 {
 	return OBJECT_TYPE_EFFECT;

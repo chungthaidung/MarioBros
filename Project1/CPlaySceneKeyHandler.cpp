@@ -10,6 +10,12 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	{
 		CMario* mario = ((CPlayScene*)scence)->GetPlayer();
 		mario->OnKeyDown(KeyCode);
+		switch (KeyCode)
+		{
+		case DIK_5:
+			mario->SetPosition(7344.00, 1104.00);
+			break;
+		}
 	}
 	else if (scence->GetSceneType() == WORLD_MAP)
 	{

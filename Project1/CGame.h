@@ -33,16 +33,16 @@ class CGame
 
 	LPKEYEVENTHANDLER keyHandler;
 	
-	/*float cam_x = 0.0f;
-	float cam_y = 0.0f;*/
 
 	int screen_width;
 	int screen_height;
 
 	unordered_map<int, LPSCENE> scenes;
 	int current_scene;
-	
+	D3DXVECTOR2 world_pos= D3DXVECTOR2(0,0);
 	CMario* mario;
+	int life = 4;
+	int stageclear=0;
 	//int mario_level=MARIO_LEVEL_SMALL;
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line); 
@@ -70,6 +70,12 @@ public:
 	int GetMarioLevel();*/
 	void SaveMarioState(CMario* player);
 	CMario* GetMario();
+	void SaveMarioWorldPos(D3DXVECTOR2 pos);
+	void StateClear();
+	D3DXVECTOR2 GetMarioWorldPos();
+	int GetMarioLife();
+	int GetStageClear();
+
 	int GetScreenWidth() { return screen_width; }
 	int GetScreenHeight() { return screen_height; }
 

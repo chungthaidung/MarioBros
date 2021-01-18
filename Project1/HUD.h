@@ -1,11 +1,9 @@
 #pragma once
 #include "Mario.h"
 #include "PMeterHUD.h"
+#include "Font.h"
 #define HUD_ANI 1509
 #define CARD_ANI	1510
-#define MUSHROOM_CARD_ANI	1514
-#define FLOWER_CARD_ANI	1515
-#define STAR_CARD_ANI	1516
 
 #define MUSHROOM	1
 #define FLOWER	2
@@ -32,5 +30,8 @@ protected:
 	D3DXVECTOR2 cardposition;
 	CMario* target;
 	PMeterHUD* pmeter;
+	Font* time;
+	Font* life;
+	Font* stageclear;
 };
 

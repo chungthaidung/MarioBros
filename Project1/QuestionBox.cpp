@@ -151,6 +151,16 @@ int QuestionBox::GetObjectType()
 	return OBJECT_TYPE_QUESTION_BOX;
 }
 
+bool QuestionBox::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
+{
+	if (obj->GetObjectType() == OBJECT_TYPE_MARIO)
+	{
+		CMario* mario = dynamic_cast<CMario*>(obj);
+		if (mario->GetUntouchable() == true) return true;
+	}
+	return false;
+}
+
 void QuestionBox::SetReward(int obj_type)
 {
 	switch (obj_type)

@@ -13,5 +13,6 @@ public:
 	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void FinalUpdate(DWORD dt);
 	virtual int GetObjectType();
+	virtual bool GetThrough(CGameObject* obj, D3DXVECTOR2 direction);
 };
 

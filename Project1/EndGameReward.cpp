@@ -2,6 +2,8 @@
 #include "debug.h"
 #include "EndGameRewardEff.h"
 #include "CGame.h"
+#include "Font.h"
+#include "Card.h"
 EndGameReward::EndGameReward():CGameObject()
 {
 	state = END_GAME_REWARD_STATE_MUSHROOM;
@@ -80,6 +82,13 @@ void EndGameReward::SetState(int state)
 		EndGameRewardEff* eff = new EndGameRewardEff(ani);
 		eff->SetPosition(x, y);
 		CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
+		Font* print = new Font("course clear!",D3DXVECTOR2(230,70));
+		CGame::GetInstance()->GetCurrentScene()->AddEffect(print);
+		print = new Font("you got a card", D3DXVECTOR2(150, 150));
+		CGame::GetInstance()->GetCurrentScene()->AddEffect(print);
+		Card* card = new Card(reward, D3DXVECTOR2(500, 100));
+		CGame::GetInstance()->GetCurrentScene()->AddEffect(card);
+		CGame::GetInstance()->StateClear();
 		break;
 	}
 }
@@ -116,4 +125,11 @@ void EndGameReward::Render()
 int EndGameReward::GetObjectType()
 {
 	return OBJECT_TYPE_END_GAME_REWARD;
+}
+
+bool EndGameReward::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
+{
+	if (obj->GetObjectType() == OBJECT_TYPE_MARIO)
+		return false;
+	return true;
 }
