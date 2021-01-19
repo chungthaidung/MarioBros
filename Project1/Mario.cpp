@@ -11,6 +11,7 @@
 #include "FireMario.h"
 #include "CPlayScene.h"
 #include "CheckPoint.h"
+#include "MarioDieEff.h"
 CMario::CMario(float x, float y) : CGameObject()
 {
 	level_p = new SmallMario(this); 
@@ -57,6 +58,19 @@ void CMario::FinalUpdate(DWORD dt)
 {
 	level_p->FinalUpdate(dt);
 	//DebugOut(L"Power Meter: %f\n", powerM);
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+
+	if (y > scene->GetBoundary().bottom && state != MARIO_STATE_DIE)
+	{
+		SetState(MARIO_STATE_DIE);
+		SetLevel(MARIO_LEVEL_SMALL);
+	}
+	else
+	if (state == MARIO_STATE_DIE && GetTickCount() - dietime > 2000)
+	{
+		CGame::GetInstance()->SetMarioLife(-1);
+		CGame::GetInstance()->SwitchScene(WORLD_MAP);
+	}
 }
 
 void CMario::Render()
@@ -130,20 +144,23 @@ void CMario::LevelDown()
 	switch (level_p->GetPlayerLevel())
 	{
 	case MARIO_LEVEL_SMALL:
-		SetLevel(MARIO_LEVEL_SMALL);
+		//SetLevel(MARIO_LEVEL_SMALL);
+		SetState(MARIO_STATE_DIE);
+		scene->SetDelayTime(1000);
 		break;
 	case MARIO_LEVEL_BIG:
 		SetLevel(MARIO_LEVEL_SMALL);
+		scene->SetDelayTime(500);
 		break;
 	case MARIO_LEVEL_RACOON:
 		SetLevel(MARIO_LEVEL_BIG);
+		scene->SetDelayTime(500);
 		break;
 	case MARIO_LEVEL_FIRE:
 		SetLevel(MARIO_LEVEL_BIG);
+		scene->SetDelayTime(500);
 		break;
 	}
-	scene->SetDelayTime(500);
-
 }
 
 
@@ -167,6 +184,12 @@ void CMario::SetState(int state)
 {
 	CGameObject::SetState(state);
 	level_p->SetState(state);
+	if (state == MARIO_STATE_DIE)
+	{
+		dietime = GetTickCount();
+		MarioDieEff* dieeff = new MarioDieEff(D3DXVECTOR2(x, y));
+		CGame::GetInstance()->GetCurrentScene()->AddEffect(dieeff);
+	}
 }
 
 void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -229,8 +252,8 @@ void CMario::Reset()
 void CMario::SetLevel(int level)
 {
 	y += level_p->GetCollisionBox().y;
-	if (AttackState != MARIO_STATE_ATTACK_START)
-	{
+	//if (AttackState != MARIO_STATE_ATTACK_START)
+	//{
 		switch (level)
 		{
 		case MARIO_LEVEL_SMALL:
@@ -246,7 +269,7 @@ void CMario::SetLevel(int level)
 			level_p = new FireMario(this);
 			break;
 		}
-	}
+	//}
 	y -= level_p->GetCollisionBox().y;
 }
 void CMario::StartUntouchable()

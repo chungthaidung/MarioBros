@@ -22,6 +22,7 @@ protected:
 	vector<LPGAMEOBJECT> objects;
 	vector<LPEFFECT> effects;
 	long playtime;
+	long timestart;
 
 public:
 	CScene(int id, std::string path);

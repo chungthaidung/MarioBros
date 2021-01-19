@@ -15,6 +15,7 @@ PlayerLevel::PlayerLevel(CMario* mario)
 }
 void PlayerLevel::Update(DWORD dt)
 {
+	if (mario->GetState() == MARIO_STATE_DIE) return;
 	MiniJump();
 	PowerMeterUpdate(dt);
 	MovingState(dt);
@@ -29,6 +30,8 @@ void PlayerLevel::Update(DWORD dt)
 	//DebugOut(L"Mario vy: %f \n", mario->vy);
 	//DebugOut(L"Mario jump state: %d \n", mario->JumpState);
 	//DebugOut(L"Mario power meter: %f \n", mario->GetPowerMeter());
+	//DebugOut(L"Mario onground: %d \n", mario->onGround);
+
 }
 void PlayerLevel::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects)
 {
@@ -38,13 +41,14 @@ void PlayerLevel::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_obje
 }
 void PlayerLevel::FinalUpdate(DWORD dt)
 {
+	if (mario->GetState() == MARIO_STATE_DIE) return;
+
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	if (mario->coEResult.size() == 0)
 	{
 		mario->x += mario->dx;
 		mario->y += mario->dy;
 		mario->onGround = false;
-	//	DebugOut(L"Mario onground: %d \n", mario->onGround);
 	}
 	else
 	{
@@ -182,6 +186,7 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_PORTAL) 
 			{
 				Portal* portal = dynamic_cast<Portal*>(e->obj);
+				CGame::GetInstance()->SaveMarioWorldPos(portal->GetWorldPos());
 				CGame::GetInstance()->SwitchScene(portal->GetSceneID());
 			}
 		}
@@ -207,7 +212,7 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 	}
 	if (mario->GetUntouchable() == true && GetTickCount() - mario->GetUntouchableStart() > MARIO_UNTOUCHABLE_TIME)
 	{
-		DebugOut(L"TURN OFF UNTOUCHABLE \n");
+	//	DebugOut(L"TURN OFF UNTOUCHABLE \n");
 		mario->SetUntouchable(false);
 		mario->SetUntouchableStart(0);
 	}

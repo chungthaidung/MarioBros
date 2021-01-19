@@ -115,6 +115,36 @@ void CGameObject::FilterCollision(
 	float& min_tx, float& min_ty,
 	float& nx, float& ny, float& rdx, float& rdy)
 {
+	float sl, st, sr, sb;
+	float ml, mt, mr, mb;
+	float t, rnx, rny, touchingLength;
+	this->GetBoundingBox(ml, mt, mr, mb);
+
+	coEventsResult.clear();
+
+	for (LPCOLLISIONEVENT c : coEvents)
+	{
+		for (LPCOLLISIONEVENT cr : coEventsResult)
+		{
+			float dx = c->dx;
+			float dy = c->dy;
+			if (c->nx != 0) {
+				dy = dy * cr->t + (c->dy > 0 ? -1 : 1) * 0.02f;
+			}
+			else {
+				dx = dx * cr->t + (c->dx > 0 ? -1 : 1) * 0.02f;
+			}
+			c->obj->GetBoundingBox(sl, st, sr, sb);
+			CGame::SweptAABB(ml, mt, mr, mb, dx, dy, sl, st, sr, sb, t, rnx, rny, touchingLength);
+			if (t <= 0 || t > 1) {
+				c->t = t;
+			}
+		}
+		if (c->t > 0 && c->t <= 1) {
+			coEventsResult.push_back(c);
+		}
+	}
+
 	min_tx = 1.0f;
 	min_ty = 1.0f;
 	int min_ix = -1;
@@ -123,11 +153,10 @@ void CGameObject::FilterCollision(
 	nx = 0.0f;
 	ny = 0.0f;
 
-	coEventsResult.clear();
 
-	for (UINT i = 0; i < coEvents.size(); i++)
+	for (UINT i = 0; i < coEventsResult.size(); i++)
 	{
-		LPCOLLISIONEVENT c = coEvents[i];
+		LPCOLLISIONEVENT c = coEventsResult[i];
 
 		D3DXVECTOR2 direction = D3DXVECTOR2(c->nx, c->ny);
 		if (GetThrough(c->obj, direction)) continue;
@@ -146,13 +175,13 @@ void CGameObject::FilterCollision(
 			rdy = c->dy;
 		}
 	}
-	for (UINT i = 0; i < coEvents.size(); i++) {
-		LPCOLLISIONEVENT c = coEvents[i];
+	/*for (UINT i = 0; i < temp.size(); i++) {
+		LPCOLLISIONEVENT c = temp[i];
 		if (c->nx != 0 && c->t == min_tx)
 			coEventsResult.push_back(c);
 		if (c->ny != 0 && c->t == min_ty)
 			coEventsResult.push_back(c);
-	}
+	}*/
 	//if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
 	//if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
 }

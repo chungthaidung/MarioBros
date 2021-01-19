@@ -72,6 +72,7 @@ public:
 	CMario* GetMario();
 	void SaveMarioWorldPos(D3DXVECTOR2 pos);
 	void StateClear();
+	void SetMarioLife(int a);
 	D3DXVECTOR2 GetMarioWorldPos();
 	int GetMarioLife();
 	int GetStageClear();

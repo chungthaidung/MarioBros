@@ -557,12 +557,12 @@ void CGame::Load(LPCWSTR gameFile)
 	DebugOut(L"[INFO] Loading game file : %s has been loaded successfully\n", gameFile);
 	DebugOut(L"[INFO] Current scene : %d \n", current_scene);
 	mario = new CMario();
-	LPSCENE s = scenes[current_scene];
+	/*LPSCENE s = scenes[current_scene];
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
-	s->Load();
+	s->Load();*/
 
 
-	//SwitchScene(current_scene);
+	SwitchScene(current_scene);
 	
 }
 void CGame::LoadSprite(LPCWSTR gameFile)
@@ -630,6 +630,8 @@ void CGame::SaveMarioState(CMario* player)
 {
 	mario = player;
 	mario->SetPowerMeter(0);
+	DebugOut(L"[SAVED] Mario level : %d\n", mario->GetLevel());
+
 }
 
 CMario* CGame::GetMario()
@@ -646,6 +648,11 @@ void CGame::SaveMarioWorldPos(D3DXVECTOR2 pos)
 void CGame::StateClear()
 {
 	stageclear++;
+}
+
+void CGame::SetMarioLife(int a)
+{
+	life += a;
 }
 
 D3DXVECTOR2 CGame::GetMarioWorldPos()

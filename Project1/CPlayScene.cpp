@@ -24,12 +24,14 @@
 #include "CMap.h"
 #include "Teleport.h"
 #include "Portal.h"
+#include "MovingObject.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id,std::string Path,long ptime) :
 	CScene(id, Path)
 {
 	key_handler = new CPlayScenceKeyHandler(this);
+	timestart = ptime;
 	playtime = ptime;
 }
 
@@ -161,6 +163,10 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 			{
 				obj = new EndGameReward();
 			}
+			else if (misc.compare("MovingObject") == 0)
+			{
+				obj = new MovingObject();
+			}
 		}
 		else if (name.compare("Teleport") == 0)
 		{
@@ -196,6 +202,7 @@ void CPlayScene::Load()
 	{
 		hud->SetTarget(player);
 	}
+	playtime = timestart;
 //	cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
 //	cam->SetTarget(player);
 	DebugOut(L"[INFO] Done loading scene resources %s\n", ToLPCWSTR(scenePath));
@@ -203,7 +210,10 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
+	if (player == NULL) return;
 	if(delaytime<=0){
+		DebugOut(L"[INFO MARIO LEVEL] Mario level : %d\n", CGame::GetInstance()->GetMario()->GetLevel());
+
 		vector<LPGAMEOBJECT> coObjects;
 		for (size_t i = 0; i < objects.size(); i++)
 		{
@@ -212,6 +222,8 @@ void CPlayScene::Update(DWORD dt)
 		//DebugOut(L"[EFFECT INFO1] Object SIZE: %d \n", objects.size());
 		float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
 		float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+		cam->Update(dt);
+		hud->Update(dt);
 		for (size_t i = 0; i < objects.size(); i++)
 		{
 			if ((objects[i]->GetPosition().x< cx - CGame::GetInstance()->GetScreenWidth() * 1 / 2 || objects[i]->GetPosition().x > cx + CGame::GetInstance()->GetScreenWidth() * 3 / 2
@@ -239,14 +251,11 @@ void CPlayScene::Update(DWORD dt)
 				continue;
 			objects[i]->FinalUpdate(dt);
 		}
-		hud->Update(dt);
 		for (size_t i = 0; i < effects.size(); i++)
 		{
 			effects[i]->Update(dt);
 		}
 		// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
-		if (player == NULL) return;
-		cam->Update(dt);
 		RemoveEffects();
 		RemoveObjects();
 		playtime-=dt;
@@ -282,7 +291,8 @@ void CPlayScene::Render()
 			objects[i]->Render();
 
 	}
-	player->Render();
+	if(player->GetState()!=MARIO_STATE_DIE)
+		player->Render();
 	for (int i = 0; i < effects.size(); i++)
 	{
 		effects[i]->Render();
@@ -304,10 +314,13 @@ void CPlayScene::Unload()
 
 	objects.clear();
 	effects.clear();
-	CGame::GetInstance()->SaveMarioState(player);
+	CMario* temp = player;
+	CGame::GetInstance()->SaveMarioState(temp);
+	//DebugOut(L"[INFO UNLOAD PLAYSCENE] Mario level : %d\n", CGame::GetInstance()->GetMario()->GetLevel());
+
 	player = NULL;
 
-	//DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
+	DebugOut(L"[INFO] Scene %s unloaded! \n",ToLPCWSTR(scenePath));
 }
 
 int CPlayScene::GetSceneType()

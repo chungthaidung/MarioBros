@@ -13,6 +13,7 @@ class CMario : public CGameObject
 	float start_x;			// initial position of Mario at scene
 	float start_y;
 	bool lockcontrol=false;
+	DWORD dietime;
 protected:
 	float gravity;
 	float ax;//gia toc

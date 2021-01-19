@@ -191,8 +191,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="CScene.cpp" />
+    <ClCompile Include="MarioDieEff.cpp" />
     <ClCompile Include="MarioFireBall.cpp" />
     <ClCompile Include="MarioTail.cpp" />
+    <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="NormalGoomba.cpp" />
     <ClCompile Include="Piranha.cpp" />
     <ClCompile Include="PlayerLevel.cpp" />
@@ -266,8 +268,10 @@
     <ClInclude Include="Koopa.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="CScene.h" />
+    <ClInclude Include="MarioDieEff.h" />
     <ClInclude Include="MarioFireBall.h" />
     <ClInclude Include="MarioTail.h" />
+    <ClInclude Include="MovingObject.h" />
     <ClInclude Include="NormalGoomba.h" />
     <ClInclude Include="Piranha.h" />
     <ClInclude Include="PlayerLevel.h" />

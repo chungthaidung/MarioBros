@@ -104,7 +104,7 @@ int VenusFireBall::GetObjectType()
 
 bool VenusFireBall::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
 {
-	return true;
+	return false;
 }
 
 void VenusFireBall::SetActive(bool a)

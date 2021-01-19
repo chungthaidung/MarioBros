@@ -20,6 +20,8 @@ void Font::Render()
 	for (int i = 0; i < c_char.size(); i++)
 	{
 		int ani = int(c_char[i]) - 32;
+		if (CAnimations::GetInstance()->Get(ani) == NULL)
+			ani = LETTER_0;
 		CAnimations::GetInstance()->Get(ani)->Render(pos_x, pos_y);
 		switch (ani)
 		{

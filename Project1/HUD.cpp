@@ -9,8 +9,11 @@ HUD::HUD()
 	cardposition.x = CARD_POSITION_X;
 	cardposition.y = CARD_POSITION_Y;
 	string count = std::to_string(CGame::GetInstance()->GetCurrentScene()->GetPlayTime()/1000);
-	time = new Font(count, D3DXVECTOR2(382, 74));
+	std::string new_count = std::string(3 - count.length(), '0') + count;
+	time = new Font(new_count, D3DXVECTOR2(382, 74));
 	count = std::to_string(CGame::GetInstance()->GetMarioLife());
+	if (CGame::GetInstance()->GetMarioLife() <= 0)
+		count = std::to_string(0);
 	life = new Font(count, D3DXVECTOR2(121, 74));
 	count = std::to_string(CGame::GetInstance()->GetStageClear());
 	stageclear = new Font(count, D3DXVECTOR2(408,48));
@@ -22,8 +25,11 @@ void HUD::Update(DWORD dt)
 	//if (!target->endgame_reward.empty())DebugOut(L"[INFO] Endgame reward size: %d\n", target->endgame_reward.size());
 	pmeter->Update(dt);
 	string count = std::to_string(CGame::GetInstance()->GetCurrentScene()->GetPlayTime() / 1000);
-	time->SetDialog(count);
+	std::string new_count = std::string(3 - count.length(), '0') + count;
+	time = new Font(new_count, D3DXVECTOR2(382, 74));
 	count = std::to_string(CGame::GetInstance()->GetMarioLife());
+	if (CGame::GetInstance()->GetMarioLife() <= 0)
+		count = std::to_string(0);
 	life = new Font(count, D3DXVECTOR2(121, 74));
 	count = std::to_string(CGame::GetInstance()->GetStageClear());
 	stageclear = new Font(count, D3DXVECTOR2(408, 50));

@@ -6,11 +6,14 @@ WorldMario::WorldMario()
 {
 	vx = 0; 
 	vy = 0;
+	renderOrder = 0;
 }
 
 void WorldMario::Update(DWORD dt)
 {
 	CGameObject::Update(dt);
+	//DebugOut(L"vx: %f \n",vx);
+
 }
 
 void WorldMario::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -46,20 +49,22 @@ void WorldMario::FinalUpdate(DWORD dt)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetObjectType() == OBJECT_TYPE_CHECKPOINT )
+			if ( e->obj->GetObjectType() == OBJECT_TYPE_CHECKPOINT )
 			{
 				CheckPoint* checkpoint = dynamic_cast<CheckPoint*>(e->obj);
 				//DebugOut(L"[INFO MARIO WORLD] pos x: %f || pos y: %f \n", x, y);
 				if (e->ny != 0) {
-					if (e->ny > 0) vy = -0.01;
-					if (e->ny < 0) vy = 0.01;
+					if (e->ny > 0) vy = -0.3;
+					if (e->ny < 0) vy = 0.3;
 				}
 				if (e->nx != 0) {
-					if (e->nx > 0) vx = -0.01;
-					if (e->nx < 0) vx = 0.01;
+					if (e->nx > 0) vx = -0.3;
+					if (e->nx < 0) vx = 0.3;
 				}
-				if (keyboard->IsKeyDown(DIK_S) && checkpoint->CanTele() == true)
+				if (keyboard->IsKeyDown(DIK_S) && checkpoint->CanTele() == true) {
+					DebugOut(L"[INFO MARIO WORLD] pos x: %f || pos y: %f \n", x, y);
 					CGame::GetInstance()->SwitchScene(checkpoint->GetSceneID());
+				}
 			}
 		}
 	}
@@ -129,6 +134,7 @@ void WorldMario::SetLevel(int level)
 
 void WorldMario::OnKeyDown(int KeyCode)
 {
+	if (CGame::GetInstance()->GetMarioLife() < 0) return;
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	switch (KeyCode)
 	{

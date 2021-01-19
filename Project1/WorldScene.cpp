@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "WorldScene.h"
 #include "CPlaySceneKeyHandler.h"
 #include "debug.h"
@@ -56,7 +57,9 @@ void WorldScene::LoadObjGroup(TiXmlElement* data, std::string name)
 			//obj = new CMario(x, y);
 			player = (WorldMario*)obj;
 			if (CGame::GetInstance()->GetMario() != NULL)
+			{
 				player->SetLevel(CGame::GetInstance()->GetMario()->GetLevel());
+			}
 			DebugOut(L"[INFO] Player object created!\n");
 		}
 		else if (name.compare("Ground") == 0)
@@ -101,6 +104,8 @@ void WorldScene::Load()
 	{
 		hud->SetTarget(game->GetMario());
 	}
+	/*if (CGame::GetInstance()->GetMario() != NULL)
+		player->SetLevel(CGame::GetInstance()->GetMario()->GetLevel());*/
 	/*cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
 	cam->SetTarget(player);*/
 	DebugOut(L"[INFO] Done loading scene resources %s\n", ToLPCWSTR(scenePath));
@@ -109,7 +114,10 @@ void WorldScene::Load()
 
 void WorldScene::Update(DWORD dt)
 {
-	if (delaytime <= 0) {
+	if (player == NULL) return;
+	if (CGame::GetInstance()->GetMarioLife()>=0) {
+		DebugOut(L"[INFO WORLD] Mario level : %d\n", CGame::GetInstance()->GetMario()->GetLevel());
+
 		vector<LPGAMEOBJECT> coObjects;
 		for (size_t i = 0; i < objects.size(); i++)
 		{
@@ -118,6 +126,8 @@ void WorldScene::Update(DWORD dt)
 		//DebugOut(L"[EFFECT INFO1] Object SIZE: %d \n", objects.size());
 		float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
 		float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
+		cam->Update(dt);
+		hud->Update(dt);
 		for (size_t i = 0; i < objects.size(); i++)
 		{
 			if ((objects[i]->GetPosition().x< cx - CGame::GetInstance()->GetScreenWidth() * 1 / 2 || objects[i]->GetPosition().x > cx + CGame::GetInstance()->GetScreenWidth() * 3 / 2
@@ -145,26 +155,19 @@ void WorldScene::Update(DWORD dt)
 				continue;
 			objects[i]->FinalUpdate(dt);
 		}
-		hud->Update(dt);
 		for (size_t i = 0; i < effects.size(); i++)
 		{
 			effects[i]->Update(dt);
 		}
-		// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
-		if (player == NULL) return;
-		cam->Update(dt);
 		RemoveEffects();
 		RemoveObjects();
-	}
-	else
-	{
-		delaytime -= dt;
 	}
 }
 
 void WorldScene::Render()
 {
 	CGame::GetInstance()->SetViewport(0, 0, GAME_WIDTH, GAME_HEIGHT);
+	std::sort(objects.begin(), objects.end(), CGameObject::rendercompare);
 	gamemap->Render();
 	for (int i = 0; i < objects.size(); i++)
 	{
@@ -182,12 +185,12 @@ void WorldScene::Unload()
 		delete objects[i];
 	for (int i = 0; i < effects.size(); i++)
 		delete effects[i];
-
 	objects.clear();
 	effects.clear();
+	//CGame::GetInstance()->SaveMarioState(CGame::GetInstance()->GetMario());
 	//CGame::GetInstance()->SaveMarioState(player);
-
 	player = NULL;
+	DebugOut(L"[INFO WORLD MAP] Unload successful.\n");
 }
 
 int WorldScene::GetSceneType()

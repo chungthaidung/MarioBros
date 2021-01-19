@@ -2,6 +2,7 @@
 #include "define.h"
 #include "CGame.h"
 #include "Utils.h"
+#include "debug.h"
 Portal::Portal(TiXmlElement* data)
 {
 	TiXmlElement* properties = data->FirstChildElement("properties");
@@ -14,12 +15,16 @@ Portal::Portal(TiXmlElement* data)
 		}
 		else if (name.compare("world_pos") == 0)
 		{
-			string world_pos = property->Attribute("value");
-			vector<string> b = ParseComa(world_pos);
+			string worldpos = property->Attribute("value");
+			vector<string> b = ParseComa(worldpos);
+
 			float x = stof(b[0]);
 			float y = stof(b[1]);
-			D3DXVECTOR2 pos = D3DXVECTOR2(x, y);
-			CGame::GetInstance()->SaveMarioWorldPos(pos);
+			this->world_pos.x = x;
+			this->world_pos.y = y;
+		//	DebugOut(L"[WORLD POSITION] x: %f || y: %f \n", x,y);
+
+			//CGame::GetInstance()->SaveMarioWorldPos(pos);
 		}
 	}
 }
@@ -45,6 +50,11 @@ int Portal::GetObjectType()
 int Portal::GetSceneID()
 {
 	return sceneID;
+}
+
+D3DXVECTOR2 Portal::GetWorldPos()
+{
+	return world_pos;
 }
 
 bool Portal::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
