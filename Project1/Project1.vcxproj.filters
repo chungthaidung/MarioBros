@@ -115,6 +115,18 @@
     <Filter Include="Game\Game Object\Object\CheckPoint">
       <UniqueIdentifier>{666b15da-6c2c-452e-8d42-712ad13cce72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Scene\KeyHandler\PlayScene">
+      <UniqueIdentifier>{c0c4ad01-b715-42d3-8fc8-70ba862d839b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\KeyHandler\IntroScene">
+      <UniqueIdentifier>{8a12f4db-07e3-4b2e-9855-d6ee13ab9deb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\IntroScene">
+      <UniqueIdentifier>{eda3629b-761f-49a0-b020-a427a9705ea5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\IntroScene\Object">
+      <UniqueIdentifier>{6fe46388-1a7c-4920-850f-7c494be50bdc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">
@@ -176,9 +188,6 @@
     </ClCompile>
     <ClCompile Include="RacoonMario.cpp">
       <Filter>Game\Game Object\Object\Mario\Player Level</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlaySceneKeyHandler.cpp">
-      <Filter>Game\Scene\KeyHandler</Filter>
     </ClCompile>
     <ClCompile Include="FireMario.cpp">
       <Filter>Game\Game Object\Object\Mario\Player Level</Filter>
@@ -346,7 +355,19 @@
       <Filter>Game\Game Object\Object\Misc\Goods</Filter>
     </ClCompile>
     <ClCompile Include="FloatingKoopa.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game\Game Object\Object\Enemy\Koopa</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlaySceneKeyHandler.cpp">
+      <Filter>Game\Scene\KeyHandler\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CIntroSceneKeyHandler.cpp">
+      <Filter>Game\Scene\KeyHandler\IntroScene</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>Game\Scene\IntroScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Opening.cpp">
+      <Filter>Game\Scene\IntroScene\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -381,9 +402,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CScenceKeyHandler.h">
-      <Filter>Game\Scene\KeyHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlaySceneKeyHandler.h">
       <Filter>Game\Scene\KeyHandler</Filter>
     </ClInclude>
     <ClInclude Include="CAnimationSets.h">
@@ -573,7 +591,19 @@
       <Filter>Game\Game Object\Object\Misc\Goods</Filter>
     </ClInclude>
     <ClInclude Include="FloatingKoopa.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game\Game Object\Object\Enemy\Koopa</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlaySceneKeyHandler.h">
+      <Filter>Game\Scene\KeyHandler\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CIntroSceneKeyHandler.h">
+      <Filter>Game\Scene\KeyHandler\IntroScene</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>Game\Scene\IntroScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Opening.h">
+      <Filter>Game\Scene\IntroScene\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

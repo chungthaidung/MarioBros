@@ -10,6 +10,7 @@
 #include "CTextures.h"
 #include "CSprites.h"
 #include "WorldScene.h"
+#include "IntroScene.h"
 CGame* CGame::__instance = NULL;
 DWORD CGame::DeltaTime = 0;
 
@@ -403,7 +404,6 @@ void CGame::_ParseSection_SCENES(string line)
 	string path = tokens[1].c_str();
 	long time = atoi(tokens[2].c_str());
 	int type = atoi(tokens[3].c_str());
-	 //scene = new CPlayScene(id, path, time);
 	switch (type) {
 	case PLAY_SCENE:
 	{
@@ -414,6 +414,12 @@ void CGame::_ParseSection_SCENES(string line)
 	case WORLD_MAP: 
 	{
 		LPSCENE scene = new WorldScene(id, path);
+		scenes[id] = scene;
+	}
+		break;
+	case INTRO_SCENE:
+	{
+		LPSCENE scene = new IntroScene(id, path);
 		scenes[id] = scene;
 	}
 		break;

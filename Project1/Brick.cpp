@@ -110,6 +110,7 @@ void Brick::FinalUpdate(DWORD dt)
 				}
 				else if (state == BRICK_COIN)
 				{
+					CGame::GetInstance()->SetPoints(100);
 					isRemove = true;
 				}
 			}

@@ -16,11 +16,15 @@ CTileset::CTileset(TiXmlElement* data)
     case 1:
     case 2:
         texture = CTextures::GetInstance()->Get(WORLD_1_1);
-        DebugOut(L"[INFO] WORLD_1 \n");
+        DebugOut(L"[INFO] WORLD_1_1 \n");
         break;
     case 0:
         texture = CTextures::GetInstance()->Get(WORLD_MAP_1);
         DebugOut(L"[INFO] WORLD_MAP_1 \n");
+        break; 
+    case 3:
+        texture = CTextures::GetInstance()->Get(INTRO);
+        DebugOut(L"[INFO] INTRO \n");
         break;
     }
     AddTiles();

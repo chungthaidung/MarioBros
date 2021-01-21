@@ -85,6 +85,11 @@ void Camera::CameraFollowTarget()
 			position.y = boundary.bottom - size.y;
 			lock_cam = false;
 		}
+		if (target->GetObjectType() != OBJECT_TYPE_MARIO) {
+			position.x = 0;
+			position.y = 0;
+		}
+			
 		//DebugOut(L"[INFO BOUNDARY] y: %f \n", boundary.bottom - size.y);
 	}
 }
