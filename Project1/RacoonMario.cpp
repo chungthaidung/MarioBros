@@ -13,6 +13,10 @@ int RacoonMario::GetPlayerLevel()
 {
 	return 3;
 }
+MarioTail* RacoonMario::GetMarioWeapon()
+{
+	return tail;
+}
 void RacoonMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	mario->GetPosition(left, top);

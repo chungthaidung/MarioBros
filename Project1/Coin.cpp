@@ -49,6 +49,7 @@ void Coin::FinalUpdate(DWORD dt)
 
 			if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO)
 			{
+				CGame::GetInstance()->SetPoints(100);
 				isRemove = true;
 			}
 		}

@@ -62,8 +62,10 @@ void WorldMario::FinalUpdate(DWORD dt)
 					if (e->nx < 0) vx = 0.3;
 				}
 				if (keyboard->IsKeyDown(DIK_S) && checkpoint->CanTele() == true) {
-					DebugOut(L"[INFO MARIO WORLD] pos x: %f || pos y: %f \n", x, y);
-					CGame::GetInstance()->SwitchScene(checkpoint->GetSceneID());
+					CGame::GetInstance()->GetCurrentScene()->SetSwitchScene(checkpoint->GetSceneID());
+					CGame::GetInstance()->GetCurrentScene()->SetisUnload(true);
+					/*DebugOut(L"[INFO MARIO WORLD] pos x: %f || pos y: %f \n", x, y);
+					CGame::GetInstance()->SwitchScene(checkpoint->GetSceneID());*/
 				}
 			}
 		}

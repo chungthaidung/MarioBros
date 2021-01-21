@@ -57,7 +57,7 @@ void Koopa::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Koopa::FinalUpdate(DWORD dt)
 {
 	koopaState->FinalUpdate(dt);
-	if (y > 41*48) isRemove = true;// hardcode
+	if (y > CGame::GetInstance()->GetCurrentScene()->GetBoundary().bottom) isRemove = true;
 }
 void Koopa::Render()
 {

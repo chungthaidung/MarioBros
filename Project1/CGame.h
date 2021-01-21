@@ -43,7 +43,7 @@ class CGame
 	CMario* mario;
 	int life = 4;
 	int stageclear=0;
-	//int mario_level=MARIO_LEVEL_SMALL;
+	int points = 0;
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line); 
 	void _ParseSection_TEXTURES(string line);
@@ -73,9 +73,11 @@ public:
 	void SaveMarioWorldPos(D3DXVECTOR2 pos);
 	void StateClear();
 	void SetMarioLife(int a);
+	void SetPoints(int a);
 	D3DXVECTOR2 GetMarioWorldPos();
 	int GetMarioLife();
 	int GetStageClear();
+	int GetPoints();
 
 	int GetScreenWidth() { return screen_width; }
 	int GetScreenHeight() { return screen_height; }

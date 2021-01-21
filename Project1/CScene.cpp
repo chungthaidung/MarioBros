@@ -66,6 +66,16 @@ long CScene::GetPlayTime()
 	return playtime;
 }
 
+void CScene::SetisUnload(bool a)
+{
+	isUnload = a;
+}
+
+void CScene::SetSwitchScene(int a)
+{
+	switchsceneid = a;
+}
+
 void CScene::SetBoundary(RECT a)
 {
 	cam_boundary = a;

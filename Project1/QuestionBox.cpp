@@ -9,6 +9,7 @@
 #include "SwitchButton.h"
 #include "PointsEff.h"
 #include "define.h"
+#include "UpMushroom.h"
 QuestionBox::QuestionBox(int obj_type,float y)
 {
 	y_start = y;
@@ -116,7 +117,8 @@ void QuestionBox::FinalUpdate(DWORD dt)
 			CGame::GetInstance()->GetCurrentScene()->SpawnObject(reward);
 		else 
 		{
-			eff = new CoinEff(); 
+			CGame::GetInstance()->SetPoints(100);
+			eff = new CoinEff();
 			eff->SetPosition(x, y);
 			CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 		}
@@ -179,6 +181,10 @@ void QuestionBox::SetReward(int obj_type)
 	case OBJECT_TYPE_SWITCH_BUTTON:
 		reward = new SwitchButton();
 		reward->SetState(SWITCH_BUTTON_STATE_UP);
+		break;
+	case OBJECT_TYPE_UP_MUSHROOM:
+		reward = new UpMushroom(y_start);
+		reward->SetState(UP_MUSHROOM_STATE_UP);
 		break;
 	}
 }

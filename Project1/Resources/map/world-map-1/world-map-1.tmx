@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="16" height="15" tilewidth="48" tileheight="48" infinite="0" nextlayerid="11" nextobjectid="126">
- <tileset firstgid="1" name="tileset" tilewidth="48" tileheight="48" tilecount="216" columns="9">
+ <tileset firstgid="1" name="tileset" tilewidth="48" tileheight="48" tilecount="63" columns="9">
   <image source="tileset.png" width="446" height="348"/>
  </tileset>
  <layer id="1" name="black" width="16" height="15">
@@ -106,6 +106,7 @@
  <objectgroup id="7" name="Camera">
   <properties>
    <property name="boundary" value="0,0,768,576"/>
+   <property name="moving_cam" type="bool" value="false"/>
   </properties>
  </objectgroup>
  <objectgroup id="5" name="Ground">

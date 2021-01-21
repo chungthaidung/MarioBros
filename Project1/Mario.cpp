@@ -140,6 +140,7 @@ void CMario::LevelUp(CGameObject* obj)
 void CMario::LevelDown()
 {
 	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+
 	StartUntouchable();
 	switch (level_p->GetPlayerLevel())
 	{
@@ -154,6 +155,11 @@ void CMario::LevelDown()
 		break;
 	case MARIO_LEVEL_RACOON:
 		SetLevel(MARIO_LEVEL_BIG);
+		if (AttackState == MARIO_STATE_ATTACK_START)
+		{
+			RacoonMario* racoon = (RacoonMario*)level_p;
+			racoon->GetMarioWeapon()->SetActive(false);
+		}
 		scene->SetDelayTime(500);
 		break;
 	case MARIO_LEVEL_FIRE:
@@ -199,14 +205,17 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 bool CMario::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
 {
-
+	if (untouchable == true && obj->isEnemy == true) {
+		DebugOut(L"SKIP\n");
+		return true;
+	}
 	if (obj->GetObjectType() == OBJECT_TYPE_GHOST && (direction.y > 0 || direction.x != 0))
 		return true;
 	if (obj->GetObjectType() == OBJECT_TYPE_COIN )
 		return true;
 	if (obj->GetState() == BRICK_COIN && obj->GetObjectType() == OBJECT_TYPE_BRICK) return true;
 	if (obj->GetObjectType() == OBJECT_TYPE_END_GAME_REWARD) return true;
-	if (GetUntouchable() && obj->isEnemy) return true;
+	//if (GetUntouchable() && obj->isEnemy) return true;
 	if (obj->GetObjectType() == OBJECT_TYPE_CHECKPOINT)
 	{
 		CheckPoint* checkpoint = dynamic_cast<CheckPoint*>(obj);
@@ -277,6 +286,12 @@ void CMario::StartUntouchable()
 	DebugOut(L"TURN ON UNTOUCHABLE \n");
 	untouchable = true; 
 	untouchable_start = GetTickCount();
+}
+void CMario::StopUntouchable()
+{
+	DebugOut(L"TURN OFF UNTOUCHABLE \n");
+	untouchable=false;
+	untouchable_start = 0;
 }
 void CMario::OnKeyDown(int KeyCode)
 {

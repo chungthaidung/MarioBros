@@ -13,8 +13,10 @@ public:
 	virtual bool GetThrough(CGameObject* obj, D3DXVECTOR2 direction);
 	RECT GetReBoundary();
 	D3DXVECTOR2 GetRePosition();
+	bool GetReMovingCam();
 protected:
 	RECT re_boundary;
 	D3DXVECTOR2 re_position;
+	bool re_movingcam;
 };
 

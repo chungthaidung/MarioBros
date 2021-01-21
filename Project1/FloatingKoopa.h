@@ -1,30 +1,28 @@
 #pragma once
 #include "CGameObject.h"
-#define SUPER_MUSHROOM_BBOX_WIDTH 48
-#define SUPER_MUSHROOM_BBOX_HEIGHT 48
+#define FLOATING_KOOPA_STATE_UP 0
+#define FLOATING_KOOPA_STATE_DOWN 1
+#define FLOATING_KOOPA_STATE_FALL	2
 
-#define SUPER_MUSHROOM_VELOCITY 0.15f
-
-#define SUPER_MUSHROOM_STATE_UP 1
-#define SUPER_MUSHROOM_STATE_MOVE 2
-
-#define SUPER_MUSHROOM_ANI	611
-class SuperMushroom :
+class FloatingKoopa :
     public CGameObject
 {
 public:
-    SuperMushroom(float y_s);
+	FloatingKoopa(float a, float b);
 	virtual void Update(DWORD dt);
 	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void FinalUpdate(DWORD dt);
 	virtual void SetState(int state);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual bool GetThrough(CGameObject* obj, D3DXVECTOR2 direction);
+
 	virtual void Render();
 	virtual int GetObjectType();
-	virtual bool GetThrough(CGameObject* obj, D3DXVECTOR2 direction);
-	void SetGravity(float g);
+
+	void SetGravity(float a);
+	float GetGravity();
 protected:
 	float gravity;
-	float y_start;
+	float top_limit, bottom_limit;
 };
 

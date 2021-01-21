@@ -655,6 +655,11 @@ void CGame::SetMarioLife(int a)
 	life += a;
 }
 
+void CGame::SetPoints(int a)
+{
+	points += a;
+}
+
 D3DXVECTOR2 CGame::GetMarioWorldPos()
 {
 	return world_pos;
@@ -668,5 +673,10 @@ int CGame::GetMarioLife()
 int CGame::GetStageClear()
 {
 	return stageclear;
+}
+
+int CGame::GetPoints()
+{
+	return points;
 }
 

@@ -78,10 +78,11 @@ void NormalGoomba::FinalUpdate(DWORD dt)
 
 			if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO)
 			{
-				
-				if (e->ny > 0) {
+				CMario* mario = dynamic_cast<CMario*>(e->obj);
+				if (e->ny > 0 && mario->GetUntouchable() == false) {
 					goomba->SetState(GOOMBA_STATE_DIE);
 					goomba->SetDieTime(GetTickCount());
+					CGame::GetInstance()->SetPoints(100);
 					eff = new PointsEff(POINT_100_ANI);
 					eff->SetPosition(goomba->x, goomba->y);
 					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
@@ -110,6 +111,7 @@ void NormalGoomba::FinalUpdate(DWORD dt)
 				eff = new TailAttackEf();
 				eff->SetPosition(goomba->x, goomba->y);
 				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
+				CGame::GetInstance()->SetPoints(100);
 				eff = new PointsEff(POINT_100_ANI);
 				eff->SetPosition(goomba->x, goomba->y);
 				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);

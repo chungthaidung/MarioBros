@@ -342,6 +342,12 @@
     <ClCompile Include="MovingObject.cpp">
       <Filter>Game\Game Object\Object\Misc</Filter>
     </ClCompile>
+    <ClCompile Include="UpMushroom.cpp">
+      <Filter>Game\Game Object\Object\Misc\Goods</Filter>
+    </ClCompile>
+    <ClCompile Include="FloatingKoopa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -562,6 +568,12 @@
     </ClInclude>
     <ClInclude Include="MovingObject.h">
       <Filter>Game\Game Object\Object\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="UpMushroom.h">
+      <Filter>Game\Game Object\Object\Misc\Goods</Filter>
+    </ClInclude>
+    <ClInclude Include="FloatingKoopa.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

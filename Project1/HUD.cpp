@@ -17,7 +17,9 @@ HUD::HUD()
 	life = new Font(count, D3DXVECTOR2(121, 74));
 	count = std::to_string(CGame::GetInstance()->GetStageClear());
 	stageclear = new Font(count, D3DXVECTOR2(408,48));
-	
+	count = std::to_string(CGame::GetInstance()->GetPoints());
+	std::string new_points = std::string(7 - count.length(), '0') + count;
+	points = new Font(new_points, D3DXVECTOR2(171, 74));
 }
 
 void HUD::Update(DWORD dt)
@@ -33,6 +35,9 @@ void HUD::Update(DWORD dt)
 	life = new Font(count, D3DXVECTOR2(121, 74));
 	count = std::to_string(CGame::GetInstance()->GetStageClear());
 	stageclear = new Font(count, D3DXVECTOR2(408, 50));
+	count = std::to_string(CGame::GetInstance()->GetPoints());
+	std::string new_points = std::string(7 - count.length(), '0') + count;
+	points = new Font(new_points, D3DXVECTOR2(171, 74));
 }
 
 void HUD::Render()
@@ -56,7 +61,7 @@ void HUD::Render()
 	time->Render();
 	life->Render();
 	stageclear->Render();
-
+	points->Render();
 }
 
 void HUD::SetTarget(CMario* mario)

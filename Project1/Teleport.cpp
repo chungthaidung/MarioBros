@@ -23,9 +23,11 @@ Teleport::Teleport(TiXmlElement* data)
 			re_position.x =x;
 			re_position.y =y;
 			//DebugOut(L"RePosition mario: x: %f || y: %f \n", x, y);
-
 			//DebugOut(L"RePosition mario: %s \n", ToLPCWSTR(reposition));
-
+		}
+		else if (name.compare("moving_cam") == 0)
+		{
+			property->QueryBoolAttribute("value", &re_movingcam);
 		}
 	}
 	//DebugOut(L"ReBoundary: left: %d || top: %d || right: %d || bottom: %d\n", re_boundary.left, re_boundary.top, re_boundary.right, re_boundary.bottom);
@@ -69,5 +71,10 @@ RECT Teleport::GetReBoundary()
 D3DXVECTOR2 Teleport::GetRePosition()
 {
 	return re_position;
+}
+
+bool Teleport::GetReMovingCam()
+{
+	return re_movingcam;
 }
 

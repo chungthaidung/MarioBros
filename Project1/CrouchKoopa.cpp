@@ -67,11 +67,11 @@ void CrouchKoopa::FinalUpdate(DWORD dt)
 				if (e->ny > 0)
 				{
 					PointsEff* eff = new PointsEff(POINT_200_ANI);
+					CGame::GetInstance()->SetPoints(200);
 					eff->SetPosition(koopa->x, koopa->y);
 					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 				}
 			}
-
 		}
 		else if (e->obj->GetObjectType() == OBJECT_TYPE_TAIL)
 		{

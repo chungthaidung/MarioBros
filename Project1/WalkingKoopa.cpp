@@ -60,6 +60,7 @@ void WalkingKoopa::FinalUpdate(DWORD dt)
 			{
 				if (e->ny > 0) {
 					koopa->SetState(KOOPA_STATE_CROUCH);
+					CGame::GetInstance()->SetPoints(100);
 					PointsEff* eff = new PointsEff(POINT_100_ANI);
 					eff->SetPosition(koopa->x, koopa->y);
 					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
@@ -81,6 +82,7 @@ void WalkingKoopa::FinalUpdate(DWORD dt)
 			}
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL || (e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_SHELL_RUNNING))
 			{
+				CGame::GetInstance()->SetPoints(100);
 				PointsEff* eff = new PointsEff(POINT_100_ANI);
 				eff->SetPosition(koopa->x, koopa->y);
 				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);

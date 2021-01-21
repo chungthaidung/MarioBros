@@ -59,8 +59,10 @@ void FlyingKoopa::FinalUpdate(DWORD dt)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO)
 			{
-				if (e->ny > 0) {
+				CMario* mario = dynamic_cast<CMario*>(e->obj);
+				if (e->ny > 0 && mario->GetUntouchable() == false){
 					koopa->SetState(KOOPA_STATE_WALKING);
+					CGame::GetInstance()->SetPoints(100);
 					PointsEff* eff = new PointsEff(POINT_100_ANI);
 					eff->SetPosition(koopa->x, koopa->y);
 					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
@@ -80,6 +82,7 @@ void FlyingKoopa::FinalUpdate(DWORD dt)
 			}
 			else if ((e->obj->GetObjectType() == OBJECT_TYPE_KOOPA && e->obj->GetState() == KOOPA_STATE_SHELL_RUNNING) || e->obj->GetObjectType() == OBJECT_TYPE_FIREBALL)
 			{
+				CGame::GetInstance()->SetPoints(100);
 				PointsEff* eff = new PointsEff(POINT_100_ANI);
 				eff->SetPosition(koopa->x, koopa->y);
 				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);

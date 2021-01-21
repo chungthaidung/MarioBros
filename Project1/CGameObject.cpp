@@ -161,29 +161,27 @@ void CGameObject::FilterCollision(
 		D3DXVECTOR2 direction = D3DXVECTOR2(c->nx, c->ny);
 		if (GetThrough(c->obj, direction)) continue;
 
-		if (c->t < min_tx && c->nx != 0 ) {//&& c->nx*vx<0
+		if (c->t < min_tx && c->nx != 0 ) {
 			min_tx = c->t; 
 			nx = c->nx; 
 			min_ix = i; 
 			rdx = c->dx;
 		}
 
-		if (c->t < min_ty && c->ny != 0) {//&&c->ny * vy < 0
+		if (c->t < min_ty && c->ny != 0) {
 			min_ty = c->t;
 			ny = c->ny; 
 			min_iy = i; 
 			rdy = c->dy;
 		}
 	}
-	/*for (UINT i = 0; i < temp.size(); i++) {
-		LPCOLLISIONEVENT c = temp[i];
+	/*for (UINT i = 0; i < coEventsResult.size(); i++) {
+		LPCOLLISIONEVENT c = coEventsResult[i];
 		if (c->nx != 0 && c->t == min_tx)
 			coEventsResult.push_back(c);
 		if (c->ny != 0 && c->t == min_ty)
 			coEventsResult.push_back(c);
 	}*/
-	//if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
-	//if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
 }
 
 
@@ -218,7 +216,7 @@ void CGameObject::RenderBoundingBox()
 	rect.bottom = (int)b - (int)t;
 	float cx = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.x;
 	float cy = CGame::GetInstance()->GetCurrentScene()->GetCamera()->position.y;
-	CGame::GetInstance()->DrawEx(x-cx, y-cy, bbox, rect,p, 1, D3DXVECTOR2(1.0f, 1.0f), 32);//hardcode
+	CGame::GetInstance()->DrawEx(x-cx, y-cy, bbox, rect,p, 1, D3DXVECTOR2(1.0f, 1.0f), 32);
 }
 
 

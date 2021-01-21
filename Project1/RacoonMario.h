@@ -15,6 +15,7 @@ public:
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode);
 	virtual int GetPlayerLevel();
+	virtual MarioTail* GetMarioWeapon();
 protected:
 	DWORD flytime;
 	DWORD attacktime;

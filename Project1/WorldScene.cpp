@@ -116,7 +116,7 @@ void WorldScene::Update(DWORD dt)
 {
 	if (player == NULL) return;
 	if (CGame::GetInstance()->GetMarioLife()>=0) {
-		DebugOut(L"[INFO WORLD] Mario level : %d\n", CGame::GetInstance()->GetMario()->GetLevel());
+		//DebugOut(L"[INFO WORLD] Mario level : %d\n", CGame::GetInstance()->GetMario()->GetLevel());
 
 		vector<LPGAMEOBJECT> coObjects;
 		for (size_t i = 0; i < objects.size(); i++)
@@ -161,6 +161,8 @@ void WorldScene::Update(DWORD dt)
 		}
 		RemoveEffects();
 		RemoveObjects();
+		if(isUnload==true)
+			CGame::GetInstance()->SwitchScene(switchsceneid);
 	}
 }
 
@@ -191,6 +193,7 @@ void WorldScene::Unload()
 	//CGame::GetInstance()->SaveMarioState(player);
 	player = NULL;
 	DebugOut(L"[INFO WORLD MAP] Unload successful.\n");
+	isUnload = false;
 }
 
 int WorldScene::GetSceneType()

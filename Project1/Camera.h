@@ -11,11 +11,17 @@ protected:
 	CGameObject* target;
 	//float y_ground;
 	bool lock_cam=false;
+	bool moving_cam = false;
+	float vx;
 public:
 	Camera(TiXmlElement* data);
 	void SetTarget(CGameObject* player);
 	void Update(DWORD dt);
 	void SetLockCam(bool a);
+	void CameraFollowTarget();
+	void MovingCamera(DWORD dt);
+	void FinalUpdate(DWORD dt);
+	void SetMovingCam(bool a);
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 size= D3DXVECTOR2(GAME_WIDTH, GAME_HEIGHT);
 

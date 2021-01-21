@@ -101,9 +101,10 @@ void FlyingGoomba::FinalUpdate(DWORD dt)
 
 			if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO)
 			{
-
-				if (e->ny > 0) {
+				CMario* mario = dynamic_cast<CMario*>(e->obj);
+				if (e->ny > 0 && mario->GetUntouchable() == false) {
 					goomba->SetState(GOOMBA_STATE_WALKING);
+					CGame::GetInstance()->SetPoints(100);
 					PointsEff* eff = new PointsEff(POINT_100_ANI);
 					eff->SetPosition(goomba->x, goomba->y);
 					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);

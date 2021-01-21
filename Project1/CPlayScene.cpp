@@ -25,6 +25,8 @@
 #include "Teleport.h"
 #include "Portal.h"
 #include "MovingObject.h"
+#include "UpMushroom.h"
+#include "FloatingKoopa.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id,std::string Path,long ptime) :
@@ -131,6 +133,16 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 				property->QueryIntAttribute("value", &ny);
 				obj = new Venus(type,ny,y);
 			}
+			else if(enemy.compare("FloatingKoopa") == 0)
+			{
+				TiXmlElement* property = objdata->FirstChildElement("properties");
+				property = property->FirstChildElement("property");
+				string y_limit = property->Attribute("value");
+				vector<string> b = ParseComa(y_limit);
+				float t_limit = stof(b[0]);
+				float b_limit = stof(b[1]);
+				obj = new FloatingKoopa(t_limit,b_limit);
+			}
 		}
 		else if (name.compare("Misc") == 0)
 		{
@@ -190,7 +202,7 @@ void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", scenePath);
 	LoadObjects();
-	gamemap = new CMap(scenePath);//hardcode
+	gamemap = new CMap(scenePath);
 	hud = new HUD();
 	gamemap->LoadGameMap();
 	CGame* game = CGame::GetInstance();
@@ -211,8 +223,8 @@ void CPlayScene::Load()
 void CPlayScene::Update(DWORD dt)
 {
 	if (player == NULL) return;
-	if(delaytime<=0){
-		DebugOut(L"[INFO MARIO LEVEL] Mario level : %d\n", CGame::GetInstance()->GetMario()->GetLevel());
+	if(delaytime<=0 ){
+		//DebugOut(L"[INFO MARIO LEVEL] Mario level : %d\n", CGame::GetInstance()->GetMario()->GetLevel());
 
 		vector<LPGAMEOBJECT> coObjects;
 		for (size_t i = 0; i < objects.size(); i++)
@@ -242,7 +254,7 @@ void CPlayScene::Update(DWORD dt)
 				continue;
 			objects[i]->CollisionUpdate(dt, &coObjects);
 		}
-
+		cam->FinalUpdate(dt);
 		for (size_t i = 0; i < objects.size(); i++)
 		{
 			if ((objects[i]->GetPosition().x< cx - CGame::GetInstance()->GetScreenWidth() * 1 / 2 || objects[i]->GetPosition().x > cx + CGame::GetInstance()->GetScreenWidth() * 3 / 2
@@ -259,6 +271,8 @@ void CPlayScene::Update(DWORD dt)
 		RemoveEffects();
 		RemoveObjects();
 		playtime-=dt;
+		if (isUnload == true)
+			CGame::GetInstance()->SwitchScene(switchsceneid);
 		//DebugOut(L"[INFO] Play time : %d\n", playtime);
 	}
 	else
@@ -307,20 +321,20 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 {
+
 	for (int i = 0; i < objects.size(); i++)
 		delete objects[i];
 	for (int i = 0; i < effects.size(); i++)
 		delete effects[i];
-
 	objects.clear();
 	effects.clear();
 	CMario* temp = player;
 	CGame::GetInstance()->SaveMarioState(temp);
 	//DebugOut(L"[INFO UNLOAD PLAYSCENE] Mario level : %d\n", CGame::GetInstance()->GetMario()->GetLevel());
-
 	player = NULL;
-
 	DebugOut(L"[INFO] Scene %s unloaded! \n",ToLPCWSTR(scenePath));
+	isUnload = false;
+
 }
 
 int CPlayScene::GetSceneType()

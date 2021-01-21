@@ -1,19 +1,20 @@
 #pragma once
 #include "CGameObject.h"
-#define SUPER_MUSHROOM_BBOX_WIDTH 48
-#define SUPER_MUSHROOM_BBOX_HEIGHT 48
+#define UP_MUSHROOM_BBOX_WIDTH 48
+#define UP_MUSHROOM_BBOX_HEIGHT 48
 
-#define SUPER_MUSHROOM_VELOCITY 0.15f
+#define UP_MUSHROOM_VELOCITY 0.15f
 
-#define SUPER_MUSHROOM_STATE_UP 1
-#define SUPER_MUSHROOM_STATE_MOVE 2
+#define UP_MUSHROOM_STATE_UP 1
+#define UP_MUSHROOM_STATE_MOVE 2
 
-#define SUPER_MUSHROOM_ANI	611
-class SuperMushroom :
+#define UP_MUSHROOM_ANI	616
+
+class UpMushroom :
     public CGameObject
 {
 public:
-    SuperMushroom(float y_s);
+	UpMushroom(float y_s);
 	virtual void Update(DWORD dt);
 	virtual void CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void FinalUpdate(DWORD dt);

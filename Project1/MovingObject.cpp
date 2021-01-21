@@ -9,7 +9,8 @@ bool MovingObject::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
 
 MovingObject::MovingObject():CGameObject()
 {
-    vx = -0.2;
+	state= MOVING_OBJECT_STATE_MOVING;
+    vx = -0.1;
     gravity = 0;
 }
 
@@ -42,20 +43,37 @@ void MovingObject::FinalUpdate(DWORD dt)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO && e->ny>0)
+			if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO && e->ny>0 && state!= MOVING_OBJECT_STATE_FALL)
 			{
-				gravity = 0.001;
-				vx = 0;
+				SetState(MOVING_OBJECT_STATE_FALL);
 			}
 		}
 	}
 	for (UINT i = 0; i < coEResult.size(); i++) delete  coEResult[i];
 	coEResult.clear();
+	if (state== MOVING_OBJECT_STATE_FALL && GetTickCount() - timing > 200)
+	{
+		gravity = 0.001;
+	}
+	if (y > CGame::GetInstance()->GetCurrentScene()->GetBoundary().bottom)
+		isRemove = true;
+
 }
 
 void MovingObject::SetState(int state)
 {
 	CGameObject::SetState(state);
+	switch (state)
+	{
+	case MOVING_OBJECT_STATE_MOVING:
+		vx = -0.2;
+		gravity = 0;
+		break;
+	case MOVING_OBJECT_STATE_FALL:
+		vx = 0;
+		timing = GetTickCount();
+		break;
+	}
 }
 
 void MovingObject::GetBoundingBox(float& left, float& top, float& right, float& bottom)

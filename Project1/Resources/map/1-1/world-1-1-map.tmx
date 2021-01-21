@@ -419,6 +419,7 @@
  <objectgroup id="20" name="Camera">
   <properties>
    <property name="boundary" value="0,0,8448,1296"/>
+   <property name="moving_cam" type="bool" value="false"/>
   </properties>
  </objectgroup>
  <objectgroup id="16" name="Enemies">
@@ -564,7 +565,7 @@
   </object>
   <object id="71" name="Brick" type="1" x="4272" y="384">
    <properties>
-    <property name="Reward" type="int" value="6"/>
+    <property name="Reward" type="int" value="16"/>
    </properties>
    <point/>
   </object>
@@ -841,12 +842,14 @@
   <object id="179" x="6720" y="480" width="96" height="48">
    <properties>
     <property name="boundary" value="6000,1392,7056,1920"/>
+    <property name="moving_cam" type="bool" value="false"/>
     <property name="tele_position" value="6260,1525"/>
    </properties>
   </object>
   <object id="187" x="6912" y="1440" width="96" height="48">
    <properties>
     <property name="boundary" value="0,0,8448,1296"/>
+    <property name="moving_cam" type="bool" value="false"/>
     <property name="tele_position" value="6936,1056"/>
    </properties>
   </object>

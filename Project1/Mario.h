@@ -60,6 +60,7 @@ public:
 	void SetState(int state);
 	void SetLevel(int l);
 	void StartUntouchable();
+	void StopUntouchable();
 
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt);

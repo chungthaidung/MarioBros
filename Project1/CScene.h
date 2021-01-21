@@ -19,10 +19,12 @@ protected:
 	Camera* cam;
 	CMap* gamemap;
 	HUD* hud;
+	bool isUnload;
 	vector<LPGAMEOBJECT> objects;
 	vector<LPEFFECT> effects;
 	long playtime;
 	long timestart;
+	int switchsceneid;
 
 public:
 	CScene(int id, std::string path);
@@ -45,6 +47,8 @@ public:
 	virtual Camera* GetCamera();
 	virtual CMap* GetMap();
 	long GetPlayTime();
+	void SetisUnload(bool a);
+	void SetSwitchScene(int a);
 	virtual void SetBoundary(RECT a);
 	virtual RECT GetBoundary();
 };

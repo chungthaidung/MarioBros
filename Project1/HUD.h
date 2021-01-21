@@ -33,5 +33,6 @@ protected:
 	Font* time;
 	Font* life;
 	Font* stageclear;
+	Font* points;
 };
 

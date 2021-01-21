@@ -157,6 +157,7 @@
     <ClCompile Include="EndGameRewardEff.cpp" />
     <ClCompile Include="EnemyDamagedEff.cpp" />
     <ClCompile Include="FireBallEf.cpp" />
+    <ClCompile Include="FloatingKoopa.cpp" />
     <ClCompile Include="FlyingGoomba.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GoombaDieEff.cpp" />
@@ -214,6 +215,7 @@
     <ClCompile Include="tinyxml\tinyxml.cpp" />
     <ClCompile Include="tinyxml\tinyxmlerror.cpp" />
     <ClCompile Include="tinyxml\tinyxmlparser.cpp" />
+    <ClCompile Include="UpMushroom.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Venus.cpp" />
     <ClCompile Include="VenusFireBall.cpp" />
@@ -234,6 +236,7 @@
     <ClInclude Include="EndGameRewardEff.h" />
     <ClInclude Include="EnemyDamagedEff.h" />
     <ClInclude Include="FireBallEf.h" />
+    <ClInclude Include="FloatingKoopa.h" />
     <ClInclude Include="FlyingGoomba.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GoombaDieEff.h" />
@@ -289,6 +292,7 @@
     <ClInclude Include="Teleport.h" />
     <ClInclude Include="tinyxml\tinystr.h" />
     <ClInclude Include="tinyxml\tinyxml.h" />
+    <ClInclude Include="UpMushroom.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Venus.h" />
     <ClInclude Include="VenusFireBall.h" />

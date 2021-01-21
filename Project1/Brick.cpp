@@ -163,6 +163,7 @@ void Brick::FinalUpdate(DWORD dt)
 			else
 			{
 				eff = new CoinEff();
+				CGame::GetInstance()->SetPoints(100);
 				eff->SetPosition(x, y);
 				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 			}

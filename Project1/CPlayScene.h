@@ -5,7 +5,6 @@
 #include "CGameObject.h"
 #include "Ground.h"
 #include "Mario.h"
-
 class CPlayScene : public CScene
 {
 protected:

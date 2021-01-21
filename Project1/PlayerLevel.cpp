@@ -112,7 +112,7 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 						}
 					}
 				}
-				else if (e->obj->GetObjectType() == OBJECT_TYPE_GOOMBA || e->obj->GetObjectType() == OBJECT_TYPE_KOOPA)
+				else if (e->obj->GetObjectType() == OBJECT_TYPE_GOOMBA || e->obj->GetObjectType() == OBJECT_TYPE_KOOPA || e->obj->GetObjectType() == OBJECT_TYPE_FLOATING_KOOPA)
 				{
 					if (e->ny < 0)
 					{
@@ -120,6 +120,7 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 					}
 					else
 					{
+						if(mario->GetUntouchable()==false)
 						mario->LevelDown();
 					}
 				}
@@ -128,6 +129,7 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 
 					if (e->ny > 0)
 						mario->y -= 2;
+					if (mario->GetUntouchable() == false)
 					mario->LevelDown();
 
 				}
@@ -161,10 +163,22 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 				 if (e->ny > 0)
 					 mario->y -= 2;
 				mario->LevelUp(e->obj);
+				CGame::GetInstance()->SetPoints(1000);
 				PointsEff* eff = new PointsEff(POINT_1000_ANI);
 				eff->SetPosition(mario->x, mario->y);
 				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
 				if(e->obj!=NULL)
+					CGame::GetInstance()->GetCurrentScene()->DespawnObject(e->obj);
+			}
+			else if (e->obj->GetObjectType() == OBJECT_TYPE_UP_MUSHROOM)
+			{
+				if (e->ny > 0)
+					mario->y -= 2;
+				CGame::GetInstance()->SetMarioLife(1);
+				PointsEff* eff = new PointsEff(POINT_1UP_ANI);
+				eff->SetPosition(mario->x, mario->y);
+				CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
+				if (e->obj != NULL)
 					CGame::GetInstance()->GetCurrentScene()->DespawnObject(e->obj);
 			}
 			else if (e->obj->GetObjectType() == OBJECT_TYPE_TELEPORT  )
@@ -174,12 +188,15 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 				{
 					Teleport* tele = dynamic_cast<Teleport*>(e->obj);
 					CGame::GetInstance()->GetCurrentScene()->SetBoundary(tele->GetReBoundary());
+					CGame::GetInstance()->GetCurrentScene()->GetCamera()->SetMovingCam(tele->GetReMovingCam());
 					mario->SetPosition(tele->GetRePosition().x, tele->GetRePosition().y);
+					
 				}
 				else if (e->ny > 0)
 				{
 					Teleport* tele = dynamic_cast<Teleport*>(e->obj);
 					CGame::GetInstance()->GetCurrentScene()->SetBoundary(tele->GetReBoundary());
+					CGame::GetInstance()->GetCurrentScene()->GetCamera()->SetMovingCam(tele->GetReMovingCam());
 					mario->SetPosition(tele->GetRePosition().x, tele->GetRePosition().y);
 				}
 			}
@@ -187,7 +204,9 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 			{
 				Portal* portal = dynamic_cast<Portal*>(e->obj);
 				CGame::GetInstance()->SaveMarioWorldPos(portal->GetWorldPos());
-				CGame::GetInstance()->SwitchScene(portal->GetSceneID());
+				CGame::GetInstance()->GetCurrentScene()->SetSwitchScene(portal->GetSceneID());
+				CGame::GetInstance()->GetCurrentScene()->SetisUnload(true);
+				//CGame::GetInstance()->SwitchScene(portal->GetSceneID());
 			}
 		}
 		//DebugOut(L"[INFO] Q block %d \n", countqblock);
@@ -212,9 +231,7 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 	}
 	if (mario->GetUntouchable() == true && GetTickCount() - mario->GetUntouchableStart() > MARIO_UNTOUCHABLE_TIME)
 	{
-	//	DebugOut(L"TURN OFF UNTOUCHABLE \n");
-		mario->SetUntouchable(false);
-		mario->SetUntouchableStart(0);
+		mario->StopUntouchable();
 	}
 }
 void PlayerLevel::MovingState(DWORD dt)
