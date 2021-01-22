@@ -27,7 +27,10 @@
 #include "MovingObject.h"
 #include "UpMushroom.h"
 #include "FloatingKoopa.h"
-using namespace std;
+#include "rapidjson/document.h"
+
+//using namespace std;
+using namespace rapidjson;
 
 CPlayScene::CPlayScene(int id,std::string Path,long ptime) :
 	CScene(id, Path)
@@ -97,9 +100,13 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 			string enemy = objdata->Attribute("name");
 			if (enemy.compare("Goomba") == 0)
 			{
-				int type, state;
-				objdata->QueryIntAttribute("type", &type);
-				obj = new Goomba(type);
+				string type = objdata->Attribute("type");
+				int typeint = GOOMBA, state;
+				if (type.compare("Goomba") == 0)
+					typeint = GOOMBA;
+				else if (type.compare("RedGoomba") == 0)
+					typeint = RED_GOOMBA;
+				obj = new Goomba(typeint);
 				TiXmlElement* property = objdata->FirstChildElement("properties");
 				property = property->FirstChildElement("property");
 				property->QueryIntAttribute("value", &state);
@@ -107,9 +114,13 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 			}
 			else if (enemy.compare("Koopa") == 0)
 			{
-				int type,state;
-				objdata->QueryIntAttribute("type", &type);
-				obj = new Koopa(type);
+				string type = objdata->Attribute("type");
+				int typeint = GREEN_KOOPA, state;
+				if (type.compare("Koopas") == 0)
+					typeint = GREEN_KOOPA;
+				else if (type.compare("RedKoopas") == 0)
+					typeint = RED_KOOPA;
+				obj = new Koopa(typeint);
 				TiXmlElement* property = objdata->FirstChildElement("properties");
 				property = property->FirstChildElement("property");
 				property->QueryIntAttribute("value", &state);
@@ -117,21 +128,29 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 			}
 			else if (enemy.compare("Piranha") == 0)
 			{
-				int type,ny;
-				objdata->QueryIntAttribute("type", &type);
+				string type = objdata->Attribute("type");
+				int typeint = GREEN_TYPE, ny;
+				if (type.compare("Venus") == 0)
+					typeint = GREEN_TYPE;
+				else if (type.compare("RedVenus") == 0)
+					typeint = RED_TYPE;
 				TiXmlElement* property = objdata->FirstChildElement("properties");
 				property = property->FirstChildElement("property");
 				property->QueryIntAttribute("value", &ny);
-				obj = new Piranha(type,ny,y);
+				obj = new Piranha(typeint,ny,y);
 			}
 			else if (enemy.compare("Venus") == 0)
 			{
-				int type,ny;
-				objdata->QueryIntAttribute("type", &type);
+				string type = objdata->Attribute("type");
+				int typeint = GREEN_TYPE,ny;
+				if (type.compare("Venus") == 0)
+					typeint = GREEN_TYPE;
+				else if (type.compare("RedVenus") == 0)
+					typeint = RED_TYPE;
 				TiXmlElement* property = objdata->FirstChildElement("properties");
 				property = property->FirstChildElement("property");
 				property->QueryIntAttribute("value", &ny);
-				obj = new Venus(type,ny,y);
+				obj = new Venus(typeint,ny,y);
 			}
 			else if(enemy.compare("FloatingKoopa") == 0)
 			{
@@ -154,7 +173,6 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 			else if (misc.compare("QuestionBox") == 0)
 			{
 				int r;
-				CGameObject* reward = NULL;
 				TiXmlElement* property = objdata->FirstChildElement("properties");
 				property = property->FirstChildElement("property");
 				property->QueryIntAttribute("value",&r);
@@ -162,14 +180,16 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 			}
 			else if (misc.compare("Brick") == 0)
 			{
-				int r,type;
-				objdata->QueryIntAttribute("type", &type);
-				CGameObject* reward = NULL;
+				string type = objdata->Attribute("type");
+				int typeint = BRICK_REWARD, r;
+				if (type.compare("Brick") == 0)
+					typeint = BRICK_BREAKABLE;
+				else if (type.compare("QuestionBlock") == 0)
+					typeint = BRICK_REWARD;
 				TiXmlElement* property = objdata->FirstChildElement("properties");
 				property = property->FirstChildElement("property");
 				property->QueryIntAttribute("value", &r);
-				
-				obj = new Brick(r,type, y);
+				obj = new Brick(r, typeint, y);
 			}
 			else if (misc.compare("EndGameReward") == 0)
 			{
@@ -346,6 +366,31 @@ int CPlayScene::GetSceneType()
 void CPlayScene::SetDelayTime(DWORD delay)
 {
 	delaytime = delay;
+}
+
+void CPlayScene::SpawnObject(CGameObject* obj, TiXmlElement* data)
+{
+	CScene::SpawnObject(obj, data);
+	TiXmlElement* properties = data->FirstChildElement("properties");
+	for (TiXmlElement* property = properties->FirstChildElement("property"); property != NULL; property = property->NextSiblingElement("property"))
+	{
+		string name = property->Attribute("name");
+		if (name.compare("Grid") == 0)
+		{ 
+			Document document;
+			document.Parse(property->Attribute("value"));
+			for (auto& v : document.GetArray())
+			{
+				auto cr = v.GetObjectW();
+				int x = cr["x"].GetInt();
+				int y = cr["y"].GetInt();
+				
+				//grid->
+			}
+			document.Clear();
+			break;
+		}
+	}
 }
 
 

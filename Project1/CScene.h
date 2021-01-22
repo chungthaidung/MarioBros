@@ -7,7 +7,8 @@
 #include "Effect.h"
 #include "Camera.h"
 #include "HUD.h"
-//#include "CMap.h"
+#include "tinyxml/tinyxml.h"
+
 class CMap;
 class CScene
 {
@@ -40,6 +41,8 @@ public:
 	virtual void SpawnObject(CGameObject* obj);
 	virtual void DespawnObject(CGameObject* obj);	
 	
+	virtual void SpawnObject(CGameObject* obj, TiXmlElement* data);
+
 	virtual void RemoveEffects();
 	virtual void AddEffect(LPEFFECT ef);
 	virtual void DeleteEffect(LPEFFECT ef);

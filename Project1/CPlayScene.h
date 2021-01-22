@@ -21,9 +21,11 @@ public:
 	virtual void Render();
 	virtual void Unload();
 	virtual int GetSceneType();
-
 	void SetDelayTime(DWORD delay);
 	CMario* GetPlayer() { return player; }
+
+	virtual void SpawnObject(CGameObject* obj, TiXmlElement* data);
+
 //	Camera* GetCamera() { return cam; }
 	//friend class CPlayScenceKeyHandler;
 };

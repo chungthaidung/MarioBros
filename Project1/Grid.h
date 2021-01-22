@@ -3,6 +3,7 @@
 class Grid
 {
 protected:
+	float cellWidth, cellHeight;
 
 public:
 };

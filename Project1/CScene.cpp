@@ -29,6 +29,10 @@ void CScene::DespawnObject(CGameObject* obj)
 	obj->isRemove = true;
 }
 
+void CScene::SpawnObject(CGameObject* obj, TiXmlElement* data)
+{
+}
+
 void CScene::RemoveEffects()
 {
 	effects.erase(remove_if(effects.begin(), effects.end(), [](LPEFFECT ef) {
