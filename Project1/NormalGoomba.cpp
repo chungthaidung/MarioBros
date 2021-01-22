@@ -86,7 +86,6 @@ void NormalGoomba::FinalUpdate(DWORD dt)
 					eff = new PointsEff(POINT_100_ANI);
 					eff->SetPosition(goomba->x, goomba->y);
 					CGame::GetInstance()->GetCurrentScene()->AddEffect(eff);
-					//DebugOut(L"bi mario giet\n");
 				}
 				
 			}

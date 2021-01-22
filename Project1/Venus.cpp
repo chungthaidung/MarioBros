@@ -211,7 +211,7 @@ void Venus::Attack()
 	if (my > cos(PI * 2 / 9)) my = cos(PI * 2 / 9);*/
 //	DebugOut(L"mx: %f, my: %f, distance: %f \n", mx, my, sqrt(distance));
 	fireball->SetActive(true);
-	CGame::GetInstance()->GetCurrentScene()->SpawnObject(fireball);
+	CGame::GetInstance()->GetCurrentScene()->SpawnObjectWithoutGrid(fireball);
 	fireball->Reset(x_s, y_s, mx, my);
 }
 

@@ -17,6 +17,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	level_p = new SmallMario(this); 
 	JumpState = MARIO_STATE_JUMP_IDLE;
 	untouchable = false;
+	inHand = NULL;
 	SetState(MARIO_STATE_IDLE);
 	gravity = MARIO_GRAVITY;
 	renderOrder = 0;

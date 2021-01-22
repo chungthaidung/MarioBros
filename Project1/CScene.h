@@ -21,6 +21,7 @@ protected:
 	CMap* gamemap;
 	HUD* hud;
 	bool isUnload;
+	vector<LPGAMEOBJECT> objectswithoutgrid;
 	vector<LPGAMEOBJECT> objects;
 	vector<LPEFFECT> effects;
 	long playtime;
@@ -42,6 +43,8 @@ public:
 	virtual void DespawnObject(CGameObject* obj);	
 	
 	virtual void SpawnObject(CGameObject* obj, TiXmlElement* data);
+	virtual void RemoveObjectsWithoutGrid();
+	virtual void SpawnObjectWithoutGrid(CGameObject* obj);
 
 	virtual void RemoveEffects();
 	virtual void AddEffect(LPEFFECT ef);

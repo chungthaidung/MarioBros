@@ -130,7 +130,7 @@ void RacoonMario::AttackState(DWORD dt)
 			mario->AttackState = MARIO_STATE_ATTACK_START;
 			attacktime = GetTickCount();
 			tail->SetActive(true);
-			CGame::GetInstance()->GetCurrentScene()->SpawnObject(tail);
+			CGame::GetInstance()->GetCurrentScene()->SpawnObjectWithoutGrid(tail);
 			//DebugOut(L"5555 \n");
 		}
 	}
@@ -311,7 +311,7 @@ void RacoonMario::OnKeyDown(int KeyCode)
 	case DIK_A:
 		mario->AttackState = MARIO_STATE_ATTACK_START;
 		tail->SetActive(true);
-		CGame::GetInstance()->GetCurrentScene()->SpawnObject(tail);
+		CGame::GetInstance()->GetCurrentScene()->SpawnObjectWithoutGrid(tail);
 		attacktime = GetTickCount();
 		break;
 	case DIK_S:

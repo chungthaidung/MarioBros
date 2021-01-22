@@ -33,6 +33,23 @@ void CScene::SpawnObject(CGameObject* obj, TiXmlElement* data)
 {
 }
 
+void CScene::RemoveObjectsWithoutGrid()
+{
+	objectswithoutgrid.erase(remove_if(objectswithoutgrid.begin(), objectswithoutgrid.end(), [](CGameObject* obj) {
+		if (obj->isRemove) {
+			if (obj->canDelete) delete obj;
+			return true;
+		}
+		return false;
+		}), objectswithoutgrid.end());
+}
+
+void CScene::SpawnObjectWithoutGrid(CGameObject* obj)
+{
+	obj->isRemove = false;
+	objectswithoutgrid.push_back(obj);
+}
+
 void CScene::RemoveEffects()
 {
 	effects.erase(remove_if(effects.begin(), effects.end(), [](LPEFFECT ef) {
