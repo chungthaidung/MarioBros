@@ -149,6 +149,7 @@
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Cactus.cpp" />
     <ClCompile Include="Card.cpp" />
+    <ClCompile Include="Cell.cpp" />
     <ClCompile Include="CheckPoint.cpp" />
     <ClCompile Include="CIntroSceneKeyHandler.cpp" />
     <ClCompile Include="CoinEff.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="FlyingGoomba.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GoombaDieEff.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CAnimation.cpp" />
@@ -231,6 +233,7 @@
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Cactus.h" />
     <ClInclude Include="Card.h" />
+    <ClInclude Include="Cell.h" />
     <ClInclude Include="CheckPoint.h" />
     <ClInclude Include="CIntroSceneKeyHandler.h" />
     <ClInclude Include="CoinEff.h" />
@@ -244,6 +247,7 @@
     <ClInclude Include="FlyingGoomba.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GoombaDieEff.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CAnimation.h" />

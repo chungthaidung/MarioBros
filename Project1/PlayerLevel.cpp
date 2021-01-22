@@ -17,13 +17,11 @@ void PlayerLevel::Update(DWORD dt)
 {
 	if (mario->GetState() == MARIO_STATE_DIE) return;
 	MiniJump();
+	MovingState(dt); 
 	PowerMeterUpdate(dt);
-	MovingState(dt);
-	// Calculate dx, dy 
 	JumpingState(dt);
 	CrouchState(dt);
 	AttackState(dt);
-	// Simple fall down
 	mario->vy += mario->GetGravity() * dt;
 	mario->CGameObject::Update(dt);
 
@@ -242,7 +240,6 @@ void PlayerLevel::MovingState(DWORD dt)
 	if (keyboard->IsKeyDown(DIK_RIGHT) || keyboard->IsKeyDown(DIK_LEFT))
 	{
 		int key;
-		
 		if (keyboard->IsKeyDown(DIK_RIGHT))
 			key = 1;
 		else
@@ -272,7 +269,7 @@ void PlayerLevel::MovingState(DWORD dt)
 			mario->SetState(MARIO_STATE_SKID);
 		}
 
-		mario->vx += mario->GetAcceleration() * mario->dt;
+		mario->vx += mario->GetAcceleration() * dt;
 		if (abs(mario->vx) > maxspeed)
 		{
 			if (abs(mario->vx) - maxspeed > MARIO_RUN_DRAG_FORCE * dt)

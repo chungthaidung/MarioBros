@@ -22,6 +22,7 @@ public:
 	void MovingCamera(DWORD dt);
 	void FinalUpdate(DWORD dt);
 	void SetMovingCam(bool a);
+	bool IsMovingCam();
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 size= D3DXVECTOR2(GAME_WIDTH, GAME_HEIGHT);
 

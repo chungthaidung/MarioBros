@@ -206,7 +206,7 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 bool CMario::GetThrough(CGameObject* obj, D3DXVECTOR2 direction)
 {
 	if (untouchable == true && obj->isEnemy == true) {
-		DebugOut(L"SKIP\n");
+		//DebugOut(L"SKIP\n");
 		return true;
 	}
 	if (obj->GetObjectType() == OBJECT_TYPE_GHOST && (direction.y > 0 || direction.x != 0))
@@ -254,7 +254,7 @@ int CMario::GetObjectType()
 void CMario::Reset()
 {
 	SetState(MARIO_STATE_IDLE);
-	SetLevel(MARIO_LEVEL_SMALL);
+	//SetLevel(MARIO_LEVEL_SMALL);
 	SetPosition(x, start_y);
 	SetSpeed(0, 0);
 }

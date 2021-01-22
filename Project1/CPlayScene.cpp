@@ -268,6 +268,11 @@ void CPlayScene::Update(DWORD dt)
 		RemoveEffects();
 		RemoveObjects();
 		playtime-=dt;
+		if (playtime < 0)
+		{
+			player->SetState(MARIO_STATE_DIE);
+			isUnload = true;
+		}
 		if (isUnload == true)
 			CGame::GetInstance()->SwitchScene(switchsceneid);
 		//DebugOut(L"[INFO] Play time : %d\n", playtime);

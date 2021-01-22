@@ -138,3 +138,8 @@ void Camera::SetMovingCam(bool a)
 {
 	moving_cam = a;
 }
+
+bool Camera::IsMovingCam()
+{
+	return moving_cam;
+}

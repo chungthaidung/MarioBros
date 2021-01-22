@@ -222,5 +222,5 @@ void CGameObject::RenderBoundingBox()
 
 CGameObject::~CGameObject()
 {
-	DebugOut(L"Da xoa object\n");
+	//DebugOut(L"Da xoa object\n");
 }

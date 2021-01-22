@@ -820,7 +820,7 @@
   <object id="168" x="6720" y="1728" width="48" height="190.667"/>
   <object id="169" x="6672" y="1776" width="48" height="144"/>
   <object id="170" x="6624" y="1824" width="48" height="96"/>
-  <object id="174" x="8400" y="1080" width="47.9967" height="168"/>
+  <object id="174" x="8400" y="960" width="47.9967" height="288"/>
  </objectgroup>
  <objectgroup id="14" name="Ghost">
   <object id="34" x="1200.1" y="1103.38" width="239.424" height="48.1212"/>

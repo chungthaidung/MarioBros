@@ -15,6 +15,11 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		case DIK_5:
 			mario->SetPosition(7344.00, 1104.00);
 			break;
+		case DIK_6:
+			if(CGame::GetInstance()->GetCurrentScene()->GetCamera()->IsMovingCam()==true)
+			CGame::GetInstance()->GetCurrentScene()->GetCamera()->SetMovingCam(false);
+			else CGame::GetInstance()->GetCurrentScene()->GetCamera()->SetMovingCam(true);
+			break;
 		}
 	}
 	else if (scence->GetSceneType() == WORLD_MAP)

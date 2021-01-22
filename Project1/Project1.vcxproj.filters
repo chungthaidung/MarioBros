@@ -103,14 +103,8 @@
     <Filter Include="Game\Game Object\Object\Teleport">
       <UniqueIdentifier>{6b534b15-45ad-4902-beac-1201a1247959}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Game Object\Object\WorldMario">
-      <UniqueIdentifier>{8072ac2f-eb32-411b-b9ee-33863b531e46}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Game Object\Object\Portal">
       <UniqueIdentifier>{6146ee93-d33e-4ace-bf7d-967098a33614}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Game Object\World Map Object">
-      <UniqueIdentifier>{3273d553-6d26-4a0d-ab87-4291e699e69d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Game Object\Object\CheckPoint">
       <UniqueIdentifier>{666b15da-6c2c-452e-8d42-712ad13cce72}</UniqueIdentifier>
@@ -124,8 +118,14 @@
     <Filter Include="Game\Scene\IntroScene">
       <UniqueIdentifier>{eda3629b-761f-49a0-b020-a427a9705ea5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Scene\IntroScene\Object">
-      <UniqueIdentifier>{6fe46388-1a7c-4920-850f-7c494be50bdc}</UniqueIdentifier>
+    <Filter Include="Game\Game Object\Object\World Map Object">
+      <UniqueIdentifier>{3273d553-6d26-4a0d-ab87-4291e699e69d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game Object\Object\World Map Object\WorldMario">
+      <UniqueIdentifier>{8072ac2f-eb32-411b-b9ee-33863b531e46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game Object\Object\Intro Object">
+      <UniqueIdentifier>{ecf99570-42ea-409f-896f-89df574b38a4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -328,13 +328,13 @@
       <Filter>Game\Game Object\Object\Teleport</Filter>
     </ClCompile>
     <ClCompile Include="WorldMario.cpp">
-      <Filter>Game\Game Object\Object\WorldMario</Filter>
+      <Filter>Game\Game Object\Object\World Map Object\WorldMario</Filter>
     </ClCompile>
     <ClCompile Include="Portal.cpp">
       <Filter>Game\Game Object\Object\Portal</Filter>
     </ClCompile>
     <ClCompile Include="Cactus.cpp">
-      <Filter>Game\Game Object\World Map Object</Filter>
+      <Filter>Game\Game Object\Object\World Map Object</Filter>
     </ClCompile>
     <ClCompile Include="CheckPoint.cpp">
       <Filter>Game\Game Object\Object\CheckPoint</Filter>
@@ -367,7 +367,13 @@
       <Filter>Game\Scene\IntroScene</Filter>
     </ClCompile>
     <ClCompile Include="Opening.cpp">
-      <Filter>Game\Scene\IntroScene\Object</Filter>
+      <Filter>Game\Game Object\Object\Intro Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Cell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -564,13 +570,13 @@
       <Filter>Game\Game Object\Object\Teleport</Filter>
     </ClInclude>
     <ClInclude Include="WorldMario.h">
-      <Filter>Game\Game Object\Object\WorldMario</Filter>
+      <Filter>Game\Game Object\Object\World Map Object\WorldMario</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
       <Filter>Game\Game Object\Object\Portal</Filter>
     </ClInclude>
     <ClInclude Include="Cactus.h">
-      <Filter>Game\Game Object\World Map Object</Filter>
+      <Filter>Game\Game Object\Object\World Map Object</Filter>
     </ClInclude>
     <ClInclude Include="CheckPoint.h">
       <Filter>Game\Game Object\Object\CheckPoint</Filter>
@@ -603,7 +609,13 @@
       <Filter>Game\Scene\IntroScene</Filter>
     </ClInclude>
     <ClInclude Include="Opening.h">
-      <Filter>Game\Scene\IntroScene\Object</Filter>
+      <Filter>Game\Game Object\Object\Intro Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -220,7 +220,7 @@
   <object id="6" x="5904" y="1104" width="144" height="96"/>
   <object id="7" x="6192" y="1248" width="1536" height="48"/>
   <object id="8" x="6576" y="1152" width="96" height="96"/>
-  <object id="109" x="7680" y="1056" width="48" height="192"/>
+  <object id="109" x="7680" y="912" width="48" height="336"/>
  </objectgroup>
  <objectgroup id="10" name="Misc">
   <object id="16" name="Brick" type="2" x="672" y="1056">
@@ -694,34 +694,34 @@
   <object id="104" name="EndGameReward" x="7392" y="1008">
    <point/>
   </object>
-  <object id="110" name="MovingObject" x="1104" y="960">
+  <object id="110" name="MovingObject" x="1248" y="960">
    <point/>
   </object>
-  <object id="111" name="MovingObject" x="1776" y="912">
+  <object id="111" name="MovingObject" x="1872" y="912">
    <point/>
   </object>
-  <object id="112" name="MovingObject" x="1680" y="1056">
+  <object id="112" name="MovingObject" x="1776" y="1056">
    <point/>
   </object>
-  <object id="113" name="MovingObject" x="1824" y="1200">
+  <object id="113" name="MovingObject" x="1920" y="1200">
    <point/>
   </object>
-  <object id="114" name="MovingObject" x="2256" y="1008">
+  <object id="114" name="MovingObject" x="2352" y="1008">
    <point/>
   </object>
-  <object id="115" name="MovingObject" x="3264" y="1152">
+  <object id="115" name="MovingObject" x="3360" y="1152">
    <point/>
   </object>
-  <object id="116" name="MovingObject" x="3600" y="960">
+  <object id="116" name="MovingObject" x="3696" y="960">
    <point/>
   </object>
-  <object id="117" name="MovingObject" x="4176" y="1056">
+  <object id="117" name="MovingObject" x="4320" y="1056">
    <point/>
   </object>
-  <object id="118" name="MovingObject" x="4272" y="1008">
+  <object id="118" name="MovingObject" x="4368" y="1008">
    <point/>
   </object>
-  <object id="119" name="MovingObject" x="4656" y="912">
+  <object id="119" name="MovingObject" x="4800" y="960">
    <point/>
   </object>
   <object id="120" name="MovingObject" x="5328" y="1008">
@@ -796,6 +796,6 @@
   </object>
  </objectgroup>
  <objectgroup id="14" name="Ghost">
-  <object id="124" x="3024" y="1055" width="192"/>
+  <object id="124" x="3072" y="1056" width="144"/>
  </objectgroup>
 </map>

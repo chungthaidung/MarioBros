@@ -94,7 +94,8 @@ void Brick::FinalUpdate(DWORD dt)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO)
 			{
-				if (state == BRICK_BREAKABLE)
+				CMario* mario = dynamic_cast<CMario*>(e->obj);
+				if (mario->GetLevel() != MARIO_LEVEL_SMALL && state == BRICK_BREAKABLE)
 				{
 					if (e->ny < 0)
 					{
@@ -106,6 +107,13 @@ void Brick::FinalUpdate(DWORD dt)
 						}
 						SetState(BRICK_BROKEN);
 						
+					}
+				}
+				else if (state == BRICK_REWARD)
+				{
+					if (e->nx < 0)
+					{
+						SetState(BRICK_BOUNC);
 					}
 				}
 				else if (state == BRICK_COIN)

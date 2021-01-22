@@ -5,6 +5,7 @@ class IntroScene :
 {
 protected:
 	CGameObject* target;
+	unordered_map<int, D3DXVECTOR2> selection;
 public:
 	IntroScene(int id, std::string path);
 	void LoadObjects();
