@@ -10,7 +10,8 @@
 60	textures\MapSelection(x3).png	255	255	255
 100	Resources\map\world-map-1\tileset.png	255	255	255
 101	Resources\map\1-1\Final1(48).png	255	255	255
-
+102	Resources\map\intro\intro_x3.png	235	221	158
+110	textures\intro_x3.png	235	221	158
 # id	left	top	width	height	texture_id
 [SPRITES]
 # SMALL MARIO
@@ -573,6 +574,8 @@
 30042	105	93	16	27	10	0	11
 30043	126	94	16	26	10	0	11
 30044	147	93	16	27	10	0	11
+#OPENING
+30045	18	0	256	254	110
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 
@@ -978,6 +981,8 @@
 1516	12016	100
 #CACTUS
 1517	12017	200	12018	300	12019	200	12020	300
+#OPENING
+1518	30045	100
 #===LETTER===
 16	11500	100
 17	11501	100

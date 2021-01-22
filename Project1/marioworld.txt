@@ -1,12 +1,13 @@
 #start	id_scene	
 [SETTINGS]
-start	0
-#scene list scene_type world map=0 | play scene=1
+start	3
+#scene list scene_type world map=0 | play scene=1 | intro=2
 #id_scene	path	playtime	scene_type
 [SCENES]
 0	Resources/map/world-map-1/world-map-1.tmx	0	0
 1	Resources/map/1-1/world-1-1-map.tmx	300000	1
 2	Resources/map/1-4/world-1-4-map.tmx	300000	1
+3	Resources/map/intro/intro-scene.tmx	0	2
 #sprites_path
 [SPRITES]
 sprites_world.txt

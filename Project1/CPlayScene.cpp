@@ -195,12 +195,11 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 		//DebugOut(L"[INFO]Object x: %d || y: %d || width: %f || height: %f. \n",x,y,width,height);
 		objects.push_back(obj);
 	}
-	
 }
 
 void CPlayScene::Load()
 {
-	DebugOut(L"[INFO] Start loading scene resources from : %s \n", scenePath);
+	DebugOut(L"[INFO] Start loading scene resources from : %s \n", ToLPCWSTR(scenePath));
 	LoadObjects();
 	gamemap = new CMap(scenePath);
 	hud = new HUD();
@@ -215,8 +214,6 @@ void CPlayScene::Load()
 		hud->SetTarget(player);
 	}
 	playtime = timestart;
-//	cam = new Camera(game->GetScreenWidth() / 2, game->GetScreenHeight() / 2);
-//	cam->SetTarget(player);
 	DebugOut(L"[INFO] Done loading scene resources %s\n", ToLPCWSTR(scenePath));
 }
 
@@ -321,15 +318,14 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 {
-
 	for (int i = 0; i < objects.size(); i++)
 		delete objects[i];
 	for (int i = 0; i < effects.size(); i++)
 		delete effects[i];
 	objects.clear();
 	effects.clear();
-	CMario* temp = player;
-	CGame::GetInstance()->SaveMarioState(temp);
+	//CMario* temp = player;
+	CGame::GetInstance()->SaveMarioState(player);
 	//DebugOut(L"[INFO UNLOAD PLAYSCENE] Mario level : %d\n", CGame::GetInstance()->GetMario()->GetLevel());
 	player = NULL;
 	DebugOut(L"[INFO] Scene %s unloaded! \n",ToLPCWSTR(scenePath));

@@ -150,6 +150,7 @@
     <ClCompile Include="Cactus.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="CheckPoint.cpp" />
+    <ClCompile Include="CIntroSceneKeyHandler.cpp" />
     <ClCompile Include="CoinEff.cpp" />
     <ClCompile Include="DebrisEff.cpp" />
     <ClCompile Include="Effect.cpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="GhostObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
@@ -197,6 +199,7 @@
     <ClCompile Include="MarioTail.cpp" />
     <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="NormalGoomba.cpp" />
+    <ClCompile Include="Opening.cpp" />
     <ClCompile Include="Piranha.cpp" />
     <ClCompile Include="PlayerLevel.cpp" />
     <ClCompile Include="PMeterHUD.cpp" />
@@ -229,6 +232,7 @@
     <ClInclude Include="Cactus.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="CheckPoint.h" />
+    <ClInclude Include="CIntroSceneKeyHandler.h" />
     <ClInclude Include="CoinEff.h" />
     <ClInclude Include="DebrisEff.h" />
     <ClInclude Include="Effect.h" />
@@ -268,6 +272,7 @@
     <ClInclude Include="GhostObject.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="Koopa.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="CScene.h" />
@@ -276,6 +281,7 @@
     <ClInclude Include="MarioTail.h" />
     <ClInclude Include="MovingObject.h" />
     <ClInclude Include="NormalGoomba.h" />
+    <ClInclude Include="Opening.h" />
     <ClInclude Include="Piranha.h" />
     <ClInclude Include="PlayerLevel.h" />
     <ClInclude Include="PMeterHUD.h" />
