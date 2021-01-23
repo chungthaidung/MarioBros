@@ -38,6 +38,7 @@ CPlayScene::CPlayScene(int id,std::string Path,long ptime) :
 	key_handler = new CPlayScenceKeyHandler(this);
 	timestart = ptime;
 	playtime = ptime;
+	player = NULL;
 }
 
 void CPlayScene::LoadObjects()
@@ -68,7 +69,7 @@ void CPlayScene::LoadGridData()
 	{
 		TiXmlElement* root = doc.RootElement();
 		root=root->FirstChildElement("properties");
-		int cellwidth, cellheight, row, column;
+		int cellwidth=384, cellheight=288, row=0, column=0;
 		for (TiXmlElement* property = root->FirstChildElement("property"); property != NULL; property = property->NextSiblingElement("property"))
 		{
 			string name = property->Attribute("name");
@@ -102,8 +103,8 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 		if (name.compare("Mario") == 0) {
 			//obj = new CMario();?
 			
-			obj = new CMario(x, y); // sao tạo 2 lần v? cái này để set start x start y, à
-			player = (CMario*)obj; // bấm start dùm nha, bên t bị che màn hình
+			obj = new CMario(x, y);
+			player = (CMario*)obj; 
 			if (player != NULL)
 			{
 				DebugOut(L"[ERROR] MARIO object was created before!\n");
@@ -285,6 +286,7 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 			else if (misc.compare("MovingObject") == 0)
 			{
 				obj = new MovingObject();
+				SpawnObject(obj, objdata);
 			}
 		}
 		else if (name.compare("Teleport") == 0)
@@ -302,7 +304,7 @@ void CPlayScene::LoadObjGroup(TiXmlElement* data,std::string name)
 		obj->SetWidthHeight(width, height);
 		obj->SetPosition(x, y);
 		//DebugOut(L"[INFO]Object x: %d || y: %d || width: %f || height: %f. \n",x,y,width,height);
-		objects.push_back(obj);
+		//objects.push_back(obj);
 	}
 }
 
@@ -327,23 +329,27 @@ void CPlayScene::Load()
 	//int size = grid->GetCell(1, 3)->GetListObj().size();
 	//DebugOut(L"[GRID SIZE] GRID CELL (1,3) : %d\n", size);
 	DebugOut(L"[INFO] Done loading scene resources %s\n", ToLPCWSTR(scenePath));
+	Update(1);
 }
 
 void CPlayScene::Update(DWORD dt)
 {
+	if (isUnload == true)
+		return;
 	if (player == NULL) return;
 	if(delaytime<=0 ){
 		cam->Update(dt);
 		//DebugOut(L"[INFO MARIO LEVEL] Mario level : %d\n", CGame::GetInstance()->GetMario()->GetLevel());
 		listObjects.clear();
-		listObjects = grid->GetObjectsByCam(cam);
+		//vector<CGameObject*> obj = FindGlobalObjectInCam();
+		unordered_set<CGameObject*> gridobjs = grid->GetObjectsByCam(cam);
+		for (auto v : gridobjs) {
+			listObjects.push_back(v);
+		}
 		listObjects.insert(listObjects.end(), objectswithoutgrid.begin(), objectswithoutgrid.end());
+		//listObjects.insert(listObjects.end(), obj.begin(), obj.end());
 		//DebugOut(L"[INFO OBJECT] List Object size: %d \n", listObjects.size());
 		vector<LPGAMEOBJECT> coObjects;
-		/*for (size_t i = 0; i < objects.size(); i++)
-		{
-			coObjects.push_back(objects[i]);
-		}	*/	
 		for (size_t i = 0; i < listObjects.size(); i++)
 		{
 			coObjects.push_back(listObjects[i]);
@@ -352,48 +358,27 @@ void CPlayScene::Update(DWORD dt)
 		float cx = cam->position.x;
 		float cy = cam->position.y;
 		hud->Update(dt);
-		/*for (size_t i = 0; i < objects.size(); i++)
-		{
-			if ((objects[i]->GetPosition().x< cx - CGame::GetInstance()->GetScreenWidth() * 1 / 2 || objects[i]->GetPosition().x > cx + CGame::GetInstance()->GetScreenWidth() * 3 / 2
-				|| objects[i]->GetPosition().y < cy - CGame::GetInstance()->GetScreenHeight() * 1 / 2 || objects[i]->GetPosition().y > cy + CGame::GetInstance()->GetScreenHeight() * 3 / 2)
-				&& objects[i]->GetObjectType() != OBJECT_TYPE_MARIO && objects[i]->GetObjectType() != OBJECT_TYPE_TAIL)
-				continue;
-			objects[i]->Update(dt);
-		}*/
+		
 		player->Update(dt);
 		for (size_t i = 0; i < listObjects.size(); i++)
 		{
+			//if(listObjects[i]->isRemove==false)
 			listObjects[i]->Update(dt);
 		}
 
-		//	DebugOut(L"[EFFECT INFO2] Object SIZE: %d \n", objects.size());
-		/*for (size_t i = 0; i < objects.size(); i++)
-		{
-			if ((objects[i]->GetPosition().x< cx - CGame::GetInstance()->GetScreenWidth() * 1 / 2 || objects[i]->GetPosition().x > cx + CGame::GetInstance()->GetScreenWidth() * 3 / 2
-				|| objects[i]->GetPosition().y < cy - CGame::GetInstance()->GetScreenHeight() * 1 / 2 || objects[i]->GetPosition().y > cy + CGame::GetInstance()->GetScreenHeight() * 3 / 2)
-				&& objects[i]->GetObjectType() != OBJECT_TYPE_MARIO && objects[i]->GetObjectType() != OBJECT_TYPE_TAIL)
-				continue;
-			objects[i]->CollisionUpdate(dt, &coObjects);
-		}*/
 		coObjects.push_back(player);
 		player->CollisionUpdate(dt, &coObjects);
 		for (size_t i = 0; i < listObjects.size(); i++)
 		{
-			listObjects[i]->CollisionUpdate(dt, &coObjects);
+			//if (listObjects[i]->isRemove == false)
+				listObjects[i]->CollisionUpdate(dt, &coObjects);
 		}
 
 		cam->FinalUpdate(dt);
-		/*for (size_t i = 0; i < objects.size(); i++)
-		{
-			if ((objects[i]->GetPosition().x< cx - CGame::GetInstance()->GetScreenWidth() * 1 / 2 || objects[i]->GetPosition().x > cx + CGame::GetInstance()->GetScreenWidth() * 3 / 2
-				|| objects[i]->GetPosition().y < cy - CGame::GetInstance()->GetScreenHeight() * 1 / 2 || objects[i]->GetPosition().y > cy + CGame::GetInstance()->GetScreenHeight() * 3 / 2)
-				&& objects[i]->GetObjectType() != OBJECT_TYPE_MARIO && objects[i]->GetObjectType() != OBJECT_TYPE_TAIL)
-				continue;
-			objects[i]->FinalUpdate(dt);
-		}*/
 		player->FinalUpdate(dt);
 		for (size_t i = 0; i < listObjects.size(); i++)
 		{
+			if (player == NULL) break;
 			listObjects[i]->FinalUpdate(dt);
 		}
 		for (size_t i = 0; i < effects.size(); i++)
@@ -401,8 +386,9 @@ void CPlayScene::Update(DWORD dt)
 			effects[i]->Update(dt);
 		}
 		// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
-		RemoveEffects();
-		RemoveObjectsWithoutGrid();
+		//RemoveEffects();
+		//RemoveListObject();
+		//RemoveObjectsWithoutGrid();
 		playtime-=dt;
 		if (playtime < 0)
 		{
@@ -420,24 +406,28 @@ void CPlayScene::Update(DWORD dt)
 		//DebugOut(L"[STOP]\n");
 	}
 
+	RemoveObjectsWithoutGrid();
 }
 
 void CPlayScene::Render()
 {
+	if (isUnload == true)
+		return;
 	CGame::GetInstance()->SetViewport(0, 0, GAME_WIDTH, GAME_HEIGHT);
-	//vector<CGameObject*> renderorder;
-	//renderorder.insert(renderorder.end(), listObjects.begin(), listObjects.end());
+	vector<CGameObject*> renderorder;
+	renderorder.insert(renderorder.end(), listObjects.begin(), listObjects.end());
 
-	std::sort(listObjects.begin(), listObjects.end(), CGameObject::rendercompare);
-	for (int i = 0; i < listObjects.size() && listObjects[i]->renderOrder < 2; i++)
+	std::sort(renderorder.begin(), renderorder.end(), CGameObject::rendercompare);
+	for (int i = 0; i < renderorder.size() && renderorder[i]->renderOrder < 2; i++)
 	{
-		listObjects[i]->Render();
+		if (renderorder[i]->isRemove == false)
+			renderorder[i]->Render();
 	}
 	gamemap->Render();
-	for (int i = 0; i < listObjects.size(); i++)
+	for (int i = 0; i < renderorder.size(); i++)
 	{
-		if (listObjects[i]->renderOrder >= 2)
-			listObjects[i]->Render();
+		if (renderorder[i]->renderOrder >= 2 && renderorder[i]->isRemove == false)
+			renderorder[i]->Render();
 	}
 	if(player->GetState()!=MARIO_STATE_DIE)
 		player->Render();
@@ -454,22 +444,20 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 {
-	for (int i = 0; i < listObjects.size(); i++)
-		delete listObjects[i];
 	for (int i = 0; i < objectswithoutgrid.size(); i++)
 		delete objectswithoutgrid[i];
 	for (int i = 0; i < effects.size(); i++)
 		delete effects[i];
-	listObjects.clear();
+	//listObjects.clear();
 	objectswithoutgrid.clear();
 	effects.clear();
+	//cam = NULL;
 	//CMario* temp = player;
 	CGame::GetInstance()->SaveMarioState(player);
 	//DebugOut(L"[INFO UNLOAD PLAYSCENE] Mario level : %d\n", CGame::GetInstance()->GetMario()->GetLevel());
 	player = NULL;
 	DebugOut(L"[INFO] Scene %s unloaded! \n",ToLPCWSTR(scenePath));
 	isUnload = false;
-
 }
 
 int CPlayScene::GetSceneType()
@@ -504,6 +492,35 @@ void CPlayScene::SpawnObject(CGameObject* obj, TiXmlElement* data)
 			break;
 		}
 	}
+}
+
+void CPlayScene::RemoveListObject()
+{
+	listObjects.erase(remove_if(listObjects.begin(), listObjects.end(), [](CGameObject* obj) {
+		if (obj->isRemove) {
+			if (obj->canDelete) delete obj;
+			return true;
+		}
+		return false;
+		}), listObjects.end());
+}
+
+vector<CGameObject*> CPlayScene::FindGlobalObjectInCam()
+{
+	vector<CGameObject*> obj;
+	float cx = cam->position.x;
+	float cy = cam->position.y;
+	for (int i = 0; i < objectswithoutgrid.size(); i++)
+	{
+		if ((objectswithoutgrid[i]->GetPosition().x< cx - cam->size.x / 2 || objectswithoutgrid[i]->GetPosition().x > cx + cam->size.x * 3 / 2
+			|| objectswithoutgrid[i]->GetPosition().y < cy - cam->size.y / 2 || objectswithoutgrid[i]->GetPosition().y > cy + cam->size.y * 3 / 2))
+			obj.push_back(objectswithoutgrid[i]);
+		else if (objectswithoutgrid[i]->GetObjectType() == OBJECT_TYPE_TAIL || objectswithoutgrid[i]->GetObjectType() == OBJECT_TYPE_FIREBALL)
+		{
+			obj.push_back(objectswithoutgrid[i]);
+		}
+	}
+	return obj;
 }
 
 

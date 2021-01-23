@@ -6,9 +6,7 @@ Grid::Grid(float width, float height, int row, int column)
 	cellHeight = height;
 	this->row = row;
 	this->column = column;
-	
-	//Nhớ kỹ thứ tự duyệt này nha, cells[column][row]
-	//ok huhuhuuh nãy tui làm row trc @@ lú quá
+
 	cells = new Cell * *[column];
 	for (int i = 0; i < column; i++)
 	{
@@ -45,10 +43,10 @@ vector<Cell*> Grid::GetCellsByCam(Camera* cam)
 	int endcolumn = (int)ceil((cam->position.x + cam->size.x) / cellWidth);
 	int endrow = (int)ceil((cam->position.y + cam->size.y) / cellHeight);
 
-	begincolumn = max(0, begincolumn);
-	beginrow = max(0, beginrow);
-	endcolumn = min(endcolumn, column);
-	endrow = min(endrow, row);
+	begincolumn = max(0, begincolumn-1);
+	beginrow = max(0, beginrow-1);
+	endcolumn = min(endcolumn+1, column);
+	endrow = min(endrow+1	, row);
 
 	for (int i = begincolumn; i < endcolumn; i++)
 	{
@@ -60,19 +58,36 @@ vector<Cell*> Grid::GetCellsByCam(Camera* cam)
 	return cellbycam;
 }
 
-vector<CGameObject*> Grid::GetObjectsByCam(Camera* cam)
+//vector<CGameObject*> Grid::GetObjectsByCam(Camera* cam)
+//{
+//	vector<CGameObject*> objects;
+//	objects.clear();
+//	vector<Cell*> activeCell = GetCellsByCam(cam);
+//
+//	for (int i = 0; i < activeCell.size(); i++)
+//	{
+//		auto temp = activeCell[i]->GetListObj();
+//		for (auto t : temp)
+//		{
+//			if (t->isRemove == true) continue;
+//			objects.push_back(t);
+//		}
+//	}
+//	return objects;
+//}
+unordered_set<CGameObject*> Grid::GetObjectsByCam(Camera* cam)
 {
-	vector<CGameObject*> objects;
-	objects.clear();
+	unordered_set<CGameObject*> objects;
 	vector<Cell*> activeCell = GetCellsByCam(cam);
+
 
 	for (int i = 0; i < activeCell.size(); i++)
 	{
-		vector<CGameObject*> temp = activeCell[i]->GetListObj();
-		for (int j = 0; j < temp.size(); j++)
+		auto temp = activeCell[i]->GetListObj();
+		for (auto t : temp)
 		{
-			if (temp[j]->isRemove == true) continue;
-			objects.push_back(temp[j]);
+			if (t->isRemove == true) continue;
+			objects.insert(t);
 		}
 	}
 	return objects;

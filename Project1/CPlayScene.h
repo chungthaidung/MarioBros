@@ -28,6 +28,8 @@ public:
 	CMario* GetPlayer() { return player; }
 
 	virtual void SpawnObject(CGameObject* obj, TiXmlElement* data);
+	virtual void RemoveListObject();
+	virtual vector<CGameObject*> FindGlobalObjectInCam();
 
 //	Camera* GetCamera() { return cam; }
 	//friend class CPlayScenceKeyHandler;

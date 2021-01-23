@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="161" height="29" tilewidth="48" tileheight="48" infinite="0" nextlayerid="15" nextobjectid="139">
  <properties>
-  <property name="CellHeight" type="int" value="288"/>
-  <property name="CellWidth" type="int" value="384"/>
+  <property name="CellHeight" type="int" value="290"/>
+  <property name="CellWidth" type="int" value="385"/>
   <property name="TotalColumn" type="int" value="21"/>
   <property name="TotalRow" type="int" value="5"/>
  </properties>
@@ -226,12 +226,12 @@
   </object>
   <object id="3" x="5760" y="1200" width="384" height="96">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:14,&quot;y&quot;:4},{&quot;x&quot;:15,&quot;y&quot;:4},{&quot;x&quot;:16,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:14,&quot;y&quot;:4},{&quot;x&quot;:15,&quot;y&quot;:4}]"/>
    </properties>
   </object>
   <object id="4" x="6096" y="720" width="48" height="480">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:15,&quot;y&quot;:2},{&quot;x&quot;:15,&quot;y&quot;:3},{&quot;x&quot;:15,&quot;y&quot;:4},{&quot;x&quot;:16,&quot;y&quot;:2},{&quot;x&quot;:16,&quot;y&quot;:3},{&quot;x&quot;:16,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:15,&quot;y&quot;:2},{&quot;x&quot;:15,&quot;y&quot;:3},{&quot;x&quot;:15,&quot;y&quot;:4}]"/>
    </properties>
   </object>
   <object id="5" x="5808" y="1054" width="96" height="146">
@@ -270,7 +270,7 @@
   </object>
   <object id="17" name="Brick" type="Brick" x="720" y="1056">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:1,&quot;y&quot;:3},{&quot;x&quot;:2,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:1,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
@@ -333,7 +333,7 @@
   </object>
   <object id="26" name="Brick" type="Brick" x="1872" y="864">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:4,&quot;y&quot;:2},{&quot;x&quot;:4,&quot;y&quot;:3},{&quot;x&quot;:5,&quot;y&quot;:2},{&quot;x&quot;:5,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:4,&quot;y&quot;:2},{&quot;x&quot;:4,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
@@ -354,63 +354,63 @@
   </object>
   <object id="29" name="Brick" type="Brick" x="1920" y="1104">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:4,&quot;y&quot;:3},{&quot;x&quot;:4,&quot;y&quot;:4},{&quot;x&quot;:5,&quot;y&quot;:3},{&quot;x&quot;:5,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:4,&quot;y&quot;:3},{&quot;x&quot;:5,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
   </object>
   <object id="30" name="Brick" type="Brick" x="1968" y="1104">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:5,&quot;y&quot;:3},{&quot;x&quot;:5,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:5,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
   </object>
   <object id="31" name="Brick" type="Brick" x="2256" y="960">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:5,&quot;y&quot;:3},{&quot;x&quot;:6,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:5,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
   </object>
   <object id="32" name="Brick" type="Brick" x="2256" y="1008">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:5,&quot;y&quot;:3},{&quot;x&quot;:6,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:5,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
   </object>
   <object id="33" name="Brick" type="Brick" x="2256" y="1056">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:5,&quot;y&quot;:3},{&quot;x&quot;:6,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:5,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
   </object>
   <object id="34" name="Brick" type="Brick" x="2256" y="1104">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:5,&quot;y&quot;:3},{&quot;x&quot;:5,&quot;y&quot;:4},{&quot;x&quot;:6,&quot;y&quot;:3},{&quot;x&quot;:6,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:5,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
   </object>
   <object id="35" name="Brick" type="Brick" x="2304" y="1104">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:5,&quot;y&quot;:3},{&quot;x&quot;:5,&quot;y&quot;:4},{&quot;x&quot;:6,&quot;y&quot;:3},{&quot;x&quot;:6,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:5,&quot;y&quot;:3},{&quot;x&quot;:6,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
   </object>
   <object id="36" name="Brick" type="Brick" x="2352" y="1104">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:6,&quot;y&quot;:3},{&quot;x&quot;:6,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:6,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
   </object>
   <object id="37" name="Brick" type="Brick" x="2400" y="1104">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:6,&quot;y&quot;:3},{&quot;x&quot;:6,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:6,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
@@ -431,7 +431,7 @@
   </object>
   <object id="40" name="Brick" type="Brick" x="2592" y="1104">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:6,&quot;y&quot;:3},{&quot;x&quot;:6,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:6,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
@@ -445,7 +445,7 @@
   </object>
   <object id="42" name="Brick" type="Brick" x="2640" y="1152">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:6,&quot;y&quot;:3},{&quot;x&quot;:6,&quot;y&quot;:4},{&quot;x&quot;:7,&quot;y&quot;:3},{&quot;x&quot;:7,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:6,&quot;y&quot;:3},{&quot;x&quot;:6,&quot;y&quot;:4}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
@@ -480,7 +480,7 @@
   </object>
   <object id="47" name="Brick" type="QuestionBlock" x="3024" y="1056">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:7,&quot;y&quot;:3},{&quot;x&quot;:8,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:7,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
@@ -536,7 +536,7 @@
   </object>
   <object id="55" name="Brick" type="Brick" x="3024" y="1200">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:7,&quot;y&quot;:4},{&quot;x&quot;:8,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:7,&quot;y&quot;:4}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
@@ -612,21 +612,21 @@
   </object>
   <object id="66" name="Brick" type="Brick" x="3792" y="1104">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:9,&quot;y&quot;:3},{&quot;x&quot;:9,&quot;y&quot;:4},{&quot;x&quot;:10,&quot;y&quot;:3},{&quot;x&quot;:10,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:9,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
   </object>
   <object id="67" name="Brick" type="Brick" x="3840" y="1104">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:9,&quot;y&quot;:3},{&quot;x&quot;:9,&quot;y&quot;:4},{&quot;x&quot;:10,&quot;y&quot;:3},{&quot;x&quot;:10,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:9,&quot;y&quot;:3},{&quot;x&quot;:10,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
   </object>
   <object id="68" name="Brick" type="Brick" x="4176" y="912">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:10,&quot;y&quot;:3},{&quot;x&quot;:11,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:10,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
@@ -647,7 +647,7 @@
   </object>
   <object id="71" name="Brick" type="Brick" x="4608" y="1104">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:11,&quot;y&quot;:3},{&quot;x&quot;:11,&quot;y&quot;:4},{&quot;x&quot;:12,&quot;y&quot;:3},{&quot;x&quot;:12,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:11,&quot;y&quot;:3},{&quot;x&quot;:12,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
@@ -724,21 +724,21 @@
   </object>
   <object id="82" name="Brick" type="Brick" x="5328" y="1104">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:13,&quot;y&quot;:3},{&quot;x&quot;:13,&quot;y&quot;:4},{&quot;x&quot;:14,&quot;y&quot;:3},{&quot;x&quot;:14,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:13,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
   </object>
   <object id="83" name="Brick" type="Brick" x="5376" y="1104">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:13,&quot;y&quot;:3},{&quot;x&quot;:13,&quot;y&quot;:4},{&quot;x&quot;:14,&quot;y&quot;:3},{&quot;x&quot;:14,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:13,&quot;y&quot;:3},{&quot;x&quot;:14,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
   </object>
   <object id="84" name="Brick" type="Brick" x="5424" y="1104">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:14,&quot;y&quot;:3},{&quot;x&quot;:14,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:14,&quot;y&quot;:3}]"/>
     <property name="Reward" type="int" value="6"/>
    </properties>
    <point/>
@@ -751,7 +751,7 @@
   </object>
   <object id="86" name="Coin" type="Coin" x="5712" y="912">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:14,&quot;y&quot;:3},{&quot;x&quot;:15,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:14,&quot;y&quot;:3}]"/>
    </properties>
    <point/>
   </object>
@@ -781,19 +781,19 @@
   </object>
   <object id="91" name="Coin" type="Coin" x="2544" y="816">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:6,&quot;y&quot;:2},{&quot;x&quot;:6,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:6,&quot;y&quot;:2}]"/>
    </properties>
    <point/>
   </object>
   <object id="92" name="Coin" type="Coin" x="2592" y="816">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:6,&quot;y&quot;:2},{&quot;x&quot;:6,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:6,&quot;y&quot;:2}]"/>
    </properties>
    <point/>
   </object>
   <object id="93" name="Coin" type="Coin" x="2640" y="816">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:6,&quot;y&quot;:2},{&quot;x&quot;:6,&quot;y&quot;:3},{&quot;x&quot;:7,&quot;y&quot;:2},{&quot;x&quot;:7,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:6,&quot;y&quot;:2}]"/>
    </properties>
    <point/>
   </object>
@@ -817,19 +817,19 @@
   </object>
   <object id="97" name="Coin" type="Coin" x="1248" y="816">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:3,&quot;y&quot;:2},{&quot;x&quot;:3,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:3,&quot;y&quot;:2}]"/>
    </properties>
    <point/>
   </object>
   <object id="98" name="Coin" type="Coin" x="1296" y="816">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:3,&quot;y&quot;:2},{&quot;x&quot;:3,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:3,&quot;y&quot;:2}]"/>
    </properties>
    <point/>
   </object>
   <object id="99" name="Coin" type="Coin" x="1344" y="816">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:3,&quot;y&quot;:2},{&quot;x&quot;:3,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:3,&quot;y&quot;:2}]"/>
    </properties>
    <point/>
   </object>
@@ -847,7 +847,7 @@
   </object>
   <object id="102" name="Coin" type="Coin" x="1104" y="912">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:2,&quot;y&quot;:3},{&quot;x&quot;:3,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:2,&quot;y&quot;:3}]"/>
    </properties>
    <point/>
   </object>
@@ -857,48 +857,87 @@
    </properties>
    <point/>
   </object>
-  <object id="110" name="MovingObject" x="1248" y="960">
+  <object id="110" name="MovingObject" type="MovingPlatform" x="1248" y="960">
+   <properties>
+    <property name="Grid" value="[{&quot;x&quot;:3,&quot;y&quot;:3}]"/>
+   </properties>
    <point/>
   </object>
-  <object id="111" name="MovingObject" x="1872" y="912">
+  <object id="111" name="MovingObject" type="MovingPlatform" x="1872" y="912">
+   <properties>
+    <property name="Grid" value="[{&quot;x&quot;:4,&quot;y&quot;:3},{&quot;x&quot;:5,&quot;y&quot;:3}]"/>
+   </properties>
    <point/>
   </object>
-  <object id="112" name="MovingObject" x="1776" y="1056">
+  <object id="112" name="MovingObject" type="MovingPlatform" x="1776" y="1056">
+   <properties>
+    <property name="Grid" value="[{&quot;x&quot;:4,&quot;y&quot;:3}]"/>
+   </properties>
    <point/>
   </object>
-  <object id="113" name="MovingObject" x="1920" y="1200">
+  <object id="113" name="MovingObject" type="MovingPlatform" x="1920" y="1200">
+   <properties>
+    <property name="Grid" value="[{&quot;x&quot;:4,&quot;y&quot;:4},{&quot;x&quot;:5,&quot;y&quot;:4}]"/>
+   </properties>
    <point/>
   </object>
-  <object id="114" name="MovingObject" x="2352" y="1008">
+  <object id="114" name="MovingObject" type="MovingPlatform" x="2352" y="1008">
+   <properties>
+    <property name="Grid" value="[{&quot;x&quot;:6,&quot;y&quot;:3}]"/>
+   </properties>
    <point/>
   </object>
-  <object id="115" name="MovingObject" x="3360" y="1152">
+  <object id="115" name="MovingObject" type="MovingPlatform" x="3360" y="1152">
+   <properties>
+    <property name="Grid" value="[{&quot;x&quot;:8,&quot;y&quot;:3},{&quot;x&quot;:8,&quot;y&quot;:4},{&quot;x&quot;:9,&quot;y&quot;:3},{&quot;x&quot;:9,&quot;y&quot;:4}]"/>
+   </properties>
    <point/>
   </object>
-  <object id="116" name="MovingObject" x="3696" y="960">
+  <object id="116" name="MovingObject" type="MovingPlatform" x="3696" y="960">
+   <properties>
+    <property name="Grid" value="[{&quot;x&quot;:9,&quot;y&quot;:3}]"/>
+   </properties>
    <point/>
   </object>
-  <object id="117" name="MovingObject" x="4320" y="1056">
+  <object id="117" name="MovingObject" type="MovingPlatform" x="4320" y="1056">
+   <properties>
+    <property name="Grid" value="[{&quot;x&quot;:11,&quot;y&quot;:3}]"/>
+   </properties>
    <point/>
   </object>
-  <object id="118" name="MovingObject" x="4368" y="1008">
+  <object id="118" name="MovingObject" type="MovingPlatform" x="4368" y="1008">
+   <properties>
+    <property name="Grid" value="[{&quot;x&quot;:11,&quot;y&quot;:3}]"/>
+   </properties>
    <point/>
   </object>
-  <object id="119" name="MovingObject" x="4800" y="960">
+  <object id="119" name="MovingObject" type="MovingPlatform" x="4800" y="960">
+   <properties>
+    <property name="Grid" value="[{&quot;x&quot;:12,&quot;y&quot;:3}]"/>
+   </properties>
    <point/>
   </object>
-  <object id="120" name="MovingObject" x="5328" y="1008">
+  <object id="120" name="MovingObject" type="MovingPlatform" x="5328" y="1008">
+   <properties>
+    <property name="Grid" value="[{&quot;x&quot;:13,&quot;y&quot;:3},{&quot;x&quot;:14,&quot;y&quot;:3}]"/>
+   </properties>
    <point/>
   </object>
-  <object id="121" name="MovingObject" x="5232" y="1152">
+  <object id="121" name="MovingObject" type="MovingPlatform" x="5232" y="1152">
+   <properties>
+    <property name="Grid" value="[{&quot;x&quot;:13,&quot;y&quot;:3},{&quot;x&quot;:13,&quot;y&quot;:4}]"/>
+   </properties>
    <point/>
   </object>
-  <object id="122" name="MovingObject" x="5376" y="1248">
+  <object id="122" name="MovingObject" type="MovingPlatform" x="5376" y="1248">
+   <properties>
+    <property name="Grid" value="[{&quot;x&quot;:13,&quot;y&quot;:4},{&quot;x&quot;:14,&quot;y&quot;:4}]"/>
+   </properties>
    <point/>
   </object>
   <object id="126" name="Coin" type="Coin" x="4512" y="816">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:11,&quot;y&quot;:2},{&quot;x&quot;:11,&quot;y&quot;:3}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:11,&quot;y&quot;:2}]"/>
    </properties>
    <point/>
   </object>
@@ -934,7 +973,7 @@
   </object>
   <object id="132" name="Coin" type="Coin" x="4512" y="1104">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:11,&quot;y&quot;:3},{&quot;x&quot;:11,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:11,&quot;y&quot;:3}]"/>
    </properties>
    <point/>
   </object>
@@ -981,7 +1020,7 @@
  <objectgroup id="13" name="Portal">
   <object id="108" x="7632" y="1152" width="48" height="96">
    <properties>
-    <property name="Grid" value="[{&quot;x&quot;:19,&quot;y&quot;:3},{&quot;x&quot;:19,&quot;y&quot;:4},{&quot;x&quot;:20,&quot;y&quot;:3},{&quot;x&quot;:20,&quot;y&quot;:4}]"/>
+    <property name="Grid" value="[{&quot;x&quot;:19,&quot;y&quot;:3},{&quot;x&quot;:19,&quot;y&quot;:4}]"/>
     <property name="sceneID" type="int" value="0"/>
     <property name="world_pos" value="482.4,144.6"/>
    </properties>

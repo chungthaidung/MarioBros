@@ -47,7 +47,10 @@ void CScene::RemoveObjectsWithoutGrid()
 void CScene::SpawnObjectWithoutGrid(CGameObject* obj)
 {
 	obj->isRemove = false;
-	objectswithoutgrid.push_back(obj);
+	auto find = std::find(objectswithoutgrid.begin(), objectswithoutgrid.end(), obj);
+
+	if (find == objectswithoutgrid.end())
+		objectswithoutgrid.push_back(obj);
 }
 
 void CScene::RemoveEffects()
@@ -70,6 +73,12 @@ void CScene::AddEffect(LPEFFECT ef)
 void CScene::DeleteEffect(LPEFFECT ef)
 {
 	ef->isRemove = true;
+}
+
+void CScene::ClearScene()
+{
+	RemoveEffects();
+	RemoveObjectsWithoutGrid();
 }
 
 Camera* CScene::GetCamera()

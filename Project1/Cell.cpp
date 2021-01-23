@@ -8,17 +8,25 @@ Cell::Cell(int x, int y)
 
 void Cell::Add(CGameObject* obj)
 {
-	listobj.push_back(obj);
+	listobj.insert(obj);
+	//listobj.push_back(obj);
 }
 
-vector<CGameObject*> Cell::GetListObj()
+//vector<CGameObject*> Cell::GetListObj()
+//{
+//	vector<CGameObject*> list;
+//	
+//	return list;
+//}
+
+unordered_set<CGameObject*> Cell::GetListObj()
 {
-	return listobj;
+		return listobj;
 }
 
 void Cell::Clear()
 {
-	for (int i = 0; i < listobj.size(); i++)
-		delete listobj[i];
+	for (auto t: listobj)
+		delete t;
 	listobj.clear();
 }

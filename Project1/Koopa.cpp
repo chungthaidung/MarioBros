@@ -15,6 +15,8 @@ Koopa::Koopa(int t)
 	koopaState = new WalkingKoopa(this);
 	type = t;
 	isEnemy = true;
+	holder = NULL;
+
 	//state = KOOPA_STATE_WALKING;
 }
 Koopa::~Koopa()

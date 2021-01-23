@@ -16,7 +16,7 @@ VenusFireBall::VenusFireBall(Venus* v)
 void VenusFireBall::Update(DWORD dt)
 {
 	CGameObject::Update(dt);	
-	//DebugOut(L"x: %f, y: %f\n", x, y);
+	//DebugOut(L"vx: %f, vy: %f\n", vx, vy);
 }
 
 void VenusFireBall::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

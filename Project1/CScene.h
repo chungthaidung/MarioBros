@@ -50,6 +50,7 @@ public:
 	virtual void AddEffect(LPEFFECT ef);
 	virtual void DeleteEffect(LPEFFECT ef);
 
+	virtual void ClearScene();
 	virtual Camera* GetCamera();
 	virtual CMap* GetMap();
 	long GetPlayTime();

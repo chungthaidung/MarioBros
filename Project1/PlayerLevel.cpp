@@ -40,7 +40,6 @@ void PlayerLevel::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_obje
 void PlayerLevel::FinalUpdate(DWORD dt)
 {
 	if (mario->GetState() == MARIO_STATE_DIE) return;
-
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	if (mario->coEResult.size() == 0)
 	{

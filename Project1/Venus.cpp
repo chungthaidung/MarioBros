@@ -212,6 +212,7 @@ void Venus::Attack()
 //	DebugOut(L"mx: %f, my: %f, distance: %f \n", mx, my, sqrt(distance));
 	fireball->SetActive(true);
 	CGame::GetInstance()->GetCurrentScene()->SpawnObjectWithoutGrid(fireball);
+	DebugOut(L"");
 	fireball->Reset(x_s, y_s, mx, my);
 }
 
