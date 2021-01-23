@@ -329,7 +329,7 @@ void CPlayScene::Load()
 	//int size = grid->GetCell(1, 3)->GetListObj().size();
 	//DebugOut(L"[GRID SIZE] GRID CELL (1,3) : %d\n", size);
 	DebugOut(L"[INFO] Done loading scene resources %s\n", ToLPCWSTR(scenePath));
-	Update(1);
+	//Update(1);
 }
 
 void CPlayScene::Update(DWORD dt)
@@ -385,20 +385,12 @@ void CPlayScene::Update(DWORD dt)
 		{
 			effects[i]->Update(dt);
 		}
-		// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
-		//RemoveEffects();
-		//RemoveListObject();
-		//RemoveObjectsWithoutGrid();
 		playtime-=dt;
 		if (playtime < 0)
 		{
 			player->SetState(MARIO_STATE_DIE);
 			isUnload = true;
-		}
-		if (isUnload == true)
-			CGame::GetInstance()->SwitchScene(switchsceneid);
-		//DebugOut(L"[INFO] Play time : %d\n", playtime);
-		
+		}		
 	}
 	else
 	{
@@ -448,7 +440,6 @@ void CPlayScene::Unload()
 		delete objectswithoutgrid[i];
 	for (int i = 0; i < effects.size(); i++)
 		delete effects[i];
-	//listObjects.clear();
 	objectswithoutgrid.clear();
 	effects.clear();
 	//cam = NULL;
@@ -492,17 +483,6 @@ void CPlayScene::SpawnObject(CGameObject* obj, TiXmlElement* data)
 			break;
 		}
 	}
-}
-
-void CPlayScene::RemoveListObject()
-{
-	listObjects.erase(remove_if(listObjects.begin(), listObjects.end(), [](CGameObject* obj) {
-		if (obj->isRemove) {
-			if (obj->canDelete) delete obj;
-			return true;
-		}
-		return false;
-		}), listObjects.end());
 }
 
 vector<CGameObject*> CPlayScene::FindGlobalObjectInCam()

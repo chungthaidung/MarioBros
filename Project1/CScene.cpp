@@ -1,5 +1,6 @@
 #include "CScene.h"
 #include "debug.h"
+#include "CGame.h"
 CScene::CScene(int id, std::string path)
 {
 	this->id = id;
@@ -48,7 +49,6 @@ void CScene::SpawnObjectWithoutGrid(CGameObject* obj)
 {
 	obj->isRemove = false;
 	auto find = std::find(objectswithoutgrid.begin(), objectswithoutgrid.end(), obj);
-
 	if (find == objectswithoutgrid.end())
 		objectswithoutgrid.push_back(obj);
 }
@@ -79,6 +79,8 @@ void CScene::ClearScene()
 {
 	RemoveEffects();
 	RemoveObjectsWithoutGrid();
+	if (isUnload == true)
+		CGame::GetInstance()->SwitchScene(switchsceneid);
 }
 
 Camera* CScene::GetCamera()

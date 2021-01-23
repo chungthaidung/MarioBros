@@ -31,8 +31,20 @@ Grid::~Grid()
 
 void Grid::Add(CGameObject* obj, int x, int y)
 {
+	if (x > column-1 || y > row-1 || x < 0 || y < 0)
+		return;
 	cells[x][y]->Add(obj);
 }
+
+void Grid::Move(CGameObject* obj, int x, int y)
+{
+	cells[x][y]->RemoveObj(obj);
+	D3DXVECTOR2 new_pos = obj->GetPosition();
+	int new_x = (int)new_pos.x / cellWidth;
+	int new_y = (int)new_pos.y / cellHeight;
+	Add(obj, new_x, new_y);
+}
+
 
 vector<Cell*> Grid::GetCellsByCam(Camera* cam)
 {
@@ -58,23 +70,6 @@ vector<Cell*> Grid::GetCellsByCam(Camera* cam)
 	return cellbycam;
 }
 
-//vector<CGameObject*> Grid::GetObjectsByCam(Camera* cam)
-//{
-//	vector<CGameObject*> objects;
-//	objects.clear();
-//	vector<Cell*> activeCell = GetCellsByCam(cam);
-//
-//	for (int i = 0; i < activeCell.size(); i++)
-//	{
-//		auto temp = activeCell[i]->GetListObj();
-//		for (auto t : temp)
-//		{
-//			if (t->isRemove == true) continue;
-//			objects.push_back(t);
-//		}
-//	}
-//	return objects;
-//}
 unordered_set<CGameObject*> Grid::GetObjectsByCam(Camera* cam)
 {
 	unordered_set<CGameObject*> objects;
@@ -83,10 +78,22 @@ unordered_set<CGameObject*> Grid::GetObjectsByCam(Camera* cam)
 
 	for (int i = 0; i < activeCell.size(); i++)
 	{
+		int x, y;
+		activeCell[i]->GetIndex(x, y);
+		float left = x * cellWidth;
+		float top = y * cellHeight;
+		float right = left + cellWidth;
+		float bottom = top + cellHeight;
 		auto temp = activeCell[i]->GetListObj();
 		for (auto t : temp)
 		{
 			if (t->isRemove == true) continue;
+			float t_l, t_t, t_r, t_b;
+			t->GetBoundingBox(t_l, t_t, t_r, t_b);
+			if (t_r<= left || t_l>= right || t_t >= bottom || t_b <= top)
+			{
+				Move(t, x, y);
+			}
 			objects.insert(t);
 		}
 	}

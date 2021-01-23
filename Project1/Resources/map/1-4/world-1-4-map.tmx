@@ -857,7 +857,7 @@
    </properties>
    <point/>
   </object>
-  <object id="110" name="MovingObject" type="MovingPlatform" x="1248" y="960">
+  <object id="110" name="MovingObject" type="MovingPlatform" x="1200" y="960">
    <properties>
     <property name="Grid" value="[{&quot;x&quot;:3,&quot;y&quot;:3}]"/>
    </properties>
@@ -899,7 +899,7 @@
    </properties>
    <point/>
   </object>
-  <object id="117" name="MovingObject" type="MovingPlatform" x="4320" y="1056">
+  <object id="117" name="MovingObject" type="MovingPlatform" x="4272" y="1056">
    <properties>
     <property name="Grid" value="[{&quot;x&quot;:11,&quot;y&quot;:3}]"/>
    </properties>
@@ -911,7 +911,7 @@
    </properties>
    <point/>
   </object>
-  <object id="119" name="MovingObject" type="MovingPlatform" x="4800" y="960">
+  <object id="119" name="MovingObject" type="MovingPlatform" x="4752" y="912">
    <properties>
     <property name="Grid" value="[{&quot;x&quot;:12,&quot;y&quot;:3}]"/>
    </properties>
@@ -1026,11 +1026,5 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="14" name="Ghost">
-  <object id="124" x="3072" y="1056" width="144">
-   <properties>
-    <property name="Grid" value="[{&quot;x&quot;:7,&quot;y&quot;:3},{&quot;x&quot;:8,&quot;y&quot;:3}]"/>
-   </properties>
-  </object>
- </objectgroup>
+ <objectgroup id="14" name="Ghost"/>
 </map>
