@@ -167,7 +167,7 @@ void Brick::FinalUpdate(DWORD dt)
 		{
 			SetState(BRICK_EMPTY);
 			if (reward->GetObjectType() != OBJECT_TYPE_COIN) {
-				CGame::GetInstance()->GetCurrentScene()->SpawnObject(reward);
+				CGame::GetInstance()->GetCurrentScene()->SpawnObjectWithoutGrid(reward);
 			}
 			else
 			{
@@ -212,9 +212,6 @@ void Brick::SetState(int state)
 		isRemove = true;
 		break;
 	case BRICK_COIN:
-		/*coin = new Coin();
-		coin->SetPosition(x, y);
-		CGame::GetInstance()->GetCurrentScene()->SpawnObject(coin);*/
 		break;
 	}
 }

@@ -178,7 +178,7 @@ void FireMario::AttackStart()
 		if (fireballs.at(i)->GetActive() == false)
 		{
 			fireballs.at(i)->SetActive(true);
-			CGame::GetInstance()->GetCurrentScene()->SpawnObject(fireballs.at(i));
+			CGame::GetInstance()->GetCurrentScene()->SpawnObjectWithoutGrid(fireballs.at(i));
 			if (mario->nx > 0) fireballs.at(i)->Reset(mario->x + collisionbox.x, mario->y+collisionbox.y*1/3);
 			else fireballs.at(i)->Reset(mario->x - MARIO_FIRE_BALL_BBOX_WIDTH, mario->y+ collisionbox.y * 1 / 3);
 			mario->AttackState = MARIO_STATE_ATTACK_END;

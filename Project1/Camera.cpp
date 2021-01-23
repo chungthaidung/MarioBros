@@ -27,9 +27,11 @@ Camera::Camera(TiXmlElement* data)
 		{
 			property->QueryBoolAttribute("value", &moving_cam);
 			if (moving_cam) vx = 0.1;
+			
 		}
 	}
-
+	position.x = 0;
+	position.y = 0;
 }
 
 void Camera::SetTarget(CGameObject* player)

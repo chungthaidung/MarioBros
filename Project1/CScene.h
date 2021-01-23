@@ -7,7 +7,8 @@
 #include "Effect.h"
 #include "Camera.h"
 #include "HUD.h"
-//#include "CMap.h"
+#include "tinyxml/tinyxml.h"
+
 class CMap;
 class CScene
 {
@@ -20,6 +21,7 @@ protected:
 	CMap* gamemap;
 	HUD* hud;
 	bool isUnload;
+	vector<LPGAMEOBJECT> objectswithoutgrid;
 	vector<LPGAMEOBJECT> objects;
 	vector<LPEFFECT> effects;
 	long playtime;
@@ -40,10 +42,15 @@ public:
 	virtual void SpawnObject(CGameObject* obj);
 	virtual void DespawnObject(CGameObject* obj);	
 	
+	virtual void SpawnObject(CGameObject* obj, TiXmlElement* data);
+	virtual void RemoveObjectsWithoutGrid();
+	virtual void SpawnObjectWithoutGrid(CGameObject* obj);
+
 	virtual void RemoveEffects();
 	virtual void AddEffect(LPEFFECT ef);
 	virtual void DeleteEffect(LPEFFECT ef);
 
+	virtual void ClearScene();
 	virtual Camera* GetCamera();
 	virtual CMap* GetMap();
 	long GetPlayTime();

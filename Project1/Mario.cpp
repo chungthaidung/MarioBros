@@ -17,6 +17,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	level_p = new SmallMario(this); 
 	JumpState = MARIO_STATE_JUMP_IDLE;
 	untouchable = false;
+	inHand = NULL;
 	SetState(MARIO_STATE_IDLE);
 	gravity = MARIO_GRAVITY;
 	renderOrder = 0;
@@ -154,12 +155,12 @@ void CMario::LevelDown()
 		scene->SetDelayTime(500);
 		break;
 	case MARIO_LEVEL_RACOON:
-		SetLevel(MARIO_LEVEL_BIG);
 		if (AttackState == MARIO_STATE_ATTACK_START)
 		{
 			RacoonMario* racoon = (RacoonMario*)level_p;
 			racoon->GetMarioWeapon()->SetActive(false);
 		}
+		SetLevel(MARIO_LEVEL_BIG);	
 		scene->SetDelayTime(500);
 		break;
 	case MARIO_LEVEL_FIRE:

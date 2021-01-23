@@ -114,7 +114,7 @@ void QuestionBox::FinalUpdate(DWORD dt)
 	{	
 		SetState(QUESTION_BOX_EMPTY);
 		if (reward->GetObjectType() != OBJECT_TYPE_COIN)
-			CGame::GetInstance()->GetCurrentScene()->SpawnObject(reward);
+			CGame::GetInstance()->GetCurrentScene()->SpawnObjectWithoutGrid(reward);
 		else 
 		{
 			CGame::GetInstance()->SetPoints(100);

@@ -1,4 +1,4 @@
-#include "PlayerLevel.h"
+﻿#include "PlayerLevel.h"
 #include "CGameObject.h"
 #include "GhostObject.h"
 #include "debug.h"
@@ -40,7 +40,6 @@ void PlayerLevel::CollisionUpdate(DWORD dt, vector<LPGAMEOBJECT>* colliable_obje
 void PlayerLevel::FinalUpdate(DWORD dt)
 {
 	if (mario->GetState() == MARIO_STATE_DIE) return;
-
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	if (mario->coEResult.size() == 0)
 	{
@@ -224,7 +223,6 @@ void PlayerLevel::FinalUpdate(DWORD dt)
 			Koopa* koopa = dynamic_cast<Koopa*>(mario->GetInHand());
 			koopa->SetHolder(NULL);
 			mario->SetInHand(NULL);
-
 		}
 	}
 	if (mario->GetUntouchable() == true && GetTickCount() - mario->GetUntouchableStart() > MARIO_UNTOUCHABLE_TIME)

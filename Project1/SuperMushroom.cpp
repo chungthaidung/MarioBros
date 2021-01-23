@@ -58,7 +58,6 @@ void SuperMushroom::FinalUpdate(DWORD dt)
 			if (e->obj->GetObjectType() == OBJECT_TYPE_MARIO)
 			{
 				CGame::GetInstance()->GetCurrentScene()->DespawnObject(this);
-
 			}
 		}
 	}

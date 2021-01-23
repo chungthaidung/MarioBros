@@ -12,6 +12,8 @@ WorldScene::WorldScene(int id, std::string path):
 	CScene(id,path)
 {
 	key_handler = new CPlayScenceKeyHandler(this);
+	playtime = 0;
+	player = NULL;
 }
 
 void WorldScene::LoadObjects()
@@ -156,6 +158,7 @@ void WorldScene::Update(DWORD dt)
 
 void WorldScene::Render()
 {
+	if (player == NULL) return;
 	CGame::GetInstance()->SetViewport(0, 0, GAME_WIDTH, GAME_HEIGHT);
 	std::sort(objects.begin(), objects.end(), CGameObject::rendercompare);
 	gamemap->Render();

@@ -39,6 +39,10 @@ void Update(DWORD dt)
 {
 	CGame::GetInstance()->GetCurrentScene()->Update(dt);
 }
+void Clear()
+{
+	CGame::GetInstance()->GetCurrentScene()->ClearScene();
+}
 
 /*
 	Render a frame
@@ -58,7 +62,10 @@ void Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		CGame::GetInstance()->GetCurrentScene()->Render();
+		//CGame::GetInstance()->GetCurrentScene()->Render();
+		if (CGame::GetInstance()->GetCurrentScene() != NULL) {
+			CGame::GetInstance()->GetCurrentScene()->Render();
+		}
 
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -150,6 +157,7 @@ int Run()
 			
 			Update(dt);
 			Render();
+			Clear();
 			Sleep(0);
 		}
 		else

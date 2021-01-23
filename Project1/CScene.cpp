@@ -1,5 +1,6 @@
 #include "CScene.h"
 #include "debug.h"
+#include "CGame.h"
 CScene::CScene(int id, std::string path)
 {
 	this->id = id;
@@ -29,6 +30,29 @@ void CScene::DespawnObject(CGameObject* obj)
 	obj->isRemove = true;
 }
 
+void CScene::SpawnObject(CGameObject* obj, TiXmlElement* data)
+{
+}
+
+void CScene::RemoveObjectsWithoutGrid()
+{
+	objectswithoutgrid.erase(remove_if(objectswithoutgrid.begin(), objectswithoutgrid.end(), [](CGameObject* obj) {
+		if (obj->isRemove) {
+			if (obj->canDelete) delete obj;
+			return true;
+		}
+		return false;
+		}), objectswithoutgrid.end());
+}
+
+void CScene::SpawnObjectWithoutGrid(CGameObject* obj)
+{
+	obj->isRemove = false;
+	auto find = std::find(objectswithoutgrid.begin(), objectswithoutgrid.end(), obj);
+	if (find == objectswithoutgrid.end())
+		objectswithoutgrid.push_back(obj);
+}
+
 void CScene::RemoveEffects()
 {
 	effects.erase(remove_if(effects.begin(), effects.end(), [](LPEFFECT ef) {
@@ -49,6 +73,14 @@ void CScene::AddEffect(LPEFFECT ef)
 void CScene::DeleteEffect(LPEFFECT ef)
 {
 	ef->isRemove = true;
+}
+
+void CScene::ClearScene()
+{
+	RemoveEffects();
+	RemoveObjectsWithoutGrid();
+	if (isUnload == true)
+		CGame::GetInstance()->SwitchScene(switchsceneid);
 }
 
 Camera* CScene::GetCamera()
